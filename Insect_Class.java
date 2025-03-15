@@ -5,7 +5,21 @@ public abstract class Insect_Class
     private int availableSteps;
     private Tecton_Class tecton;
 
-    public void move_Insect()
+    public Insect_Class()
+    {
+
+    }
+    public Insect_Class(int HP, int Damage, int steps, Tecton_Class targetTecton)
+    {
+        hp = HP;
+        attackDamage = Damage;
+        availableSteps = steps;
+        tecton = targetTecton;
+        tecton.get_InsectsOnTecton().add(this);
+        Plane.InsectCollection.add(this);
+    }
+
+    public void move_Insect(Tecton_Class targetTecton)
     {
 
     }
@@ -15,7 +29,8 @@ public abstract class Insect_Class
     }
     public void die_Insect()
     {
-
+        tecton.get_InsectsOnTecton().remove(this);
+        Plane.InsectCollection.remove(this);
     }
     public void eat_Spore()
     {

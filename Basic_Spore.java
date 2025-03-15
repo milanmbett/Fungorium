@@ -5,7 +5,14 @@ public class Basic_Spore
 
     public Basic_Spore()
     {
-        
+
+    }
+    public Basic_Spore(int ttl, Tecton_Class targetTecton)
+    {
+        timeToLive = ttl;
+        tecton = targetTecton;
+        tecton.set_Spore(this);
+        Plane.SporeCollection.add(this);
     }
 
     public void consumed_by(Insect_Class insect)
@@ -14,7 +21,8 @@ public class Basic_Spore
     }
     public void die_Spore()
     {
-
+        tecton.remove_Spore();
+        Plane.SporeCollection.remove(this);
     }
 
     public int get_timeToLive()

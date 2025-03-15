@@ -4,7 +4,27 @@ public abstract class Mushroom_Class
     private int power;
     private int sporeCount;
     private Tecton_Class tecton;
-     
+    
+    public Mushroom_Class()
+    {
+
+    }
+    public Mushroom_Class(int HP, int p, int sporeC, Tecton_Class targetTecton)
+    {
+        hp = HP;
+        power = p;
+        sporeCount = sporeC;
+        tecton = targetTecton;
+        tecton.set_Mushroom(this);
+        Plane.MushroomCollection.add(this);
+    }
+
+    public void die_Mushroom()
+    {
+        tecton.remove_Mushroom();
+        Plane.MushroomCollection.remove(this);
+    }
+
     public void spawn_Spores()
     {
 

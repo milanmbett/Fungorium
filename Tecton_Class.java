@@ -4,10 +4,18 @@ public abstract class Tecton_Class
 {
     private List<Tecton_Class>Neighbours = new ArrayList<>();
 
-    private Mushroom_Class mushroom = null;
-    private List<Insect_Class> insectsOnTecton = new ArrayList<>(); 
-    private Basic_Spore spore = null;
-    private Thread_Class thread = null;
+    private Mushroom_Class mushroom;
+    private List<Insect_Class> insectsOnTecton; 
+    private Basic_Spore spore;
+    private Thread_Class thread;
+
+    public Tecton_Class()
+    {
+        mushroom = null;
+        insectsOnTecton = new ArrayList<>();
+        spore = null;
+        thread = null;
+    }
 
     public List<Tecton_Class> get_TectonNeighbours()
     {
@@ -38,6 +46,8 @@ public abstract class Tecton_Class
         remove_Mushroom();
         remove_Spore();
         remove_Thread();
+        //remove_TectonNeighbours();?
+        Plane.TectonCollection.remove(this);
 
     }
     public void set_InsectsOnTecton(List<Insect_Class> insectList)
@@ -48,8 +58,9 @@ public abstract class Tecton_Class
     {
         for (Insect_Class ins : insectsOnTecton) 
         {
-            Plane.InsectCollection.remove(ins);
             insectsOnTecton.remove(ins);
+            Plane.InsectCollection.remove(ins);
+            ins.set_Tecton(null);
         }
     }
     public List<Insect_Class> get_InsectsOnTecton()
@@ -63,7 +74,9 @@ public abstract class Tecton_Class
     public void remove_Mushroom()
     {
         Plane.MushroomCollection.remove(mushroom);
+        mushroom.set_Tecton(null);
         mushroom = null;
+
     }
     public Mushroom_Class get_Mushroom()
     {
@@ -76,6 +89,7 @@ public abstract class Tecton_Class
     public void remove_Spore()
     {
         Plane.SporeCollection.remove(spore);
+        spore.set_Tecton(null);
         spore = null;
     }
     public Basic_Spore get_Spore()
@@ -89,6 +103,7 @@ public abstract class Tecton_Class
     public void remove_Thread()
     {
         Plane.ThreadCollection.remove(thread);
+        thread.set_Tecton(null);
         thread = null;
     }
     public Thread_Class get_Thread()
