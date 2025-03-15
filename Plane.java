@@ -41,5 +41,10 @@ public class Plane
             MushroomCollection.add(m);
         }
     }
+    public void move_Insect(Insect_Class ins, Tecton_Class targetTecton)
+    {
+        ins.get_Tecton().get_InsectsOnTecton().remove(ins);
+        targetTecton.get_InsectsOnTecton().add(ins);
+    }
     
 }
