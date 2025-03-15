@@ -6,29 +6,31 @@ public class Main
     {
         Scanner s = new Scanner(System.in);
 
-        System.out.println("------------------------");
-        System.out.println("Opciók: ");
-        System.out.println("1:  Gomba lerakása");
-        System.out.println("2:  Rovar mozgatása");
-        System.out.println("3:  Rovar lerakása");
-        System.out.println("4:  Gomba fejlesztése ");
-        System.out.println("5:  Játék incializálása");
-        System.out.println("6:  Játék vége és kiértékelés");
-        System.out.println("7:  Rovar támad gombát");
-        System.out.println("8:  Gomba támad rovart");
-        System.out.println("9:  Spóra generálása");
-        System.out.println("10: Spóra megevése");
-        System.out.println("11: Gombafonal megevése");
-        System.out.println("12: Tekton kettétörése");
-        System.out.println("13: Tekton elpuszítása");
-        System.out.println("14: Gombafonal terjedése");
-        System.out.println("15: Fonál terjedése");
-        System.out.println("------------------------");
+
         
         boolean loop = true;
 
         while (loop) 
         {
+            System.out.println("------------------------");
+            System.out.println("Opciók: ");
+            System.out.println("1:  Gomba lerakása");
+            System.out.println("2:  Rovar mozgatása");
+            System.out.println("3:  Rovar lerakása");
+            System.out.println("4:  Gomba fejlesztése ");
+            System.out.println("5:  Játék incializálása");
+            System.out.println("6:  Játék vége és kiértékelés");
+            System.out.println("7:  Rovar támad gombát");
+            System.out.println("8:  Gomba támad rovart");
+            System.out.println("9:  Spóra generálása");
+            System.out.println("10: Spóra megevése");
+            System.out.println("11: Gombafonal megevése");
+            System.out.println("12: Tekton kettétörése");
+            System.out.println("13: Tekton elpuszítása");
+            System.out.println("14: Gombafonal terjedése");
+            System.out.println("15: Fonál terjedése");
+            System.out.println("EXIT: Kilépés");
+            System.out.println("------------------------");
             String userValue = s.nextLine();
             switch (userValue.toLowerCase()) 
             {
@@ -64,8 +66,10 @@ public class Main
                     break;
                 case "exit":
                     loop = false;
+                    System.out.println("Goodbye!");
                     break;
                 default:
+                    System.out.println("Ismeretlen parancs!");
                     break;
             }
         }
