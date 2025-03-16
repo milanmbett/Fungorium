@@ -1,7 +1,7 @@
 public class Basic_Spore
 {
-    private int timeToLive;
-    private Tecton_Class tecton;
+    protected int timeToLive;
+    protected Tecton_Class tecton;
 
     public Basic_Spore()
     {

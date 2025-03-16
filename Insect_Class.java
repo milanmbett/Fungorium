@@ -1,22 +1,17 @@
 public abstract class Insect_Class 
 {
-    private int hp;
-    private int attackDamage;
-    private int availableSteps;
-    private Tecton_Class tecton;
+    protected int hp;
+    protected int attackDamage;
+    protected int availableSteps;
+    protected Tecton_Class tecton;
 
     public Insect_Class()
     {
 
     }
-    public Insect_Class(int HP, int Damage, int steps, Tecton_Class targetTecton)
+    protected Insect_Class(Tecton_Class targetTecton)
     {
-        hp = HP;
-        attackDamage = Damage;
-        availableSteps = steps;
-        tecton = targetTecton;
-        tecton.get_InsectsOnTecton().add(this);
-        Plane.InsectCollection.add(this);
+
     }
 
     public void move_Insect(Tecton_Class targetTecton)

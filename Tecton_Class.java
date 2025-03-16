@@ -2,12 +2,12 @@ import java.util.*;
 
 public abstract class Tecton_Class 
 {
-    private List<Tecton_Class>Neighbours = new ArrayList<>();
+    protected List<Tecton_Class>Neighbours = new ArrayList<>();
 
-    private Mushroom_Class mushroom;
-    private List<Insect_Class> insectsOnTecton; 
-    private Basic_Spore spore;
-    private Thread_Class thread;
+    protected Mushroom_Class mushroom;
+    protected List<Insect_Class> insectsOnTecton; 
+    protected Basic_Spore spore;
+    protected Thread_Class thread;
 
     public Tecton_Class()
     {
@@ -15,6 +15,7 @@ public abstract class Tecton_Class
         insectsOnTecton = new ArrayList<>();
         spore = null;
         thread = null;
+        Plane.TectonCollection.add(this);
     }
 
     public List<Tecton_Class> get_TectonNeighbours()

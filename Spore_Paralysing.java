@@ -1,6 +1,6 @@
-public class Spore_Slowing extends Basic_Spore
+public class Spore_Paralysing extends Basic_Spore
 {
-    public Spore_Slowing(Tecton_Class targetTecton)
+    public Spore_Paralysing(Tecton_Class targetTecton)
     {
         timeToLive = 3;
         tecton = targetTecton;

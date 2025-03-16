@@ -1,9 +1,9 @@
 public abstract class Mushroom_Class 
 {
-    private int hp;
-    private int power;
-    private int sporeCount;
-    private Tecton_Class tecton;
+    protected int hp;
+    protected int power;
+    protected int sporeCount;
+    protected Tecton_Class tecton;
     
     public Mushroom_Class()
     {
