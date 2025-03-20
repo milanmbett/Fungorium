@@ -1,46 +1,29 @@
 public class Basic_Spore
 {
-    protected int timeToLive;
-    protected Tecton_Class tecton;
-
     public Basic_Spore()
     {
-
-    }
-    public Basic_Spore(Tecton_Class targetTecton)
-    {
-        timeToLive = 3; //_TMP value
-        tecton = targetTecton;
-        tecton.set_Spore(this);
-        //Plane.SporeCollection.add(this);
+        System.out.println("    [Called] Spóra konstruktor");
     }
 
     public void consumed_by(Insect_Class insect)
     {
         insect.eat_Spore(this);
         die_Spore();
+        System.out.println("    [Action] Spórát megették");
     }
     public void die_Spore()
-    {
-        tecton.remove_Spore();
-        //Plane.SporeCollection.remove(this);
+    {      
+        _SkeletonUtil._tectonClass.remove_Spore();        
+        System.out.println("    [Action] Spóra eltünt a tektonról! ");
     }
 
-    public int get_timeToLive()
-    {
-        return timeToLive;
-    }
-    public void set_timeToLive(int ttl)
-    {
-
-    }
     public Tecton_Class get_Tecton()
     {
-        return tecton;
+        return _SkeletonUtil._tectonClass;
     }
     public void set_Tecton(Tecton_Class t)
     {
-        tecton = t;
+        _SkeletonUtil._tectonClass = t;
     }
     
 }

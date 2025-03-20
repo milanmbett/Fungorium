@@ -2,6 +2,7 @@
 
 public class _SkeletonUtil 
 {
+    public static Tecton_Class _tectonClass;
     public static void skeleton_1()
     {
 
