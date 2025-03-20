@@ -1,4 +1,4 @@
-
+import java.util.Scanner;
 public class _Skeleton 
 {
  
@@ -26,7 +26,7 @@ public class _Skeleton
         System.out.println("------------------------");
     }
     public static void GetFromConsoleSkeletonOptions(String s)
-    {
+    {           
         switch (s.toLowerCase()) 
         {
             case "1": _SkeletonUtil.skeleton_1();
@@ -67,6 +67,17 @@ public class _Skeleton
                 System.out.println("Ismeretlen parancs!");
                 break;
         }
+    }
+    public static void main(String[] args) 
+    {
+        Scanner scanner = new Scanner(System.in);
+        while (Main.loop) 
+        {
+            WriteToConsoleSkeletonOptions();
+            String s = scanner.nextLine();
+            GetFromConsoleSkeletonOptions(s);
+        }
+        scanner.close();
     }
     
 }
