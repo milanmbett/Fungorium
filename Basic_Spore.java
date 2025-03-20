@@ -17,7 +17,6 @@ public class Basic_Spore
 
     public void consumed_by(Insect_Class insect)
     {
-        insect.eat_Spore(this);
         die_Spore();
     }
     public void die_Spore()
@@ -32,7 +31,7 @@ public class Basic_Spore
     }
     public void set_timeToLive(int ttl)
     {
-
+        timeToLive = ttl;
     }
     public Tecton_Class get_Tecton()
     {

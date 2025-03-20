@@ -34,7 +34,7 @@ public abstract class Mushroom_Class
         //Plane.MushroomCollection.remove(this);
     }
 
-    public void spawn_Spores()
+    public void spawn_Spores() ///???
     {
 
     } 
@@ -55,8 +55,9 @@ public abstract class Mushroom_Class
     }
     public void upgrade_Mushroom(Mushroom_Class type)
     {
-        //úgy emlékszem ez az volt hogy másik gomba lesz
+        //úgy emlékszem ez az volt hogy egy másik gomba lesz belőle
         //valahogy megkéne nézni hogy ugyanaz-e típus e?
+        //van-e pénz (még ez nem kell szerintem)
         
     }
     public void reduceHP(int ad)

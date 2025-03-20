@@ -15,7 +15,24 @@ public abstract class Insect_Class
     }
     public void move_Insect(Tecton_Class targetTecton)
     {
-
+        if(targetTecton.equals(null))
+        {
+            System.err.println("Target tecton is null");
+            return;
+        }
+        if(availableSteps <= 0)
+        {
+            System.err.println("No available steps");
+            return;
+        }
+        if(targetTecton.equals(tecton))
+        {
+            System.err.println("Insect is already on the target tecton");
+            return;
+        }
+        tecton = targetTecton;
+        targetTecton.get_InsectsOnTecton().add(this);
+        availableSteps--;
     }
     public void attack_Mushroom(Mushroom_Class m)
     {
@@ -59,7 +76,7 @@ public abstract class Insect_Class
     {
         return attackDamage;
     }
-    public void set_attackDagame(int damage)
+    public void set_attackDamage(int damage)
     {
         attackDamage = damage;
     }
