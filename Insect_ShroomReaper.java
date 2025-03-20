@@ -11,7 +11,10 @@ public class Insect_ShroomReaper extends Insect_Class
     }
     public void destroy_Tecton(Tecton_Class t)
     {
-        
+        //lehetne param-nélküli is hogyha csak azt a tektont tudja megölni amin áll ebben az esetben:
+        //keveslem egy kicsit.
+        tecton.die_Tecton();
+        tecton = new Tecton_Dead();
     }
     
 }
