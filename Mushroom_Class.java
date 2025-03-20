@@ -1,23 +1,18 @@
+
+
 public abstract class Mushroom_Class 
 {
     protected int hp;
     protected int power;
     protected int sporeCount;
     protected Tecton_Class tecton;
+    protected Basic_Spore spore;
     
     public Mushroom_Class()
     {
 
     }
-    public Mushroom_Class(int HP, int p, int sporeC, Tecton_Class targetTecton)
-    {
-        hp = HP;
-        power = p;
-        sporeCount = sporeC;
-        tecton = targetTecton;
-        tecton.set_Mushroom(this);
-        //Plane.MushroomCollection.add(this);
-    }
+    
     public Mushroom_Class(Tecton_Class targetTecton)
     {
         hp = 100; //_TMP value
@@ -34,10 +29,10 @@ public abstract class Mushroom_Class
         //Plane.MushroomCollection.remove(this);
     }
 
-    public void spawn_Spores()
+    public void spawn_Spores() ///???
     {
-
-    } 
+        Basic_Spore
+    }
     public void generate_Income() ///???
     {
 
@@ -53,10 +48,9 @@ public abstract class Mushroom_Class
             }    
         }
     }
-    public void upgrade_Mushroom(Mushroom_Class type)
+    public void upgrade_Mushroom(Mushroom_Class newMushroom)
     {
-        //úgy emlékszem ez az volt hogy másik gomba lesz
-        //valahogy megkéne nézni hogy ugyanaz-e típus e?
+        //úgy emlékszem ez az volt hogy milyen spórát szórjon
         
     }
     public void reduceHP(int ad)

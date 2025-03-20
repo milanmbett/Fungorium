@@ -8,7 +8,7 @@ public class Plane
     public static List<Mushroom_Class> MushroomCollection = new ArrayList<>();
     */
 
-    public void init_Plane()
+    public void init_Plane() //Lehet nem fog kelleni Skeletonba
     {
         
     }

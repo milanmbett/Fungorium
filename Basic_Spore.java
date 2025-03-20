@@ -7,7 +7,6 @@ public class Basic_Spore
 
     public void consumed_by(Insect_Class insect)
     {
-        insect.eat_Spore(this);
         die_Spore();
         System.out.println("    [Action] Spórát megették");
     }
@@ -16,7 +15,6 @@ public class Basic_Spore
         _SkeletonUtil._tectonClass.remove_Spore();        
         System.out.println("    [Action] Spóra eltünt a tektonról! ");
     }
-
     public Tecton_Class get_Tecton()
     {
         return _SkeletonUtil._tectonClass;

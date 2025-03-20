@@ -7,10 +7,6 @@ public abstract class Insect_Class
         System.out.println("    [Call] Insect_class konstruktor");
     }
 
-    public void move_Insect(Tecton_Class targetTecton)
-    {
-        // ide mit? _SkeletonUtil._tectonClass
-    }
     public void attack_Mushroom(Mushroom_Class m)
     {        
         _SkeletonUtil._mushroomClass.reduceHP(1);
@@ -45,7 +41,7 @@ public abstract class Insect_Class
     {
         return attackDamage;
     }
-    public void set_attackDagame(int damage)
+    public void set_attackDamage(int damage)
     {
         attackDamage = damage;
     }
