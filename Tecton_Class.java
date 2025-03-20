@@ -103,4 +103,7 @@ public abstract class Tecton_Class
     {
         return thread;
     }
+    public void tectonCrack(){
+        System.out.println("Tecton cracked!");
+    }
 }

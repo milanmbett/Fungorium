@@ -1,29 +1,34 @@
 public abstract class Insect_Class 
 {
-    protected Tecton_Class tecton;
+    protected int hp;
+    protected int attackDamage;
+    protected int availableSteps;
 
     public Insect_Class()
     {
-        System.out.println("    [Call] Insect_class konstruktor");
+        System.out.println("    [Called] Insect_Class constructor");
     }
 
     public void attack_Mushroom(Mushroom_Class m)
     {        
         _SkeletonUtil._mushroomClass.reduceHP(1);
+        System.out.println("    [Action] Insect attacked mushroom!");
     }
     public void die_Insect()
     {
-        _SkeletonUtil._.get_InsectsOnTecton().remove(this);
+        _SkeletonUtil._tectonClass.get_InsectsOnTecton().remove(this);
+        System.out.println("    [Action] Insect died!");
         //Plane.InsectCollection.remove(this);
     }
     public void eat_Spore(Basic_Spore sp)
     {
         sp.consumed_by(this);
+        System.out.println("    [Action] Spore consumed!");
     }
     public void eat_Thread(Thread_Class th)
-    {
+    {        
         th.die_Thread();
-        
+        System.out.println("    [Action] Thread eaten!");        
     }
     public void reduceHP(int ad)
     {
@@ -53,14 +58,7 @@ public abstract class Insect_Class
     {
         availableSteps = steps;
     }
-    public Tecton_Class get_Tecton()
-    {
-        return tecton;
-    }
-    public void set_Tecton(Tecton_Class t)
-    {
-        tecton = t;
-    }
+    
 
 
     ///Lehet kéne egy buffer függvény mely eltárolja a spóra effektjét hogy ne tartson örökké 

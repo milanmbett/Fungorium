@@ -8,6 +8,8 @@ public class Plane
     public static List<Mushroom_Class> MushroomCollection = new ArrayList<>();
     */
 
+   ////////TODO////////
+
     public void init_Plane() //Lehet nem fog kelleni Skeletonba
     {
         
@@ -39,8 +41,8 @@ public class Plane
     }
     public void move_Insect(Insect_Class ins, Tecton_Class targetTecton)
     {
-        ins.get_Tecton().get_InsectsOnTecton().remove(ins);
-        targetTecton.get_InsectsOnTecton().add(ins);
+        _SkeletonUtil._tectonClass.get_InsectsOnTecton().remove(ins);
+        _SkeletonUtil._targetTecton.get_InsectsOnTecton().add(ins);
     }
     
 }

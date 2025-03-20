@@ -3,8 +3,10 @@
 public class _SkeletonUtil 
 {
     public static Tecton_Class _tectonClass;
+    public static Tecton_Class _targetTecton;
     public static Mushroom_Class _mushroomClass;
     public static Insect_Class _insectClass;
+    public static Basic_Spore _basicSpore;
 
     // ========== TECTONS ===========
     public static Tecton_Dead _tectonDead;
@@ -22,6 +24,12 @@ public class _SkeletonUtil
     public static Insect_ShroomReaper _insectShroomreaper;
     public static Insect_Stinger _insectStinger;
     public static Insect_Tektonizator _insectTectonizator;
+
+    // ========= SPORES ============ 
+    public static Spore_Paralysing _sporeParalysing;
+    public static Spore_Slowing _sporeSlowing;
+    public static Spore_Speed _sporeSpeed;
+
     
     public static void skeleton_1()
     {
