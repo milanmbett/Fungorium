@@ -35,15 +35,28 @@ public abstract class Mushroom_Class
     } 
     public void attack_Insect(Insect_Class i)
     {
-
+        //Körbemegy a tektonja szomszédsági listáján, és megtámadja az összes rovart.
+        for (Tecton_Class t : tecton.get_TectonNeighbours()) 
+        {
+            for (Insect_Class insect : t.get_InsectsOnTecton()) 
+            {
+                insect.reduceHP(power);
+            }    
+        }
     }
-    public void upgrade_Mushroom()
+    public void upgrade_Mushroom(Mushroom_Class type)
     {
-
+        //úgy emlékszem ez az volt hogy másik gomba lesz
+        //valahogy megkéne nézni hogy ugyanaz-e típus e?
+        
     }
     public void reduceHP(int ad)
     {
-
+        hp -= ad;
+        if(hp <= 0)
+        {
+            die_Mushroom();
+        }
     }
     public int get_hp()
     {

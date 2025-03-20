@@ -7,9 +7,9 @@ public class Basic_Spore
     {
 
     }
-    public Basic_Spore(int ttl, Tecton_Class targetTecton)
+    public Basic_Spore(Tecton_Class targetTecton)
     {
-        timeToLive = ttl;
+        timeToLive = 3; //_TMP value
         tecton = targetTecton;
         tecton.set_Spore(this);
         //Plane.SporeCollection.add(this);
@@ -42,4 +42,5 @@ public class Basic_Spore
     {
         tecton = t;
     }
+    
 }

@@ -13,14 +13,21 @@ public abstract class Insect_Class
     {
         
     }
-
     public void move_Insect(Tecton_Class targetTecton)
     {
 
     }
     public void attack_Mushroom(Mushroom_Class m)
     {
-
+        if(this.tecton.equals(null) || m.tecton.equals(null))
+        {
+            System.err.println("Insect or Mushroom is not on a tecton");
+            return;
+        }
+        if(this.tecton.equals(m.tecton))
+        {
+            m.reduceHP(attackDamage);
+        }
     }
     public void die_Insect()
     {
@@ -29,7 +36,7 @@ public abstract class Insect_Class
     }
     public void eat_Spore(Basic_Spore sp)
     {
-
+        sp.consumed_by(this);
     }
     public void eat_Thread(Thread_Class th)
     {
@@ -38,7 +45,11 @@ public abstract class Insect_Class
     }
     public void reduceHP(int ad)
     {
-
+        hp -= ad;
+        if(hp <= 0)
+        {
+            die_Insect();
+        }
     }
     public int get_hp()
     {
