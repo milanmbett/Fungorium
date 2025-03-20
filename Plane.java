@@ -10,7 +10,7 @@ public class Plane
 
     public void init_Plane()
     {
-
+        
     }
     public void place_Insect(Insect_Class ins, Tecton_Class targetTecton)
     {
