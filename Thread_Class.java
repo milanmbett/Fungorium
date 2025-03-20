@@ -22,9 +22,6 @@ public class Thread_Class
     }
     public void expand_Thread()
     {
-        //menjen végig a tektonja szomszédsági listáján és ha van szabad hely, akkor hozzon létre egy új fonalat véletlenszerűen
-        //jelenleg nem nézi meg hogy halott tekton-e a szomszéd ,de dobunk egy UnsupportedOperationException vagy valami mást
-        //azt elkapjuk akkor majd próbáljuk újra esetleg vagy az is lehetne hogy ha pont azt választja ki akkor nem csinál semmit azt nincs semmi baj
         
         if(tecton.get_TectonNeighbours().size()==0)
         {
