@@ -3,6 +3,26 @@
 public class _SkeletonUtil 
 {
     public static Tecton_Class _tectonClass;
+    public static Mushroom_Class _mushroomClass;
+    public static Insect_Class _insectClass;
+
+    // ========== TECTONS ===========
+    public static Tecton_Dead _tectonDead;
+    public static Tecton_Basic _tectonBasic;
+
+    // ========== SHROOMS ===========
+    public static Mushroom_Grand _mushroomGrand;
+    public static Mushroom_Maximus _mushroomMaximus;
+    public static Mushroom_Shroomlet _mushroomShroomlet;
+    public static Mushroom_Slender _mushroomSlender;
+
+    // ========= INSECTS ============
+    public static Insect_Buggernaut _insectBuggernaut;
+    public static Insect_Buglet _insectBuglet;
+    public static Insect_ShroomReaper _insectShroomreaper;
+    public static Insect_Stinger _insectStinger;
+    public static Insect_Tektonizator _insectTectonizator;
+    
     public static void skeleton_1()
     {
 
