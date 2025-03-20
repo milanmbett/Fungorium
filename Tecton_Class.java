@@ -15,7 +15,7 @@ public abstract class Tecton_Class
         insectsOnTecton = new ArrayList<>();
         spore = null;
         thread = null;
-        Plane.TectonCollection.add(this);
+        //Plane.TectonCollection.add(this);
     }
 
     public List<Tecton_Class> get_TectonNeighbours()
@@ -48,7 +48,7 @@ public abstract class Tecton_Class
         remove_Spore();
         remove_Thread();
         //remove_TectonNeighbours();?
-        Plane.TectonCollection.remove(this);
+        //Plane.TectonCollection.remove(this);
 
     }
     public void set_InsectsOnTecton(List<Insect_Class> insectList)
@@ -59,10 +59,9 @@ public abstract class Tecton_Class
     {
         for (Insect_Class ins : insectsOnTecton) 
         {
-            insectsOnTecton.remove(ins);
-            Plane.InsectCollection.remove(ins);
-            ins.set_Tecton(null);
+            ins.die_Insect();
         }
+        insectsOnTecton.clear();
     }
     public List<Insect_Class> get_InsectsOnTecton()
     {
@@ -74,10 +73,7 @@ public abstract class Tecton_Class
     }
     public void remove_Mushroom()
     {
-        Plane.MushroomCollection.remove(mushroom);
-        mushroom.set_Tecton(null);
-        mushroom = null;
-
+        mushroom.die_Mushroom();
     }
     public Mushroom_Class get_Mushroom()
     {
@@ -89,9 +85,7 @@ public abstract class Tecton_Class
     }
     public void remove_Spore()
     {
-        Plane.SporeCollection.remove(spore);
-        spore.set_Tecton(null);
-        spore = null;
+        spore.die_Spore();
     }
     public Basic_Spore get_Spore()
     {
@@ -103,9 +97,7 @@ public abstract class Tecton_Class
     }
     public void remove_Thread()
     {
-        Plane.ThreadCollection.remove(thread);
-        thread.set_Tecton(null);
-        thread = null;
+        thread.die_Thread();
     }
     public Thread_Class get_Thread()
     {

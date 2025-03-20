@@ -2,11 +2,12 @@ import java.util.*;
 
 public class Plane 
 {
-    public static List<Basic_Spore> SporeCollection = new ArrayList<>();
+    /*public static List<Basic_Spore> SporeCollection = new ArrayList<>();
     public static List<Tecton_Class> TectonCollection = new ArrayList<>();
     public static List<Insect_Class> InsectCollection = new ArrayList<>();
     public static List<Thread_Class> ThreadCollection = new ArrayList<>();
     public static List<Mushroom_Class> MushroomCollection = new ArrayList<>();
+    */
 
     public void init_Plane()
     {

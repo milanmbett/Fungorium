@@ -11,7 +11,7 @@ public abstract class Insect_Class
     }
     protected Insect_Class(Tecton_Class targetTecton)
     {
-
+        
     }
 
     public void move_Insect(Tecton_Class targetTecton)
@@ -25,15 +25,16 @@ public abstract class Insect_Class
     public void die_Insect()
     {
         tecton.get_InsectsOnTecton().remove(this);
-        Plane.InsectCollection.remove(this);
+        //Plane.InsectCollection.remove(this);
     }
-    public void eat_Spore()
+    public void eat_Spore(Basic_Spore sp)
     {
 
     }
     public void eat_Thread(Thread_Class th)
     {
-
+        th.die_Thread();
+        
     }
     public void reduceHP(int ad)
     {

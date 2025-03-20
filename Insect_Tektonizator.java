@@ -7,7 +7,7 @@ public class Insect_Tektonizator extends Insect_Class
         availableSteps = 1;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
-        Plane.InsectCollection.add(this);
+        //Plane.InsectCollection.add(this);
     }
     public void tectonCrack(Tecton_Class t)
     {

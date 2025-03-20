@@ -16,13 +16,13 @@ public abstract class Mushroom_Class
         sporeCount = sporeC;
         tecton = targetTecton;
         tecton.set_Mushroom(this);
-        Plane.MushroomCollection.add(this);
+        //Plane.MushroomCollection.add(this);
     }
 
     public void die_Mushroom()
     {
         tecton.remove_Mushroom();
-        Plane.MushroomCollection.remove(this);
+        //Plane.MushroomCollection.remove(this);
     }
 
     public void spawn_Spores()

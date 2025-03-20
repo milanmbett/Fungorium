@@ -6,6 +6,6 @@ public class Mushroom_Slender extends Mushroom_Class
         power = 25;
         sporeCount = 0;
         tecton = targetTecton;
-        Plane.MushroomCollection.add(this);
+        //Plane.MushroomCollection.add(this);
     }
 }

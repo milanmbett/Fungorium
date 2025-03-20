@@ -7,7 +7,7 @@ public class Insect_ShroomReaper extends Insect_Class
         availableSteps = 1;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
-        Plane.InsectCollection.add(this);
+        //Plane.InsectCollection.add(this);
     }
     public void destroy_Tecton(Tecton_Class t)
     {

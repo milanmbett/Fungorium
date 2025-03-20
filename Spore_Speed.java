@@ -4,6 +4,6 @@ public class Spore_Speed extends Basic_Spore
     {
         timeToLive = 3;
         tecton = targetTecton;
-        Plane.SporeCollection.add(this);
+        //Plane.SporeCollection.add(this);
     }
 }
