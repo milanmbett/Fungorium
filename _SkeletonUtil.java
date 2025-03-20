@@ -1,6 +1,6 @@
 
-
-public class _SkeletonMethods 
+//Main.scanner-t lehet használni majd
+public class _SkeletonUtil 
 {
     public static void skeleton_1()
     {
