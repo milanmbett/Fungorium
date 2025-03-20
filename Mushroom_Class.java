@@ -18,6 +18,15 @@ public abstract class Mushroom_Class
         tecton.set_Mushroom(this);
         //Plane.MushroomCollection.add(this);
     }
+    public Mushroom_Class(Tecton_Class targetTecton)
+    {
+        hp = 100; //_TMP value
+        power = 10; //_TMP value
+        sporeCount = 10; //_TMP value
+        tecton = targetTecton;
+        tecton.set_Mushroom(this);
+        //Plane.MushroomCollection.add(this);
+    }
 
     public void die_Mushroom()
     {

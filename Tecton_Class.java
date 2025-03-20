@@ -37,7 +37,7 @@ public abstract class Tecton_Class
             t.del_TectonNeighbour(this);
         }
     }
-    public void set_TectonNeighbours(List<Tecton_Class> t)
+    public void set_TectonNeighbours(List<Tecton_Class> t) 
     {
         Neighbours = t;
     }

@@ -23,6 +23,7 @@ public class Thread_Class
     public void expand_Thread()
     {
         //menjen végig a tektonja szomszédsági listáján és ha van szabad hely, akkor hozzon létre egy új fonalat véletlenszerűen
+        //jelenleg nem nézi meg hogy halott tekton-e a szomszéd
         
         if(tecton.get_TectonNeighbours().size()==0)
         {

@@ -79,4 +79,9 @@ public abstract class Insect_Class
     {
         tecton = t;
     }
+
+
+    ///Lehet kéne egy buffer függvény mely eltárolja a spóra effektjét hogy ne tartson örökké 
+    /// pl.: Spore_Slowing az csak következő támadásig tart csak kéne jegyezni hogy megtörtén-t e már a támadás vagy akkor hasonló módon a Spore_Paralysing is 
+    /// mert az csak következő turn-be lesz érvényes
 }
