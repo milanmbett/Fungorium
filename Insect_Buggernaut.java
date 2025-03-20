@@ -3,11 +3,10 @@ public class Insect_Buggernaut extends Insect_Class
 
     public Insect_Buggernaut(Tecton_Class targetTecton)
     {
-        hp = 150; //_TMP value
-        attackDamage = 50; //_TMP value
-        availableSteps = 1;
-        tecton = targetTecton;
-        tecton.get_InsectsOnTecton().add(this);
-        //Plane.InsectCollection.add(this);
+        System.out.println("    [Called] Insect_Buggernaut konstruktor");
+        _SkeletonUtil._tectonClass = targetTecton;
+        System.out.println("        TargetTecton set!");
+        _SkeletonUtil._tectonClass.get_InsectsOnTecton().add(this);
+        System.out.println("        Insect added to targeted tecton!");
     }
 }

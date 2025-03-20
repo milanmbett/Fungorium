@@ -1,54 +1,19 @@
 public abstract class Insect_Class 
 {
-    protected int hp;
-    protected int attackDamage;
-    protected int availableSteps;
     protected Tecton_Class tecton;
 
     public Insect_Class()
     {
+        System.out.println("    [Call] Insect_class konstruktor");
+    }
 
-    }
-    protected Insect_Class(Tecton_Class targetTecton)
-    {
-        
-    }
-    public void move_Insect(Tecton_Class targetTecton)
-    {
-        if(targetTecton.equals(null))
-        {
-            System.err.println("Target tecton is null");
-            return;
-        }
-        if(availableSteps <= 0)
-        {
-            System.err.println("No available steps");
-            return;
-        }
-        if(targetTecton.equals(tecton))
-        {
-            System.err.println("Insect is already on the target tecton");
-            return;
-        }
-        tecton = targetTecton;
-        targetTecton.get_InsectsOnTecton().add(this);
-        availableSteps--;
-    }
     public void attack_Mushroom(Mushroom_Class m)
-    {
-        if(this.tecton.equals(null) || m.tecton.equals(null))
-        {
-            System.err.println("Insect or Mushroom is not on a tecton");
-            return;
-        }
-        if(this.tecton.equals(m.tecton))
-        {
-            m.reduceHP(attackDamage);
-        }
+    {        
+        _SkeletonUtil._mushroomClass.reduceHP(1);
     }
     public void die_Insect()
     {
-        tecton.get_InsectsOnTecton().remove(this);
+        _SkeletonUtil._.get_InsectsOnTecton().remove(this);
         //Plane.InsectCollection.remove(this);
     }
     public void eat_Spore(Basic_Spore sp)
