@@ -1,29 +1,26 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class Thread_Class 
 {
-    private Tecton_Class tecton;
 
     public Thread_Class(Tecton_Class targetTecton)
     {
-        tecton = targetTecton;
-        tecton.set_Thread(this);
+        /* tecton = targetTecton;
+        tecton.set_Thread(this); */
         //Plane.ThreadCollection.add(this);
     }
     public Tecton_Class get_Tecton()
     {
-        return tecton;
+        //return tecton;
+        return null;
     }
     public void set_Tecton(Tecton_Class t)
     {
-        tecton = t;
+        //tecton = t;
     }
     public void expand_Thread()
     {
         
-        if(tecton.get_TectonNeighbours().size()==0)
+        /* if(tecton.get_TectonNeighbours().size()==0)
         {
             return;
         }
@@ -41,11 +38,11 @@ public class Thread_Class
         }
         Random random = new Random();
         int rand = random.nextInt(threadlessTectonNeighbours.size());
-        threadlessTectonNeighbours.get(rand).set_Thread(new Thread_Class(threadlessTectonNeighbours.get(rand)));
+        threadlessTectonNeighbours.get(rand).set_Thread(new Thread_Class(threadlessTectonNeighbours.get(rand))); */
     }
     public void die_Thread()
     {
-        tecton.set_Thread(null);
+        //tecton.set_Thread(null);
         //Plane.ThreadCollection.remove(this);
     }
 }

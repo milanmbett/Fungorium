@@ -1,6 +1,5 @@
 public class Basic_Spore
 {
-    protected int timeToLive;
     
     public Basic_Spore()
     {
@@ -9,22 +8,23 @@ public class Basic_Spore
 
     public void consumed_by(Insect_Class insect)
     {
-        die_Spore();
+        die_Spore(); //maradhat
         System.out.println("    [Action] Spore eaten by insect");
     }
     public void die_Spore()
     {      
-        _SkeletonUtil._tectonClass.remove_Spore();        
+        //_SkeletonUtil._tectonClass.remove_Spore();        
         System.out.println("    [Action] Spore died");
     }
     public Tecton_Class get_Tecton()
     {
         System.out.println("    [Get] Spore get_Tecton");
-        return _SkeletonUtil._tectonClass;
+        //return _SkeletonUtil._tectonClass;
+        return null;
     }
     public void set_Tecton(Tecton_Class t)
     {
-        _SkeletonUtil._tectonClass = t;
+        //_SkeletonUtil._tectonClass = t;
         System.out.println("    [Set] Spore set_Tecton");
     }
     

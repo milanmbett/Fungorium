@@ -8,8 +8,8 @@ public class _Skeleton
         System.out.println("------------------------");
         System.out.println("Opciók: ");
         System.out.println("1:  Gomba lerakása");
-        System.out.println("2:  Rovar mozgatása");
-        System.out.println("3:  Rovar lerakása");
+        System.out.println("2:  Rovar lerakása");
+        System.out.println("3:  Rovar mozgatása");
         System.out.println("4:  Gomba fejlesztése ");
         System.out.println("5:  Játék incializálása");
         System.out.println("6:  Játék vége és kiértékelés");

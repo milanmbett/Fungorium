@@ -5,14 +5,14 @@ public class Tecton_Dead extends Tecton_Class
 {
     public Tecton_Dead()
     {
-        mushroom = null;
+        /* mushroom = null;
         insectsOnTecton = new ArrayList<>();
         spore = null;
-        thread = null;
+        thread = null; */
         //Plane.TectonCollection.add(this);
     }
     @Override
-    public void set_InsectsOnTecton(List<Insect_Class> insectList)
+    public void set_InsectsOnTecton(Insect_Class insect)
     {
        throw new UnsupportedOperationException("Tecton is dead, insects cannot be on it!");
     }

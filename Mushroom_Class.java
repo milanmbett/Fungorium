@@ -1,10 +1,10 @@
 public abstract class Mushroom_Class 
 {
-    protected int hp;
+    /* protected int hp;
     protected int power;
     protected int sporeCount;
     protected Tecton_Class tecton;
-    protected Basic_Spore spore;
+    protected Basic_Spore spore; */
     
     public Mushroom_Class()
     {
@@ -12,26 +12,26 @@ public abstract class Mushroom_Class
     }
     public Mushroom_Class(int HP, int p, int sporeC, Tecton_Class targetTecton)
     {
-        hp = HP;
+        /* hp = HP;
         power = p;
         sporeCount = sporeC;
         tecton = targetTecton;
-        tecton.set_Mushroom(this);
+        tecton.set_Mushroom(this); */
         //Plane.MushroomCollection.add(this);
     }
     public Mushroom_Class(Tecton_Class targetTecton)
     {
-        hp = 100; //_TMP value
+        /* hp = 100; //_TMP value
         power = 10; //_TMP value
         sporeCount = 10; //_TMP value
         tecton = targetTecton;
-        tecton.set_Mushroom(this);
+        tecton.set_Mushroom(this); */
         //Plane.MushroomCollection.add(this);
     }
 
     public void die_Mushroom()
     {
-        tecton.remove_Mushroom();
+        //tecton.remove_Mushroom();
         //Plane.MushroomCollection.remove(this);
     }
 
@@ -39,63 +39,67 @@ public abstract class Mushroom_Class
     {
         ///???
         
-        spore.set_Tecton(_SkeletonUtil._tectonClass);
+        //spore.set_Tecton(_SkeletonUtil._tectonClass);
     } 
     public void attack_Insect(Insect_Class i)
     {
         //Körbemegy a tektonja szomszédsági listáján, és megtámadja az összes rovart.
-        for (Tecton_Class t : tecton.get_TectonNeighbours()) 
+        /* for (Tecton_Class t : tecton.get_TectonNeighbours()) 
         {
             for (Insect_Class insect : t.get_InsectsOnTecton()) 
             {
                 insect.reduceHP(power);
             }    
-        }
+        } */
     }
     public void upgrade_Mushroom(Basic_Spore s)
     {
         //másik spórát szór
-        spore=s;
+        //spore=s;
     }
     public void reduceHP(int ad)
     {
-        hp -= ad;
+        /* hp -= ad;
         if(hp <= 0)
         {
             die_Mushroom();
-        }
+        } */
     }
     public int get_hp()
     {
-        return hp;
+        //return hp;
+        return 0;
     }
     public void set_hp(int h)
     {
-        hp = h;
+        //hp = h;
     }
     public int get_power()
     {
-        return power;
+        //return power;
+        return 0;
     }
     public void set_power(int p)
     {
-        power = p;
+        //power = p;
     }
     public int get_sporeCount()
     {
-        return sporeCount;
+        //return sporeCount;
+        return 0;
     }
     public void set_sporeCount(int sc)
     {
-        sporeCount = sc;
+        //sporeCount = sc;
     }
     public Tecton_Class get_Tecton()
     {
-        return tecton;
+        //return tecton;
+        return null;
     }
     public void set_Tecton(Tecton_Class t)
     {
-        tecton = t;
+        //tecton = t;
     }
 
 }

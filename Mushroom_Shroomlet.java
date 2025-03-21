@@ -2,10 +2,11 @@ public class Mushroom_Shroomlet extends Mushroom_Class
 {
     public Mushroom_Shroomlet(Tecton_Class targetTecton)
     {
+        /* System.out.println("    - Gomba lerakva, létrehozva: Shroomlet, megfelelő Tekton hozzáadva");
         hp = 250; //_TMP value
         power = 25; //_TMP value
         sporeCount = 0;
-        tecton = targetTecton;
+        tecton = targetTecton; */
         //Plane.MushroomCollection.add(this);
     }
 }

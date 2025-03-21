@@ -3,11 +3,11 @@ public class Mushroom_Grand extends Mushroom_Class
     private int level;
     public Mushroom_Grand(Tecton_Class targetTecton)
     {
-        hp = 250; //_TMP value
+        /* hp = 250; //_TMP value
         power = 25; //_TMP value
         sporeCount = 0;
         tecton = targetTecton;
-        level = 1;
+        level = 1; */
         //Plane.MushroomCollection.add(this);
     }
     public int get_level()
@@ -20,7 +20,7 @@ public class Mushroom_Grand extends Mushroom_Class
     }
     public void upgrade_Grand()
     {
-        if(level == 1)
+        /* if(level == 1)
         {
             level = 2;
             hp = 500; //_TMP value
@@ -35,6 +35,6 @@ public class Mushroom_Grand extends Mushroom_Class
         else
         {
             System.out.println("A gomba már maximális szinten van!");
-        }
+        } */
     }
 }

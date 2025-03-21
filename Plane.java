@@ -16,33 +16,33 @@ public class Plane
     }
     public void place_Insect(Insect_Class ins, Tecton_Class targetTecton)
     {
-        targetTecton.get_InsectsOnTecton().add(ins);
+        //targetTecton.get_InsectsOnTecton().add(ins);
     }
     public void place_Spore(Basic_Spore spore, Tecton_Class targetTecton)
     {
-        if(targetTecton.get_Spore().equals(null))
+        /* if(targetTecton.get_Spore().equals(null))
         {
             targetTecton.set_Spore(spore);
-        }
+        } */
     }
     public void place_Thread(Thread_Class t, Tecton_Class targetTecton)
     {
-        if(targetTecton.get_Thread().equals(null))
+        /* if(targetTecton.get_Thread().equals(null))
         {
             targetTecton.set_Thread(t);
-        }
+        } */
     }
     public void place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton)
     {
-        if(targetTecton.get_Mushroom().equals(null))
+        /* if(targetTecton.get_Mushroom().equals(null))
         {
             targetTecton.set_Mushroom(m);
-        }
+        } */
     }
     public void move_Insect(Insect_Class ins, Tecton_Class targetTecton)
     {
-        _SkeletonUtil._tectonClass.get_InsectsOnTecton().remove(ins);
-        _SkeletonUtil._targetTecton.get_InsectsOnTecton().add(ins);
+        //_SkeletonUtil._tectonClass.get_InsectsOnTecton().remove(ins);
+        //_SkeletonUtil._targetTecton.get_InsectsOnTecton().add(ins);
     }
     
 }

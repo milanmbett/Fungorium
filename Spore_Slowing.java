@@ -4,7 +4,7 @@ public class Spore_Slowing extends Basic_Spore
     {
         System.out.println("    [Called] Spore_Slowing constructor");
 
-        _SkeletonUtil._sporeSlowing.timeToLive = 3; 
+        //_SkeletonUtil._sporeSlowing.timeToLive = 3; 
 
         System.out.println("        [Spore_Slowing] Spore stats set!");
         _SkeletonUtil._tectonClass = targetTecton;
