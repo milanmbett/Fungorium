@@ -91,11 +91,11 @@ public class _SkeletonUtil
     {
         System.out.println("    SZKELETON 6: Játék vége és kiértékelés");
     }
-    public static void skeleton_7()
+    public static void skeleton_7() //Milán
     {
         System.out.println("    SZKELETON 7: Rovar támad gombát");
     }
-    public static void skeleton_8()
+    public static void skeleton_8() //Milán
     {
         System.out.println("    SZKELETON 8: Gomba támad rovart");
     }
@@ -123,7 +123,7 @@ public class _SkeletonUtil
     {
         System.out.println("    SZKELETON 14: Gombafonal terjedése");
     }
-    public static void skeleton_15()
+    public static void skeleton_15() //Milán
     {
         System.out.println("    SZKELETON 15: Fonál terjedése");
     }
