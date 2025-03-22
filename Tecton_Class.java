@@ -29,11 +29,13 @@ public abstract class Tecton_Class
      
     public List<Tecton_Class> get_TectonNeighbours()
     {
+        
         //return Neighbours;
         return null;
     }
     public void add_TectonNeighbour(Tecton_Class t)
     {
+        System.out.println("    - [Add] Tecton add_TectonNeighbour " + t);
         //Neighbours.add(t);
     }
     public void del_TectonNeighbour(Tecton_Class t)
@@ -108,6 +110,7 @@ public abstract class Tecton_Class
     public void set_Thread(Thread_Class t)
     {
         //thread = t;
+        System.out.println("    - [Set] Tecton set_Thread " + t);
     }
     public void remove_Thread()
     {

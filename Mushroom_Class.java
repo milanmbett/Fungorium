@@ -8,7 +8,7 @@ public abstract class Mushroom_Class
     
     public Mushroom_Class()
     {
-
+        System.out.println("    [Called] Mushroom_Class constructor");
     }
     public Mushroom_Class(int HP, int p, int sporeC, Tecton_Class targetTecton)
     {
@@ -43,6 +43,8 @@ public abstract class Mushroom_Class
     } 
     public void attack_Insect(Insect_Class i)
     {
+        System.out.println("    [Action] Mushroom attacked insect!");
+        i.reduceHP(get_power());
         //Körbemegy a tektonja szomszédsági listáján, és megtámadja az összes rovart.
         /* for (Tecton_Class t : tecton.get_TectonNeighbours()) 
         {
@@ -59,6 +61,8 @@ public abstract class Mushroom_Class
     }
     public void reduceHP(int ad)
     {
+        System.out.println("    [Action] Mushroom HP reduced!");
+        System.out.println("    [Action] If hp <= 0 Mushroom dies! (die_Mushroom())");
         /* hp -= ad;
         if(hp <= 0)
         {
@@ -68,14 +72,17 @@ public abstract class Mushroom_Class
     public int get_hp()
     {
         //return hp;
+        System.out.println("    [Get] Mushroom hp");
         return 0;
     }
     public void set_hp(int h)
     {
+        System.out.println("    [Action] Calculate new Mushroom HP");
         //hp = h;
     }
     public int get_power()
     {
+        System.out.println("    [Get] Mushroom power");
         //return power;
         return 0;
     }

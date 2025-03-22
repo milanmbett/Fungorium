@@ -34,6 +34,9 @@ public class _SkeletonUtil
     public static Spore_Slowing _sporeSlowing;
     public static Spore_Speed _sporeSpeed;
 
+    // ========= THREADS ============
+    public static Thread_Class _thread1;
+
     
     public static void skeleton_1()
     {
@@ -146,13 +149,24 @@ public class _SkeletonUtil
     {
         System.out.println("    SZKELETON 6: Játék vége és kiértékelés");
     }
-    public static void skeleton_7()
+    public static void skeleton_7() //Milán
     {
         System.out.println("    SZKELETON 7: Rovar támad gombát");
+        _tectonBasic1 = new Tecton_Basic();
+        _insectBuglet = new Insect_Buglet(_tectonBasic1);
+        _mushroomShroomlet = new Mushroom_Shroomlet(_tectonBasic1);
+        _insectBuglet.attack_Mushroom(_mushroomShroomlet);
+
     }
-    public static void skeleton_8()
+    public static void skeleton_8() //Milán
     {
         System.out.println("    SZKELETON 8: Gomba támad rovart");
+        _tectonBasic1 = new Tecton_Basic();
+        _tectonBasic2 = new Tecton_Basic();
+        _mushroomShroomlet = new Mushroom_Shroomlet(_tectonBasic1);
+        _insectBuglet = new Insect_Buglet(_tectonBasic2);
+        _mushroomShroomlet.attack_Insect(_insectBuglet);
+
     }
     public static void skeleton_9()
     {
@@ -178,9 +192,17 @@ public class _SkeletonUtil
     {
         System.out.println("    SZKELETON 14: Gombafonal terjedése");
     }
-    public static void skeleton_15()
+    public static void skeleton_15() //Milán
     {
         System.out.println("    SZKELETON 15: Fonál terjedése");
+        _tectonBasic1 = new Tecton_Basic();
+        _tectonBasic2 = new Tecton_Basic();
+        _tectonBasic1.add_TectonNeighbour(_tectonBasic2);
+        
+        _thread1 = new Thread_Class(_tectonBasic1);
+        _tectonBasic1.set_Thread(_thread1);
+
+        _thread1.expand_Thread(_tectonBasic2);
     }
 
 

@@ -7,6 +7,7 @@ public class Thread_Class
         /* tecton = targetTecton;
         tecton.set_Thread(this); */
         //Plane.ThreadCollection.add(this);
+        System.out.println("    - [New] Thread created on Tecton:" + targetTecton);
     }
     public Tecton_Class get_Tecton()
     {
@@ -17,9 +18,10 @@ public class Thread_Class
     {
         //tecton = t;
     }
-    public void expand_Thread()
+    public void expand_Thread(Tecton_Class t)
     {
-        
+        System.out.println("    - [Action] New Thread randomly created on neighbour Tecton");
+        System.out.println("    - [Action] Thread expanded on Tecton:" + t);
         /* if(tecton.get_TectonNeighbours().size()==0)
         {
             return;
