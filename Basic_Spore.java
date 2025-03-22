@@ -27,5 +27,10 @@ public class Basic_Spore
         //_SkeletonUtil._tectonClass = t;
         System.out.println("    [Set] Spore set_Tecton");
     }
+    public void expand_Spore(Tecton_Class t)
+    {
+        System.out.println("    - [Action] New Spore randomly created on neighbour Tecton");
+        System.out.println("    - [Action] Spore expanded on Tecton" +t);
+    }
     
 }

@@ -168,6 +168,26 @@ public class _SkeletonUtil
     public static void skeleton_9()
     {
         System.out.println("    SZKELETON 9: Spóra generálása");
+        _tectonBasic1 = new Tecton_Basic();
+        _tectonBasic2 = new Tecton_Basic();
+        _tectonBasic1.add_TectonNeighbour(_tectonBasic2);
+
+        _basicSpore = new Basic_Spore();
+        _tectonBasic1.set_Spore(_basicSpore);
+        _basicSpore.expand_Spore(_tectonBasic2);
+
+
+
+
+        /*System.out.println("    SZKELETON 15: Fonál terjedése");
+        _tectonBasic1 = new Tecton_Basic();
+        _tectonBasic2 = new Tecton_Basic();
+        _tectonBasic1.add_TectonNeighbour(_tectonBasic2);
+        
+        _thread1 = new Thread_Class(_tectonBasic1);
+        _tectonBasic1.set_Thread(_thread1);
+
+        _thread1.expand_Thread(_tectonBasic2);*/
     }
     public static void skeleton_10()
     {
