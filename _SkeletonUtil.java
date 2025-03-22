@@ -97,10 +97,21 @@ public class _SkeletonUtil
     public static void skeleton_7() //Milán
     {
         System.out.println("    SZKELETON 7: Rovar támad gombát");
+        _tectonBasic1 = new Tecton_Basic();
+        _insectBuglet = new Insect_Buglet(_tectonBasic1);
+        _mushroomShroomlet = new Mushroom_Shroomlet(_tectonBasic1);
+        _insectBuglet.attack_Mushroom(_mushroomShroomlet);
+
     }
     public static void skeleton_8() //Milán
     {
         System.out.println("    SZKELETON 8: Gomba támad rovart");
+        _tectonBasic1 = new Tecton_Basic();
+        _tectonBasic2 = new Tecton_Basic();
+        _mushroomShroomlet = new Mushroom_Shroomlet(_tectonBasic1);
+        _insectBuglet = new Insect_Buglet(_tectonBasic2);
+        _mushroomShroomlet.attack_Insect(_insectBuglet);
+
     }
     public static void skeleton_9()
     {

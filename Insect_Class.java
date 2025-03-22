@@ -22,9 +22,9 @@ public abstract class Insect_Class
     }
 
     public void attack_Mushroom(Mushroom_Class m)
-    {        
-        //_SkeletonUtil._mushroomClass.reduceHP(1);
-        System.out.println("    [Action] Insect attacked mushroom!");
+    {   
+        System.out.println("    [Action] Insect attacked mushroom!");     
+        m.reduceHP(get_attackDamage());
     }
     public void die_Insect()
     {
@@ -55,6 +55,7 @@ public abstract class Insect_Class
     public int get_attackDamage()
     {
         //return attackDamage;
+        System.out.println("    [Get] Insect attackDamage");
         return 0;
     }
     public void set_attackDamage(int damage)
