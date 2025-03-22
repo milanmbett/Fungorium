@@ -31,6 +31,9 @@ public class _SkeletonUtil
     public static Spore_Slowing _sporeSlowing;
     public static Spore_Speed _sporeSpeed;
 
+    // ========= THREADS ============
+    public static Thread_Class _thread1;
+
     
     public static void skeleton_1()
     {
@@ -126,6 +129,14 @@ public class _SkeletonUtil
     public static void skeleton_15() //Milán
     {
         System.out.println("    SZKELETON 15: Fonál terjedése");
+        _tectonBasic1 = new Tecton_Basic();
+        _tectonBasic2 = new Tecton_Basic();
+        _tectonBasic1.add_TectonNeighbour(_tectonBasic2);
+        
+        _thread1 = new Thread_Class(_tectonBasic1);
+        _tectonBasic1.set_Thread(_thread1);
+
+        _thread1.expand_Thread(_tectonBasic2);
     }
 
 
