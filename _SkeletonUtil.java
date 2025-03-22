@@ -140,9 +140,6 @@ public class _SkeletonUtil
         System.out.println("    - Pálya létrehozva");
         _mushroomGrand1 = new Mushroom_Grand(_tectonBasic1);
         _mushroomGrand2 = new Mushroom_Grand(_tectonBasic2);
-               
-
-
 
     }
     public static void skeleton_6()
@@ -175,18 +172,34 @@ public class _SkeletonUtil
     public static void skeleton_10()
     {
         System.out.println("    SZKELETON 10: Spóra megevése");
+        _tectonBasic1 = new Tecton_Basic();
+        _insectBuglet = new Insect_Buglet(_tectonBasic1);
+        _basicSpore = new Basic_Spore();
+        _insectBuglet.eat_Spore(_basicSpore);
     }
     public static void skeleton_11()
     {
         System.out.println("    SZKELETON 11: Gombafonal megevése");
+        _tectonBasic1 = new Tecton_Basic();
+        _thread1 = new Thread_Class(_tectonBasic1);
+        _insectBuglet = new Insect_Buglet(_tectonBasic1);
+        _insectBuglet.eat_Thread(_thread1);
+
     }
     public static void skeleton_12()
     {
         System.out.println("    SZKELETON 12: Tekton kettétörése");
+        _tectonBasic1 = new Tecton_Basic();
+        _insectTectonizator = new Insect_Tektonizator(_tectonBasic1);
+        _insectTectonizator.tectonCrack(_tectonBasic1);
+
     }
     public static void skeleton_13()
     {
         System.out.println("    SZKELETON 13: Tekton elpuszítása");
+        _tectonBasic1 = new Tecton_Basic();
+        _insectShroomreaper = new Insect_ShroomReaper(_tectonBasic1);
+        _insectShroomreaper.destroy_Tecton();
     }
     public static void skeleton_14()
     {
