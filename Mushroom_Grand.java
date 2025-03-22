@@ -9,6 +9,9 @@ public class Mushroom_Grand extends Mushroom_Class
         tecton = targetTecton;
         level = 1; */
         //Plane.MushroomCollection.add(this);
+        System.out.println("    [Called] Grand Fungus constructor");
+        _SkeletonUtil._tectonClass = targetTecton;
+        System.out.println("        [Grand Fungus] Targeted Tecton set!");
     }
     public int get_level()
     {

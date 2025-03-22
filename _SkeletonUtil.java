@@ -1,5 +1,7 @@
 //Main.scanner-t lehet használni majd
 
+import java.util.Scanner;
+
 public class _SkeletonUtil 
 {
     public static Tecton_Class _tectonClass;
@@ -14,7 +16,8 @@ public class _SkeletonUtil
     public static Tecton_Basic _tectonBasic2;
 
     // ========== SHROOMS ===========
-    public static Mushroom_Grand _mushroomGrand;
+    public static Mushroom_Grand _mushroomGrand1;
+    public static Mushroom_Grand _mushroomGrand2;
     public static Mushroom_Maximus _mushroomMaximus;
     public static Mushroom_Shroomlet _mushroomShroomlet;
     public static Mushroom_Slender _mushroomSlender;
@@ -82,10 +85,62 @@ public class _SkeletonUtil
     public static void skeleton_4()
     {
         System.out.println("    SZKELETON 4: Gomba fejlesztése");
+
+        //inicilizálás
+        _tectonBasic1 = new Tecton_Basic();
+        Scanner scanner = new Scanner(System.in);
+        int choice1 = -1;
+        int choice2 = -1;
+        System.out.println("    - Felhasználó kiválaszt egy Gomba-t");
+        System.out.println("    - 1. Gomba fejlesztése");
+        System.out.println("    - 2. Spóra fejlesztése");
+        System.out.println("    - Válaszás: ");
+        choice1 = scanner.nextInt();
+        if(choice1 == 1)
+        {
+            _mushroomShroomlet = new Mushroom_Shroomlet(_tectonBasic1);
+            _mushroomShroomlet.upgrade_Mushroom(_basicSpore);
+            System.out.println("    - Felhasználó választott egy Gomba-t és fejlesztette");
+        }
+        else if(choice1 == 2)
+        {
+            System.out.println("    - Felhasználó kiválaszt egy Spórát");
+            System.out.println("    - 1. Paralizáló spóra");
+            System.out.println("    - 2. Lassító spóra");
+            System.out.println("    - 3. Gyorsító spóra");
+            System.out.println("    - Válaszás: ");
+            choice2 = scanner.nextInt();
+            if (choice2 == 1)
+            {
+                _basicSpore = new Spore_Paralysing(_tectonBasic1);
+            }
+            else if (choice2 == 2)
+            {
+                _basicSpore = new Spore_Slowing(_tectonBasic1);
+            }
+            else if (choice2 == 3)
+            {
+                _basicSpore = new Spore_Speed(_tectonBasic1);
+            }
+        }
+        else 
+            System.out.println("    - Felhasználó nem választott semmit");
+        
     }
     public static void skeleton_5()
     {
         System.out.println("    SZKELETON 5: Játék incializálása");
+
+        //incializálás
+        _tectonBasic1 = new Tecton_Basic();
+        _tectonBasic2 = new Tecton_Basic();
+        System.out.println("    - Pálya létrehozva");
+        _mushroomGrand1 = new Mushroom_Grand(_tectonBasic1);
+        _mushroomGrand2 = new Mushroom_Grand(_tectonBasic2);
+               
+
+
+
     }
     public static void skeleton_6()
     {
