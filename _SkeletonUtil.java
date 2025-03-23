@@ -45,6 +45,7 @@ public class _SkeletonUtil
         //inicilizálás
         _tectonBasic1 = new Tecton_Basic();
         System.out.println("    - Felhasználó legálisan kiválasztotta ezt a Tecton_Basic-et");
+        System.out.println("    - Erőforrások ellenőrzése");
 
         _mushroomShroomlet = new Mushroom_Shroomlet(_tectonBasic1);
 
@@ -208,11 +209,7 @@ public class _SkeletonUtil
         _insectShroomreaper = new Insect_ShroomReaper(_tectonBasic1);
         _insectShroomreaper.destroy_Tecton();
     }
-    public static void skeleton_14()
-    {
-        System.out.println("    SZKELETON 14: Gombafonal terjedése");
-    }
-    public static void skeleton_15() //Milán
+    public static void skeleton_14() //Milán
     {
         System.out.println("    SZKELETON 15: Fonál terjedése");
         _tectonBasic1 = new Tecton_Basic();

@@ -20,8 +20,7 @@ public class _Skeleton
         System.out.println("11: Gombafonal megevése");
         System.out.println("12: Tekton kettétörése");
         System.out.println("13: Tekton elpuszítása");
-        System.out.println("14: Gombafonal terjedése");
-        System.out.println("15: Fonál terjedése");
+        System.out.println("14: Fonál terjedése");
         System.out.println("EXIT: Kilépés");
         System.out.println("------------------------");
     }
@@ -56,8 +55,6 @@ public class _Skeleton
             case "13": _SkeletonUtil.skeleton_13();
                 break;
             case "14": _SkeletonUtil.skeleton_14();
-                break;
-            case "15": _SkeletonUtil.skeleton_15();
                 break;
             case "exit":
                 System.out.println("Goodbye!");
