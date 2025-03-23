@@ -95,7 +95,7 @@ public class _SkeletonUtil
         Scanner scanner = new Scanner(System.in);
         int choice1 = -1;
         int choice2 = -1;
-        System.out.println("    - Felhasználó kiválaszt egy Gomba-t");
+        System.out.println("    - Felhasználó kiválaszt egy Gombát");
         System.out.println("    - 1. Gomba fejlesztése");
         System.out.println("    - 2. Spóra fejlesztése");
         System.out.println("    - Válaszás: ");
@@ -143,22 +143,18 @@ public class _SkeletonUtil
         _mushroomGrand2 = new Mushroom_Grand(_tectonBasic2);
 
     }
-    public static void skeleton_6()
+    public static void skeleton_6() //Milán
     {
-        System.out.println("    SZKELETON 6: Játék vége és kiértékelés");
-    }
-    public static void skeleton_7() //Milán
-    {
-        System.out.println("    SZKELETON 7: Rovar támad gombát");
+        System.out.println("    SZKELETON 6: Rovar támad gombát");
         _tectonBasic1 = new Tecton_Basic();
         _insectBuglet = new Insect_Buglet(_tectonBasic1);
         _mushroomShroomlet = new Mushroom_Shroomlet(_tectonBasic1);
         _insectBuglet.attack_Mushroom(_mushroomShroomlet);
 
     }
-    public static void skeleton_8() //Milán
+    public static void skeleton_7() //Milán
     {
-        System.out.println("    SZKELETON 8: Gomba támad rovart");
+        System.out.println("    SZKELETON 7: Gomba támad rovart");
         _tectonBasic1 = new Tecton_Basic();
         _tectonBasic2 = new Tecton_Basic();
         _mushroomShroomlet = new Mushroom_Shroomlet(_tectonBasic1);
@@ -166,9 +162,9 @@ public class _SkeletonUtil
         _mushroomShroomlet.attack_Insect(_insectBuglet);
 
     }
-    public static void skeleton_9()
+    public static void skeleton_8()
     {
-        System.out.println("    SZKELETON 9: Spóra generálása");
+        System.out.println("    SZKELETON 8: Spóra generálása");
         _tectonBasic1 = new Tecton_Basic();
         _tectonBasic2 = new Tecton_Basic();
         _tectonBasic1.add_TectonNeighbour(_tectonBasic2);
@@ -177,41 +173,41 @@ public class _SkeletonUtil
         _tectonBasic1.set_Spore(_basicSpore);
         _basicSpore.expand_Spore(_tectonBasic2);
     }
-    public static void skeleton_10()
+    public static void skeleton_9()
     {
-        System.out.println("    SZKELETON 10: Spóra megevése");
+        System.out.println("    SZKELETON 9: Spóra megevése");
         _tectonBasic1 = new Tecton_Basic();
         _insectBuglet = new Insect_Buglet(_tectonBasic1);
         _basicSpore = new Basic_Spore();
         _insectBuglet.eat_Spore(_basicSpore);
     }
-    public static void skeleton_11()
+    public static void skeleton_10()
     {
-        System.out.println("    SZKELETON 11: Gombafonal megevése");
+        System.out.println("    SZKELETON 10: Gombafonal megevése");
         _tectonBasic1 = new Tecton_Basic();
         _thread1 = new Thread_Class(_tectonBasic1);
         _insectBuglet = new Insect_Buglet(_tectonBasic1);
         _insectBuglet.eat_Thread(_thread1);
 
     }
-    public static void skeleton_12()
+    public static void skeleton_11()
     {
-        System.out.println("    SZKELETON 12: Tekton kettétörése");
+        System.out.println("    SZKELETON 11: Tekton kettétörése");
         _tectonBasic1 = new Tecton_Basic();
         _insectTectonizator = new Insect_Tektonizator(_tectonBasic1);
         _insectTectonizator.tectonCrack(_tectonBasic1);
 
     }
-    public static void skeleton_13()
+    public static void skeleton_12()
     {
-        System.out.println("    SZKELETON 13: Tekton elpuszítása");
+        System.out.println("    SZKELETON 12: Tekton elpuszítása");
         _tectonBasic1 = new Tecton_Basic();
         _insectShroomreaper = new Insect_ShroomReaper(_tectonBasic1);
         _insectShroomreaper.destroy_Tecton();
     }
-    public static void skeleton_14() //Milán
+    public static void skeleton_13() //Milán
     {
-        System.out.println("    SZKELETON 15: Fonál terjedése");
+        System.out.println("    SZKELETON 13: Fonál terjedése");
         _tectonBasic1 = new Tecton_Basic();
         _tectonBasic2 = new Tecton_Basic();
         _tectonBasic1.add_TectonNeighbour(_tectonBasic2);

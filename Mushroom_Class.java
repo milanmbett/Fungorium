@@ -56,6 +56,7 @@ public abstract class Mushroom_Class
     }
     public void upgrade_Mushroom(Basic_Spore s)
     {
+        System.out.println("    [Action] Mushroom spore upgraded!");
         //másik spórát szór
         //spore=s;
     }
@@ -92,6 +93,7 @@ public abstract class Mushroom_Class
     }
     public int get_sporeCount()
     {
+        System.out.println("    [Get] How much spore the Mushroom has spread");
         //return sporeCount;
         return 0;
     }
