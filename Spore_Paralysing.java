@@ -4,7 +4,7 @@ public class Spore_Paralysing extends Basic_Spore
     {
         timeToLive = 3; //_TMP value
         tecton = targetTecton;
-        //Plane.SporeCollection.add(this);
+        Plane.SporeCollection.add(this);
     }
     @Override
     public void consumed_by(Insect_Class insect)

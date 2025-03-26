@@ -10,7 +10,7 @@ public class Thread_Class
     {
         tecton = targetTecton;
         tecton.set_Thread(this);
-        //Plane.ThreadCollection.add(this);
+        Plane.ThreadCollection.add(this);
     }
     public Tecton_Class get_Tecton()
     {
@@ -49,7 +49,7 @@ public class Thread_Class
     public void die_Thread()
     {
         tecton.set_Thread(null);
-        //Plane.ThreadCollection.remove(this);
+        Plane.ThreadCollection.remove(this);
     }
 }
 

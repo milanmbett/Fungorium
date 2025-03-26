@@ -15,7 +15,7 @@ public abstract class Tecton_Class
         insectsOnTecton = new ArrayList<>();
         spore = null;
         thread = null;
-        //Plane.TectonCollection.add(this);
+        Plane.TectonCollection.add(this);
     }
 
     public List<Tecton_Class> get_TectonNeighbours()

@@ -49,7 +49,7 @@ public abstract class Insect_Class
     public void die_Insect()
     {
         tecton.get_InsectsOnTecton().remove(this);
-        //Plane.InsectCollection.remove(this);
+        Plane.InsectCollection.remove(this);
     }
     public void eat_Spore(Basic_Spore sp)
     {

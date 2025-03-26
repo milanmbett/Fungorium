@@ -8,6 +8,6 @@ public class Tecton_Basic extends Tecton_Class
         insectsOnTecton = new ArrayList<>();
         spore = null;
         thread = null;
-        //Plane.TectonCollection.add(this);
+        Plane.TectonCollection.add(this);
     }
 }
