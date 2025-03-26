@@ -7,7 +7,7 @@ public abstract class Tecton_Class
     protected Mushroom_Class mushroom;
     protected List<Insect_Class> insectsOnTecton; 
     protected Basic_Spore spore;
-    protected Thread_Class thread;
+    protected Thread_Class thread; //TODO: Átgondolás ,lehet nem tecton-nak ,hanem
 
     public Tecton_Class()
     {
