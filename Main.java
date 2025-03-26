@@ -1,9 +1,8 @@
-import java.util.Scanner;
 
+//TODO: Van olyan tekton-fajta, amelyik életben tartja azokat a fonalakat, amelyek nincsenek közvetve vagy közvetlenül gombatesthez kötve.
+//TODO: Az elrágott fonalak nem pusztulnak el azonnal, hanem csak egy kis idő elteltével (ez fonaltípustól függő idő).  
 public class Main
 {
-    public static Scanner _scanner = new Scanner(System.in);
-    public static boolean loop = true;
     public static void main(String[] args)
     {
         
