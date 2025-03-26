@@ -4,6 +4,7 @@ public abstract class Insect_Class
     protected int attackDamage;
     protected int availableSteps;
     protected Tecton_Class tecton;
+    protected boolean isParalysed = false;
 
     public Insect_Class()
     {
@@ -99,6 +100,18 @@ public abstract class Insect_Class
     public void duplicate_Insect()
     {
         //Minden leszármazott osztálynak ezt a fügvényt implementálnia kell!
+    }
+    public void paralyse_Insect()
+    {
+        isParalysed = true;
+    }
+    public void unparalyse_Insect()
+    {
+        isParalysed = false; //TODO: Ezt meg kell hívni ha a paralysing spore hatása lejár
+    }
+    public boolean get_isParalysed()
+    {
+        return isParalysed;
     }
 
 

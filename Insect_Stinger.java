@@ -2,8 +2,8 @@ public class Insect_Stinger extends Insect_Class
 {
     public Insect_Stinger(Tecton_Class targetTecton)
     {
-        hp = 50; //_TMP value
-        attackDamage = 150; //_TMP value
+        hp = 50; //TODO: Értékét még meg kell beszélni
+        attackDamage = 150; //TODO: Értékét még meg kell beszélni
         availableSteps = 1;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);

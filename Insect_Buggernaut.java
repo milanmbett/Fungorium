@@ -3,8 +3,8 @@ public class Insect_Buggernaut extends Insect_Class
 
     public Insect_Buggernaut(Tecton_Class targetTecton)
     {
-        hp = 150; //_TMP value
-        attackDamage = 50; //_TMP value
+        hp = 150; //TODO: Értékét még meg kell beszélni
+        attackDamage = 50; //TODO: Értékét még meg kell beszélni
         availableSteps = 1;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);

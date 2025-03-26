@@ -2,7 +2,7 @@ public class Spore_Duplicator extends Basic_Spore
 {
     public Spore_Duplicator(Tecton_Class targetTecton)
     {
-        timeToLive = 3; //_TMP value
+        timeToLive = 3; //TODO: Értékét még meg kell beszélni
         tecton = targetTecton;
         tecton.set_Spore(this);
         Plane.SporeCollection.add(this);

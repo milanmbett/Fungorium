@@ -2,8 +2,8 @@ public class Insect_Tektonizator extends Insect_Class
 {
     public Insect_Tektonizator(Tecton_Class targetTecton)
     {
-        hp = 25; //_TMP value
-        attackDamage = 25; //_TMP value
+        hp = 25; //TODO: Értékét még meg kell beszélni
+        attackDamage = 25; //TODO: Értékét még meg kell beszélni
         availableSteps = 1;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);

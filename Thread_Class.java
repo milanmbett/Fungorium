@@ -5,7 +5,7 @@ import java.util.Random;
 public class Thread_Class 
 {
     private Tecton_Class tecton;
-
+    
     public Thread_Class(Tecton_Class targetTecton)
     {
         tecton = targetTecton;
@@ -20,12 +20,12 @@ public class Thread_Class
     {
         tecton = t;
     }
+    //Jelenleg a fonál egy véletlenszerű szomszédos tectonra ugrik, ha nincs szomszédos tecton akkor nem ugrik sehova, viszont halott tektonra is rak(Ez nem jó)
+    //TODO: Ne lehessen halott tecton-ra létrehozni fonalakat   
+    //TODO: Megvizsgálni ,hogy van-e gomba? Asszem specifikáció azt mondja hogy csak akkor nőhet? Nem tudom tényleg
     public void expand_Thread()
     {
-        //menjen végig a tektonja szomszédsági listáján és ha van szabad hely, akkor hozzon létre egy új fonalat véletlenszerűen
-        //jelenleg nem nézi meg hogy halott tekton-e a szomszéd ,de dobunk egy UnsupportedOperationException vagy valami mást
-        //azt elkapjuk akkor majd próbáljuk újra esetleg vagy az is lehetne hogy ha pont azt választja ki akkor nem csinál semmit azt nincs semmi baj
-        
+              
         if(tecton.get_TectonNeighbours().size()==0)
         {
             return;
@@ -48,8 +48,25 @@ public class Thread_Class
     }
     public void die_Thread()
     {
+        //TODO: következő körben a fonál meghalása
         tecton.set_Thread(null);
         Plane.ThreadCollection.remove(this);
+    }
+    //Végig megyünk a fonál tectonján lévő összes bogaron és megnézzük hogy van-e olyan amelyik paralizálva van ha van megesszük, 
+    //és növesztünk egy gombát(Shroomlet) ha még nincsen 
+    public void tryToEat_Insect() //TODO: Turn végén meghívni Thread_Collection összes elemére
+    {
+        for (Insect_Class ins : tecton.get_InsectsOnTecton()) 
+        {
+            if(ins.get_isParalysed())
+            {
+                ins.die_Insect();
+                if(tecton.get_Mushroom().equals(null))
+                {
+                    tecton.set_Mushroom(new Mushroom_Shroomlet(tecton)); //TODO: Beállítani ,hogy ugyanaz a gombász legyen? Vagy lehet unclaimed gomba is?
+                }
+            }    
+        }
     }
 }
 

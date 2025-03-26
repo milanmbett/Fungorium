@@ -41,14 +41,14 @@ public abstract class Tecton_Class
     {
         Neighbours = t;
     }
+    //Tectonon lévő összes dolog halálát okozó függvény
     public void die_Tecton()
     {
         remove_InsectsOnTecton();
         remove_Mushroom();
         remove_Spore();
         remove_Thread();
-        //remove_TectonNeighbours();?
-        //Plane.TectonCollection.remove(this);
+        Plane.TectonCollection.remove(this);
 
     }
     public void set_InsectsOnTecton(List<Insect_Class> insectList)

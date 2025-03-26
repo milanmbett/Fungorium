@@ -9,7 +9,7 @@ public class Basic_Spore
     }
     public Basic_Spore(Tecton_Class targetTecton)
     {
-        timeToLive = 3; //_TMP value
+        timeToLive = 3; //TODO: Értékét még meg kell beszélni
         tecton = targetTecton;
         tecton.set_Spore(this);
         Plane.SporeCollection.add(this);
@@ -40,6 +40,15 @@ public class Basic_Spore
     public void set_Tecton(Tecton_Class t)
     {
         tecton = t;
+    }
+    //Maradandó életidő csökkentése
+    public void decay()
+    {
+        timeToLive--;
+        if(timeToLive == 0)
+        {
+            die_Spore();
+        }
     }
     
 }
