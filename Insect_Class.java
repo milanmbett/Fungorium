@@ -96,6 +96,10 @@ public abstract class Insect_Class
     {
         tecton = t;
     }
+    public void duplicate_Insect()
+    {
+        //Minden leszármazott osztálynak ezt a fügvényt implementálnia kell!
+    }
 
 
     ///Lehet kéne egy buffer függvény mely eltárolja a spóra effektjét hogy ne tartson örökké 
