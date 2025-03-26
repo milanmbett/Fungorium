@@ -1,4 +1,4 @@
-public interface Role 
+public interface Role //TODO: Megírás
 {
 
 }

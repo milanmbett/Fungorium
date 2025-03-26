@@ -1,8 +1,4 @@
-public class Role_Mushroom implements Role
+public class Role_Mushroom implements Role //TODO: Megírás
 {
-    public Role_Mushroom()
-    {
-        
-    }
 
 }

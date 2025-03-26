@@ -1,3 +1,4 @@
-public class Turn {
+public class Turn //TODO: Megírás
+{
     
 }
