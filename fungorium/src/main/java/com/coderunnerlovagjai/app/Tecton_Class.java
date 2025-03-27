@@ -1,5 +1,6 @@
-package fungorium.src.main.java.com.coderunnerlovagjai.app;
-import java.util.*;
+package com.coderunnerlovagjai.app;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Tecton_Class 
 {

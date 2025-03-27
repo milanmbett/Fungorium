@@ -1,4 +1,4 @@
-package fungorium.src.main.java.com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app;
 import java.util.ArrayList;
 
 public class Tecton_Dead extends Tecton_Class

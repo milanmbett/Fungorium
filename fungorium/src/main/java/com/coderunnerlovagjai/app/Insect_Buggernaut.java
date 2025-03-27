@@ -1,4 +1,4 @@
-package fungorium.src.main.java.com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app;
 public class Insect_Buggernaut extends Insect_Class
 {
 

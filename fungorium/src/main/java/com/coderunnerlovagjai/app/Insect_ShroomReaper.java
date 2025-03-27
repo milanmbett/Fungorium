@@ -1,4 +1,4 @@
-package fungorium.src.main.java.com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app;
 import java.util.List;
 public class Insect_ShroomReaper extends Insect_Class
 {

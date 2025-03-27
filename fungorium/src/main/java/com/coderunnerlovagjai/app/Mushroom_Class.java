@@ -1,4 +1,4 @@
-package fungorium.src.main.java.com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app;
 public abstract class Mushroom_Class 
 {
     protected int hp;

@@ -1,4 +1,4 @@
-package fungorium.src.main.java.com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app;
 public class Spore_Paralysing extends Basic_Spore
 {
     public Spore_Paralysing(Tecton_Class targetTecton)

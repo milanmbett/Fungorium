@@ -1,4 +1,4 @@
-package fungorium.src.main.java.com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app;
 public class Mushroom_Shroomlet extends Mushroom_Class
 {
     public Mushroom_Shroomlet(Tecton_Class targetTecton)

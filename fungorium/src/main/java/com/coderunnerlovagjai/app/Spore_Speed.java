@@ -1,4 +1,4 @@
-package fungorium.src.main.java.com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app;
 public class Spore_Speed extends Basic_Spore
 {
     public Spore_Speed(Tecton_Class targetTecton)

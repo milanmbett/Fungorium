@@ -1,4 +1,4 @@
-package fungorium.src.main.java.com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app;
 public class Insect_Tektonizator extends Insect_Class
 {
     public Insect_Tektonizator(Tecton_Class targetTecton)
