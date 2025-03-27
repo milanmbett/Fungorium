@@ -1,0 +1,33 @@
+create TectonBase t1
+create Player p1
+add Player p1 t1
+add 
+
+
+# Test Case 1: Game Initialization
+TEST InitializeGame
+INPUT: 5
+EXPECT: Game initialized
+EXPECT: Base Mushroom placed
+
+# Test Case 2: Place a Mushroom Successfully
+TEST PlaceMushroom
+INPUT: 1
+EXPECT: Mushroom placed successfully
+
+# Test Case 3: Insect Movement
+TEST MoveInsect
+INPUT: 2
+EXPECT: Insect moved successfully
+
+# Test Case 4: Place Insect Successfully
+TEST PlaceInsect
+INPUT: 3
+EXPECT: Insect placed successfully
+
+# Test Case 5: Upgrade Mushroom
+TEST UpgradeMushroom
+INPUT: 4
+EXPECT: Mushroom upgraded successfully
+
+# Additional tests for each use case…

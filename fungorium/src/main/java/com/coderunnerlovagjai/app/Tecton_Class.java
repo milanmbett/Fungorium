@@ -18,6 +18,7 @@ public abstract class Tecton_Class
         spore = null;
         thread = null;
         Plane.TectonCollection.add(this);
+        
     }
 
     public List<Tecton_Class> get_TectonNeighbours()
