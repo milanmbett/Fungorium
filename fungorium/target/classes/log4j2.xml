@@ -2,7 +2,7 @@
 <Configuration status="INFO">
     <CustomLevels>
         <CustomLevel name="INIT" intLevel="401"/>
-        <CustomLevel name="CREATE" intLevel="402"/>
+        <CustomLevel name="ADD" intLevel="402"/>
         <CustomLevel name="MOVE" intLevel="403"/>
         
     </CustomLevels>

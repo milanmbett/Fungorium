@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 public abstract class Tecton_Class 
 {
-    public static final Logger TECTON_CLASS_LOGGER = LogManager.getLogger();
+    private static final Logger TECTON_CLASS_LOGGER = LogManager.getLogger(Tecton_Class.class);
     protected List<Tecton_Class>Neighbours = new ArrayList<>();
 
     protected Mushroom_Class mushroom;
@@ -17,14 +17,7 @@ public abstract class Tecton_Class
 
     public Tecton_Class()
     {
-        mushroom = null;
-        insectsOnTecton = new ArrayList<>();
-        spore = null;
-        thread = null;
-        Plane.TectonCollection.add(this);
-        TECTON_CLASS_LOGGER.log(Level.forName("INIT",401),"Tecton_Constructor called!");
-
-        
+        TECTON_CLASS_LOGGER.log(Level.forName("INIT",401),"Tecton_Class Constructor called!"); 
     }
 
     public List<Tecton_Class> get_TectonNeighbours()
