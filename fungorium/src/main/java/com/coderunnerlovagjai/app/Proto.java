@@ -1,3 +1,5 @@
+package com.coderunnerlovagjai.app;
+
 import java.util.*;
 
 /** 
@@ -5,7 +7,7 @@ import java.util.*;
  * Each use case is implemented as a separate method that prints a simulation of that scenario.
  * The program uses placeholder logic and outputs to represent game state changes.
  */
-public class FungoriumPrototype {
+/*public class FungoriumPrototype {
     // Game state fields
     private static boolean gameInitialized = false;
     private static int nextTectonId = 1;
@@ -728,4 +730,4 @@ public class FungoriumPrototype {
         }
         return null;
     }
-}
+}*/
