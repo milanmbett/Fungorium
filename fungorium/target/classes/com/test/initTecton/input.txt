@@ -1,3 +1,0 @@
-create TectonBase t1
-create Player p1
-add Player p1 t1
