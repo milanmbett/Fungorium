@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
     <CustomLevels>
-        <CustomLevel name="CREATE" intLevel="401"/>
-        <CustomLevel name="MOVE" intLevel="402"/>
+        <CustomLevel name="INIT" intLevel="401"/>
+        <CustomLevel name="CREATE" intLevel="402"/>
+        <CustomLevel name="MOVE" intLevel="403"/>
         
     </CustomLevels>
     
