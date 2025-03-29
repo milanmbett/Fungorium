@@ -33,7 +33,12 @@ public class Main
 
         Insect_Buglet i1 = new Insect_Buglet(t1, p1);
         i1.move_Insect(t2);
-        i1.attack_Mushroom(m2);
+        i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+        i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+        i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+        i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+        i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+        
 
         
         

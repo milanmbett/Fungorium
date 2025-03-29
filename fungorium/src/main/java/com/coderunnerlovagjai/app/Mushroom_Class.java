@@ -24,7 +24,7 @@ public abstract class Mushroom_Class
 
     public void die_Mushroom()
     {
-        tecton.remove_Mushroom();
+        tecton.set_Mushroom(null);
         Plane.MushroomCollection.remove(this);
     }
 
@@ -56,7 +56,7 @@ public abstract class Mushroom_Class
     }
     public void reduceHP(int ad)
     {
-        MUSHROOM_CLASS_LOGGER.log(Level.forName("ATTACK", 401), "Mushroom: " + ID + " is attacked by an insect. Damage done: " + ad);
+        MUSHROOM_CLASS_LOGGER.log(Level.forName("ATTACK", 401), "Mushroom: " + ID + " is attacked by an insect. Damage done: " + ad +" HP left: " + (hp-ad));
         hp -= ad;
         if(hp <= 0)
         {

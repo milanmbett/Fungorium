@@ -74,7 +74,7 @@ public abstract class Insect_Class
         }
         if(this.tecton.equals(m.tecton))
         {
-            INSECT_CLASS_LOGGER.log(Level.forName("ATTACK", 401),"Insect: " + ID + " is attacking mushroom: " + m.get_ID() + " on tecton: " + m.tecton.get_ID());
+            INSECT_CLASS_LOGGER.log(Level.forName("ATTACK", 401),"Insect: " + ID + " is attacking mushroom: " + m.get_ID() + "HP: "+m.get_hp() +" on tecton: " + m.tecton.get_ID());
             m.reduceHP(attackDamage);
         }
     }
