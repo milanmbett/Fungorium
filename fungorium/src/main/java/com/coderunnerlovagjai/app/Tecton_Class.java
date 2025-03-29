@@ -14,6 +14,7 @@ public abstract class Tecton_Class
     protected List<Insect_Class> insectsOnTecton; 
     protected Basic_Spore spore;
     protected Thread_Class thread; //TODO: Átgondolás ,lehet nem tecton-nak ,hanem
+    protected String ID;
 
     public Tecton_Class()
     {
@@ -104,5 +105,9 @@ public abstract class Tecton_Class
     public Thread_Class get_Thread()
     {
         return thread;
+    }
+    public String get_ID()
+    {
+        return ID;
     }
 }

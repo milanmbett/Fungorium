@@ -9,6 +9,7 @@ public class Basic_Spore
     private static final Logger BASIC_SPORE_LOGGER = LogManager.getLogger(Basic_Spore.class);
     protected int timeToLive;
     protected Tecton_Class tecton;
+    protected String ID;
 
     public Basic_Spore()
     {
@@ -19,6 +20,7 @@ public class Basic_Spore
         timeToLive = 3; //TODO: Értékét még meg kell beszélni
         tecton = targetTecton;
         tecton.set_Spore(this);
+        ID = "Spore_Basic" + Integer.toString(Plane.SporeCollection.size());
         Plane.SporeCollection.add(this);
     }
 
@@ -56,6 +58,10 @@ public class Basic_Spore
         {
             die_Spore();
         }
+    }
+    public String get_ID()
+    {
+        return ID;
     }
     
 }

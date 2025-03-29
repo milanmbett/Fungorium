@@ -10,6 +10,8 @@ public class Spore_Speed extends Basic_Spore
     {
         timeToLive = 3; //TODO: Értékét még meg kell beszélni
         tecton = targetTecton;
+        tecton.set_Spore(this);
+        ID = "Spore_Speed" + Integer.toString(Plane.SporeCollection.size());
         Plane.SporeCollection.add(this);
     }
     @Override

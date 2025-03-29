@@ -12,6 +12,7 @@ public class Mushroom_Shroomlet extends Mushroom_Class
         power = 25; //TODO: Értékét még meg kell beszélni
         sporeCount = 0;
         tecton = targetTecton;
+        ID = "Mushroom_Shroomlet" + Integer.toString(Plane.MushroomCollection.size());
         Plane.MushroomCollection.add(this);
     }
 }

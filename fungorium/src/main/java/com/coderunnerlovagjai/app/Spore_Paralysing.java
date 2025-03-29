@@ -10,6 +10,8 @@ public class Spore_Paralysing extends Basic_Spore
     {
         timeToLive = 3; //_TMP value
         tecton = targetTecton;
+        tecton.set_Spore(this);
+        ID = "Spore_Paralysing" + Integer.toString(Plane.SporeCollection.size());
         Plane.SporeCollection.add(this);
     }
     @Override

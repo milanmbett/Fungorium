@@ -11,6 +11,7 @@ public abstract class Mushroom_Class
     protected int sporeCount;
     protected Tecton_Class tecton;
     protected Player owner;
+    protected String ID;
     
     public Mushroom_Class()
     {
@@ -100,6 +101,10 @@ public abstract class Mushroom_Class
     public void set_Owner(Player p)
     {
         owner = p;
+    }
+    public String get_ID()
+    {
+        return ID;
     }
 
 }

@@ -11,11 +11,13 @@ public class Thread_Class
 {
     private static final Logger THREAD_LOGGER = LogManager.getLogger(Thread_Class.class);
     private Tecton_Class tecton;
+    private String ID;
     
     public Thread_Class(Tecton_Class targetTecton)
     {
         tecton = targetTecton;
         tecton.set_Thread(this);
+        ID = "Thread" + Integer.toString(Plane.ThreadCollection.size());
         Plane.ThreadCollection.add(this);
     }
     public Tecton_Class get_Tecton()
@@ -73,6 +75,10 @@ public class Thread_Class
                 }
             }    
         }
+    }
+    public String get_ID()
+    {
+        return ID;
     }
 }
 

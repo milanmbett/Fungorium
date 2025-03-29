@@ -14,6 +14,7 @@ public class Insect_Buggernaut extends Insect_Class
         availableSteps = 1;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
+        ID = "Insect_Buggernaut" + Integer.toString(Plane.InsectCollection.size());
         Plane.InsectCollection.add(this);
         owner = p;
     }

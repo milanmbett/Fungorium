@@ -15,7 +15,14 @@ public class Main
     {
        
         MAIN_LOGGER.log(Level.forName("CREATE",401),"Program created");
+        Player p1 = new Player();
+        
         Tecton_Basic t1 = new Tecton_Basic();
+        Tecton_Basic t2 = new Tecton_Basic();
+
+        Mushroom_Shroomlet m1 = new Mushroom_Shroomlet(t1, p1);
+        Insect_Buglet i1 = new Insect_Buglet(t1, p1);
+        i1.move_Insect(t2);
         
         
     }

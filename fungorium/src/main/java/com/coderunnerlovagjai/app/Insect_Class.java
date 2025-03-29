@@ -13,6 +13,7 @@ public abstract class Insect_Class
     protected Tecton_Class tecton;
     protected boolean isParalysed = false;
     protected Player owner;
+    protected String ID;
 
     public Insect_Class()
     {
@@ -37,6 +38,11 @@ public abstract class Insect_Class
         if(targetTecton.equals(tecton))
         {
             System.err.println("Insect is already on the target tecton");
+            return;
+        }
+        if(tecton.get_Thread().equals(null) || targetTecton.get_Thread().equals(null))
+        {
+            System.err.println("Insect's tecton or Target tecton doesn't have a thread");
             return;
         }
         tecton = targetTecton;
@@ -128,6 +134,10 @@ public abstract class Insect_Class
     public Player get_Owner()
     {
         return owner;
+    }
+    public String get_ID()
+    {
+        return ID;
     }
 
 

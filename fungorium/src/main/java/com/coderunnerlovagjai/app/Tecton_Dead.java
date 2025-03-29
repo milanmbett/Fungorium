@@ -13,5 +13,7 @@ public class Tecton_Dead extends Tecton_Class
         insectsOnTecton = new ArrayList<>();
         spore = null;
         thread = null;
+        ID = "Tecton_Dead" + Integer.toString(Plane.TectonCollection.size());
+        Plane.TectonCollection.add(this);
     }
 }

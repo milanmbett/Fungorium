@@ -19,6 +19,7 @@ public class Tecton_Base extends Tecton_Basic
         spore = null;
         thread = null;
         owner = p;
+        ID = "Tecton_Base" + Integer.toString(Plane.TectonCollection.size());
         Plane.TectonCollection.add(this);
         TECTON_BASE_LOGGER.log(Level.forName("CREATE",401),"Tecton_Base Constructor called!");
         TECTON_BASE_LOGGER.log(Level.forName("ADD", 403), "Tecton_Base added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
