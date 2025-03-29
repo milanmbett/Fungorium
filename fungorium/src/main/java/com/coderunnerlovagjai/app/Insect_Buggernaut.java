@@ -13,10 +13,13 @@ public class Insect_Buggernaut extends Insect_Class
         attackDamage = 50; //TODO: Értékét még meg kell beszélni
         availableSteps = 1;
         tecton = targetTecton;
+        owner = p;
         tecton.get_InsectsOnTecton().add(this);
         ID = "Insect_Buggernaut" + Integer.toString(Plane.InsectCollection.size());
+        INSECT_BUGGERNAUT_LOGGER.log(Level.forName("CREATE",401),"Insect_Buggernaut Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.InsectCollection.add(this);
-        owner = p;
+        INSECT_BUGGERNAUT_LOGGER.log(Level.forName("ADD", 403), "Insect_Buggernaut: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
+
     }
     public Insect_Buggernaut(Tecton_Class targetTecton, int hp, int ad, int as, Player p)
     {

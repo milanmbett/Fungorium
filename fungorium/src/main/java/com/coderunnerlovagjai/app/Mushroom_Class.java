@@ -15,7 +15,7 @@ public abstract class Mushroom_Class
     
     public Mushroom_Class()
     {
-
+        MUSHROOM_CLASS_LOGGER.log(Level.forName("INIT",402),"Mushroom_Class Constructor called!"); 
     }
     public Mushroom_Class(Tecton_Class targetTecton)
     {

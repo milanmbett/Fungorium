@@ -17,7 +17,7 @@ public abstract class Insect_Class
 
     public Insect_Class()
     {
-
+        INSECT_CLASS_LOGGER.log(Level.forName("INIT",402),"Insect_Class Constructor called!"); 
     }
     protected Insect_Class(Tecton_Class targetTecton)
     {
@@ -25,9 +25,9 @@ public abstract class Insect_Class
     }
     public void move_Insect(Tecton_Class targetTecton)
     {
-        if(targetTecton.equals(null))
+        if(targetTecton == null)
         {
-            System.err.println("Target tecton is null");
+            INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 402), "Target tecton is null!");
             return;
         }
         if(availableSteps <= 0)
@@ -40,7 +40,7 @@ public abstract class Insect_Class
             System.err.println("Insect is already on the target tecton");
             return;
         }
-        if(tecton.get_Thread().equals(null) || targetTecton.get_Thread().equals(null))
+        if(tecton.get_Thread() == null || targetTecton.get_Thread() == null)
         {
             System.err.println("Insect's tecton or Target tecton doesn't have a thread");
             return;

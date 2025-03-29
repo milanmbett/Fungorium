@@ -18,7 +18,9 @@ public class Thread_Class
         tecton = targetTecton;
         tecton.set_Thread(this);
         ID = "Thread" + Integer.toString(Plane.ThreadCollection.size());
+        THREAD_LOGGER.log(Level.forName("CREATE",401),"Thread Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.ThreadCollection.add(this);
+        THREAD_LOGGER.log(Level.forName("ADD", 403), "Thread: "+ID+ " added to ThreadCollection! ThreadCollection size: " + Plane.ThreadCollection.size());
     }
     public Tecton_Class get_Tecton()
     {

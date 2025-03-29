@@ -12,7 +12,10 @@ public class Mushroom_Shroomlet extends Mushroom_Class
         power = 25; //TODO: Értékét még meg kell beszélni
         sporeCount = 0;
         tecton = targetTecton;
+        owner = p;
         ID = "Mushroom_Shroomlet" + Integer.toString(Plane.MushroomCollection.size());
+        MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Shroomlet Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.MushroomCollection.add(this);
+        MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Shroomlet: "+ID+ " added to MushroomCollection! MushroomCollection size: " + Plane.MushroomCollection.size());
     }
 }

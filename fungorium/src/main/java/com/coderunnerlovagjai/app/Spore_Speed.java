@@ -12,7 +12,9 @@ public class Spore_Speed extends Basic_Spore
         tecton = targetTecton;
         tecton.set_Spore(this);
         ID = "Spore_Speed" + Integer.toString(Plane.SporeCollection.size());
+        SPORE_SPEED_LOGGER.log(Level.forName("CREATE",401),"Spore_Speed Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.SporeCollection.add(this);
+        SPORE_SPEED_LOGGER.log(Level.forName("ADD", 403), "Spore_Speed: "+ID+ " added to SporeCollection! SporeCollection size: " + Plane.SporeCollection.size());
     }
     @Override
     public void consumed_by(Insect_Class insect)

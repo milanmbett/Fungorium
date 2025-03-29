@@ -14,6 +14,8 @@ public class Tecton_Dead extends Tecton_Class
         spore = null;
         thread = null;
         ID = "Tecton_Dead" + Integer.toString(Plane.TectonCollection.size());
+        TECTON_DEAD_LOGGER.log(Level.forName("CREATE",401),"Tecton_Basic Created! ID: " + ID);
         Plane.TectonCollection.add(this);
+        TECTON_DEAD_LOGGER.log(Level.forName("ADD", 403), "Tecton_Basic: "+ID+ " added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
     }
 }

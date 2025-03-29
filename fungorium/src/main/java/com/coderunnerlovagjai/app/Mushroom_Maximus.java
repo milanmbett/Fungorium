@@ -12,8 +12,11 @@ public class Mushroom_Maximus extends Mushroom_Class
         power = 25; //TODO: Értékét még meg kell beszélni
         sporeCount = 0;
         tecton = targetTecton;
-        ID = "Mushroom_Maximus" + Integer.toString(Plane.MushroomCollection.size());
-        Plane.MushroomCollection.add(this);
         owner = p;
+        ID = "Mushroom_Maximus" + Integer.toString(Plane.MushroomCollection.size());
+        MUSHROOM_MAXIMUS_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Maximus Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
+        Plane.MushroomCollection.add(this);
+        MUSHROOM_MAXIMUS_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Maximus: "+ID+ " added to MushroomCollection! MushroomCollection size: " + Plane.MushroomCollection.size());
+
     }
 }

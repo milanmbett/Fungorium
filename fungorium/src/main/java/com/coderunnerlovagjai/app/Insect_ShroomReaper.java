@@ -13,9 +13,12 @@ public class Insect_ShroomReaper extends Insect_Class
         availableSteps = 1;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
-        ID = "Insect_ShroomReaper" + Integer.toString(Plane.InsectCollection.size());
-        Plane.InsectCollection.add(this);
         owner = p;
+        ID = "Insect_ShroomReaper" + Integer.toString(Plane.InsectCollection.size());
+        INSECT_SHROOM_REAPER_LOGGER.log(Level.forName("CREATE",401),"Insect_ShroomReaper Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
+        Plane.InsectCollection.add(this);
+        INSECT_SHROOM_REAPER_LOGGER.log(Level.forName("ADD", 403), "Insect_ShroomReaper: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
+        
     }
     public Insect_ShroomReaper(Tecton_Class targetTecton, int hp, int ad, int as, Player p)
     {

@@ -14,8 +14,10 @@ public class Insect_Tektonizator extends Insect_Class
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
         ID = "Insect_Tektonizator" + Integer.toString(Plane.InsectCollection.size());
-        Plane.InsectCollection.add(this);
         owner = p;
+        INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("CREATE",401),"Insect_Tektonizator Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
+        Plane.InsectCollection.add(this);
+        INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ADD", 403), "Insect_Tektonizator: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
     }
     public Insect_Tektonizator(Tecton_Class targetTecton, int hp, int ad, int as, Player p)
     {

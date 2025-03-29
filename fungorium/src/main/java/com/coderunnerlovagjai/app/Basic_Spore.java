@@ -13,7 +13,7 @@ public class Basic_Spore
 
     public Basic_Spore()
     {
-
+        BASIC_SPORE_LOGGER.log(Level.forName("INIT",402),"Basic_Spore Constructor called!"); 
     }
     public Basic_Spore(Tecton_Class targetTecton)
     {
@@ -21,7 +21,9 @@ public class Basic_Spore
         tecton = targetTecton;
         tecton.set_Spore(this);
         ID = "Spore_Basic" + Integer.toString(Plane.SporeCollection.size());
+        BASIC_SPORE_LOGGER.log(Level.forName("CREATE",401),"Basic_Spore Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.SporeCollection.add(this);
+        BASIC_SPORE_LOGGER.log(Level.forName("ADD", 403), "Basic_Spore: "+ID+ " added to SporeCollection! SporeCollection size: " + Plane.SporeCollection.size());
     }
 
     public void consumed_by(Insect_Class insect)

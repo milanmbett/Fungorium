@@ -12,7 +12,9 @@ public class Spore_Duplicator extends Basic_Spore
         tecton = targetTecton;
         tecton.set_Spore(this);
         ID = "Spore_Duplicator" + Integer.toString(Plane.SporeCollection.size());
+        SPORE_DUPLICATOR_LOGGER.log(Level.forName("CREATE",401),"Spore_Duplicator Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.SporeCollection.add(this);
+        SPORE_DUPLICATOR_LOGGER.log(Level.forName("ADD", 403), "Spore_Duplicator: "+ID+ " added to SporeCollection! SporeCollection size: " + Plane.SporeCollection.size());
     }
 
     public void consumed_by(Insect_Class insect)
