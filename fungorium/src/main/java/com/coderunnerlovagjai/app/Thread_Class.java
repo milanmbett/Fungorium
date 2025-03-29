@@ -30,31 +30,51 @@ public class Thread_Class
     {
         tecton = t;
     }
-    //Jelenleg a fonál egy véletlenszerű szomszédos tectonra ugrik, ha nincs szomszédos tecton akkor nem ugrik sehova, viszont halott tektonra is rak(Ez nem jó)
+    //Jelenleg a fonál egy véletlenszerű szomszédos tectonra ugrik, ha nincs szomszédos tecton akkor nem ugrik sehova
     //TODO: Ne lehessen halott tecton-ra létrehozni fonalakat   
     //TODO: Megvizsgálni ,hogy van-e gomba? Asszem specifikáció azt mondja hogy csak akkor nőhet? Nem tudom tényleg
     public void expand_Thread()
     {
+        THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is trying to expand!");
               
         if(tecton.get_TectonNeighbours().size()==0)
         {
+            THREAD_LOGGER.log(Level.forName("ERROR", 401), "Thread: " + ID + " has no neighbours!");
             return;
         }
         List<Tecton_Class> threadlessTectonNeighbours = new ArrayList<>();
         for(Tecton_Class t : tecton.get_TectonNeighbours())
         {
-            if(t.get_Thread().equals(null))
+            if(t.get_Thread()==null)
             {
                 threadlessTectonNeighbours.add(t);
             } 
         }
-        if(threadlessTectonNeighbours.size()==0)
-        {
-            return;
-        }
         Random random = new Random();
         int rand = random.nextInt(threadlessTectonNeighbours.size());
-        threadlessTectonNeighbours.get(rand).set_Thread(new Thread_Class(threadlessTectonNeighbours.get(rand)));
+        boolean done = false;
+        while(!done)
+        {
+            if(threadlessTectonNeighbours.size()==0)
+            {
+                THREAD_LOGGER.log(Level.forName("ERROR", 401), "Thread: " + ID + " has no neighbours to expand to!");
+                return;
+            }
+            THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " has " + threadlessTectonNeighbours.size() + " neighbours to expand to!");
+            rand = random.nextInt(threadlessTectonNeighbours.size());
+            THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is expanding to tecton: " + threadlessTectonNeighbours.get(rand).get_ID());
+            try 
+            {
+                threadlessTectonNeighbours.get(rand).set_Thread(new Thread_Class(threadlessTectonNeighbours.get(rand)));
+                done = true;    
+            } catch (Exception e) 
+            {
+            THREAD_LOGGER.log(Level.forName("ERROR", 401), "Thread: " + ID + " could not expand to tecton: " + threadlessTectonNeighbours.get(rand).get_ID() + " because of: " + e.getMessage());
+            threadlessTectonNeighbours.remove(rand);
+            }
+        }
+        THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " expanded to tecton: " + threadlessTectonNeighbours.get(0).get_ID());
+
     }
     public void die_Thread()
     {

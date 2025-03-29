@@ -18,4 +18,9 @@ public class Tecton_Dead extends Tecton_Class
         Plane.TectonCollection.add(this);
         TECTON_DEAD_LOGGER.log(Level.forName("ADD", 403), "Tecton_Basic: "+ID+ " added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
     }
+    @Override
+    public void set_Thread(Thread_Class t)
+    {
+        throw new UnsupportedOperationException("Cannot set thread on dead tecton!");
+    }
 }

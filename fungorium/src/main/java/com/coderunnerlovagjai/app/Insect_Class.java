@@ -25,12 +25,13 @@ public abstract class Insect_Class
     }
     public void move_Insect(Tecton_Class targetTecton)
     {
-        INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ID + " is trying to move!");
+        
         if(targetTecton == null)
         {
             INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
             return;
         }
+        INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ID + " is trying to move to " + targetTecton.get_ID());
         if(availableSteps <= 0)
         {
             INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ID + " has no available steps!");
