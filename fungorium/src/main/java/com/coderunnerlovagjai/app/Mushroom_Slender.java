@@ -12,6 +12,7 @@ public class Mushroom_Slender extends Mushroom_Class
         power = 25; //TODO: Értékét még meg kell beszélni
         sporeCount = 0;
         tecton = targetTecton;
+        tecton.set_Mushroom(this);
         owner = p;
         ID = "Mushroom_Slender" + Integer.toString(Plane.MushroomCollection.size());
         MUSHROOM_SLENDER_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Slender Created! ID: " + ID + " on Tecton: " + tecton.get_ID());

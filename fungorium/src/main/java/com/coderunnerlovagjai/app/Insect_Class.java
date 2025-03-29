@@ -56,13 +56,25 @@ public abstract class Insect_Class
     }
     public void attack_Mushroom(Mushroom_Class m)
     {
-        if(this.tecton.equals(null) || m.tecton.equals(null))
+        if(m == null)
         {
-            System.err.println("Insect or Mushroom is not on a tecton");
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Mushroom is null!");
+            return;
+        }
+        if(this.tecton==null || m.tecton==null)
+        {
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Tecton is null!");
+            return;
+        }
+        INSECT_CLASS_LOGGER.log(Level.forName("ATTACK", 401), "Insect: " + ID + " is trying to attack mushroom: " + m.get_ID() + " on tecton: " + m.tecton.get_ID());
+        if(availableSteps <= 0)
+        {
+            INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ID + " has no available steps!");
             return;
         }
         if(this.tecton.equals(m.tecton))
         {
+            INSECT_CLASS_LOGGER.log(Level.forName("ATTACK", 401),"Insect: " + ID + " is attacking mushroom: " + m.get_ID() + " on tecton: " + m.tecton.get_ID());
             m.reduceHP(attackDamage);
         }
     }

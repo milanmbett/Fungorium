@@ -56,9 +56,11 @@ public abstract class Mushroom_Class
     }
     public void reduceHP(int ad)
     {
+        MUSHROOM_CLASS_LOGGER.log(Level.forName("ATTACK", 401), "Mushroom: " + ID + " is attacked by an insect. Damage done: " + ad);
         hp -= ad;
         if(hp <= 0)
         {
+            MUSHROOM_CLASS_LOGGER.log(Level.forName("DEAD", 401), "Mushroom: " + ID + " is dead!");
             die_Mushroom();
         }
     }

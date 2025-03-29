@@ -12,6 +12,7 @@ public class Mushroom_Shroomlet extends Mushroom_Class
         power = 25; //TODO: Értékét még meg kell beszélni
         sporeCount = 0;
         tecton = targetTecton;
+        tecton.set_Mushroom(this);
         owner = p;
         ID = "Mushroom_Shroomlet" + Integer.toString(Plane.MushroomCollection.size());
         MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Shroomlet Created! ID: " + ID + " on Tecton: " + tecton.get_ID());

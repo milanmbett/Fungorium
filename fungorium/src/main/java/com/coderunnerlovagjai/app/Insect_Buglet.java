@@ -10,7 +10,7 @@ public class Insect_Buglet extends Insect_Class
     {
         hp = 100; //TODO: Értékét még meg kell beszélni
         attackDamage = 100; //TODO: Értékét még meg kell beszélni
-        availableSteps = 1;
+        availableSteps = 2;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
         owner = p;
