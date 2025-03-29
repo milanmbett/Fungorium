@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 public class Insect_ShroomReaper extends Insect_Class
 {
+    private static final Logger INSECT_SHROOM_REAPER_LOGGER = LogManager.getLogger(Insect_ShroomReaper.class);
     public Insect_ShroomReaper(Tecton_Class targetTecton, Player p)
     {
         hp = 25; //TODO: Értékét még meg kell beszélni

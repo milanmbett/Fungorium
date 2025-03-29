@@ -14,7 +14,7 @@ public class Main
     public static void main(String[] args)
     {
        
-        MAIN_LOGGER.log(Level.forName("INIT",401),"Program started");
+        MAIN_LOGGER.log(Level.forName("CREATE",401),"Program created");
         Tecton_Basic t1 = new Tecton_Basic();
         
         

@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Thread_Class 
 {
+    private static final Logger THREAD_LOGGER = LogManager.getLogger(Thread_Class.class);
     private Tecton_Class tecton;
     
     public Thread_Class(Tecton_Class targetTecton)

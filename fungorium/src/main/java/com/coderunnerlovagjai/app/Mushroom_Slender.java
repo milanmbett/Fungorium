@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 public class Mushroom_Slender extends Mushroom_Class 
 {
+    private static final Logger MUSHROOM_SLENDER_LOGGER = LogManager.getLogger(Mushroom_Slender.class);
     public Mushroom_Slender(Tecton_Class targetTecton, Player p)
     {
         hp = 250; //TODO: Értékét még meg kell beszélni

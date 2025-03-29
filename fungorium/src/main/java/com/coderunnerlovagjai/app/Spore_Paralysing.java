@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 public class Spore_Paralysing extends Basic_Spore
 {
+    private static final Logger SPORE_PARALYSING_LOGGER = LogManager.getLogger(Spore_Paralysing.class);
     public Spore_Paralysing(Tecton_Class targetTecton)
     {
         timeToLive = 3; //_TMP value

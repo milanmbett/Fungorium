@@ -20,8 +20,8 @@ public class Tecton_Base extends Tecton_Basic
         thread = null;
         owner = p;
         Plane.TectonCollection.add(this);
-        TECTON_BASE_LOGGER.log(Level.forName("INIT",401),"Tecton_Base Constructor called!");
-        TECTON_BASE_LOGGER.log(Level.forName("ADD", 402), "Tecton_Base added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
+        TECTON_BASE_LOGGER.log(Level.forName("CREATE",401),"Tecton_Base Constructor called!");
+        TECTON_BASE_LOGGER.log(Level.forName("ADD", 403), "Tecton_Base added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
     }
     public Player get_Owner()
     {

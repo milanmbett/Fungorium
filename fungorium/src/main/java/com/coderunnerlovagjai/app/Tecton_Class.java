@@ -17,7 +17,7 @@ public abstract class Tecton_Class
 
     public Tecton_Class()
     {
-        TECTON_CLASS_LOGGER.log(Level.forName("INIT",401),"Tecton_Class Constructor called!"); 
+        TECTON_CLASS_LOGGER.log(Level.forName("INIT",402),"Tecton_Class Constructor called!"); 
     }
 
     public List<Tecton_Class> get_TectonNeighbours()

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 public class Spore_Slowing extends Basic_Spore
 {
+    private static final Logger SLOWING_SPORE_LOGGER = LogManager.getLogger(Spore_Slowing.class);
     public Spore_Slowing(Tecton_Class targetTecton)
     {
         timeToLive = 3; //TODO: Értékét még meg kell beszélni

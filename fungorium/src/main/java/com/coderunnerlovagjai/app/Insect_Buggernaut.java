@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 public class Insect_Buggernaut extends Insect_Class
 {
+    private static final Logger INSECT_BUGGERNAUT_LOGGER = LogManager.getLogger(Insect_Buggernaut.class);
 
     public Insect_Buggernaut(Tecton_Class targetTecton, Player p)
     {
