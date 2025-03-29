@@ -9,6 +9,8 @@
         <CustomLevel name="INJURE" intLevel="406"/>
         <CustomLevel name="DEATH" intLevel="407"/>
         <CustomLevel name="REMOVE" intLevel="408"/>
+        <CustomLevel name="NULL" intLevel="201"/>
+        <CustomLevel name="ERROR" intLevel="202"/>
         
     </CustomLevels>
     

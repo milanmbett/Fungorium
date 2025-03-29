@@ -25,29 +25,33 @@ public abstract class Insect_Class
     }
     public void move_Insect(Tecton_Class targetTecton)
     {
+        INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ID + " is trying to move!");
         if(targetTecton == null)
         {
-            INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 402), "Target tecton is null!");
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
             return;
         }
         if(availableSteps <= 0)
         {
-            System.err.println("No available steps");
+            INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ID + " has no available steps!");
             return;
         }
         if(targetTecton.equals(tecton))
         {
-            System.err.println("Insect is already on the target tecton");
+            INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ID + " is already on the target tecton!");
             return;
         }
         if(tecton.get_Thread() == null || targetTecton.get_Thread() == null)
         {
-            System.err.println("Insect's tecton or Target tecton doesn't have a thread");
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "There is no thread on either tecton!");
             return;
         }
+        INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ID + " from " + tecton.get_ID() + " to " + targetTecton.get_ID());
+        tecton.get_InsectsOnTecton().remove(this);
         tecton = targetTecton;
         targetTecton.get_InsectsOnTecton().add(this);
         availableSteps--;
+        INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ID + " moved to " + targetTecton.get_ID() + ". Available steps: " + availableSteps);
     }
     public void attack_Mushroom(Mushroom_Class m)
     {
