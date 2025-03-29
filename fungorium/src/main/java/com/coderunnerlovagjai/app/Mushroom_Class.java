@@ -1,10 +1,15 @@
 package com.coderunnerlovagjai.app;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public abstract class Mushroom_Class 
 {
     protected int hp;
     protected int power;
     protected int sporeCount;
     protected Tecton_Class tecton;
+    protected Player owner;
     
     public Mushroom_Class()
     {
@@ -86,6 +91,14 @@ public abstract class Mushroom_Class
     public void set_Tecton(Tecton_Class t)
     {
         tecton = t;
+    }
+    public Player get_Owner()
+    {
+        return owner;
+    }
+    public void set_Owner(Player p)
+    {
+        owner = p;
     }
 
 }

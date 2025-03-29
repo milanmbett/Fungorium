@@ -1,7 +1,11 @@
 package com.coderunnerlovagjai.app;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public class Insect_Stinger extends Insect_Class
 {
-    public Insect_Stinger(Tecton_Class targetTecton)
+    public Insect_Stinger(Tecton_Class targetTecton, Player p)
     {
         hp = 50; //TODO: Értékét még meg kell beszélni
         attackDamage = 150; //TODO: Értékét még meg kell beszélni
@@ -9,8 +13,9 @@ public class Insect_Stinger extends Insect_Class
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
         Plane.InsectCollection.add(this);
+        owner = p;
     }
-    public Insect_Stinger(Tecton_Class targetTecton, int hp, int ad, int as)
+    public Insect_Stinger(Tecton_Class targetTecton, int hp, int ad, int as, Player p)
     {
         this.hp = hp;
         attackDamage = ad;
@@ -18,11 +23,12 @@ public class Insect_Stinger extends Insect_Class
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
         Plane.InsectCollection.add(this);
+        owner = p;
     }
     @Override
     public void duplicate_Insect()
     {
-        Insect_Stinger duplicated = new Insect_Stinger(tecton, hp, attackDamage, availableSteps);
+        Insect_Stinger duplicated = new Insect_Stinger(tecton, hp, attackDamage, availableSteps, owner);
         tecton.get_InsectsOnTecton().add(duplicated);
         Plane.InsectCollection.add(duplicated);
     }

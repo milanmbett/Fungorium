@@ -3,6 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Thread_Class 
 {
     private Tecton_Class tecton;
@@ -64,7 +68,7 @@ public class Thread_Class
                 ins.die_Insect();
                 if(tecton.get_Mushroom().equals(null))
                 {
-                    tecton.set_Mushroom(new Mushroom_Shroomlet(tecton)); //TODO: Beállítani ,hogy ugyanaz a gombász legyen? Vagy lehet unclaimed gomba is?
+                    tecton.set_Mushroom(new Mushroom_Shroomlet(tecton,null)); //TODO: Beállítani ,hogy ugyanaz a gombász legyen? Vagy lehet unclaimed gomba is?
                 }
             }    
         }

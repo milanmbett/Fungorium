@@ -1,4 +1,9 @@
 package com.coderunnerlovagjai.app;
+
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public abstract class Insect_Class 
 {
     protected int hp;
@@ -6,6 +11,7 @@ public abstract class Insect_Class
     protected int availableSteps;
     protected Tecton_Class tecton;
     protected boolean isParalysed = false;
+    protected Player owner;
 
     public Insect_Class()
     {
@@ -113,6 +119,14 @@ public abstract class Insect_Class
     public boolean get_isParalysed()
     {
         return isParalysed;
+    }
+    public void set_Owner(Player p)
+    {
+        owner = p;
+    }
+    public Player get_Owner()
+    {
+        return owner;
     }
 
 

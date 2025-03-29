@@ -1,4 +1,8 @@
 package com.coderunnerlovagjai.app;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public class Spore_Paralysing extends Basic_Spore
 {
     public Spore_Paralysing(Tecton_Class targetTecton)

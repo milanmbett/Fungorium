@@ -4,6 +4,11 @@
         <CustomLevel name="INIT" intLevel="401"/>
         <CustomLevel name="ADD" intLevel="402"/>
         <CustomLevel name="MOVE" intLevel="403"/>
+        <CustomLevel name="REMOVE" intLevel="404"/>
+        <CustomLevel name="ATTACK" intLevel="405"/>
+        <CustomLevel name="INJURE" intLevel="406"/>
+        <CustomLevel name="DEATH" intLevel="407"/>
+        <CustomLevel name="CREATE" intLevel="408"/>
         
     </CustomLevels>
     
