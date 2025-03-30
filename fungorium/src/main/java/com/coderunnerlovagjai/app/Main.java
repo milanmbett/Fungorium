@@ -38,6 +38,7 @@ public class Main
         i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
         i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
         i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+
         
 
         
