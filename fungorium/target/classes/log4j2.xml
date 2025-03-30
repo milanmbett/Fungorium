@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
     <CustomLevels>
-        <CustomLevel name="INIT" intLevel="401"/>
-        <CustomLevel name="CREATE" intLevel="402"/>
-        <CustomLevel name="MOVE" intLevel="403"/>
+        <CustomLevel name="CREATE" intLevel="401"/>
+        <CustomLevel name="INIT" intLevel="402"/>
+        <CustomLevel name="ADD" intLevel="403"/>
+        <CustomLevel name="MOVE" intLevel="404"/>
+        <CustomLevel name="ATTACK" intLevel="405"/>
+        <CustomLevel name="INJURE" intLevel="406"/>
+        <CustomLevel name="DEATH" intLevel="407"/>
+        <CustomLevel name="REMOVE" intLevel="408"/>
+        <CustomLevel name="NULL" intLevel="201"/>
+        <CustomLevel name="ERROR" intLevel="202"/>
         
     </CustomLevels>
     

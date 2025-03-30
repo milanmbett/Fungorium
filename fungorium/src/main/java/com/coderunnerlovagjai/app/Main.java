@@ -10,11 +10,36 @@ import org.apache.logging.log4j.Logger;
 public class Main
 {
 
-    public static final Logger MAIN_LOGGER = LogManager.getLogger();
+    private static final Logger MAIN_LOGGER = LogManager.getLogger(Main.class);
     public static void main(String[] args)
     {
        
-        MAIN_LOGGER.log(Level.forName("INIT",401),"Program started");
+        MAIN_LOGGER.log(Level.forName("CREATE",401),"Program created");
+        Player p1 = new Player();
+        Player p2 = new Player();
+        
+        Tecton_Basic t1 = new Tecton_Basic();
+        Tecton_Basic t2 = new Tecton_Basic();
+
+        t1.add_TectonNeighbour(t2);
+        t2.add_TectonNeighbour(t1);
+
+        Thread_Class th1 = new Thread_Class(t1);
+        th1.expand_Thread();
+
+        Mushroom_Shroomlet m1 = new Mushroom_Shroomlet(t1, p1);
+        Mushroom_Shroomlet m2 = new Mushroom_Shroomlet(t2, p2);
+
+
+        Insect_Buglet i1 = new Insect_Buglet(t1, p1);
+        i1.move_Insect(t2);
+        i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+        i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+        i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+        i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+        i1.attack_Mushroom(i1.get_Tecton().get_Mushroom());
+        
+
         
         
     }

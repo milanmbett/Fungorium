@@ -1,14 +1,21 @@
 package com.coderunnerlovagjai.app;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public abstract class Mushroom_Class 
 {
+    private static final Logger MUSHROOM_CLASS_LOGGER = LogManager.getLogger(Mushroom_Class.class);
     protected int hp;
     protected int power;
     protected int sporeCount;
     protected Tecton_Class tecton;
+    protected Player owner;
+    protected String ID;
     
     public Mushroom_Class()
     {
-
+        MUSHROOM_CLASS_LOGGER.log(Level.forName("INIT",402),"Mushroom_Class Constructor called!"); 
     }
     public Mushroom_Class(Tecton_Class targetTecton)
     {
@@ -17,7 +24,7 @@ public abstract class Mushroom_Class
 
     public void die_Mushroom()
     {
-        tecton.remove_Mushroom();
+        tecton.set_Mushroom(null);
         Plane.MushroomCollection.remove(this);
     }
 
@@ -49,9 +56,11 @@ public abstract class Mushroom_Class
     }
     public void reduceHP(int ad)
     {
+        MUSHROOM_CLASS_LOGGER.log(Level.forName("ATTACK", 401), "Mushroom: " + ID + " is attacked by an insect. Damage done: " + ad +" HP left: " + (hp-ad));
         hp -= ad;
         if(hp <= 0)
         {
+            MUSHROOM_CLASS_LOGGER.log(Level.forName("DEAD", 401), "Mushroom: " + ID + " is dead!");
             die_Mushroom();
         }
     }
@@ -86,6 +95,18 @@ public abstract class Mushroom_Class
     public void set_Tecton(Tecton_Class t)
     {
         tecton = t;
+    }
+    public Player get_Owner()
+    {
+        return owner;
+    }
+    public void set_Owner(Player p)
+    {
+        owner = p;
+    }
+    public String get_ID()
+    {
+        return ID;
     }
 
 }

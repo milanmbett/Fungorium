@@ -3,15 +3,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Thread_Class 
 {
+    private static final Logger THREAD_LOGGER = LogManager.getLogger(Thread_Class.class);
     private Tecton_Class tecton;
+    private String ID;
     
     public Thread_Class(Tecton_Class targetTecton)
     {
         tecton = targetTecton;
         tecton.set_Thread(this);
+        ID = "Thread" + Integer.toString(Plane.ThreadCollection.size());
+        THREAD_LOGGER.log(Level.forName("CREATE",401),"Thread Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.ThreadCollection.add(this);
+        THREAD_LOGGER.log(Level.forName("ADD", 403), "Thread: "+ID+ " added to ThreadCollection! ThreadCollection size: " + Plane.ThreadCollection.size());
     }
     public Tecton_Class get_Tecton()
     {
@@ -21,31 +30,51 @@ public class Thread_Class
     {
         tecton = t;
     }
-    //Jelenleg a fonál egy véletlenszerű szomszédos tectonra ugrik, ha nincs szomszédos tecton akkor nem ugrik sehova, viszont halott tektonra is rak(Ez nem jó)
+    //Jelenleg a fonál egy véletlenszerű szomszédos tectonra ugrik, ha nincs szomszédos tecton akkor nem ugrik sehova
     //TODO: Ne lehessen halott tecton-ra létrehozni fonalakat   
     //TODO: Megvizsgálni ,hogy van-e gomba? Asszem specifikáció azt mondja hogy csak akkor nőhet? Nem tudom tényleg
     public void expand_Thread()
     {
+        THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is trying to expand!");
               
         if(tecton.get_TectonNeighbours().size()==0)
         {
+            THREAD_LOGGER.log(Level.forName("ERROR", 401), "Thread: " + ID + " has no neighbours!");
             return;
         }
         List<Tecton_Class> threadlessTectonNeighbours = new ArrayList<>();
         for(Tecton_Class t : tecton.get_TectonNeighbours())
         {
-            if(t.get_Thread().equals(null))
+            if(t.get_Thread()==null)
             {
                 threadlessTectonNeighbours.add(t);
             } 
         }
-        if(threadlessTectonNeighbours.size()==0)
-        {
-            return;
-        }
         Random random = new Random();
         int rand = random.nextInt(threadlessTectonNeighbours.size());
-        threadlessTectonNeighbours.get(rand).set_Thread(new Thread_Class(threadlessTectonNeighbours.get(rand)));
+        boolean done = false;
+        while(!done)
+        {
+            if(threadlessTectonNeighbours.size()==0)
+            {
+                THREAD_LOGGER.log(Level.forName("ERROR", 401), "Thread: " + ID + " has no neighbours to expand to!");
+                return;
+            }
+            THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " has " + threadlessTectonNeighbours.size() + " neighbours to expand to!");
+            rand = random.nextInt(threadlessTectonNeighbours.size());
+            THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is expanding to tecton: " + threadlessTectonNeighbours.get(rand).get_ID());
+            try 
+            {
+                threadlessTectonNeighbours.get(rand).set_Thread(new Thread_Class(threadlessTectonNeighbours.get(rand)));
+                done = true;    
+            } catch (Exception e) 
+            {
+            THREAD_LOGGER.log(Level.forName("ERROR", 401), "Thread: " + ID + " could not expand to tecton: " + threadlessTectonNeighbours.get(rand).get_ID() + " because of: " + e.getMessage());
+            threadlessTectonNeighbours.remove(rand);
+            }
+        }
+        THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " expanded to tecton: " + threadlessTectonNeighbours.get(0).get_ID());
+
     }
     public void die_Thread()
     {
@@ -64,10 +93,14 @@ public class Thread_Class
                 ins.die_Insect();
                 if(tecton.get_Mushroom().equals(null))
                 {
-                    tecton.set_Mushroom(new Mushroom_Shroomlet(tecton)); //TODO: Beállítani ,hogy ugyanaz a gombász legyen? Vagy lehet unclaimed gomba is?
+                    tecton.set_Mushroom(new Mushroom_Shroomlet(tecton,null)); //TODO: Beállítani ,hogy ugyanaz a gombász legyen? Vagy lehet unclaimed gomba is?
                 }
             }    
         }
+    }
+    public String get_ID()
+    {
+        return ID;
     }
 }
 

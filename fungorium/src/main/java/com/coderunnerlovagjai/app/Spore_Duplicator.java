@@ -1,12 +1,20 @@
 package com.coderunnerlovagjai.app;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public class Spore_Duplicator extends Basic_Spore
 {
+    private static final Logger SPORE_DUPLICATOR_LOGGER = LogManager.getLogger(Spore_Duplicator.class);
     public Spore_Duplicator(Tecton_Class targetTecton)
     {
         timeToLive = 3; //TODO: Értékét még meg kell beszélni
         tecton = targetTecton;
         tecton.set_Spore(this);
+        ID = "Spore_Duplicator" + Integer.toString(Plane.SporeCollection.size());
+        SPORE_DUPLICATOR_LOGGER.log(Level.forName("CREATE",401),"Spore_Duplicator Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.SporeCollection.add(this);
+        SPORE_DUPLICATOR_LOGGER.log(Level.forName("ADD", 403), "Spore_Duplicator: "+ID+ " added to SporeCollection! SporeCollection size: " + Plane.SporeCollection.size());
     }
 
     public void consumed_by(Insect_Class insect)

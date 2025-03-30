@@ -1,15 +1,23 @@
 package com.coderunnerlovagjai.app;
+
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 public abstract class Insect_Class 
 {
+    private static final Logger INSECT_CLASS_LOGGER = LogManager.getLogger(Insect_Class.class);
     protected int hp;
     protected int attackDamage;
     protected int availableSteps;
     protected Tecton_Class tecton;
     protected boolean isParalysed = false;
+    protected Player owner;
+    protected String ID;
 
     public Insect_Class()
     {
-
+        INSECT_CLASS_LOGGER.log(Level.forName("INIT",402),"Insect_Class Constructor called!"); 
     }
     protected Insect_Class(Tecton_Class targetTecton)
     {
@@ -17,34 +25,56 @@ public abstract class Insect_Class
     }
     public void move_Insect(Tecton_Class targetTecton)
     {
-        if(targetTecton.equals(null))
+        
+        if(targetTecton == null)
         {
-            System.err.println("Target tecton is null");
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
             return;
         }
+        INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ID + " is trying to move to " + targetTecton.get_ID());
         if(availableSteps <= 0)
         {
-            System.err.println("No available steps");
+            INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ID + " has no available steps!");
             return;
         }
         if(targetTecton.equals(tecton))
         {
-            System.err.println("Insect is already on the target tecton");
+            INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ID + " is already on the target tecton!");
             return;
         }
+        if(tecton.get_Thread() == null || targetTecton.get_Thread() == null)
+        {
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "There is no thread on either tecton!");
+            return;
+        }
+        INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ID + " from " + tecton.get_ID() + " to " + targetTecton.get_ID());
+        tecton.get_InsectsOnTecton().remove(this);
         tecton = targetTecton;
         targetTecton.get_InsectsOnTecton().add(this);
         availableSteps--;
+        INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ID + " moved to " + targetTecton.get_ID() + ". Available steps: " + availableSteps);
     }
     public void attack_Mushroom(Mushroom_Class m)
     {
-        if(this.tecton.equals(null) || m.tecton.equals(null))
+        if(m == null)
         {
-            System.err.println("Insect or Mushroom is not on a tecton");
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Mushroom is null!");
+            return;
+        }
+        if(this.tecton==null || m.tecton==null)
+        {
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Tecton is null!");
+            return;
+        }
+        INSECT_CLASS_LOGGER.log(Level.forName("ATTACK", 401), "Insect: " + ID + " is trying to attack mushroom: " + m.get_ID() + " on tecton: " + m.tecton.get_ID());
+        if(availableSteps <= 0)
+        {
+            INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ID + " has no available steps!");
             return;
         }
         if(this.tecton.equals(m.tecton))
         {
+            INSECT_CLASS_LOGGER.log(Level.forName("ATTACK", 401),"Insect: " + ID + " is attacking mushroom: " + m.get_ID() + "HP: "+m.get_hp() +" on tecton: " + m.tecton.get_ID());
             m.reduceHP(attackDamage);
         }
     }
@@ -113,6 +143,18 @@ public abstract class Insect_Class
     public boolean get_isParalysed()
     {
         return isParalysed;
+    }
+    public void set_Owner(Player p)
+    {
+        owner = p;
+    }
+    public Player get_Owner()
+    {
+        return owner;
+    }
+    public String get_ID()
+    {
+        return ID;
     }
 
 

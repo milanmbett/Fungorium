@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 com/coderunnerlovagjai/app/FungoriumPrototype$Tecton.class
 com/coderunnerlovagjai/app/FungoriumPrototype.class
 com/coderunnerlovagjai/app/Insect_ShroomReaper.class
@@ -32,3 +33,10 @@ com/coderunnerlovagjai/app/Insect_Buggernaut.class
 com/coderunnerlovagjai/app/Turn.class
 com/coderunnerlovagjai/app/Spore_Paralysing.class
 com/coderunnerlovagjai/app/Thread_Class.class
+=======
+com\coderunnerlovagjai\app\Role_Mushroom.class
+com\coderunnerlovagjai\app\Role.class
+com\coderunnerlovagjai\app\Turn.class
+com\coderunnerlovagjai\app\Role_Insect.class
+com\coderunnerlovagjai\app\Player.class
+>>>>>>> 295e764117a5372fb9e5fe5b833bf63d2d64b668
