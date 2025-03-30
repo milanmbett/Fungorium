@@ -1,4 +1,4 @@
-package com.coderunnerlovagjai;
+package com.coderunnerlovagjai.app;
 
 public abstract class _Tests 
 {
