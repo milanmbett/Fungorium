@@ -71,6 +71,8 @@
   
 
     <build>
+        <!-- Optionally set a space-free finalName for the overall build -->
+        <finalName>fungorium-PROTO-0.1</finalName>
         <!-- pluginManagement is optional; you can keep it for version management 
         but for the assembly plugin specifically, we also need to declare 
         an execution in the main <plugins> section so it actually runs. -->
@@ -111,9 +113,12 @@
                 <plugin>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>3.6.1</version>
+                    
                 </plugin>
+                
             </plugins>
         </pluginManagement>
+        
 
         <plugins>
             <!-- The Assembly Plugin to produce a 'fat' (runnable) jar with dependencies -->
@@ -141,6 +146,34 @@
                     <pythonInterpreter>jython</pythonInterpreter>
                 </configuration>
             </plugin>
+                  <!-- The Assembly Plugin to produce a 'fat' (runnable) jar with dependencies -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.4.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <!-- Update to the class containing your public static void main(...) method -->
+              <mainClass>com.coderunnerlovagjai.app.Main</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <!-- Remove spaces from the final jar name -->
+          <finalName>fungorium-PROTO-0.1-jar-with-dependencies</finalName>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       
         </plugins>
     </build>
