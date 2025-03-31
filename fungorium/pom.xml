@@ -71,8 +71,6 @@
   
 
     <build>
-        <!-- Optionally set a space-free finalName for the overall build -->
-        <finalName>fungorium-PROTO-0.1</finalName>
         <!-- pluginManagement is optional; you can keep it for version management 
         but for the assembly plugin specifically, we also need to declare 
         an execution in the main <plugins> section so it actually runs. -->
@@ -161,8 +159,6 @@
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
-          <!-- Remove spaces from the final jar name -->
-          <finalName>fungorium-PROTO-0.1-jar-with-dependencies</finalName>
         </configuration>
         <executions>
           <execution>

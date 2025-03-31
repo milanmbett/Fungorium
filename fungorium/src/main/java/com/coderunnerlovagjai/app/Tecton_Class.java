@@ -45,14 +45,24 @@ public abstract class Tecton_Class
         Neighbours = t;
     }
     //Tectonon lévő összes dolog halálát okozó függvény
-    public void die_Tecton()
+    public Tecton_Class die_Tecton()
     {
         remove_InsectsOnTecton();
         remove_Mushroom();
         remove_Spore();
         remove_Thread();
         Plane.TectonCollection.remove(this);
-
+        
+        // Create a new dead tecton from this live instance.
+        Tecton_Dead dead = new Tecton_Dead(this);
+        
+        // Replace this tecton in all neighbours.
+        for (Tecton_Class neighbour : get_TectonNeighbours()) {
+            neighbour.del_TectonNeighbour(this);
+            neighbour.add_TectonNeighbour(dead);
+        }
+        
+        return dead;
     }
     public void set_InsectsOnTecton(List<Insect_Class> insectList)
     {
@@ -76,6 +86,10 @@ public abstract class Tecton_Class
     }
     public void remove_Mushroom()
     {
+        if (mushroom == null) {
+            TECTON_CLASS_LOGGER.log(Level.forName("REMOVE", 404), "Mushroom is already null, nothing to remove.");
+            return;
+        }
         mushroom.die_Mushroom();
     }
     public Mushroom_Class get_Mushroom()
@@ -88,6 +102,10 @@ public abstract class Tecton_Class
     }
     public void remove_Spore()
     {
+        if (spore == null) {
+            TECTON_CLASS_LOGGER.log(Level.forName("REMOVE", 404), "Spore is already null, nothing to remove.");
+            return;
+        }
         spore.die_Spore();
     }
     public Basic_Spore get_Spore()
@@ -100,6 +118,10 @@ public abstract class Tecton_Class
     }
     public void remove_Thread()
     {
+        if (thread == null) {
+            TECTON_CLASS_LOGGER.log(Level.forName("REMOVE", 404), "Thread is already null, nothing to remove.");
+            return;
+        }
         thread.die_Thread();
     }
     public Thread_Class get_Thread()

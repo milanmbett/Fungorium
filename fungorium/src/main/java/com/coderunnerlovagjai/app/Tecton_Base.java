@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-public class Tecton_Base extends Tecton_Basic //A főbázis ahol a játékosok kezdenek.
+public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok kezdenek.
 {
     private Player owner;
 
