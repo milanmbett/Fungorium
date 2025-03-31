@@ -75,7 +75,15 @@ public abstract class Insect_Class
         if(this.tecton.equals(m.tecton))
         {
             INSECT_CLASS_LOGGER.log(Level.forName("ATTACK", 401),"Insect: " + ID + " is attacking mushroom: " + m.get_ID() + "HP: "+m.get_hp() +" on tecton: " + m.tecton.get_ID());
-            m.reduceHP(attackDamage);
+            if(m.get_Owner() != owner)
+            {
+                m.reduceHP(attackDamage);
+            }
+            else
+            {
+                INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ID + " cannot attack its own mushroom!");
+                return;
+            }
         }
     }
     public void die_Insect()
@@ -94,10 +102,13 @@ public abstract class Insect_Class
     }
     public void reduceHP(int ad)
     {
+
         hp -= ad;
+        INSECT_CLASS_LOGGER.log(Level.forName("REDUCE", 401), "Insect: " + ID + " HP reduced by: " + ad + ". Current HP: " + hp);
         if(hp <= 0)
         {
             die_Insect();
+            INSECT_CLASS_LOGGER.log(Level.forName("DIE", 401), "Insect: " + ID + " died!");
         }
     }
     public int get_hp()

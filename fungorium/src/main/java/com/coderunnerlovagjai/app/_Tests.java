@@ -101,23 +101,52 @@ public abstract class _Tests
     }
     public static void test9() //Rovar létrehozása
     {
-
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
     }
     public static void test10() //Rovar mozgatása
     {
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Tecton_Basic t2 = new Tecton_Basic();
+        Thread_Class th1 = new Thread_Class(t1);
+        Thread_Class th2 = new Thread_Class(t2);
+
+        t1.add_TectonNeighbour(t2); 
+        t2.add_TectonNeighbour(t1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        ib1.move_Insect(t2);
+        TESTS_LOGGER.log(Level.forName("GET", 400), "Insect's Tecton: " + ib1.get_Tecton().get_ID());
 
     }
     public static void test11() //Gomba létrehozása
     {
-
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p1);
     }
     public static void test12() //Rovar támad gombát
     {
-
+        Player p1 = new Player();
+        Player p2 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p2);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        ib1.attack_Mushroom(ms1);
     }
     public static void test13() //Gomba támad rovart
     {
-
+        Player p1 = new Player();
+        Player p2 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Tecton_Basic t2 = new Tecton_Basic();
+        t1.add_TectonNeighbour(t2);
+        t2.add_TectonNeighbour(t1);
+        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p2);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        Insect_Buglet ib2 = new Insect_Buglet(t2, p1);
+        ms1.attack_Insects();
     }
     public static void test14() //Basic_Spore elfogyasztása
     {

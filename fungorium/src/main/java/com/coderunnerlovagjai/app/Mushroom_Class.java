@@ -36,14 +36,25 @@ public abstract class Mushroom_Class
     {
 
     } 
-    public void attack_Insect(Insect_Class i)
+    public void attack_Insects()
     {
+        for (Insect_Class insect : tecton.insectsOnTecton) 
+        {
+            if(insect.get_Owner() != owner)
+            {
+                insect.reduceHP(power);
+            }
+            
+        }
         //Körbemegy a tektonja szomszédsági listáján, és megtámadja az összes rovart.
         for (Tecton_Class t : tecton.get_TectonNeighbours()) 
         {
             for (Insect_Class insect : t.get_InsectsOnTecton()) 
             {
-                insect.reduceHP(power);
+                if(insect.get_Owner() != owner)
+                {
+                    insect.reduceHP(power);
+                }
             }    
         }
     }
