@@ -12,6 +12,7 @@ public class Plane
     public static List<Insect_Class> InsectCollection = new ArrayList<>();
     public static List<Thread_Class> ThreadCollection = new ArrayList<>();
     public static List<Mushroom_Class> MushroomCollection = new ArrayList<>();
+    //TODO: ID-k jobban kell hogy működjenek ,mert jelenleg nem biztos ,hogy egyediek lesznek!
 
     public void init_Plane() //Lehet nem fog kelleni Skeletonba
     {

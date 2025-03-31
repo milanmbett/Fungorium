@@ -29,9 +29,14 @@ public class Insect_Tektonizator extends Insect_Class
         Plane.InsectCollection.add(this);
         owner = p;
     }
-    public void tectonCrack(Tecton_Class t) //TODO: Megírás
+    public void tectonCrack() //TODO: Megírás
     {
-        
+        if(!tecton.canBeCracked())
+        {
+            INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ERROR", 404), "Tecton:" +tecton.get_ID() + " cannot be cracked!");
+            return;
+        }
+
     }
     @Override
     public void duplicate_Insect()

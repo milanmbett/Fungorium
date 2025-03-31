@@ -78,15 +78,26 @@ public abstract class _Tests
     }
     public static void test6() //Fő tekton kettétörése
     {
-
+        Player p1 = new Player();
+        Tecton_Base t1 = new Tecton_Base(p1);
+        Insect_Tektonizator it1 = new Insect_Tektonizator(t1, p1);
+        it1.tectonCrack();
     }
     public static void test7() //Fonal létrehozása
     {
-
+        Tecton_Basic t1 = new Tecton_Basic();
+        t1.set_Thread(new Thread_Class(t1));
+        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Thread: " + t1.get_Thread().get_ID());
     }
     public static void test8() //Fonal terjedése
     {
-
+        Tecton_Basic t1 = new Tecton_Basic();
+        Tecton_Basic t2 = new Tecton_Basic();
+        t1.add_TectonNeighbour(t2);
+        t2.add_TectonNeighbour(t1);
+        t1.set_Thread(new Thread_Class(t1));
+        t1.get_Thread().expand_Thread();
+        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton2's Thread: " + t2.get_Thread().get_ID());
     }
     public static void test9() //Rovar létrehozása
     {

@@ -25,6 +25,13 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
         Plane.TectonCollection.add(this);
         TECTON_BASE_LOGGER.log(Level.forName("ADD", 403), "Tecton_Base: "+ID+ " added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
     }
+
+    // Override the canBeCracked method to prevent Tecton_Base from being cracked
+    @Override
+    public boolean canBeCracked() {
+        return false; // Base tectons cannot be cracked
+    }
+
     public Player get_Owner()
     {
         return owner;
