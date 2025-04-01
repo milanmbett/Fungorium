@@ -21,5 +21,11 @@ public class Spore_Duplicator extends Basic_Spore
     {
         die_Spore();
         insect.duplicate_Insect();
+        SPORE_DUPLICATOR_LOGGER.log(Level.forName("DUPLICATE", 401), "Insect: " + insect.get_ID() + " duplicated by Spore_Duplicator: " + ID);
+        for (Insect_Class ins : tecton.get_InsectsOnTecton()) 
+        {
+            //get insects on tecton and print out their IDs
+            SPORE_DUPLICATOR_LOGGER.log(Level.forName("DUPLICATE", 401), "Insect: " + ins.get_ID() + " on Tecton: " + tecton.get_ID());    
+        }
     }    
 }

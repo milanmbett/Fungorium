@@ -32,7 +32,13 @@ public class Basic_Spore
     }
     public void die_Spore()
     {
-        tecton.remove_Spore();
+        if(tecton.get_Spore() == null)
+        {
+            BASIC_SPORE_LOGGER.log(Level.forName("ERROR", 401), "Spore: " + ID + " is already dead!");
+            return;
+        }
+        tecton.set_Spore(null);
+        BASIC_SPORE_LOGGER.log(Level.forName("DIE", 401), "Spore: " + ID + " is dead!");
         Plane.SporeCollection.remove(this);
     }
 

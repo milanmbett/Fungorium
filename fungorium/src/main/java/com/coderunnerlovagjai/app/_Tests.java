@@ -154,7 +154,11 @@ public abstract class _Tests
     }
     public static void test15() //Spore_Duplicator elfogyasztása
     {
-
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Spore_Duplicator sd1 = new Spore_Duplicator(t1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        ib1.eat_Spore(sd1);
     }
     public static void test16() //Spore_Paralyzing elfogyasztása
     {

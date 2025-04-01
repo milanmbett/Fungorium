@@ -26,15 +26,16 @@ public class Insect_Buglet extends Insect_Class
         attackDamage = ad;
         availableSteps = as;
         tecton = targetTecton;
-        tecton.get_InsectsOnTecton().add(this);
-        Plane.InsectCollection.add(this);
+        ID = "Insect_Buglet" + Integer.toString(Plane.InsectCollection.size());
         owner = p;
+        tecton.get_InsectsOnTecton().add(this);
+        INSECT_BUGLET_LOGGER.log(Level.forName("CREATE",401),"Insect_Buglet Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
+        Plane.InsectCollection.add(this);
+        INSECT_BUGLET_LOGGER.log(Level.forName("ADD", 403), "Insect_Buglet: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
     }
     @Override
     public void duplicate_Insect()
     {
         Insect_Buglet duplicated = new Insect_Buglet(tecton, hp, attackDamage, availableSteps, owner);
-        tecton.get_InsectsOnTecton().add(duplicated);
-        Plane.InsectCollection.add(duplicated);
     }
 }
