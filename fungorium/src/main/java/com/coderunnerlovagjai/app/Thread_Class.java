@@ -15,13 +15,22 @@ public class Thread_Class
     
     public Thread_Class(Tecton_Class targetTecton)
     {
-        tecton = targetTecton;
-        tecton.set_Thread(this);
         ID = "Thread" + Integer.toString(Plane.ThreadCollection.size());
-        THREAD_LOGGER.log(Level.forName("CREATE",401),"Thread Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.ThreadCollection.add(this);
-        THREAD_LOGGER.log(Level.forName("ADD", 403), "Thread: "+ID+ " added to ThreadCollection! ThreadCollection size: " + Plane.ThreadCollection.size());
+        
+        try {
+            // This will throw an exception if the tecton is dead
+            targetTecton.set_Thread(this);
+            tecton = targetTecton;
+            THREAD_LOGGER.log(Level.forName("CREATE",401),"Thread Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
+            Plane.ThreadCollection.add(this);
+            THREAD_LOGGER.log(Level.forName("ADD", 403), "Thread: "+ID+ " added to ThreadCollection! ThreadCollection size: " + Plane.ThreadCollection.size());
+        } catch (UnsupportedOperationException e) {
+            // The tecton is dead, it threw an exception when we tried to set the thread
+            tecton = null;
+            THREAD_LOGGER.log(Level.forName("ERROR", 404), "Cannot create thread on dead tecton!");
+        }
     }
+    
     public Tecton_Class get_Tecton()
     {
         return tecton;

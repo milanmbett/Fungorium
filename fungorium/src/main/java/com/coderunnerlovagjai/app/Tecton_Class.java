@@ -11,14 +11,15 @@ public abstract class Tecton_Class
     protected List<Tecton_Class>Neighbours = new ArrayList<>();
 
     protected Mushroom_Class mushroom;
-    protected List<Insect_Class> insectsOnTecton; 
+    protected List<Insect_Class> insectsOnTecton = new ArrayList<>(); 
     protected Basic_Spore spore;
     protected Thread_Class thread; //TODO: Átgondolás ,lehet nem tecton-nak ,hanem
     protected String ID;
 
     public Tecton_Class()
     {
-        TECTON_CLASS_LOGGER.log(Level.forName("INIT",402),"Tecton_Class Constructor called!"); 
+        TECTON_CLASS_LOGGER.log(Level.forName("INIT",402),"Tecton_Class Constructor called!");
+
     }
 
     // Method to determine if this tecton can be cracked
@@ -28,6 +29,12 @@ public abstract class Tecton_Class
 
     public List<Tecton_Class> get_TectonNeighbours()
     {
+        if (Neighbours == null) {
+            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Tecton Neighbours is null!");
+            return null;
+        }
+
+        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Neighbours: " + Neighbours);
         return Neighbours;
     }
     public void add_TectonNeighbour(Tecton_Class t)
@@ -83,6 +90,11 @@ public abstract class Tecton_Class
     }
     public List<Insect_Class> get_InsectsOnTecton()
     {
+        if (insectsOnTecton == null) {
+            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Insects on Tecton is null!");
+            return null;
+        }
+        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Insects: " + insectsOnTecton);
         return insectsOnTecton;
     }
     public void set_Mushroom(Mushroom_Class mush)
@@ -99,6 +111,11 @@ public abstract class Tecton_Class
     }
     public Mushroom_Class get_Mushroom()
     {
+        if (mushroom == null) {
+            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Mushroom is null!");
+            return null;
+        }
+        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Mushroom: " + mushroom);
         return mushroom;
     }
     public void set_Spore(Basic_Spore s)
@@ -115,6 +132,11 @@ public abstract class Tecton_Class
     }
     public Basic_Spore get_Spore()
     {
+        if (spore == null) {
+            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Spore is null!");
+            return null;
+        }
+        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Spore: " + spore);
         return spore;
     }
     public void set_Thread(Thread_Class t)
@@ -131,10 +153,20 @@ public abstract class Tecton_Class
     }
     public Thread_Class get_Thread()
     {
+        if (thread == null) {
+            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Thread is null!");
+            return null;
+        }
+        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Thread: " + thread);
         return thread;
     }
     public String get_ID()
     {
+        if (ID == null) {
+            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Tecton ID is null!");
+            return null;
+        }
+        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's ID: " + ID);
         return ID;
     }
 }

@@ -26,8 +26,11 @@ public class Insect_Tektonizator extends Insect_Class
         availableSteps = as;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
-        Plane.InsectCollection.add(this);
+        ID = "Insect_Tektonizator" + Integer.toString(Plane.InsectCollection.size());
         owner = p;
+        INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("CREATE",401),"Insect_Tektonizator Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
+        Plane.InsectCollection.add(this);
+        INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ADD", 403), "Insect_Tektonizator: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
     }
     public void tectonCrack() //TODO: Megírás
     {
@@ -42,7 +45,5 @@ public class Insect_Tektonizator extends Insect_Class
     public void duplicate_Insect()
     {
         Insect_Tektonizator duplicated = new Insect_Tektonizator(tecton, hp, attackDamage, availableSteps, owner);
-        tecton.get_InsectsOnTecton().add(duplicated);
-        Plane.InsectCollection.add(duplicated);
     }
 }

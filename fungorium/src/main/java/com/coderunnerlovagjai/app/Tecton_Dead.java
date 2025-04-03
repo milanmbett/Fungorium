@@ -1,5 +1,6 @@
 package com.coderunnerlovagjai.app;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -37,5 +38,35 @@ public class Tecton_Dead extends Tecton_Class
     public void set_Thread(Thread_Class t)
     {
         throw new UnsupportedOperationException("Cannot set thread on dead tecton!");
+    }
+    
+    @Override
+    public void set_Mushroom(Mushroom_Class mush)
+    {
+        throw new UnsupportedOperationException("Cannot set mushroom on dead tecton!");
+    }
+    
+    @Override
+    public void set_Spore(Basic_Spore s)
+    {
+        throw new UnsupportedOperationException("Cannot set spore on dead tecton!");
+    }
+    
+    @Override
+    public void set_InsectsOnTecton(List<Insect_Class> insectList)
+    {
+        throw new UnsupportedOperationException("Cannot set insects on dead tecton!");
+    }
+    
+    @Override
+    public boolean canBeCracked() {
+        return false; // Dead tectons cannot be cracked
+    }
+    
+    @Override
+    public Tecton_Class die_Tecton() {
+        // Already dead, return self
+        TECTON_DEAD_LOGGER.log(Level.forName("ERROR", 404), "Tecton is already dead!");
+        return this;
     }
 }

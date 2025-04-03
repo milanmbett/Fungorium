@@ -13,8 +13,8 @@ public class Insect_Buggernaut extends Insect_Class
         attackDamage = 50; //TODO: Értékét még meg kell beszélni
         availableSteps = 1;
         tecton = targetTecton;
-        owner = p;
         tecton.get_InsectsOnTecton().add(this);
+        owner = p;
         ID = "Insect_Buggernaut" + Integer.toString(Plane.InsectCollection.size());
         INSECT_BUGGERNAUT_LOGGER.log(Level.forName("CREATE",401),"Insect_Buggernaut Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.InsectCollection.add(this);
@@ -28,14 +28,15 @@ public class Insect_Buggernaut extends Insect_Class
         availableSteps = as;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
-        Plane.InsectCollection.add(this);
         owner = p;
+        ID = "Insect_Buggernaut" + Integer.toString(Plane.InsectCollection.size());
+        INSECT_BUGGERNAUT_LOGGER.log(Level.forName("CREATE",401),"Insect_Buggernaut Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
+        Plane.InsectCollection.add(this);
+        INSECT_BUGGERNAUT_LOGGER.log(Level.forName("ADD", 403), "Insect_Buggernaut: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
     }
     @Override
     public void duplicate_Insect()
     {
         Insect_Buggernaut duplicated = new Insect_Buggernaut(tecton, hp, attackDamage, availableSteps, owner);
-        tecton.get_InsectsOnTecton().add(duplicated);
-        Plane.InsectCollection.add(duplicated);
     }
 }

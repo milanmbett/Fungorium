@@ -1,5 +1,7 @@
 package com.coderunnerlovagjai.app;
 
+import java.util.concurrent.TransferQueue;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,42 +10,130 @@ public abstract class _Tests
     private static final Logger TESTS_LOGGER = LogManager.getLogger(_Tests.class);
     public static void test1() //Tekton létrehozása
     {
+        TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: creating Tecton_Basic");
         Tecton_Basic t1 = new Tecton_Basic();
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Mushroom: " + t1.get_Mushroom());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Spore: " + t1.get_Spore());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Insects: " + t1.get_InsectsOnTecton());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Neighbours: " + t1.get_TectonNeighbours());
+        if(t1.get_Mushroom() != null)
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic mushroom is not null!");
+            return;
+        }
+        if(t1.get_Spore() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic spore is not null!");
+            return;
+        }
+        if(t1.get_Thread() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic thread is not null!");
+            return;
+        }
+        if(t1.get_InsectsOnTecton() == null)
+        {
+            TESTS_LOGGER.log(Level.forName(null, 0), "Tecton_Basic insectsOnTecton is null!");
+            return;
+        }
+        if(t1.get_TectonNeighbours() == null) 
+        {
+            TESTS_LOGGER.log(Level.forName(null, 0), "Tecton_Basic TectonNeighbours is null!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test2() //Fő tekton létrehozása
     {
+        TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: creating Tecton_Base");
         Player p1 = new Player();
         Tecton_Base t1 = new Tecton_Base(p1);
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Mushroom: " + t1.get_Mushroom().get_ID());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Spore: " + t1.get_Spore());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Insects: " + t1.get_InsectsOnTecton());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Neighbours: " + t1.get_TectonNeighbours());
+        if(t1.get_Owner() == null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base owner is null!");
+            return;
+        } 
+        if(t1.get_Mushroom() == null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base mushroom is null!");
+            return;
+        } 
+        if(t1.get_Spore() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base spore is not null!");
+            return;
+        }
+        else
+        {
+            TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton_Base spore: " + t1.get_Spore());
+        }
+        if(t1.get_Thread() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base thread is not null!");
+            return;
+        }
+        if(t1.get_InsectsOnTecton() == null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base insectsOnTecton is null!");
+            return;
+        }
+        if(t1.get_TectonNeighbours() == null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base TectonNeighbours is null!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS",400), "Test ran successfully!");
+
     }
     public static void test3() //Tekton halála
     {
+        TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Tecton death");
         Tecton_Basic t1 = new Tecton_Basic();
-        Tecton_Basic t2 = new Tecton_Basic();
-        t1.add_TectonNeighbour(t2);
-        t2.add_TectonNeighbour(t1);
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Mushroom: " + t1.get_Mushroom());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Spore: " + t1.get_Spore());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Insects: " + t1.get_InsectsOnTecton());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Neighbours: " + t1.get_TectonNeighbours());
-        t1.die_Tecton();
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Mushroom: " + t1.get_Mushroom());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Spore: " + t1.get_Spore());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Insects: " + t1.get_InsectsOnTecton());
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Neighbours: " + t1.get_TectonNeighbours());
-
-        TESTS_LOGGER.log(Level.forName("GET", 400),"TectonCollection size: " + Plane.TectonCollection.size());
-        for (Tecton_Class tc : Plane.TectonCollection) 
+        Thread_Class th1 = new Thread_Class(t1);
+        
+        // Store the result of die_Tecton for testing
+        Tecton_Class deadTecton = t1.die_Tecton();
+        
+        // Check if thread is removed from the original tecton
+        if(t1.get_Thread() != null) 
         {
-            TESTS_LOGGER.log(Level.forName("GET", 400), "TectonCollection: " + tc.get_ID());    
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic thread is not null!");
+            return;
         }
+        
+        // Verify that creating a thread on the original tecton reference doesn't work
+        Thread_Class th2 = new Thread_Class(t1);
+        if(th2.get_Tecton() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Thread_Class tecton is not null!");
+            return;
+        }
+        
+        // Also verify that creating a thread directly on the dead tecton doesn't work
+        Thread_Class th3 = new Thread_Class(deadTecton);
+        if(th3.get_Tecton() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Thread_Class on explicit dead tecton is not null!");
+            return;
+        }
+        
+        // Verify that other operations on dead tecton are rejected
+        Player testPlayer = new Player();
+        try {
+            deadTecton.set_Mushroom(new Mushroom_Shroomlet(null, testPlayer));
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Dead tecton allowed setting a mushroom!");
+            return;
+        } catch (UnsupportedOperationException e) {
+            // This is expected
+            TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Dead tecton correctly rejected mushroom!");
+        }
+        
+        try {
+            deadTecton.set_Spore(new Basic_Spore(null));
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Dead tecton allowed setting a spore!");
+            return;
+        } catch (UnsupportedOperationException e) {
+            // This is expected
+            TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Dead tecton correctly rejected spore!");
+        }
+        
+        TESTS_LOGGER.log(Level.forName("SUCCESS",400), "Test ran successfully!");
     }
     public static void test4() //Tekton szomszédsági lista feltöltése
     { //Mindenki szomszédja mindenkinek
