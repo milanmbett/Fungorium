@@ -48,7 +48,7 @@ public class Thread_Class
               
         if(tecton.get_TectonNeighbours().size()==0)
         {
-            THREAD_LOGGER.log(Level.forName("ERROR", 401), "Thread: " + ID + " has no neighbours!");
+            THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " has no neighbours!");
             return;
         }
         List<Tecton_Class> threadlessTectonNeighbours = new ArrayList<>();
@@ -66,7 +66,7 @@ public class Thread_Class
         {
             if(threadlessTectonNeighbours.size()==0)
             {
-                THREAD_LOGGER.log(Level.forName("ERROR", 401), "Thread: " + ID + " has no neighbours to expand to!");
+                THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " has no neighbours to expand to!");
                 return;
             }
             THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " has " + threadlessTectonNeighbours.size() + " neighbours to expand to!");
@@ -78,7 +78,7 @@ public class Thread_Class
                 done = true;    
             } catch (Exception e) 
             {
-            THREAD_LOGGER.log(Level.forName("ERROR", 401), "Thread: " + ID + " could not expand to tecton: " + threadlessTectonNeighbours.get(rand).get_ID() + " because of: " + e.getMessage());
+            THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " could not expand to tecton: " + threadlessTectonNeighbours.get(rand).get_ID() + " because of: " + e.getMessage());
             threadlessTectonNeighbours.remove(rand);
             }
         }

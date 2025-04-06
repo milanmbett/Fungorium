@@ -144,21 +144,31 @@ public abstract class _Tests
         t2.add_TectonNeighbour(t3);
         t3.add_TectonNeighbour(t1);
         t3.add_TectonNeighbour(t2);
+        int tmp = 0;
         TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton0's Neighbours:");
         for (Tecton_Class tc : t1.get_TectonNeighbours()) 
         {
+            ++tmp;
             TESTS_LOGGER.log(Level.forName("GET", 400),tc.get_ID());
         }
         TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton1's Neighbours:");
         for (Tecton_Class tc : t2.get_TectonNeighbours()) 
         {
+            ++tmp;
             TESTS_LOGGER.log(Level.forName("GET", 400), tc.get_ID());
         }
         TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton2's Neighbours:");
         for (Tecton_Class tc : t3.get_TectonNeighbours()) 
         {
+            ++tmp;
             TESTS_LOGGER.log(Level.forName("GET", 400), tc.get_ID());
         }
+        if(tmp != 6) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic neighbours list is not filled correctly!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test5() //Tekton kettétörése
     {
@@ -247,6 +257,21 @@ public abstract class _Tests
         Spore_Duplicator sd1 = new Spore_Duplicator(t1);
         Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
         ib1.eat_Spore(sd1);
+        int tmp = 0;
+        TESTS_LOGGER.log(Level.forName("GET", 400), "Listing Insects on tecton");
+
+        for (Insect_Class ic : t1.get_InsectsOnTecton()) 
+        {
+            ++tmp;
+            TESTS_LOGGER.log(Level.forName("GET", 400), "Insect ID: " + ic.get_ID());
+        }
+        if(tmp != 2) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect count is not correct!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
+
     }
     public static void test16() //Spore_Paralyzing elfogyasztása
     {
@@ -279,10 +304,61 @@ public abstract class _Tests
     public static void test23() //Fonal terjedése halott tektonra
     {
         Tecton_Class t1 = new Tecton_Basic();
+        Tecton_Class t2 = new Tecton_Dead();
+        t1.add_TectonNeighbour(t2);
+        t2.add_TectonNeighbour(t1);
+        Thread_Class th1 = new Thread_Class(t1);
+        th1.expand_Thread();
+
+        if(t2.get_Thread() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Thread expanded to dead tecton!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
 
     }
     public static void test24() //Tectonon kettő gomba
     {
 
+    }
+    public static void empty()
+    {
+        Plane.InsectCollection.clear();
+        Plane.MushroomCollection.clear();
+        Plane.TectonCollection.clear();
+        Plane.ThreadCollection.clear();
+        Plane.SporeCollection.clear();
+
+    }
+    public static void listTests() //rewrite this to use sysmout instead of logger
+    {
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("Tests: ");
+        System.out.println("1.  Create Tecton_Basic");
+        System.out.println("2.  Create Tecton_Base");
+        System.out.println("3.  Tecton_Basic death");
+        System.out.println("4.  Tecton_Basic neighbours list fill");
+        System.out.println("5.  Tecton_Basic split");
+        System.out.println("6.  Tecton_Base split (Negative test)");
+        System.out.println("7.  Create Thread");
+        System.out.println("8.  Expand Thread");
+        System.out.println("9.  Create Insect");
+        System.out.println("10. Move Insect");
+        System.out.println("11. Create Mushroom");
+        System.out.println("12. Insect attack Mushroom");
+        System.out.println("13. Mushroom attack Insect");
+        System.out.println("14. Insect eats Basic_Spore");
+        System.out.println("15. Insect eats Spore_Duplicator");
+        System.out.println("16. Insect eats Spore_Paralyzing");
+        System.out.println("17. Insect eats Spore_Slowing");
+        System.out.println("18. Insect eats Spore_Speed");
+        System.out.println("19. Insect eats already eaten spore (Negative test)");
+        System.out.println("20. Insect attacks already dead mushroom (Negative test)");
+        System.out.println("21. Mushroom attacks already dead insect (Negative test)");
+        System.out.println("22. Thread eats Paralyzed insect");
+        System.out.println("23. Thread expanding to dead tecton (Negative test)");
+        System.out.println("24. Tecton with two mushrooms (Negative test)");
+        System.out.println("----------------------------------------------------------------");
     }
 }
