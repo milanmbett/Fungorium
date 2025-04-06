@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "com.coderunnerlovagjai.app.Main",
+            "projectName": "fungorium"
+        },
+        {
+            "type": "java",
+            "name": "FungoriumPrototype",
+            "request": "launch",
+            "mainClass": "com.coderunnerlovagjai.app.FungoriumPrototype",
+            "projectName": "fungorium"
+        },
+        {
             "type": "robotframework-lsp",
             "name": "Robot Framework: Launch .robot file",
             "request": "launch",

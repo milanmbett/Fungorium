@@ -62,11 +62,4 @@ public class Tecton_Dead extends Tecton_Class
     public boolean canBeCracked() {
         return false; // Dead tectons cannot be cracked
     }
-    
-    @Override
-    public Tecton_Class die_Tecton() {
-        // Already dead, return self
-        TECTON_DEAD_LOGGER.log(Level.forName("ERROR", 404), "Tecton is already dead!");
-        return this;
-    }
 }

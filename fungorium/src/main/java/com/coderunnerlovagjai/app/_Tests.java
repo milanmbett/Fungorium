@@ -84,11 +84,10 @@ public abstract class _Tests
     public static void test3() //Tekton halála
     {
         TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Tecton death");
-        Tecton_Basic t1 = new Tecton_Basic();
+        Tecton_Class t1 = new Tecton_Basic();
         Thread_Class th1 = new Thread_Class(t1);
-        
         // Store the result of die_Tecton for testing
-        Tecton_Class deadTecton = t1.die_Tecton();
+        t1 = t1.die_Tecton();
         
         // Check if thread is removed from the original tecton
         if(t1.get_Thread() != null) 
@@ -106,7 +105,7 @@ public abstract class _Tests
         }
         
         // Also verify that creating a thread directly on the dead tecton doesn't work
-        Thread_Class th3 = new Thread_Class(deadTecton);
+        Thread_Class th3 = new Thread_Class(t1);
         if(th3.get_Tecton() != null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Thread_Class on explicit dead tecton is not null!");
@@ -114,23 +113,22 @@ public abstract class _Tests
         }
         
         // Verify that other operations on dead tecton are rejected
-        Player testPlayer = new Player();
         try {
-            deadTecton.set_Mushroom(new Mushroom_Shroomlet(null, testPlayer));
+            t1.set_Mushroom(new Mushroom_Shroomlet(t1, null));
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Dead tecton allowed setting a mushroom!");
             return;
         } catch (UnsupportedOperationException e) {
             // This is expected
-            TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Dead tecton correctly rejected mushroom!");
+            TESTS_LOGGER.log(Level.forName("GET", 400), "Dead tecton correctly rejected mushroom!");
         }
         
         try {
-            deadTecton.set_Spore(new Basic_Spore(null));
+            t1.set_Spore(new Basic_Spore(t1));
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Dead tecton allowed setting a spore!");
             return;
         } catch (UnsupportedOperationException e) {
             // This is expected
-            TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Dead tecton correctly rejected spore!");
+            TESTS_LOGGER.log(Level.forName("GET", 400), "Dead tecton correctly rejected spore!");
         }
         
         TESTS_LOGGER.log(Level.forName("SUCCESS",400), "Test ran successfully!");

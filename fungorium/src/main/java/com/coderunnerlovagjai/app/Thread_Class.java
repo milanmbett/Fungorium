@@ -27,7 +27,7 @@ public class Thread_Class
         } catch (UnsupportedOperationException e) {
             // The tecton is dead, it threw an exception when we tried to set the thread
             tecton = null;
-            THREAD_LOGGER.log(Level.forName("ERROR", 404), "Cannot create thread on dead tecton!");
+            THREAD_LOGGER.log(Level.forName("DEAD", 404), "Cannot create thread on dead tecton!");
         }
     }
     

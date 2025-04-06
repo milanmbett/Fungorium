@@ -57,7 +57,7 @@ public abstract class Tecton_Class
         Neighbours = t;
     }
     //Tectonon lévő összes dolog halálát okozó függvény
-    public Tecton_Class die_Tecton()
+    public Tecton_Dead die_Tecton()
     {
         remove_InsectsOnTecton();
         remove_Mushroom();
