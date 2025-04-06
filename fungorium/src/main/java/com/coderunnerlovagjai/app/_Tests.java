@@ -11,7 +11,7 @@ public abstract class _Tests
     public static void test1() //Tekton létrehozása
     {
         TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: creating Tecton_Basic");
-        Tecton_Basic t1 = new Tecton_Basic();
+        Tecton_Class t1 = new Tecton_Basic();
         if(t1.get_Mushroom() != null)
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic mushroom is not null!");
@@ -135,9 +135,9 @@ public abstract class _Tests
     }
     public static void test4() //Tekton szomszédsági lista feltöltése
     { //Mindenki szomszédja mindenkinek
-        Tecton_Basic t1 = new Tecton_Basic();
-        Tecton_Basic t2 = new Tecton_Basic();
-        Tecton_Basic t3 = new Tecton_Basic();
+        Tecton_Class t1 = new Tecton_Basic();
+        Tecton_Class t2 = new Tecton_Basic();
+        Tecton_Class t3 = new Tecton_Basic();
         t1.add_TectonNeighbour(t2);
         t1.add_TectonNeighbour(t3);
         t2.add_TectonNeighbour(t1);
@@ -278,6 +278,7 @@ public abstract class _Tests
     }
     public static void test23() //Fonal terjedése halott tektonra
     {
+        Tecton_Class t1 = new Tecton_Basic();
 
     }
     public static void test24() //Tectonon kettő gomba

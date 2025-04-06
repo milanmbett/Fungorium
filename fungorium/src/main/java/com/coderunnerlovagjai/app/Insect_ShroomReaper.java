@@ -8,8 +8,8 @@ public class Insect_ShroomReaper extends Insect_Class
     private static final Logger INSECT_SHROOM_REAPER_LOGGER = LogManager.getLogger(Insect_ShroomReaper.class);
     public Insect_ShroomReaper(Tecton_Class targetTecton, Player p)
     {
-        hp = 25; //TODO: Értékét még meg kell beszélni
-        attackDamage = 25; //TODO: Értékét még meg kell beszélni
+        hp = 50;
+        attackDamage = 15;
         availableSteps = 1;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);

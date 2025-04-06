@@ -8,8 +8,8 @@ public class Mushroom_Shroomlet extends Mushroom_Class
     private static final Logger MUSHROOM_SHROOMLET_LOGGER = LogManager.getLogger(Mushroom_Shroomlet.class);
     public Mushroom_Shroomlet(Tecton_Class targetTecton, Player p)
     {
-        hp = 250; //TODO: Értékét még meg kell beszélni
-        power = 25; //TODO: Értékét még meg kell beszélni
+        hp = 250;
+        power = 25; 
         sporeCount = 0;
         tecton = targetTecton;
         tecton.set_Mushroom(this);
