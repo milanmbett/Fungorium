@@ -320,7 +320,18 @@ public abstract class _Tests
     }
     public static void test24() //Tectonon kettő gomba
     {
+        Tecton_Class t1 = new Tecton_Basic();
+        Mushroom_Shroomlet m1 = new Mushroom_Shroomlet(t1, null);
+        Mushroom_Shroomlet m2 = new Mushroom_Shroomlet(t1, null);
+        t1.set_Mushroom(m1);
+        t1.set_Mushroom(m2);
 
+        if(!t1.get_Mushroom().equals(m1)) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton has overwritten it's own mushroom!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void empty()
     {

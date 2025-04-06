@@ -99,7 +99,19 @@ public abstract class Tecton_Class
     }
     public void set_Mushroom(Mushroom_Class mush)
     {
-        mushroom = mush;
+        if(mush == null)
+        {
+            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Mushroom is set to null!");
+        }
+        else if(mushroom != null)
+        {
+            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "There is already a mushroom on this tecton!");
+        }
+        else
+        {
+            mushroom = mush;
+            TECTON_CLASS_LOGGER.log(Level.forName("SET", 400), "Tecton's Mushroom: " + mushroom);
+        }
     }
     public void remove_Mushroom()
     {
