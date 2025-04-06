@@ -180,12 +180,27 @@ public abstract class _Tests
         Tecton_Base t1 = new Tecton_Base(p1);
         Insect_Tektonizator it1 = new Insect_Tektonizator(t1, p1);
         it1.tectonCrack();
+        if(Plane.TectonCollection.size() == 1) 
+        {
+            TESTS_LOGGER.log(Level.forName("SUCCESS", 404), "Tecton_Base did not split!");
+        }
+        else
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 400), "Tecton_Base has split!");
+        }
     }
     public static void test7() //Fonal létrehozása
     {
         Tecton_Basic t1 = new Tecton_Basic();
         t1.set_Thread(new Thread_Class(t1));
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Thread: " + t1.get_Thread().get_ID());
+        String tmp = t1.get_Thread().get_ID();
+        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Thread: " + tmp);
+        if(tmp == null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic thread is null!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test8() //Fonal terjedése
     {
@@ -195,13 +210,26 @@ public abstract class _Tests
         t2.add_TectonNeighbour(t1);
         t1.set_Thread(new Thread_Class(t1));
         t1.get_Thread().expand_Thread();
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton2's Thread: " + t2.get_Thread().get_ID());
+        String tmp = t2.get_Thread().get_ID();
+        TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton2's Thread: " + tmp);
+        if(tmp == null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic2 thread is null!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test9() //Rovar létrehozása
     {
         Player p1 = new Player();
         Tecton_Basic t1 = new Tecton_Basic();
         Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        if(Plane.InsectCollection.size() != 1 || t1.get_InsectsOnTecton().size() != 1) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect_Buglet is not created!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test10() //Rovar mozgatása
     {
@@ -216,6 +244,17 @@ public abstract class _Tests
         Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
         ib1.move_Insect(t2);
         TESTS_LOGGER.log(Level.forName("GET", 400), "Insect's Tecton: " + ib1.get_Tecton().get_ID());
+        if(t2.insectsOnTecton.size() != 1) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect_Buglet is not moved!");
+            return;
+        }
+        if(t1.insectsOnTecton.size() != 0) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect_Buglet is not removed from old Tecton!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
 
     }
     public static void test11() //Gomba létrehozása
@@ -223,6 +262,12 @@ public abstract class _Tests
         Player p1 = new Player();
         Tecton_Basic t1 = new Tecton_Basic();
         Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p1);
+        if(Plane.MushroomCollection.size() != 1 || t1.get_Mushroom() == null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Mushroom_Shroomlet is not created!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("GET", 400), "Mushroom's Tecton: " + ms1.get_Tecton().get_ID());
     }
     public static void test12() //Rovar támad gombát
     {
@@ -232,6 +277,7 @@ public abstract class _Tests
         Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p2);
         Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
         ib1.attack_Mushroom(ms1);
+        
     }
     public static void test13() //Gomba támad rovart
     {
