@@ -322,6 +322,18 @@ public abstract class _Tests
     }
     public static void test14() //Basic_Spore elfogyasztása
     {
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Basic_Spore s1 = new Basic_Spore(t1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        ib1.eat_Spore(s1);
+
+        if(t1.get_Spore() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Basic_Spore is not removed from Tecton!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
         
     }
     public static void test15() //Spore_Duplicator elfogyasztása 
@@ -349,18 +361,54 @@ public abstract class _Tests
     }
     public static void test16() //Spore_Paralyzing elfogyasztása
     {
-        
+        //Turn t1 = new Turn(); 
+        //TODO Itt kéne talán szimulálni köröket, hogy lehessen tesztelni a paralyzed/unparalyzed rovarokat
+        //->Turn osztály megalkotása
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Basic_Spore s1 = new Spore_Paralysing(t1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        ib1.eat_Spore(s1);
+
+        if(t1.get_Spore() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Basic_Spore is not removed from Tecton!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test17() //Spore_Slowing elfogyasztása
     {
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Basic_Spore s1 = new Spore_Slowing(t1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        ib1.eat_Spore(s1);
 
+        if(t1.get_Spore() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Basic_Spore is not removed from Tecton!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test18() //Spore_Speed elfogyasztása
     {
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Basic_Spore s1 = new Spore_Speed(t1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        ib1.eat_Spore(s1);
 
+        if(t1.get_Spore() != null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Basic_Spore is not removed from Tecton!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test19() //Megevett spóra elfogyasztása
-    {
+    {     
 
     }
     public static void test20() //Halott gomba megtámadása

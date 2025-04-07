@@ -20,6 +20,7 @@ public class Spore_Slowing extends Basic_Spore
     public void consumed_by(Insect_Class insect)
     {
         insect.set_attackDamage(insect.get_attackDamage()/2); //Felezzük az attackDamage-et
+        insect.set_availableSteps(insect.get_availableSteps()-1); //Csökkentjük az elérhető lépéseket 1-el
         die_Spore();
     }
 }

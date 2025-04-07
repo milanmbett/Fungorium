@@ -94,6 +94,7 @@ public abstract class Insect_Class
     public void eat_Spore(Basic_Spore sp)
     {
         sp.consumed_by(this);
+        owner.increaseIncome(100);  //TODO érték megbeszélendő
     }
     public void eat_Thread(Thread_Class th)
     {
@@ -122,6 +123,7 @@ public abstract class Insect_Class
     public void set_attackDamage(int damage)
     {
         attackDamage = damage;
+        INSECT_CLASS_LOGGER.log(Level.forName("SET", 401), "Insect: " + ID + " attack damage set to: " + attackDamage);
     }
     public int get_availableSteps()
     {
@@ -130,6 +132,7 @@ public abstract class Insect_Class
     public void set_availableSteps(int steps)
     {
         availableSteps = steps;
+        INSECT_CLASS_LOGGER.log(Level.forName("SET", 401), "Insect: " + ID + " available steps set to: " + availableSteps);
     }
     public Tecton_Class get_Tecton()
     {
@@ -146,6 +149,7 @@ public abstract class Insect_Class
     public void paralyse_Insect()
     {
         isParalysed = true;
+        INSECT_CLASS_LOGGER.log(Level.forName("PARALYSE", 401), "Insect: " + ID + " is paralysed!");
     }
     public void unparalyse_Insect()
     {
@@ -168,6 +172,7 @@ public abstract class Insect_Class
     {
         return ID;
     }
+
 
 
     ///Lehet kéne egy buffer függvény mely eltárolja a spóra effektjét hogy ne tartson örökké 
