@@ -429,12 +429,6 @@ public abstract class _Tests
         Tecton_Class t2 = new Tecton_Basic(); //Van paralyzed rovar de nincsen gomba
         Tecton_Class t3 = new Tecton_Basic(); //Van paralyzed rovar és gomba is
 
-        t1.add_TectonNeighbour(t2);
-        t1.add_TectonNeighbour(t3);
-        t2.add_TectonNeighbour(t1);
-        t2.add_TectonNeighbour(t3);
-        t3.add_TectonNeighbour(t1);
-        t3.add_TectonNeighbour(t2);
 
         Thread_Class th1 = new Thread_Class(t1);
         Thread_Class th2 = new Thread_Class(t2);
