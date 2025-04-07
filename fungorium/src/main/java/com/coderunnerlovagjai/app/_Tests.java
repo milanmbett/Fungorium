@@ -1,6 +1,5 @@
 package com.coderunnerlovagjai.app;
 
-import java.util.concurrent.TransferQueue;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -267,7 +266,14 @@ public abstract class _Tests
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Mushroom_Shroomlet is not created!");
             return;
         }
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Mushroom's Tecton: " + ms1.get_Tecton().get_ID());
+        String tmp = ms1.get_Tecton().get_ID();
+        TESTS_LOGGER.log(Level.forName("GET", 400), "Mushroom's Tecton: " + tmp);
+        if(tmp == null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Mushroom_Shroomlet Tecton is null!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test12() //Rovar támad gombát
     {
@@ -275,8 +281,16 @@ public abstract class _Tests
         Player p2 = new Player();
         Tecton_Basic t1 = new Tecton_Basic();
         Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p2);
+        int tmpHP = ms1.get_hp();
         Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        int tmpATTACK = ib1.get_attackDamage();
         ib1.attack_Mushroom(ms1);
+        if(ms1.get_hp() != tmpHP - tmpATTACK) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Mushroom_Shroomlet HP is not correct!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
         
     }
     public static void test13() //Gomba támad rovart
@@ -290,7 +304,21 @@ public abstract class _Tests
         Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p2);
         Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
         Insect_Buglet ib2 = new Insect_Buglet(t2, p1);
+        int tmpHP1 = ib1.get_hp();
+        int tmpHP2 = ib2.get_hp();
+        int tmpATTACK = ms1.get_power();
         ms1.attack_Insects();
+        if(ib1.get_hp() != tmpHP1 - tmpATTACK) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect_Buglet0 HP is not correct!");
+            return;
+        }
+        if(ib2.get_hp() != tmpHP2 - tmpATTACK) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect_Buglet1 HP is not correct!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test14() //Basic_Spore elfogyasztása
     {

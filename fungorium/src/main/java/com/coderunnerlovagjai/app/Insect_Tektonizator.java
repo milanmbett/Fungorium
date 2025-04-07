@@ -36,7 +36,7 @@ public class Insect_Tektonizator extends Insect_Class
     {
         if(!tecton.canBeCracked())
         {
-            INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ERROR", 404), "Tecton:" +tecton.get_ID() + " cannot be cracked!");
+            INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("WARN", 404), "Tecton:" +tecton.get_ID() + " cannot be cracked!");
             return;
         }
 
