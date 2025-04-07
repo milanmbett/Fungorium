@@ -322,18 +322,18 @@ public abstract class _Tests
     }
     public static void test14() //Basic_Spore elfogyasztása
     {
-
+        
     }
-    public static void test15() //Spore_Duplicator elfogyasztása
-    {
+    public static void test15() //Spore_Duplicator elfogyasztása 
+    {   //TODO javítani duplicate_insect() metódus
         Player p1 = new Player();
         Tecton_Basic t1 = new Tecton_Basic();
         Spore_Duplicator sd1 = new Spore_Duplicator(t1);
         Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
         ib1.eat_Spore(sd1);
-        int tmp = 0;
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Listing Insects on tecton");
+        int tmp = 0; 
 
+        TESTS_LOGGER.log(Level.forName("GET", 400), "Listing Insects on tecton");
         for (Insect_Class ic : t1.get_InsectsOnTecton()) 
         {
             ++tmp;
@@ -349,7 +349,7 @@ public abstract class _Tests
     }
     public static void test16() //Spore_Paralyzing elfogyasztása
     {
-
+        
     }
     public static void test17() //Spore_Slowing elfogyasztása
     {
