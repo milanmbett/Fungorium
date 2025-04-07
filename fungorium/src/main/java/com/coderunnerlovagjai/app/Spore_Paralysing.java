@@ -19,6 +19,8 @@ public class Spore_Paralysing extends Basic_Spore
     @Override
     public void consumed_by(Insect_Class insect)
     {   //jelezni kéne hogy a következő körben avaliableSteps = 0 valahogy
+        SPORE_PARALYSING_LOGGER.log(Level.forName("CONSUME", 401), "Spore_Paralysing: " + ID + " is consumed by Insect: " + insect.get_ID());
+        insect.paralyse_Insect();
         die_Spore();
     }
 

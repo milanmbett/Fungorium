@@ -95,14 +95,18 @@ public class Thread_Class
     //és növesztünk egy gombát(Shroomlet) ha még nincsen 
     public void tryToEat_Insect() //TODO: Turn végén meghívni Thread_Collection összes elemére
     {
-        for (Insect_Class ins : tecton.get_InsectsOnTecton()) 
+        THREAD_LOGGER.log(Level.forName("INFO", 400), "Trying to eat insect on tecton: " + tecton.get_ID() + " with thread: " + ID);
+        // Iterate over a copy to avoid ConcurrentModificationException
+        for (Insect_Class ins : new ArrayList<>(tecton.get_InsectsOnTecton())) 
         {
             if(ins.get_isParalysed())
             {
                 ins.die_Insect();
-                if(tecton.get_Mushroom().equals(null))
+                THREAD_LOGGER.log(Level.forName("EAT", 401), "Thread: " + ID + " is eating insect: " + ins.get_ID() + " on tecton: " + tecton.get_ID());
+                if(tecton.get_Mushroom() == null)
                 {
-                    tecton.set_Mushroom(new Mushroom_Shroomlet(tecton,null)); //TODO: Beállítani ,hogy ugyanaz a gombász legyen? Vagy lehet unclaimed gomba is?
+                    THREAD_LOGGER.log(Level.forName("EAT", 401), "Thread: " + ID + " is growing mushroom on tecton: " + tecton.get_ID());
+                    Mushroom_Shroomlet ms = new Mushroom_Shroomlet(tecton,null); //TODO: Beállítani ,hogy ugyanaz a gombász legyen? Vagy lehet unclaimed gomba is?
                 }
             }    
         }

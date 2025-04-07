@@ -345,6 +345,69 @@ public abstract class _Tests
     }
     public static void test22() //Paralyzed rovar elfogyasztása
     {
+        //Nincs paralyzed rovar --> Nem eszi meg
+        //Van paralyzed rovar --> Megeszi  HA nincsen gomba -->> Növeszt egy gombát
+        //Van paralyzed rovar --> Megeszi  HA van gomba -->>Nem növeszt gombát
+        Player p1 = new Player();
+        Tecton_Class t1 = new Tecton_Basic(); //Nincsen paralyzed rovar
+        Tecton_Class t2 = new Tecton_Basic(); //Van paralyzed rovar de nincsen gomba
+        Tecton_Class t3 = new Tecton_Basic(); //Van paralyzed rovar és gomba is
+
+        t1.add_TectonNeighbour(t2);
+        t1.add_TectonNeighbour(t3);
+        t2.add_TectonNeighbour(t1);
+        t2.add_TectonNeighbour(t3);
+        t3.add_TectonNeighbour(t1);
+        t3.add_TectonNeighbour(t2);
+
+        Thread_Class th1 = new Thread_Class(t1);
+        Thread_Class th2 = new Thread_Class(t2);
+        Thread_Class th3 = new Thread_Class(t3);
+
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        Insect_Buglet ib2 = new Insect_Buglet(t2, p1);
+        Insect_Buglet ib3 = new Insect_Buglet(t3, p1);
+
+        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t3, p1);
+
+        Spore_Paralysing sp2 = new Spore_Paralysing(t2);
+        Spore_Paralysing sp3 = new Spore_Paralysing(t3);
+
+        ib2.eat_Spore(sp2);
+        ib3.eat_Spore(sp3);
+
+        //Egy turn végének szimulálása
+        for (Thread_Class iter : Plane.ThreadCollection) 
+        {
+            iter.tryToEat_Insect();    
+        }
+
+        //Lennie kell 1 rovarnak, 2 gombának
+        if(Plane.InsectCollection.size() != 1) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect count is not correct!");
+            return;
+        }
+        if(Plane.MushroomCollection.size() != 2) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Mushroom count is not correct!");
+            return;
+        }
+        if(!t2.get_InsectsOnTecton().isEmpty() || !t3.get_InsectsOnTecton().isEmpty()) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect count on either tecton is not correct!");
+            return;
+        }
+        if(t2.get_Mushroom() == null || t3.get_Mushroom() == null) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Mushroom count on either tecton is not correct!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
+
+
+
+
 
     }
     public static void test23() //Fonal terjedése halott tektonra

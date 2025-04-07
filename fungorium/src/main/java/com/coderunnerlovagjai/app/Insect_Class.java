@@ -153,6 +153,7 @@ public abstract class Insect_Class
     }
     public boolean get_isParalysed()
     {
+        INSECT_CLASS_LOGGER.log(Level.forName("EFFECT", 401), "Insect: " + ID + " is paralysed: " + isParalysed);
         return isParalysed;
     }
     public void set_Owner(Player p)
