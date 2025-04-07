@@ -25,7 +25,6 @@ public class Player //TODO: Megírás
 
     public void setRole(Role role) {
         this.role = role;
-        PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Role set to " + role.getClass().getSimpleName());
     }
     public Role getRole() {
         return role;
