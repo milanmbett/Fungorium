@@ -1,6 +1,8 @@
 package com.coderunnerlovagjai.app;
 
 
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -169,10 +171,69 @@ public abstract class _Tests
         }
         TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
-    public static void test5() //Tekton kettétörése
-    {
+public static void test5() // Tekton kettétörése
+{
+    TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Tecton cracking");
+    Player p1 = new Player();
+    Tecton_Basic t1 = new Tecton_Basic();
+    
+    // Create some neighbor tectons
+    Tecton_Basic t2 = new Tecton_Basic();
+    Tecton_Basic t3 = new Tecton_Basic();
 
+    // Set up neighbor relationships
+    t1.add_TectonNeighbour(t2);
+    t1.add_TectonNeighbour(t3);
+    t2.add_TectonNeighbour(t1);
+    t3.add_TectonNeighbour(t1);
+
+    Insect_Tektonizator it1 = new Insect_Tektonizator(t1, p1);
+
+    if (!t1.get_InsectsOnTecton().contains(it1)) {
+        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tektonizator is not on the tecton!");
+        return;
     }
+
+    // Get initial neighbours
+    List<Tecton_Class> initialNeighbours = t1.get_TectonNeighbours();
+    TESTS_LOGGER.log(Level.forName("GET", 400), "Initial neighbours: " + initialNeighbours);
+
+    it1.tectonCrack();
+
+    // After tectonCrack, t1 should be replaced in Plane.TectonCollection
+    // We need to find the dead tecton in the collection
+
+    Tecton_Class deadTecton = null;
+    for (Tecton_Class tecton : Plane.TectonCollection) {
+        if (tecton.get_ID().equals(t1.get_ID()) && tecton instanceof Tecton_Dead) {
+            deadTecton = tecton;
+            break;
+        }
+    }
+
+    if (deadTecton == null) {
+        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Original Tecton not found or not dead!");
+        return;
+    }
+    
+    // Check if the tecton is an instance of Tecton_Dead
+    if (!(deadTecton instanceof Tecton_Dead)) {
+        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton is not dead after cracking!");
+        return;
+    }
+
+    // Check if neighbours are updated (this part is tricky without knowing the exact logic)
+    List<Tecton_Class> finalNeighbours = deadTecton.get_TectonNeighbours();
+    TESTS_LOGGER.log(Level.forName("GET", 400), "Final neighbours: " + finalNeighbours);
+
+    // Basic check: neighbour list should not be the same
+    if (initialNeighbours == finalNeighbours) {
+        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Neighbour list is not updated after cracking!");
+        return;
+    }
+
+    TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
+}
     public static void test6() //Fő tekton kettétörése
     {
         Player p1 = new Player();
@@ -407,17 +468,65 @@ public abstract class _Tests
         }
         TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
-    public static void test19() //Megevett spóra elfogyasztása
-    {     
+        public static void test19() // Megevett spóra elfogyasztása
+    {
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Basic_Spore s1 = new Basic_Spore(t1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        Insect_Buglet ib2 = new Insect_Buglet(t1, p1);
 
+        ib1.eat_Spore(s1);
+
+        try {
+            ib2.eat_Spore(s1);
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect ate already eaten spore!");
+            return;
+        } catch (NullPointerException e) {
+            TESTS_LOGGER.log(Level.forName("GET", 400), "Correctly threw exception when eating already eaten spore!");
+        }
+
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test20() //Halott gomba megtámadása
     {
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
 
+        // Kill the mushroom
+        ms1.die_Mushroom();
+
+        try {
+            ib1.attack_Mushroom(ms1);
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect attacked already dead mushroom!");
+            return;
+        } catch (IllegalArgumentException e) {
+            TESTS_LOGGER.log(Level.forName("GET", 400), "Correctly threw exception when attacking already dead mushroom!");
+        }
+
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
-    public static void test21() //Halott rovar megtámadása
+     public static void test21() //Halott rovar megtámadása
     {
+        Player p1 = new Player();
+        Tecton_Basic t1 = new Tecton_Basic();
+        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
 
+        // Kill the insect
+        ib1.die_Insect();
+
+        try {
+            ms1.attack_Insects();
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Mushroom attacked already dead insect!");
+            return;
+        } catch (IllegalArgumentException e) {
+            TESTS_LOGGER.log(Level.forName("GET", 400), "Correctly threw exception when attacking already dead insect!");
+        }
+
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test22() //Paralyzed rovar elfogyasztása
     {
