@@ -42,6 +42,7 @@ public abstract class Mushroom_Class
         {
             if(insect.get_Owner() != owner)
             {
+                MUSHROOM_CLASS_LOGGER.log(Level.forName("ATTACK", 401), "Mushroom: " + ID + " is attacking insect: " + insect.get_ID() + " with power: " + power);
                 insect.reduceHP(power);
             }
             
@@ -53,6 +54,7 @@ public abstract class Mushroom_Class
             {
                 if(insect.get_Owner() != owner)
                 {
+                    MUSHROOM_CLASS_LOGGER.log(Level.forName("ATTACK", 401), "Mushroom: " + ID + " is attacking insect: " + insect.get_ID() + " with power: " + power);
                     insect.reduceHP(power);
                 }
             }    
