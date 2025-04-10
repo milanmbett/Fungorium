@@ -185,7 +185,9 @@ public static void test5() // Tekton kettétörése
     t1.add_TectonNeighbour(t2);
     t1.add_TectonNeighbour(t3);
     t2.add_TectonNeighbour(t1);
+    t2.add_TectonNeighbour(t3);
     t3.add_TectonNeighbour(t1);
+    t3.add_TectonNeighbour(t2);
 
     Insect_Tektonizator it1 = new Insect_Tektonizator(t1, p1);
 
@@ -199,38 +201,27 @@ public static void test5() // Tekton kettétörése
     TESTS_LOGGER.log(Level.forName("GET", 400), "Initial neighbours: " + initialNeighbours);
 
     it1.tectonCrack();
+    if (t1.get_InsectsOnTecton().contains(it1)) 
+    {
+        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tektonizator is not on the new tecton!");
+        return;
+    }  
 
-    // After tectonCrack, t1 should be replaced in Plane.TectonCollection
-    // We need to find the dead tecton in the collection
-
-    Tecton_Class deadTecton = null;
-    for (Tecton_Class tecton : Plane.TectonCollection) {
-        if (tecton.get_ID().equals(t1.get_ID()) && tecton instanceof Tecton_Dead) {
-            deadTecton = tecton;
-            break;
+    if(Plane.TectonCollection.size() != 4) 
+    {
+        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic did not split correctly!");
+        return;
+    }
+    for (Tecton_Class tc : Plane.TectonCollection) 
+    {
+        if (tc.get_TectonNeighbours().size() != 2) 
+        {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic neighbours list is not filled correctly! Tecton ID: " + tc.get_ID());
+            return;
         }
     }
 
-    if (deadTecton == null) {
-        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Original Tecton not found or not dead!");
-        return;
-    }
     
-    // Check if the tecton is an instance of Tecton_Dead
-    if (!(deadTecton instanceof Tecton_Dead)) {
-        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton is not dead after cracking!");
-        return;
-    }
-
-    // Check if neighbours are updated (this part is tricky without knowing the exact logic)
-    List<Tecton_Class> finalNeighbours = deadTecton.get_TectonNeighbours();
-    TESTS_LOGGER.log(Level.forName("GET", 400), "Final neighbours: " + finalNeighbours);
-
-    // Basic check: neighbour list should not be the same
-    if (initialNeighbours == finalNeighbours) {
-        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Neighbour list is not updated after cracking!");
-        return;
-    }
 
     TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
 }
