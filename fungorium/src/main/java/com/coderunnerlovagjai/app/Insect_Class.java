@@ -93,6 +93,11 @@ public abstract class Insect_Class
     }
     public void eat_Spore(Basic_Spore sp)
     {
+        if(sp == null)
+        {
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Spore is null!");
+            return;
+        }
         sp.consumed_by(this);
         owner.increaseIncome(100);  //TODO érték megbeszélendő
     }
