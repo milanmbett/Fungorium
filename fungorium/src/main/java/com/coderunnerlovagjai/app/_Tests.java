@@ -233,7 +233,7 @@ public static void test5() // Tekton kettétörése
         it1.tectonCrack();
         if(Plane.TectonCollection.size() == 1) 
         {
-            TESTS_LOGGER.log(Level.forName("SUCCESS", 404), "Tecton_Base did not split!");
+            TESTS_LOGGER.log(Level.forName("SUCCESS", 404), "Test ran successfully!");
         }
         else
         {
@@ -495,9 +495,19 @@ public static void test5() // Tekton kettétörése
         ms1.die_Mushroom();
 
         try {
-            ib1.attack_Mushroom(ms1);
-            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect attacked already dead mushroom!");
-            return;
+            if(Plane.MushroomCollection.size() != 0) 
+            {
+                TESTS_LOGGER.log(Level.forName("ERROR", 404), "Mushroom is not removed from MushroomCollection!");
+                ib1.attack_Mushroom(ms1);
+                return;
+            }
+            if(t1.get_Mushroom() != null)
+            {
+                ib1.attack_Mushroom(t1.get_Mushroom());
+                TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect attacked already dead mushroom!");
+                return;
+            }
+
         } catch (IllegalArgumentException e) {
             TESTS_LOGGER.log(Level.forName("GET", 400), "Correctly threw exception when attacking already dead mushroom!");
         }
@@ -513,11 +523,20 @@ public static void test5() // Tekton kettétörése
 
         // Kill the insect
         ib1.die_Insect();
+        ms1.attack_Insects();
 
         try {
-            ms1.attack_Insects();
-            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Mushroom attacked already dead insect!");
-            return;
+            if(Plane.InsectCollection.size() != 0) 
+            {
+                TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect is not removed from InsectCollection!");
+
+                return;
+            }
+            if(t1.get_InsectsOnTecton().size() != 0) 
+            {
+                TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect is not removed from Tecton!");
+                return;
+            }
         } catch (IllegalArgumentException e) {
             TESTS_LOGGER.log(Level.forName("GET", 400), "Correctly threw exception when attacking already dead insect!");
         }
