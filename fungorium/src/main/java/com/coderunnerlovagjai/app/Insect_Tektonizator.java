@@ -48,19 +48,18 @@ public class Insect_Tektonizator extends Insect_Class {
         Tecton_Basic newTecton1 = new Tecton_Basic();
         Tecton_Basic newTecton2 = new Tecton_Basic();
 
-        // Create a new dead tecton
-        Tecton_Dead deadTecton = tecton.die_Tecton();
-
         // Get the old tecton's neighbours
         List<Tecton_Class> neighbours = new ArrayList<>(tecton.get_TectonNeighbours());
 
         // Remove the original tecton from the collection
         Plane.TectonCollection.remove(tecton);
 
-        // Add the new tectons to the collection
-        Plane.TectonCollection.add(deadTecton);
-        Plane.TectonCollection.add(newTecton1);
-        Plane.TectonCollection.add(newTecton2);
+        tecton.remove_InsectsOnTecton();
+        tecton.remove_Mushroom();
+        tecton.remove_Spore();
+        tecton.remove_Thread();
+        tecton.remove_TectonNeighbours();
+
 
         // Set up the new tectons' neighbours
         newTecton1.add_TectonNeighbour(newTecton2);
@@ -78,9 +77,7 @@ public class Insect_Tektonizator extends Insect_Class {
             neighbours.get(i).del_TectonNeighbour(tecton);
         }
 
-        // Remove the insect from the tecton and the board
-        tecton.get_InsectsOnTecton().remove(this);
-        die_Insect();
+
 
         INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("CRACK", 401), "Tecton cracked successfully.  New tectons: " + newTecton1.get_ID() + " and " + newTecton2.get_ID());
     }
