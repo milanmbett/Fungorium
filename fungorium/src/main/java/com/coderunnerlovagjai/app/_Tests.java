@@ -470,9 +470,14 @@ public static void test5() // Tekton kettétörése
         ib1.eat_Spore(s1);
 
         try {
-            ib2.eat_Spore(s1);
-            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect ate already eaten spore!");
-            return;
+            if(Plane.SporeCollection.size() != 0) 
+            {
+                TESTS_LOGGER.log(Level.forName("ERROR", 404), "Spore is not removed from SporeCollection!");
+                ib2.eat_Spore(Plane.SporeCollection.get(0));
+                TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect ate already eaten spore!");
+                return;
+            }
+            ib2.eat_Spore(t1.get_Spore());
         } catch (NullPointerException e) {
             TESTS_LOGGER.log(Level.forName("GET", 400), "Correctly threw exception when eating already eaten spore!");
         }
