@@ -1,58 +1,49 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-REM Get the directory of the script
+REM filepath: /home/borisz/projlab-jva/Fungorium/fungorium/src/tests/test22/test.bat
+
+REM Get the script directory.
 for %%I in ("%~dp0.") do set "SCRIPT_DIR=%%~fI"
 
-REM Load global environment variables from the .env file
-REM (Assuming .env is one level above test1, i.e. in %SCRIPT_DIR%\..)
+REM Load environment variables from ../.env.
 for /f "usebackq tokens=1* delims==" %%a in ("%SCRIPT_DIR%\..\.env") do (
-    REM Remove quotes from the variable value if they exist
     set "LINE=%%b"
     set "LINE=!LINE:"=!"
     set "%%a=!LINE!"
 )
 
-
-REM Convert the relative JAR path to an absolute path.
-REM This uses the SCRIPT_DIR as the base directory.
+REM Compute absolute path of the jar.
 for %%F in ("%SCRIPT_DIR%\..\%JAR_NAME%") do set "JAR_FILE=%%~fF"
 
-REM Set the input file (relative to the script directory)
+REM Set the input file.
 set "INPUT_FILE=%SCRIPT_DIR%\input.txt"
 
-REM Run the Java program with input from input.txt
-for /f "delims=" %%a in ('java -jar "%JAR_FILE%" --test 1 ^< "%INPUT_FILE%"') do (
-    set "OUTPUT=%%a"
-)
-
-REM Define the regex patterns to search for
-set "SUCCESS_REGEX=Test ran successfully!"
-set "NULL_REGEX=Mushroom is null!.*Spore is null!.*Thread is null!"
-set "EMPTY_REGEX=Tecton's Insects: \[\]"
-
-REM Check if the output matches all regex patterns
-echo %OUTPUT% | findstr "%SUCCESS_REGEX%" > nul
-if %errorlevel% equ 0 (
-    echo %OUTPUT% | findstr "%NULL_REGEX%" > nul
-    if %errorlevel% equ 0 (
-        echo %OUTPUT% | findstr "%EMPTY_REGEX%" > nul
-        if %errorlevel% equ 0 (
-            echo [test1] Test successful!
-        ) else (
-            echo Test failed! - EMPTY_REGEX not found
-            echo Output:
-            echo %OUTPUT%
-        )
-    ) else (
-        echo Test failed! - NULL_REGEX not found
-        echo Output:
-        echo %OUTPUT%
+REM Run the jar with --test 22 and capture its output to output.log.
+(
+    for /f "delims=" %%a in ('java -jar "%JAR_FILE%" --test 22 ^< "%INPUT_FILE%"') do (
+        echo %%a
     )
-) else (
-    echo Test failed! - SUCCESS_REGEX not found
-    echo Output:
-    echo %OUTPUT%
-)
+) > output.log
 
-endlocal
+REM Check essential patterns.
+call :check "Player created with default values. Income: 200, Score: 0"
+call :check "Tecton_Basic Created! ID: Tecton_Basic0"
+call :check "Thread Created! ID: Thread0 on Tecton: Tecton_Basic0"
+call :check "Insect_Buglet Created! ID: Insect_Buglet0 on Tecton: Tecton_Basic0"
+call :check "NULL  com.coderunnerlovagjai.app.Tecton_Class - Mushroom is null!"
+call :check "Mushroom_Shroomlet Created! ID: Mushroom_Shroomlet1 on Tecton: Tecton_Basic1"
+call :check "SUCCESS com.coderunnerlovagjai.app._Tests - Test ran successfully!"
+
+echo [test22] Test successful!
+goto :eof
+
+:check
+findstr /c:"%~1" output.log >nul
+if errorlevel 1 (
+    echo Test failed! Pattern not found:
+    echo %~1
+    type output.log
+    exit /b 1
+)
+goto :eof
