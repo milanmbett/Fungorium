@@ -1,30 +1,43 @@
 #!/bin/bash
+# filepath: /home/borisz/projlab-jva/Fungorium/fungorium/src/tests/test2/test.sh
 
-# Load global environment variables
-source "$(dirname "$0")/../.env"  # This loads JAR_NAME as "../../target/fungorium-PROTO 0.1-jar-with-dependencies.jar"
+# Load global environment variables; this loads JAR_NAME as "../../target/fungorium-PROTO 0.1-jar-with-dependencies.jar"
+source "$(dirname "$0")/../.env"
 
-# Convert JAR_NAME (relative path) to an absolute path.
-# Here, we assume the relative path is relative to the directory where .env resides.
-# Since .env is in $(dirname "$0")/.., we use that as the base.
+# Convert the relative JAR path to an absolute path.
 BASE_DIR="$(dirname "$0")/.."
 JAR_FILE="$(realpath "$BASE_DIR/$JAR_NAME")"
 
-# Set the input file (relative to the script directory)
+# Set the input file (relative to this script's directory)
 INPUT_FILE="$(dirname "$0")/input.txt"
 
-# Run the Java program with input from input.txt
-OUTPUT=$(java -jar "$JAR_FILE" --test 1 < "$INPUT_FILE")
+# Run the Java program with parameter "--test 2" and capture the output.
+OUTPUT=$(java -jar "$JAR_FILE" --test 2 < "$INPUT_FILE")
 
-# Define the regex patterns to search for
-SUCCESS_REGEX="Test ran successfully!"
-NULL_REGEX="Mushroom is null!.*Spore is null!.*Thread is null!"
-EMPTY_REGEX="Tecton's Insects: \[\]"
+# Define expected regex patterns from the sample output.
+# (Adjust these patterns if necessary to match your jar's actual output.)
+PATTERN1="Testing: creating Tecton_Base"
+PATTERN2="Player created with default values\. Income: 200, Score: 0"
+PATTERN3="Tecton_Class Constructor called!"
+PATTERN4="Mushroom_Class Constructor called!"
+PATTERN5="Tecton's Mushroom:"
+PATTERN6="Tecton ID is null!"
+PATTERN7="Mushroom_Grand Created! ID: Mushroom_Grand0 on Tecton: null"
+PATTERN8="Tecton_Base Created! ID: Tecton_Base0"
+PATTERN9="Test ran successfully!"
 
-# Check if the output matches all regex patterns
-if [[ "$OUTPUT" =~ $SUCCESS_REGEX ]] && [[ "$OUTPUT" =~ $NULL_REGEX ]] && [[ "$OUTPUT" =~ $EMPTY_REGEX ]]; then
-  echo "[test1] Test successful!"
+if [[ "$OUTPUT" =~ $PATTERN1 ]] && \
+   [[ "$OUTPUT" =~ $PATTERN2 ]] && \
+   [[ "$OUTPUT" =~ $PATTERN3 ]] && \
+   [[ "$OUTPUT" =~ $PATTERN4 ]] && \
+   [[ "$OUTPUT" =~ $PATTERN5 ]] && \
+   [[ "$OUTPUT" =~ $PATTERN6 ]] && \
+   [[ "$OUTPUT" =~ $PATTERN7 ]] && \
+   [[ "$OUTPUT" =~ $PATTERN8 ]] && \
+   [[ "$OUTPUT" =~ $PATTERN9 ]]; then
+    echo "[test2] Test successful!"
 else
-  echo "Test failed!"
-  echo "Output:"
-  echo "$OUTPUT"
+    echo "Test failed!"
+    echo "Output:"
+    echo "$OUTPUT"
 fi

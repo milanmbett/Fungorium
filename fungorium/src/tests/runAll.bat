@@ -8,8 +8,8 @@ set TOTAL=0
 set SUCCESS=0
 set FAIL=0
 
-:: Loop over directories starting with "test"
-for /d %%D in (test*) do (
+:: Loop over sorted directories starting with "test"
+for /f "delims=" %%D in ('dir /b /ad test* ^| sort') do (
     if exist "%%D\test.bat" (
         echo Running %%D\test.bat...
         pushd "%%D"
