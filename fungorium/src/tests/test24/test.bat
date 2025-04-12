@@ -2,46 +2,49 @@
 setlocal EnableDelayedExpansion
 
 REM filepath: /home/borisz/projlab-jva/Fungorium/fungorium/src/tests/test24/test.bat
-
-REM Get the directory of this script.
 for %%I in ("%~dp0.") do set "SCRIPT_DIR=%%~fI"
 
-REM Load environment variables from ../.env.
+REM Load environment variables from the .env file (assumed one level above test24).
 for /f "usebackq tokens=1* delims==" %%a in ("%SCRIPT_DIR%\..\.env") do (
     set "LINE=%%b"
     set "LINE=!LINE:"=!"
     set "%%a=!LINE!"
 )
 
-REM Compute absolute path of the jar.
-for %%F in ("%SCRIPT_DIR%\..\%JAR_NAME%") do set "JAR_FILE=%%~fF"
+REM Get the absolute path for the jar.
+for %%F in ("%~dp0..\%JAR_NAME%") do set "JAR_FILE=%%~fF"
 
-REM Set the input file.
-set "INPUT_FILE=%SCRIPT_DIR%\input.txt"
+REM Set the input file (relative to this script).
+set "INPUT_FILE=%~dp0input.txt"
 
-REM Run the jar with "--test 24" and capture its output to output.log.
-(
-    for /f "delims=" %%a in ('java -jar "%JAR_FILE%" --test 24 ^< "%INPUT_FILE%"') do (
-        echo %%a
-    )
-) > output.log
+REM Run the Java program with parameter "--test 24" and redirect output to output.log.
+java -jar "%JAR_FILE%" --test 24 < "%INPUT_FILE%" > output.log 2>&1
 
-REM Check essential patterns.
-call :check "Tecton_Class Constructor called!"
-call :check "Tecton_Basic Created! ID: Tecton_Basic0"
-call :check "Mushroom_Class Constructor called!"
-call :check "There is already a mushroom on this tecton!"
-call :check "SUCCESS com.coderunnerlovagjai.app._Tests - Test ran successfully!"
+REM Define essential regex patterns.
+set "PATTERN1=Tecton_Class Constructor called!"
+set "PATTERN2=Tecton_Basic Created! ID: Tecton_Basic0"
+set "PATTERN3=Mushroom_Class Constructor called!"
+set "PATTERN4=There is already a mushroom on this tecton!"
+set "PATTERN5=SUCCESS com\.coderunnerlovagjai\.app\._Tests - Test ran successfully!"
+
+REM Verify that all essential patterns are present in output.log.
+call :checkPattern "%PATTERN1%"
+call :checkPattern "%PATTERN2%"
+call :checkPattern "%PATTERN3%"
+call :checkPattern "%PATTERN4%"
+call :checkPattern "%PATTERN5%"
 
 echo [test24] Test successful!
-goto :eof
+exit /b 0
 
-:check
+:checkPattern
+REM Disable delayed expansion so that special characters are preserved.
+setlocal DisableDelayedExpansion
 findstr /c:"%~1" output.log >nul
 if errorlevel 1 (
-    echo Test failed! Pattern not found:
-    echo %~1
-    type output.log
+    endlocal
     exit /b 1
+) else (
+    endlocal
 )
 goto :eof
