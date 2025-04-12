@@ -3,7 +3,7 @@ setlocal EnableDelayedExpansion
 
 REM filepath: /home/borisz/projlab-jva/Fungorium/fungorium/src/tests/test10/test.bat
 
-REM Get the directory of the script.
+REM Get the directory of this script.
 for %%I in ("%~dp0.") do set "SCRIPT_DIR=%%~fI"
 
 REM Load global environment variables from the .env file (assumed one level above test10).
@@ -16,15 +16,13 @@ for /f "usebackq tokens=1* delims==" %%a in ("%SCRIPT_DIR%\..\.env") do (
 REM Convert the relative JAR path to an absolute path using SCRIPT_DIR as base.
 for %%F in ("%SCRIPT_DIR%\..\%JAR_NAME%") do set "JAR_FILE=%%~fF"
 
-REM Set the input file (relative to the script directory)
+REM Set the input file (relative to this script's directory).
 set "INPUT_FILE=%SCRIPT_DIR%\input.txt"
 
-REM Run the Java program with parameter "--test 10" and capture output.
-for /f "delims=" %%a in ('java -jar "%JAR_FILE%" --test 10 ^< "%INPUT_FILE%"') do (
-    set "OUTPUT=%%a"
-)
+REM Run the Java program with parameter "--test 10" and redirect output to output.log.
+java -jar "%JAR_FILE%" --test 10 < "%INPUT_FILE%" > output.log 2>&1
 
-REM Define expected substrings.
+REM Define expected patterns.
 set "PATTERN1=Player created with default values. Income: 200, Score: 0"
 set "PATTERN2=Tecton_Class Constructor called!"
 set "PATTERN3=Tecton_Basic Created! ID: Tecton_Basic0"
@@ -47,115 +45,40 @@ set "PATTERN19=MOVE  com.coderunnerlovagjai.app.Insect_Class - Insect: Insect_Bu
 set "PATTERN20=GET   com.coderunnerlovagjai.app._Tests - Insect's Tecton: Tecton_Basic1"
 set "PATTERN21=SUCCESS com.coderunnerlovagjai.app._Tests - Test ran successfully!"
 
-REM Check each expected pattern in the output.
-echo %OUTPUT% | findstr /c:"%PATTERN1%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN1 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN2%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN2 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN3%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN3 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN4%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN4 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN5%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN5 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN6%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN6 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN7%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN7 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN8%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN8 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN9%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN9 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN10%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN10 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN11%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN11 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN12%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN12 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN13%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN13 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN14%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN14 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN15%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN15 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN16%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN16 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN17%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN17 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN18%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN18 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN19%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN19 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN20%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN20 not found.
-    goto :end
-)
-echo %OUTPUT% | findstr /c:"%PATTERN21%" > nul
-if errorlevel 1 (
-    echo Test failed! - PATTERN21 not found.
-    goto :end
-)
+REM Check each expected pattern in output.log.
+call :checkPattern "%PATTERN1%"
+call :checkPattern "%PATTERN2%"
+call :checkPattern "%PATTERN3%"
+call :checkPattern "%PATTERN4%"
+call :checkPattern "%PATTERN5%"
+call :checkPattern "%PATTERN6%"
+call :checkPattern "%PATTERN7%"
+call :checkPattern "%PATTERN8%"
+call :checkPattern "%PATTERN9%"
+call :checkPattern "%PATTERN10%"
+call :checkPattern "%PATTERN11%"
+call :checkPattern "%PATTERN12%"
+call :checkPattern "%PATTERN13%"
+call :checkPattern "%PATTERN14%"
+call :checkPattern "%PATTERN15%"
+call :checkPattern "%PATTERN16%"
+call :checkPattern "%PATTERN17%"
+call :checkPattern "%PATTERN18%"
+call :checkPattern "%PATTERN19%"
+call :checkPattern "%PATTERN20%"
+call :checkPattern "%PATTERN21%"
 
 echo [test10] Test successful!
-goto :end
+exit /b 0
 
-:end
-endlocal
+:checkPattern
+REM Disable delayed expansion so that special characters are preserved.
+setlocal DisableDelayedExpansion
+findstr /c:"%~1" output.log >nul
+if errorlevel 1 (
+    endlocal
+    exit /b 1
+) else (
+    endlocal
+)
+exit /b
