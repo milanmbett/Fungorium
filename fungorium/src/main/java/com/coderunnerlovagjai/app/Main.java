@@ -17,9 +17,12 @@ import org.apache.logging.log4j.Logger;
  * --- Tesztek indításának módosítása, hogy a main indulásakor ne menjenek tesztek?
  
  * - Player megvalósítása
+ * --- Pontok tárolása, Role választás
  * - Role   megvalósítása
  * - Turn   megvalósítása
+ * --- Körök számának tárolása, körök közötti váltás pontok számolása
  * - Game   megvalósítása
+ * --- Pálya létrehozás , pontok kiosztása, kiértékelés , játék kezdete 
 
  * - Maradandó funkciók megvalósítása
  

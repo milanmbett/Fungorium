@@ -8,8 +8,8 @@ public class Insect_Stinger extends Insect_Class
     private static final Logger INSECT_STINGER_LOGGER = LogManager.getLogger(Insect_Stinger.class);
     public Insect_Stinger(Tecton_Class targetTecton, Player p)
     {
-        hp = 50; //TODO: Értékét még meg kell beszélni
-        attackDamage = 150; //TODO: Értékét még meg kell beszélni
+        hp = 50; 
+        attackDamage = 150; 
         availableSteps = 1;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);

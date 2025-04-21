@@ -39,9 +39,6 @@ public class Thread_Class
     {
         tecton = t;
     }
-    //Jelenleg a fonál egy véletlenszerű szomszédos tectonra ugrik, ha nincs szomszédos tecton akkor nem ugrik sehova
-    //TODO: Ne lehessen halott tecton-ra létrehozni fonalakat   
-    //TODO: Megvizsgálni ,hogy van-e gomba? Asszem specifikáció azt mondja hogy csak akkor nőhet? Nem tudom tényleg
     public void expand_Thread()
     {
         THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is trying to expand!");
@@ -93,7 +90,7 @@ public class Thread_Class
     }
     //Végig megyünk a fonál tectonján lévő összes bogaron és megnézzük hogy van-e olyan amelyik paralizálva van ha van megesszük, 
     //és növesztünk egy gombát(Shroomlet) ha még nincsen 
-    public void tryToEat_Insect() //TODO: Turn végén meghívni Thread_Collection összes elemére
+    public void tryToEat_Insect() 
     {
         THREAD_LOGGER.log(Level.forName("INFO", 400), "Trying to eat insect on tecton: " + tecton.get_ID() + " with thread: " + ID);
         // Iterate over a copy to avoid ConcurrentModificationException
