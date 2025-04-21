@@ -12,7 +12,7 @@ public class Player //TODO: Megírás
 
     public Player() {
         this.role = null; 
-        this.income = 200;  //TODO pontos érték megbeszélendő
+        this.income = 200;
         this.score = 0;
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }

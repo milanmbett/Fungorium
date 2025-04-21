@@ -17,7 +17,7 @@ public class Basic_Spore
     }
     public Basic_Spore(Tecton_Class targetTecton)
     {
-        timeToLive = 3; //TODO: Értékét még meg kell beszélni
+        timeToLive = 3; 
         tecton = targetTecton;
         tecton.set_Spore(this);
         ID = "Spore_Basic" + Integer.toString(Plane.SporeCollection.size());

@@ -8,7 +8,7 @@ public class Spore_Duplicator extends Basic_Spore
     private static final Logger SPORE_DUPLICATOR_LOGGER = LogManager.getLogger(Spore_Duplicator.class);
     public Spore_Duplicator(Tecton_Class targetTecton)
     {
-        timeToLive = 3; //TODO: Értékét még meg kell beszélni
+        timeToLive = 3;
         tecton = targetTecton;
         tecton.set_Spore(this);
         ID = "Spore_Duplicator" + Integer.toString(Plane.SporeCollection.size());
