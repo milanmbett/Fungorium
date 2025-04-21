@@ -6,6 +6,27 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
+
+//TODO: Fontos dolgok
+/* 
+* - Kommentek írása
+
+ * - Proto GUI(CLI) elkészítése
+ * --- Parancsok létrehozása amik szimulálni tudják a játékot
+ * --- Tesztek indításának módosítása, hogy a main indulásakor ne menjenek tesztek?
+ 
+ * - Player megvalósítása
+ * - Role   megvalósítása
+ * - Turn   megvalósítása
+ * - Game   megvalósítása
+
+ * - Maradandó funkciók megvalósítása
+ 
+ * - Dokumentum megírása
+*/
+
+
 public class Main {
 
     private static final Logger MAIN_LOGGER = LogManager.getLogger(Main.class);
