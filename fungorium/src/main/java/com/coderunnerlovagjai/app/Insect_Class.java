@@ -99,7 +99,7 @@ public abstract class Insect_Class
             return;
         }
         sp.consumed_by(this);
-        owner.increaseIncome(100);  //TODO érték megbeszélendő
+        owner.increaseIncome(100);  
     }
     public void eat_Thread(Thread_Class th)
     {
@@ -158,7 +158,7 @@ public abstract class Insect_Class
     }
     public void unparalyse_Insect()
     {
-        isParalysed = false; //TODO: Ezt meg kell hívni ha a paralysing spore hatása lejár
+        isParalysed = false; 
     }
     public boolean get_isParalysed()
     {

@@ -14,7 +14,7 @@ public abstract class Tecton_Class {
     protected Mushroom_Class mushroom;
     protected List<Insect_Class> insectsOnTecton = new ArrayList<>();
     protected Basic_Spore spore;
-    protected Thread_Class thread; // TODO: Átgondolás ,lehet nem tecton-nak ,hanem
+    protected Thread_Class thread;
     protected String ID;
 
     public Tecton_Class() {
