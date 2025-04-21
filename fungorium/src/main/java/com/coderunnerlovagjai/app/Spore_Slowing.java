@@ -8,7 +8,7 @@ public class Spore_Slowing extends Basic_Spore
     private static final Logger SLOWING_SPORE_LOGGER = LogManager.getLogger(Spore_Slowing.class);
     public Spore_Slowing(Tecton_Class targetTecton)
     {
-        timeToLive = 3; //TODO: Értékét még meg kell beszélni
+        timeToLive = 3;
         tecton = targetTecton;
         tecton.set_Spore(this);
         ID = "Spore_Slowing" + Integer.toString(Plane.SporeCollection.size());

@@ -8,7 +8,7 @@ public class Spore_Speed extends Basic_Spore
     private static final Logger SPORE_SPEED_LOGGER = LogManager.getLogger(Spore_Speed.class);
     public Spore_Speed(Tecton_Class targetTecton)
     {
-        timeToLive = 3; //TODO: Értékét még meg kell beszélni
+        timeToLive = 3;
         tecton = targetTecton;
         tecton.set_Spore(this);
         ID = "Spore_Speed" + Integer.toString(Plane.SporeCollection.size());
