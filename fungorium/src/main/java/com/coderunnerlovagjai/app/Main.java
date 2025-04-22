@@ -12,21 +12,21 @@ import org.apache.logging.log4j.Logger;
 /* 
 * - Kommentek írása
 
- * - Proto GUI(CLI) elkészítése
+ * - Proto GUI(CLI) elkészítése (Mirkó, Balu)
  * --- Parancsok létrehozása amik szimulálni tudják a játékot
  * --- Tesztek indításának módosítása, hogy a main indulásakor ne menjenek tesztek?
  
- * - Player megvalósítása
+ * - Player megvalósítása (Zoli)
  * --- Pontok tárolása, Role választás
- * - Role   megvalósítása
- * - Turn   megvalósítása
+ * - Role   megvalósítása (Zoli)
+ * - Turn   megvalósítása  (Zoli)
  * --- Körök számának tárolása, körök közötti váltás pontok számolása
- * - Game   megvalósítása
+ * - Game   megvalósítása (Zoli)
  * --- Pálya létrehozás , pontok kiosztása, kiértékelés , játék kezdete 
 
- * - Maradandó funkciók megvalósítása
+ * - Maradandó funkciók megvalósítása (Mirkó, Balu)
  
- * - Dokumentum megírása
+ * - Dokumentum megírása (Zoli)
 */
 
 
