@@ -38,6 +38,10 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
     }
     public void set_Owner(Player p)
     {
+        if (p != Game.player1 && p != Game.player2) { // Ellenőrzés, hogy érvényes játékos-e
+            TECTON_BASE_LOGGER.log(Level.forName("ERROR", 404), "Invalid player!");
+            return;
+        }
         owner = p;
     }
 }

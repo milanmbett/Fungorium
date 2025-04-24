@@ -1,9 +1,9 @@
 package com.coderunnerlovagjai.app;
 
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 public abstract class Insect_Class 
 {
     private static final Logger INSECT_CLASS_LOGGER = LogManager.getLogger(Insect_Class.class);
@@ -167,6 +167,10 @@ public abstract class Insect_Class
     }
     public void set_Owner(Player p)
     {
+        if (p != Game.player1 && p != Game.player2) { // Ellenőrzés, hogy érvényes játékos-e
+            INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 404), "Invalid player!");
+            return;
+        }
         owner = p;
     }
     public Player get_Owner()
