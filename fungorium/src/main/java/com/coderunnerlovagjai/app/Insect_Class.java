@@ -54,6 +54,8 @@ public abstract class Insect_Class
         availableSteps--;
         INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ID + " moved to " + targetTecton.get_ID() + ". Available steps: " + availableSteps);
     }
+    //TODO: ez nem csak move_insect + van a targettectonon egy gomba?
+    //Hiszen attack meg ezek "automatikusan megtörténnek"
     public void attack_Mushroom(Mushroom_Class m)
     {
         if(m == null)

@@ -636,6 +636,59 @@ public static void test5() // Tekton kettétörése
         }
         TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
+    public static void test25() { // Game inicializálás
+        TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Game initialization");
+        Game g = new Game();
+        if (Game.player1 == null || Game.player2 == null) {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Game players not initialized!");
+            return;
+        }
+        if (Game.turnNumber != 1) {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Initial turnNumber is not 1!");
+            return;
+        }
+        if (g.currentTurnsPlayer() != Game.player1.getId()) {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "currentTurnsPlayer() did not return player1!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
+    }
+    public static void test26() { // Game turn hívás
+        TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Game turn progression");
+        Game g = new Game();
+        int next = g.turn();
+        if (next != 2 || Game.turnNumber != 2) {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "turn() did not increment turnNumber correctly!");
+            return;
+        }
+        if (g.currentTurnsPlayer() != Game.player2.getId()) {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "currentTurnsPlayer() after one turn did not return player2!");
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
+    }
+    public static void test27() { //getPlayer(id) – helyes és érvénytelen ID-k kezelése
+        TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Game.getPlayer()");
+        Game g = new Game();
+        int id1 = Game.player1.getId();
+        int id2 = Game.player2.getId();
+        if (Game.getPlayer(id1) != Game.player1) {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "getPlayer() did not return player1 for id " + id1);
+            return;
+        }
+        if (Game.getPlayer(id2) != Game.player2) {
+            TESTS_LOGGER.log(Level.forName("ERROR", 404), "getPlayer() did not return player2 for id " + id2);
+            return;
+        }
+        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
+    }
+
+    public static void test28() { //TODO
+        TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Game.getPlayer() with invalid ID");
+        Game g = new Game();
+        Game.player1.setRoleInsect();
+        //Game.player2
+    }   
     public static void empty()
     {
         Plane.InsectCollection.clear();
@@ -673,6 +726,9 @@ public static void test5() // Tekton kettétörése
         System.out.println("22. Thread eats Paralyzed insect");
         System.out.println("23. Thread expanding to dead tecton (Negative test)");
         System.out.println("24. Tecton with two mushrooms (Negative test)");
+        System.out.println("25. Game initialization");
+        System.out.println("26. Game turn progression");
+        System.out.println("27. Game.getPlayer() – valid and invalid ID handling");
         System.out.println("----------------------------------------------------------------");
     }
 }
