@@ -4,36 +4,32 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Game {
+public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékelés , játék kezdete
     private static final Logger GAME_LOGGER = LogManager.getLogger(Game.class);
 
     public static Player player1;
     public static Player player2;
-    private int turnNumber;
+    public static int turnNumber;
 
     public Game() {
         player1 = new Player(); //id = 1
         player2 = new Player(); //id = 2
-        this.turnNumber = 0;
+        this.turnNumber = 1;
         GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players.");
+    }
+
+    public int currentTurnsPlayer() {
+        if (turnNumber % 2 == 1) {
+            return player1.getId(); // Player 1's turn
+        } else {
+            return player2.getId(); // Player 2's turn
+        }
     }
 
     public static Player getPlayer(int id) {
         if (id == player1.getId()) return player1;
         if (id == player2.getId()) return player2;
         return null;
-    }
-
-    public void createInsectForPlayer(Player player, Tecton_Class tecton) {
-        if (player != player1 && player != player2) {
-            GAME_LOGGER.log(Level.forName("ERROR", 404), "Invalid player!");
-            return;
-        }
-
-        Insect_Class insect = new Insect_Buglet(tecton, player); 
-        insect.set_Owner(player);
-        Plane.InsectCollection.add(insect);
-        GAME_LOGGER.log(Level.forName("CREATE", 401), "Insect created for player: " + player);
     }
 
     public int turn() {

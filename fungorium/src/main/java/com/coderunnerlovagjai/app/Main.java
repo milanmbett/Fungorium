@@ -27,6 +27,19 @@ import org.apache.logging.log4j.Logger;
  * - Maradandó funkciók megvalósítása (Mirkó, Balu)
  
  * - Dokumentum megírása (Zoli)
+ *    
+    Player:
+    - A játékos alapadatai (név, stb.)
+    - A játékos által választott szerep (Role)
+    - Delegálja a játékmechanikákat a Role-nak
+
+    Role:
+    - Specifikus viselkedés a szerepekhez
+    - Pontszámítás stratégiája szerepenként
+
+    Game:
+    - Körök kezelése
+    - Játék állapotának fenntartása
 */
 
 
@@ -161,6 +174,18 @@ public class Main {
                 _Tests.test24();
                 _Tests.empty();
                 break;
+            case "25":
+                _Tests.test25();
+                _Tests.empty();
+                break;
+            case "26":
+                _Tests.test26();
+                _Tests.empty();
+                break;
+            case "27":
+                _Tests.test27();
+                _Tests.empty();
+                break;
             case "exit":
                 return true;
             default:
@@ -266,6 +291,18 @@ public class Main {
                 break;
             case "24":
                 _Tests.test24();
+                _Tests.empty();
+                break;
+            case "25":
+                _Tests.test25();
+                _Tests.empty();
+                break;
+            case "26":
+                _Tests.test26();
+                _Tests.empty();
+                break;
+            case "27":
+                _Tests.test27();
                 _Tests.empty();
                 break;
             default:

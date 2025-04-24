@@ -2,32 +2,57 @@ package com.coderunnerlovagjai.app;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-public class Player //TODO: Megírás
+public class Player //TODO: Megírás: Pontok tárolása, Role választás
 {
     private static final Logger PLAYER_LOGGER = LogManager.getLogger(Player.class);
 
     private Role role;
     private int income;
     private int score;  //mintha income lenne, viszont soha nem csökkenhet, csak nőhet
+    private static int nextId = 1;
+    private final int id;
 
     public Player() {
+        this.id = nextId++;
         this.role = null; 
         this.income = 200;
         this.score = 0;
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
 
-    /*public Player(Role role) {
-        this.role = role;
-        this.income = 0;
-        this.score = 0;
-    }*/
 
-    public void setRole(Role role) {
-        this.role = role;
+    public int getId() {
+        return id;
     }
+
+    public void setRoleInsect() {
+        this.role = new Role_Insect(this);
+        PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Player {} role set to: {}", id, role.getRoleName());
+    }
+    public void setRoleMushroom() {
+        this.role = new Role_Mushroom(this);
+        PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Player {} role set to: {}", id, role.getRoleName());
+    }
+
     public Role getRole() {
         return role;
+    }
+
+    public boolean moveInsect(Insect_Class insect, Tecton_Class target) {
+        if (role instanceof Role_Insect role_insect) {
+            return role_insect.validateAndMoveInsect(insect, target);
+        } else {
+            PLAYER_LOGGER.log(Level.forName("ERROR", 404), 
+                "Player {} does not have Insect role!", id);
+            return false;
+        }
+    }
+
+    public void newTurn() {
+        if (role != null) {
+            role.on_turn();
+            role = null; // Reset the role after the turn
+        }
     }
 
     public int getIncome() {
@@ -52,10 +77,11 @@ public class Player //TODO: Megírás
     public void increaseIncome(int amount) {
         this.income += amount;
         PLAYER_LOGGER.log(Level.forName("INCOME", 401), "Income increased by " + amount + ". New income: " + this.income);
-        this.score += amount;
+        this.score += amount; // SCORE is növekszik az INCOME növekedésével
         PLAYER_LOGGER.log(Level.forName("SCORE", 401), "Score increased by " + amount + ". New score: " + this.score);
 
     }
+
 
     public void decreaseIncome(int amount) {
         this.income -= amount;
