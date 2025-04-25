@@ -13,6 +13,7 @@ public class Plane
     public static final List<Thread_Class> ThreadCollection = new ArrayList<>();
     public static final List<Mushroom_Class> MushroomCollection = new ArrayList<>();
     //TODO: ID-k jobban kell hogy működjenek ,mert jelenleg nem biztos ,hogy egyediek lesznek!
+    //TODO: Páya kialakítása, elrendezése
 
     public void init_Plane() //Lehet nem fog kelleni Skeletonba
     {
