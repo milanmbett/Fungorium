@@ -4,7 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékelés , játék kezdete
+public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékelés , játék kezdete, Spóra kiosztás, játék vége ---
     private static final Logger GAME_LOGGER = LogManager.getLogger(Game.class);
 
     public static Player player1;
@@ -12,8 +12,8 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     public static int turnNumber;
 
     public Game() {
-        player1 = new Player(); //id = 1
-        player2 = new Player(); //id = 2
+        player1 = new Player(1); //id = 1
+        player2 = new Player(2); //id = 2
         this.turnNumber = 1;
         GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players.");
     }
