@@ -105,8 +105,9 @@ public class FungoriumPrototype {
             System.out.println("11 - Rovar kettétör tektont (Crack Tecton)");
             System.out.println("12 - Gombafonal megevése (Eat Fungal Thread)");
             System.out.println("13 - Rovar elpusztít tektont (Destroy Tecton)");
-            System.out.println("14 - Fonal önálló terjedése (Thread Spreads)");
+            System.out.println("14 - Fonal önálló terjedése (Thread Spreads)"); //Ez automatikus
             System.out.println("0  - Kilépés (Exit)");
+            System.out.print("Your choice: ");
             // Read user choice
             int choice;
             try {
