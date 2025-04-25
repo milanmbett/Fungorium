@@ -36,15 +36,21 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         turnNumber++;
         GAME_LOGGER.log(Level.forName("TURN", 401), "Turn number: " + turnNumber);
         // Implement game logic for each turn here
-        if (player1 != null && player2 != null) {
-            // Process player turns
-            //player1.processTurn();
-            //player2.processTurn();
-            
-            // Update game state on the plane
-            //Plane.updateState();
-        }
+        
+        // Process player turns
+        //player1.processTurn();
+        //player2.processTurn();
+        
+        // Update game state on the plane
+        //Plane.updateState();
+        
 
         return turnNumber;
+    }
+
+    public void endGame() {
+        GAME_LOGGER.log(Level.forName("END_GAME", 402), "Game ended.");
+        // Implement game ending logic here
+        // Calculate scores, determine winner, etc.
     }
 }
