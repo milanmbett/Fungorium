@@ -73,6 +73,20 @@ public class Role_Insect implements Role //TODO: Megírás
         return true;
     }
 
+    public void resetRole(Player player) {
+        if (player != owner) {
+            ROLE_INSECT_LOGGER.log(Level.forName("ERROR", 404), "Player does not own this role!");
+            return;
+        }
+        if(player == null) {
+            ROLE_INSECT_LOGGER.log(Level.forName("NULL", 201), "Player is null!");
+            return;
+        }
+        player.setRoleNull();
+        ROLE_INSECT_LOGGER.log(Level.forName("RESET", 401), "Insect role reset.");
+
+    }
+
 
 
 }

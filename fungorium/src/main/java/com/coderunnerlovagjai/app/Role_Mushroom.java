@@ -24,7 +24,16 @@ public class Role_Mushroom implements Role //TODO: Megírás
     public String getRoleName() {
         return "Mushroom";
     }
-    public void resetRole() {
+    public void resetRole(Player player) {
+        if (player != owner) {
+            ROLE_MUSHROOM_LOGGER.log(Level.forName("ERROR", 404), "Player does not own this role!");
+            return;
+        }
+        if(player == null) {
+            ROLE_MUSHROOM_LOGGER.log(Level.forName("NULL", 201), "Player is null!");
+            return;
+        }
+        player.setRoleNull(); // Reset the role for the player
         ROLE_MUSHROOM_LOGGER.log(Level.forName("RESET_ROLE", 402), "Mushroom role has been reset.");
     }
 
@@ -47,5 +56,6 @@ public class Role_Mushroom implements Role //TODO: Megírás
     public void double_Money() {
         ROLE_MUSHROOM_LOGGER.log(Level.forName("DOUBLE_MONEY", 402), "Money doubled.");
     }
+
 
 }
