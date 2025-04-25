@@ -9,11 +9,18 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
     private Role role;
     private int income;
     private int score;  //mintha income lenne, viszont soha nem csökkenhet, csak nőhet
-    private static int nextId = 1;
     private final int id;
 
     public Player() {
-        this.id = nextId++;
+        this.id = 0;
+        this.role = null; 
+        this.income = 200;
+        this.score = 0;
+        PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
+    }
+
+    public Player(int id) {
+        this.id = id;
         this.role = null; 
         this.income = 200;
         this.score = 0;
