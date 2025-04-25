@@ -34,6 +34,11 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
         PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Player {} role set to: {}", id, role.getRoleName());
     }
 
+    public void setRoleNull(){
+        this.role = null;
+        PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Player {} role set to: {}", id, "null");
+    }
+
     public Role getRole() {
         return role;
     }
