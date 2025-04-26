@@ -46,9 +46,9 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
         owner = p;
     }
 
-    public boolean isDead()
-    {
-        return isDead;
+    @Override
+    public boolean isDead() {
+        return true; 
     }
 
     public void setDeadTrue()
