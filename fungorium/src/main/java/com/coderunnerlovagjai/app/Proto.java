@@ -36,7 +36,7 @@ public class Proto {
             System.out.println("\nSelect a role (1 or 2), or 0 to exit:");
             System.out.println("1 - Fungus Player (Gomba játékos)");
             System.out.println("2 - Insect Player (Rovar játékos)");
-            System.out.println("3 - Initialize Game (Játék inicializálása)");
+            //System.out.println("3 - Initialize Game (Játék inicializálása)");
             System.out.println("0 - Exit");
             int choice1;
             int choice2;
@@ -120,7 +120,7 @@ public class Proto {
                     System.out.println("Insect Player selected. Choose an action:");
                     System.out.println("1 - Move Insect");
                     System.out.println("2 - Place Insect");
-                    System.out.println("3 - Insect Attacks Mushroom");
+                    //System.out.println("3 - Insect Attacks Mushroom");
                     System.out.println("0 - Back to main menu");
                     try {
                         choice2 = Integer.parseInt(scanner.nextLine().trim());
@@ -136,23 +136,18 @@ public class Proto {
                             placeInsect(game.getPlayer(game.currentTurnsPlayer()), selectNewInsect(), selectTecton());
                             break;
                         case 3:
-                            insectAttacksMushroom(game.getPlayer(game.currentTurnsPlayer()));
+                            insectAttacksMushroom(game.getPlayer(game.currentTurnsPlayer()), selectInsect(), selectTecton());
                             break;
                         default:
                             System.out.println("Invalid choice for Insect Player.");
                             break;
                     }
                     break;
-                case 3:
-                    // Initialize game
-                    System.out.println("Initializing game...");
-                    initializeGame();
-                    break;
                 default:
                     System.out.println("Invalid choice. Please select a valid option.");
                     
-
                 }
+                game.turn();
 
         }
     }
@@ -297,6 +292,10 @@ public class Proto {
         }
         if (insect == null) {
             System.out.println("No insect available to move.");
+            return;
+        }
+        if(player.getId() != insect.get_Owner().getId()){
+            System.out.println("You cannot move an insect that does not belong to you.");
             return;
         }
         Tecton_Class current = insect.get_Tecton();
