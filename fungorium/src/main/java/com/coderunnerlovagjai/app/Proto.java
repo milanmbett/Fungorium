@@ -7,84 +7,23 @@ import java.util.*;
  * Each use case is implemented as a separate method that prints a simulation of that scenario.
  * The program uses placeholder logic and outputs to represent game state changes.
  */
+
+
+
 public class Proto {
     // Game state fields
     private static boolean gameInitialized = false;
     private static int nextTectonId = 1;
-    private static List<Tecton> allTectons = new ArrayList<>();
+    private static List<Tecton_Class> allTectons = new ArrayList<>();
     private static int fungusCurrency;
     private static int insectCurrency;
+    private static Game game = new Game();
 
-    // Domain classes (static inner classes for simplicity)
-    static class Tecton {
-        int id;
-        List<Tecton> neighbors = new ArrayList<>();
-        Mushroom mushroom = null;
-        List<Insect> insects = new ArrayList<>();
-        Spore spore = null;
-        ThreadObj thread = null;
-        boolean isDead = false;
-        Tecton() {
-            this.id = nextTectonId++;
-        }
-        public String toString() {
-            return "Tecton" + id;
-        }
-    }
-    static class Mushroom {
-        String type;
-        int hp;
-        int power;
-        Tecton location;
-        Mushroom(String type, int hp, int power, Tecton loc) {
-            this.type = type;
-            this.hp = hp;
-            this.power = power;
-            this.location = loc;
-        }
-        public String toString() {
-            return type + " Mushroom";
-        }
-    }
-    static class Insect {
-        String type;
-        int hp;
-        int attackDamage;
-        Tecton location;
-        Insect(String type, int hp, int attackDamage, Tecton loc) {
-            this.type = type;
-            this.hp = hp;
-            this.attackDamage = attackDamage;
-            this.location = loc;
-        }
-        public String toString() {
-            return type + " Insect";
-        }
-    }
-    static class Spore {
-        String type;
-        Tecton location;
-        Spore(String type, Tecton loc) {
-            this.type = type;
-            this.location = loc;
-        }
-        public String toString() {
-            return type + " Spore";
-        }
-    }
-    static class ThreadObj {
-        Tecton location;
-        ThreadObj(Tecton loc) {
-            this.location = loc;
-        }
-        public String toString() {
-            return "Thread";
-        }
-    }
+    
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Fungorium Console Prototype - Use Case Simulation");
+        System.out.println("Fungorium Console Prototype - "+game.currentTurnsPlayer()+"'s turn");
         while (true) {
             // Display menu
             System.out.println("\nSelect a role (1 or 2), or 0 to exit:");
@@ -92,23 +31,6 @@ public class Proto {
             System.out.println("2 - Insect Player (Rovar játékos)");
             System.out.println("3 - Initialize Game (Játék inicializálása)");
             System.out.println("0 - Exit");
-        /*  System.out.println("\nChoose an option (1-14) to simulate a use case, or 0 to exit:");
-            System.out.println("1  - Gomba lerakása (Place Mushroom)");
-            System.out.println("2  - Rovar mozgatása (Move Insect)");
-            System.out.println("3  - Rovar lerakása (Place Insect)");
-            System.out.println("4  - Gomba fejlesztése (Upgrade Mushroom)");
-            System.out.println("5  - Játék inicializálása (Initialize Game)");
-            System.out.println("6  - Játék vége és kiértékelés (End Game & Evaluate)");
-            System.out.println("7  - Rovar támad gombát (Insect Attacks Mushroom)");
-            System.out.println("8  - Gomba támad rovart (Mushroom Attacks Insect)");
-            System.out.println("9  - Spóra generálása (Generate Spore)");
-            System.out.println("10 - Spóra megevése (Consume Spore)");
-            System.out.println("11 - Rovar kettétör tektont (Crack Tecton)");
-            System.out.println("12 - Gombafonal megevése (Eat Fungal Thread)");
-            System.out.println("13 - Rovar elpusztít tektont (Destroy Tecton)");
-            System.out.println("14 - Fonal önálló terjedése (Thread Spreads)");
-            System.out.println("0  - Kilépés (Exit)");*/
-            // Read user choice
             int choice1;
             int choice2;
             try {
@@ -132,6 +54,7 @@ public class Proto {
             switch (choice1) {
                 case 1:
                     // Fungus player actions
+                    game.getPlayer(game.currentTurnsPlayer()).setRoleMushroom();
                     System.out.println("Fungus Player selected. Choose an action:");
                     System.out.println("1 - Place Mushroom");
                     System.out.println("2 - Upgrade Mushroom");
@@ -144,7 +67,7 @@ public class Proto {
                     }
                     switch (choice2) {
                         case 1:
-                            placeMushroom();
+                            game.getPlayer(game.currentTurnsPlayer()).getRole().placeMushroom();
                             break;
                         case 2:
                             upgradeMushroom();
@@ -155,6 +78,7 @@ public class Proto {
                     break;
                 case 2:
                     // Insect player actions
+                    game.getPlayer(game.currentTurnsPlayer()).setRoleInsect();
                     System.out.println("Insect Player selected. Choose an action:");
                     System.out.println("1 - Move Insect");
                     System.out.println("2 - Place Insect");
@@ -192,52 +116,6 @@ public class Proto {
 
                 }
 
-            /*switch (choice) {
-                case 1:
-                    placeMushroom();
-                    break;
-                case 2:
-                    moveInsect();
-                    break;
-                case 3:
-                    placeInsect();
-                    break;
-                case 4:
-                    upgradeMushroom();
-                    break;
-                case 5:
-                    initializeGame();
-                    break;
-                case 6:
-                    endGame();
-                    break;
-                case 7:
-                    insectAttacksMushroom();
-                    break;
-                case 8:
-                    mushroomAttacksInsect();
-                    break;
-                case 9:
-                    generateSpore();
-                    break;
-                case 10:
-                    consumeSpore();
-                    break;
-                case 11:
-                    crackTecton();
-                    break;
-                case 12:
-                    eatThread();
-                    break;
-                case 13:
-                    destroyTecton();
-                    break;
-                case 14:
-                    spreadThread();
-                    break;
-                default:
-                    System.out.println("Invalid option. Please choose a number from 0 to 14.");
-            }*/
         }
     }
 
