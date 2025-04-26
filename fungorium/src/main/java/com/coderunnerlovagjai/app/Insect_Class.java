@@ -18,8 +18,6 @@ public abstract class Insect_Class
     protected int cost=0; //Grafikahoz lehet nem kell
 
 
-    protected Game game;
-
     public Insect_Class()
     {
         INSECT_CLASS_LOGGER.log(Level.forName("INIT",402),"Insect_Class Constructor called!"); 
@@ -96,8 +94,8 @@ public abstract class Insect_Class
     public void die_Insect()
     {
         tecton.get_InsectsOnTecton().remove(this);
-        game.getPlane().InsectCollection.remove(this);
     }
+
     public void eat_Spore(Basic_Spore sp)
     {
         if(sp == null)
