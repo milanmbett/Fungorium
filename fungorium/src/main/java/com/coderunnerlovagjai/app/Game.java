@@ -99,10 +99,6 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
                 endGame();
             }
             
-            // TODO: rovar sebez gombát
-            // TODO: gomba sebez rovarokat
-            // TODO: gomba spórát szór
-            // TODO: fonal teredése
             // Update game state on the plane
             //Plane.updateState();
             for(Mushroom_Class m : plane.MushroomCollection) {
@@ -111,9 +107,27 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
                 }
             }
             
+            // Insect attacks on mushrooms
+            for(Insect_Class ins : plane.InsectCollection) {
+                ins.attack_Mushroom(ins.get_Tecton().get_Mushroom());
+            }
             
-
-
+            // Mushroom attacks insects
+            for(Mushroom_Class mush : plane.MushroomCollection) {
+                mush.attack_Insects();
+            }
+            
+            // Mushrooms release spores
+            for(Mushroom_Class mush : plane.MushroomCollection) {
+                mush.spawn_Spores();
+            }
+            
+            // Thread expansion and eating
+            for(Thread_Class th : plane.ThreadCollection) {
+                th.expand_Thread();
+                th.tryToEat_Insect();
+            }
+            
             turnNumber++;
         }
     }

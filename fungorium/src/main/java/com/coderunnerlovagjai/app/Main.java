@@ -49,29 +49,45 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        boolean done = false;
-        boolean testMode = false;
-        String testNumber = null;
-
-        // Check for --test flag
+        // Support a direct test flag
         if (args.length > 0 && args[0].equals("--test")) {
-            testMode = true;
             if (args.length > 1) {
-                testNumber = args[1]; // Get the test number from arguments
+                runTest(args[1]);
             } else {
                 MAIN_LOGGER.log(Level.ERROR, "Please provide a test number after --test flag.");
-                return; // Exit if no test number is provided
             }
+            scanner.close();
+            return;
         }
-
-        if (!testMode) {
-            while (!done) {
-                _Tests.listTests();
-                done = processInput(scanner, scanner.nextLine());
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("=== Main Menu ===");
+            System.out.println("1. Play Game");
+            System.out.println("2. Run Tests");
+            System.out.println("enter 'exit' to quit");
+            System.out.print("Choice: ");
+            String choice = scanner.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    // Start the game
+                    Game game = new Game();
+                    game.initGame();
+                    game.startGame();
+                    break;
+                case "2":
+                    // Enter test mode
+                    boolean doneTests = false;
+                    while (!doneTests) {
+                        _Tests.listTests();
+                        doneTests = processInput(scanner, scanner.nextLine());
+                    }
+                    break;
+                case "exit":
+                    exit = true;
+                    break;
+                default:
+                    MAIN_LOGGER.log(Level.WARN, "Invalid input. Please enter 1, 2, or 'exit'.");
             }
-        } else {
-            // Run the specified test and exit
-            runTest(testNumber);
         }
         scanner.close();
     }

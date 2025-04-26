@@ -8,11 +8,11 @@ import org.apache.logging.log4j.Logger;
 public class Plane 
 {
     private final Logger PLANE_LOGGER = LogManager.getLogger(Plane.class);
-    public final List<Basic_Spore> SporeCollection = new ArrayList<>();
-    public final List<Tecton_Class> TectonCollection = new ArrayList<>();
-    public final List<Insect_Class> InsectCollection = new ArrayList<>();
-    public final List<Thread_Class> ThreadCollection = new ArrayList<>();
-    public final List<Mushroom_Class> MushroomCollection = new ArrayList<>();
+    public static final List<Basic_Spore> SporeCollection = new ArrayList<>();
+    public static final List<Tecton_Class> TectonCollection = new ArrayList<>();
+    public static final List<Insect_Class> InsectCollection = new ArrayList<>();
+    public static final List<Thread_Class> ThreadCollection = new ArrayList<>();
+    public static final List<Mushroom_Class> MushroomCollection = new ArrayList<>();
     //TODO: ID-k jobban kell hogy működjenek ,mert jelenleg nem biztos ,hogy egyediek lesznek!
     //TODO: Páya kialakítása, elrendezése
     private Tecton_Base base1;
@@ -80,9 +80,10 @@ public class Plane
             if (insect.get_ID().equalsIgnoreCase(id)) {
                 return insect;
             }
+        }
 
         PLANE_LOGGER.log(Level.forName("ERROR", 404), "Insect with ID {} not found!", id);
         return null;
     }
-    
+
 }
