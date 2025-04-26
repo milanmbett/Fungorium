@@ -10,7 +10,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     public static Player player1;
     public static Player player2;
     public static int turnNumber;
-    public static Plane plane; // A játékhoz tartozó pálya 
+    private Plane plane; // A játékhoz tartozó pálya 
 
     public Game() {
         player1 = new Player(1); //id = 1
@@ -22,6 +22,10 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         plane = new Plane();
 
         GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players.");
+    }
+
+    public Plane getPlane() {
+        return plane;
     }
 
     public void initGame() {
