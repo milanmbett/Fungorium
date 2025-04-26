@@ -303,32 +303,33 @@ public class Proto {
     // Use Case 4: Gomba fejlesztése (Upgrade Mushroom)
     private static void upgradeMushroom(Player player, Mushroom_Class mushroom) {
         // Simulate selecting a mushroom to upgrade (pick first available)
-        Mushroom_Class targetMushroom = null;
-        for (Tecton_Class t : allTectons) {
-            if (t.mushroom != null) {
-                targetMushroom = t.mushroom;
-                break;
-            }
+        Tecton_Class target= selectTecton();
+        if(target==null){
+            System.out.println("No available tecton to upgrade the mushroom.");
+            return;
         }
-        if (targetMushroom == null) {
+        if (target.mushroom == null) {
             System.out.println("No mushroom available to upgrade.");
             return;
         }
+
+        if (mushroom.level >= 3) {
+            System.out.println("Mushroom is already at max level.");
+            return;
+        }
         // Check currency
-        int cost = 30;
-        if (fungusCurrency < cost) {
+        int cost = 50;
+        if (player.getIncome() < cost) {
             System.out.println("Not enough resources to upgrade the mushroom.");
             return;
         }
-        fungusCurrency -= cost;
+        player.decreaseIncome(cost);
         // Apply upgrade (increase stats and change type)
-        targetMushroom.type = "Upgraded";
-        targetMushroom.hp += 20;
-        targetMushroom.power += 5;
-        System.out.println("Upgrading mushroom at " + targetMushroom.location + "...");
-        System.out.println("Mushroom upgraded successfully! New type: " + targetMushroom.type +
-                ", HP: " + targetMushroom.hp + ", Power: " + targetMushroom.power +
-                ". (Cost " + cost + ", remaining fungus currency: " + fungusCurrency + ")");
+        mushroom.level++;
+        mushroom.hp += 20;
+        mushroom.power += 5;
+        System.out.println("Upgrading mushroom at tecton: " + target.get_ID() + "...");
+        System.out.println("Mushroom upgraded successfully! New level: "+mushroom.level);
     }
 
     // Use Case 6: Játék vége és kiértékelés (End Game & Evaluate)
