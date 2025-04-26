@@ -27,6 +27,7 @@ public class Proto {
     
 
     public static void main(String[] args) {
+        game.initGame(); 
         game.startGame(); // Elindítja a játékot
         Scanner scanner = new Scanner(System.in);
         System.out.println("Fungorium Console Prototype - "+game.currentTurnsPlayer()+"'s turn");

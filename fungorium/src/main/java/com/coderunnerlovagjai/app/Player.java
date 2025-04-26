@@ -11,6 +11,7 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
     private int fungusCounter; // lerakott gombák száma
     private int score;  //mintha income lenne, viszont soha nem csökkenhet, csak nőhet
     private final int id;
+    private Game game;
 
     public Player() {
         this.id = 0;
@@ -30,6 +31,13 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Game getGame() {
+        return game;
+    }
 
     public int getId() {
         return id;
