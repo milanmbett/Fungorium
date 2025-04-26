@@ -52,13 +52,14 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     }
 
     public int turn() { //Ez majd void lesz, csak meg _Tests miatt int
+        Player currentPlayer;
         if(turnNumber == 0)
         {
             GAME_LOGGER.log(Level.forName("TURN", 401), "First Turn! Player1 starts. " + turnNumber);
             turnNumber++;
             return turnNumber;
         } else {
-            turnNumber++;
+            currentPlayer = getPlayer(currentTurnsPlayer());
             GAME_LOGGER.log(Level.forName("TURN", 401), "Turn number: " + turnNumber);
             // Implement game logic for each turn here
             
@@ -70,8 +71,13 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             }
             // Update game state on the plane
             //Plane.updateState();
+            for(Mushroom_Class m : Plane.MushroomCollection) {
+                if(m.get_Owner() == currentPlayer) {
+                    m.generate_Income();
+                }
+            }
             
-
+            turnNumber++;
             return turnNumber;
         }
     }

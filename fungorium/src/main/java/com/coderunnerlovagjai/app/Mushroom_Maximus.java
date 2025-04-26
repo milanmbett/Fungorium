@@ -21,4 +21,9 @@ public class Mushroom_Maximus extends Mushroom_Class
         MUSHROOM_MAXIMUS_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Maximus: "+ID+ " added to MushroomCollection! MushroomCollection size: " + Plane.MushroomCollection.size());
 
     }
+
+    @Override
+    public int getIncomeMultiplier() {
+        return 10; // Például a Mushroom_Shroomlet 10-szeres szorzót ad
+    }
 }
