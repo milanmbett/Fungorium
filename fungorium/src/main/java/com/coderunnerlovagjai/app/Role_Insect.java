@@ -57,7 +57,7 @@ public class Role_Insect implements Role //TODO: Megírás
             return false;
         }
         // Ha nem halott tecton
-        if (targetTecton instanceof Tecton_Dead) { //TODO: hiba
+        if (targetTecton.isDead()) { //TODO: hiba
             ROLE_INSECT_LOGGER.log(Level.forName("ERROR", 404), "Cannot move to dead tecton!");
             return false;
         }
