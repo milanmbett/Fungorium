@@ -36,18 +36,10 @@ public abstract class Mushroom_Class
     } 
     public void generate_Income() //TODO: Ez igy meg csúnya majd meg kell vizsgálni további lehetőségeket
     {
-        //mushroom ownerje?
-        //hpja lejjebb mint 500?
-        for(Mushroom_Class mushroom : Plane.MushroomCollection)
-        {
-            if(mushroom.get_Owner() == owner)
-            {
-                if(mushroom.ID.contains("Mushroom_Grand"))
-                    owner.increaseIncome(level*15);
-                owner.increaseIncome(level*10);
-            }
-        }
-        
+        if (this.ID.contains("Mushroom_Grand"))
+            owner.increaseIncome(level * 15);
+        else
+            owner.increaseIncome(level * 10);
     }
    
 
