@@ -159,30 +159,15 @@ public class Proto {
     private static Insect_Class selectInsect(){
         // Placeholder for selecting an insect
         System.out.println("Select an insect from the list: ");
-        int i = 0;
-        for (Insect_Class insect : Plane.InsectCollection) {
-            if (insect.get_Owner().getId() == game.currentTurnsPlayer()){
-                System.out.println(i+": " + insect.get_ID());
-                i++;
-            }
+        for (Insect_Class i : Plane.InsectCollection) {
+            if (i.get_Owner().getId() == game.currentTurnsPlayer())
+                System.out.println("Insect: " + i.get_ID());
         }
-        int choice;
-        try {
-            choice = Integer.parseInt(new Scanner(System.in).nextLine().trim());
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input, please enter a number.");
-            return null;
-        }
-        if (choice == 0) {
-            return null;
-        } else if (choice == 1) {
-            return new Insect_Buglet(selectTecton(),game.getPlayer(game.currentTurnsPlayer()));
-        } else if (choice == 2) {
-            return new Insect_Tektonizator(selectTecton(),game.getPlayer(game.currentTurnsPlayer()));
-        } else {
-            System.out.println("Invalid insect selection.");
-            return null;
-        }
+        String choice;
+        choice = new Scanner(System.in).nextLine();
+        Insect_Class selectedInsect = Plane.getInsectByID(choice);
+
+        return selectedInsect;
     }
 
     private static Tecton_Class selectTecton() {
