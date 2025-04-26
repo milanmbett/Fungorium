@@ -15,6 +15,7 @@ public class Insect_Buglet extends Insect_Class
         tecton.get_InsectsOnTecton().add(this);
         owner = p;
         ID = "Insect_Buglet" + Integer.toString(Plane.InsectCollection.size());
+        cost = 10;
         INSECT_BUGLET_LOGGER.log(Level.forName("CREATE",401),"Insect_Buglet Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.InsectCollection.add(this);
         INSECT_BUGLET_LOGGER.log(Level.forName("ADD", 403), "Insect_Buglet: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());

@@ -17,6 +17,7 @@ public class Insect_Tektonizator extends Insect_Class {
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
         ID = "Insect_Tektonizator" + Integer.toString(Plane.InsectCollection.size());
+        cost = 50;
         owner = p;
         INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("CREATE", 401), "Insect_Tektonizator Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.InsectCollection.add(this);
