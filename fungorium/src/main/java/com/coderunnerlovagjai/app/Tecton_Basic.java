@@ -22,4 +22,9 @@ public class Tecton_Basic extends Tecton_Class
         Plane.TectonCollection.add(this);
         TECTON_BASIC_LOGGER.log(Level.forName("ADD", 403), "Tecton_Basic: "+ID+ " added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
     }
+
+    @Override
+    public boolean isDead() {
+        return true; // A Tecton_Dead mindig halott
+    }
 }

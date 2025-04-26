@@ -22,6 +22,8 @@ public abstract class Tecton_Class {
 
     }
 
+    public abstract boolean isDead();
+
     // Method to determine if this tecton can be cracked
     public boolean canBeCracked() {
         return true; // Default implementation - most tectons can be cracked
