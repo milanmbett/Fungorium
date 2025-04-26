@@ -7,19 +7,19 @@ import org.apache.logging.log4j.Logger;
 public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékelés , játék kezdete, Spóra kiosztás, játék vége ---
     private static final Logger GAME_LOGGER = LogManager.getLogger(Game.class);
 
-    public static Player player1;
-    public static Player player2;
-    public static int turnNumber;
-    private Plane plane; // A játékhoz tartozó pálya 
+    private final Player player1;
+    private final Player player2;
+    private int turnNumber;
+    private final Plane plane; // A játékhoz tartozó pálya 
 
     public Game() {
-        player1 = new Player(1); //id = 1
-        player2 = new Player(2); //id = 2
-        this.turnNumber = 0;
+        this.player1 = new Player(1);
+        this.player2 = new Player(2);
+        this.turnNumber = 0; 
 
         // Inicializáljuk a Plane-t, a bázisok inicializálása átkerült a külön initGame() metódusba,
         // hogy elkerüljük az "this" szivárgását a konstruktorban.
-        plane = new Plane();
+        this.plane = new Plane();
 
         GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players.");
     }
@@ -29,6 +29,8 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     }
 
     public void initGame() {
+        player1.setGame(this);  
+        player2.setGame(this); 
         // A bázisok inicializálása külön metódusban történik
         plane.initBases(player1, player2, this);
         GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players and their bases.");
@@ -49,11 +51,27 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         this.turn();
     }
 
-    public static Player getPlayer(int id) {
+    public Player getPlayer(int id) {
         if (id == player1.getId()) return player1;
         if (id == player2.getId()) return player2;
         return null;
     }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+    
+    public Player getPlayer2() {
+        return player2;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
+    }
+    /* 
+    public void setTurnNumber(int turnNumber) {
+        this.turnNumber = turnNumber;
+    }*/
 
     public int turn() { //Ez majd void lesz, csak meg _Tests miatt int
         Player currentPlayer;
