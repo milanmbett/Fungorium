@@ -1,20 +1,21 @@
 package com.coderunnerlovagjai.app;
-
-
-
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok kezdenek.
 {
     private Player owner;
+    private boolean isDead = false; //TODO: Valójában ez nem feltétlen kellhet, mert a setDeadTrue enélkül is hívható
+    private Game game;
 
     private static final Logger TECTON_BASE_LOGGER = LogManager.getLogger(Tecton_Base.class);
 
-    public Tecton_Base(Player p)
+    public Tecton_Base(Player p, Game game)
     {
+        this.game = game;
         mushroom = new Mushroom_Grand(this,p);
         insectsOnTecton = new ArrayList<>();
         spore = null;
@@ -43,5 +44,20 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
             return;
         }
         owner = p;
+    }
+
+    public boolean isDead()
+    {
+        return isDead;
+    }
+
+    public void setDeadTrue()
+    {
+        isDead = true;
+        TECTON_BASE_LOGGER.log(Level.forName("DEAD", 401), "Tecton_Base is dead! ID: " + ID);
+        
+        if (game != null) {
+            game.endGame();
+        }
     }
 }
