@@ -90,6 +90,11 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             if (plane.getBase1().isDead() || plane.getBase2().isDead()) {
                 endGame();
             }
+            
+            // TODO: rovar sebez gombát
+            // TODO: gomba sebez rovarokat
+            // TODO: gomba spórát szór
+            // TODO: fonal teredése
             // Update game state on the plane
             //Plane.updateState();
             for(Mushroom_Class m : plane.MushroomCollection) {
@@ -98,6 +103,9 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
                 }
             }
             
+            
+
+
             turnNumber++;
         }
     }
