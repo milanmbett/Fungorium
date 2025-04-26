@@ -93,21 +93,20 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
     }
 
     public void increaseIncome(int amount) {
-        if (this.income - amount < 0) {
-            this.income = 0;
-        } else {
-            this.income += amount;
-            PLAYER_LOGGER.log(Level.forName("INCOME", 401), "Income increased by " + amount + ". New income: " + this.income);
-            this.score += amount; // SCORE is növekszik az INCOME növekedésével
-            PLAYER_LOGGER.log(Level.forName("SCORE", 401), "Score increased by " + amount + ". New score: " + this.score);
-        }
-        
+        this.income += amount;
+        PLAYER_LOGGER.log(Level.forName("INCOME", 401), "Income increased by " + amount + ". New income: " + this.income);
+        this.score += amount; // SCORE is növekszik az INCOME növekedésével
+        PLAYER_LOGGER.log(Level.forName("SCORE", 401), "Score increased by " + amount + ". New score: " + this.score);
 
     }
 
 
     public void decreaseIncome(int amount) {
-        this.income -= amount;
+        if (this.income - amount < 0) {
+            this.income = 0;
+        } else {
+            this.income -= amount;
+        }
         PLAYER_LOGGER.log(Level.forName("INCOME", 401), "Income decreased by " + amount + ". New income: " + this.income);
     }
     

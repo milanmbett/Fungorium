@@ -185,11 +185,11 @@ public class Proto {
         nextTectonId = 1;
         allTectons.clear();
         // Create initial map (tectons and neighbors)
-        Tecton t1 = new Tecton();
-        Tecton t2 = new Tecton();
-        Tecton t3 = new Tecton();
-        Tecton t4 = new Tecton();
-        Tecton t5 = new Tecton();
+        Tecton_Class t1 = new Tecton_Class();
+        Tecton_Class t2 = new Tecton_Class();
+        Tecton_Class t3 = new Tecton_Class();
+        Tecton_Class t4 = new Tecton_Class();
+        Tecton_Class t5 = new Tecton_Class();
         // Define neighbor relationships (simple layout)
         t1.neighbors.add(t2);
         t1.neighbors.add(t4);
