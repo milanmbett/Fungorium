@@ -10,12 +10,24 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     public static Player player1;
     public static Player player2;
     public static int turnNumber;
+    private Plane plane; // A játékhoz tartozó pálya
 
     public Game() {
         player1 = new Player(1); //id = 1
         player2 = new Player(2); //id = 2
         this.turnNumber = 1;
+
+        // Inicializáljuk a Plane-t, a bázisok inicializálása átkerült a külön initGame() metódusba,
+        // hogy elkerüljük az "this" szivárgását a konstruktorban.
+        plane = new Plane();
+
         GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players.");
+    }
+
+    public void initGame() {
+        // A bázisok inicializálása külön metódusban történik
+        plane.initBases(player1, player2, this);
+        GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players and their bases.");
     }
 
     public int currentTurnsPlayer() {
@@ -40,7 +52,9 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         // Process player turns
         //player1.processTurn();
         //player2.processTurn();
-        
+        if (plane.getBase1().isDead() || plane.getBase2().isDead()) {
+            endGame();
+        }
         // Update game state on the plane
         //Plane.updateState();
         
@@ -48,9 +62,17 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         return turnNumber;
     }
 
-    public void endGame() {
+    public void endGame() { //függvény meghívódik a Tecton_Base isDeadTrue() meghívódik
         GAME_LOGGER.log(Level.forName("END_GAME", 402), "Game ended.");
-        // Implement game ending logic here
+
         // Calculate scores, determine winner, etc.
+        
+        if(player1.getScore() > player2.getScore()) {
+            GAME_LOGGER.log(Level.forName("WINNER", 401), "Player 1 wins!");
+        } else if(player2.getScore() > player1.getScore()) {
+            GAME_LOGGER.log(Level.forName("WINNER", 401), "Player 2 wins!");
+        } else {
+            GAME_LOGGER.log(Level.forName("WINNER", 401), "It's a draw!");
+        }
     }
 }

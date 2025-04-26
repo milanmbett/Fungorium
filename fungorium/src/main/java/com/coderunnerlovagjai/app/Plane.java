@@ -2,6 +2,7 @@ package com.coderunnerlovagjai.app;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 public class Plane 
@@ -14,6 +15,22 @@ public class Plane
     public static final List<Mushroom_Class> MushroomCollection = new ArrayList<>();
     //TODO: ID-k jobban kell hogy működjenek ,mert jelenleg nem biztos ,hogy egyediek lesznek!
     //TODO: Páya kialakítása, elrendezése
+    private Tecton_Base base1;
+    private Tecton_Base base2;
+
+    public void initBases(Player player1, Player player2, Game game) {
+        this.base1 = new Tecton_Base(player1, game);
+        this.base2 = new Tecton_Base(player2, game);
+        PLANE_LOGGER.log(Level.forName("INIT", 402), "Bases initialized for players.");
+    }
+
+    public Tecton_Base getBase1() {
+        return base1;
+    }
+
+    public Tecton_Base getBase2() {
+        return base2;
+    }
 
     public void init_Plane() //Lehet nem fog kelleni Skeletonba
     {
