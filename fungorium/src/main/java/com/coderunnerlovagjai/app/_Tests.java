@@ -42,9 +42,10 @@ public abstract class _Tests
     }
     public static void test2() //Fő tekton létrehozása
     {
+        Game game = new Game();
         TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: creating Tecton_Base");
         Player p1 = new Player();
-        Tecton_Base t1 = new Tecton_Base(p1);
+        Tecton_Base t1 = new Tecton_Base(p1, game);
         if(t1.get_Owner() == null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base owner is null!");
@@ -227,8 +228,9 @@ public static void test5() // Tekton kettétörése
 }
     public static void test6() //Fő tekton kettétörése
     {
+        Game game = new Game();
         Player p1 = new Player();
-        Tecton_Base t1 = new Tecton_Base(p1);
+        Tecton_Base t1 = new Tecton_Base(p1, game);
         Insect_Tektonizator it1 = new Insect_Tektonizator(t1, p1);
         it1.tectonCrack();
         if(Plane.TectonCollection.size() == 1) 
