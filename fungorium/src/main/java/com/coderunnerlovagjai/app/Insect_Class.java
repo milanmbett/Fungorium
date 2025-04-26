@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 public abstract class Insect_Class 
 {
     private static final Logger INSECT_CLASS_LOGGER = LogManager.getLogger(Insect_Class.class);
@@ -14,6 +15,8 @@ public abstract class Insect_Class
     protected boolean isParalysed = false;
     protected Player owner;
     protected String ID;
+
+    protected Game game;
 
     public Insect_Class()
     {
@@ -91,7 +94,7 @@ public abstract class Insect_Class
     public void die_Insect()
     {
         tecton.get_InsectsOnTecton().remove(this);
-        Game.plane.InsectCollection.remove(this);
+        game.getPlane().InsectCollection.remove(this);
     }
     public void eat_Spore(Basic_Spore sp)
     {

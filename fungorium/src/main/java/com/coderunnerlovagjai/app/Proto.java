@@ -159,7 +159,7 @@ public class Proto {
     private static Insect_Class selectInsect(){
         // Placeholder for selecting an insect
         System.out.println("Select an insect from the list: ");
-        for (Insect_Class i : Game.plane.InsectCollection) {
+        for (Insect_Class i : game.getPlane().InsectCollection) {
             if (i.get_Owner().getId() == game.currentTurnsPlayer())
                 System.out.println("Insect: " + i.get_ID());
         }
@@ -265,8 +265,8 @@ public class Proto {
         }
         Tecton_Class current = insect.get_Tecton();
         for (Tecton_Class neigh : current.get_TectonNeighbours()) {
-            // Choose first valid neighbor (not dead, no enemy fungus)
-            if (!neigh.isDead()&&target) {
+            // Choose first valid neighbor (not dead and target is neigbor)
+            if (!neigh.isDead()&&target.equals(neigh)) { //TODO fonal van-e
                 destination = neigh;
                 break;
             }
