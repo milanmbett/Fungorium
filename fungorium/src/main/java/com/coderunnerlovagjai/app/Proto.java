@@ -1,6 +1,13 @@
 package com.coderunnerlovagjai.app;
 
+import java.time.temporal.Temporal;
 import java.util.*;
+
+import com.coderunnerlovagjai.app.FungoriumPrototype.Insect;
+import com.coderunnerlovagjai.app.FungoriumPrototype.Mushroom;
+import com.coderunnerlovagjai.app.FungoriumPrototype.Spore;
+import com.coderunnerlovagjai.app.FungoriumPrototype.Tecton;
+import com.coderunnerlovagjai.app.FungoriumPrototype.ThreadObj;
 
 /** 
  * Console-based prototype for the Fungorium game implementing all 14 use cases.
@@ -15,8 +22,6 @@ public class Proto {
     private static boolean gameInitialized = false;
     private static int nextTectonId = 1;
     private static List<Tecton_Class> allTectons = new ArrayList<>();
-    private static int fungusCurrency;
-    private static int insectCurrency;
     private static Game game = new Game();
 
     
@@ -55,6 +60,7 @@ public class Proto {
                 case 1:
                     // Fungus player actions
                     game.getPlayer(game.currentTurnsPlayer()).setRoleMushroom();
+                    Role_Mushroom mushroomRole = (Role_Mushroom) game.getPlayer(game.currentTurnsPlayer()).getRole();
                     System.out.println("Fungus Player selected. Choose an action:");
                     System.out.println("1 - Place Mushroom");
                     System.out.println("2 - Upgrade Mushroom");
@@ -67,10 +73,40 @@ public class Proto {
                     }
                     switch (choice2) {
                         case 1:
-                            game.getPlayer(game.currentTurnsPlayer()).getRole().placeMushroom();
+                            System.out.println("Choose a mushroom type to place:");
+                            System.out.println("1 - Shroomlet (Alap gomba)");
+                            System.out.println("2 - FungusMaximus (Erősebb gomba)");
+                            System.out.println("3 - Slender (Vékony gomba)");
+                            System.out.println("0 - Back to main menu");
+                            int choice3;
+                            Mushroom_Class mushroom = null;
+                            try {
+                                choice3 = Integer.parseInt(scanner.nextLine().trim());
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input, please enter a number.");
+                                continue;
+                            }
+                            switch (choice3) {
+                                case 1:
+                                    mushroom = new Mushroom_Shroomlet(null,game.getPlayer(game.currentTurnsPlayer())); // TODO Target tecton shit
+                                    break;
+                                case 2:
+                                    mushroom = new Mushroom_Maximus(null,game.getPlayer(game.currentTurnsPlayer())); // TODO Target tecton shit
+                                    break;
+                                case 3:
+                                    mushroom = new Mushroom_Slender(null,game.getPlayer(game.currentTurnsPlayer())); // TODO Target
+                                    break;
+                                case 0:
+                                    System.out.println("Going back to main menu.");
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice for mushroom type.");
+                                    continue;
+                            }
+                            placeMushroom(game.getPlayer(game.currentTurnsPlayer()), mushroom);
                             break;
                         case 2:
-                            upgradeMushroom();
+                            upgradeMushroom(game.getPlayer(game.currentTurnsPlayer()), mushroom);
                             break;
                         default:
                             System.out.println("Invalid choice for Fungus Player.");
@@ -92,13 +128,13 @@ public class Proto {
                     }
                     switch (choice2) {
                         case 1:
-                            moveInsect();
+                            moveInsect(game.currentTurnsPlayer());
                             break;
                         case 2:
-                            placeInsect();
+                            placeInsect(game.currentTurnsPlayer());
                             break;
                         case 3:
-                            insectAttacksMushroom();
+                            insectAttacksMushroom(game.currentTurnsPlayer());
                             break;
                         default:
                             System.out.println("Invalid choice for Insect Player.");
@@ -119,14 +155,35 @@ public class Proto {
         }
     }
 
+    private static Tecton_Class selectTecton() {
+        // Placeholder for selecting a tecton
+        System.out.println("Select a tecton:");
+        for (Tecton_Class t : allTectons) {
+            System.out.println("Tecton: " + t.get_ID());
+        }
+        int choice;
+        try {
+            choice = Integer.parseInt(new Scanner(System.in).nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input, please enter a number.");
+            return null;
+        }
+        if (choice < 0 || choice > allTectons.size()) {
+            System.out.println("Invalid tecton selection.");
+            return null;
+        }
+        return allTectons.get(choice);
+
+        // Logic to select a tecton would go here
+    }
+
+
     // Use Case 5: Játék inicializálása (Initialize Game)
     private static void initializeGame() {
         // Reset game state
         gameInitialized = true;
         nextTectonId = 1;
         allTectons.clear();
-        fungusCurrency = 100;
-        insectCurrency = 100;
         // Create initial map (tectons and neighbors)
         Tecton t1 = new Tecton();
         Tecton t2 = new Tecton();
@@ -157,31 +214,27 @@ public class Proto {
     }
 
     // Use Case 1: Gomba lerakása (Place Mushroom)
-    private static void placeMushroom() {
-        // Simulate choosing a target tecton to place a new mushroom
-        Tecton target = null;
-        for (Tecton t : allTectons) {
-            if (t.mushroom == null && !t.isDead) {
-                target = t;
-                break;
-            }
+    private static void placeMushroom(Player player, Mushroom_Class mushroom) {
+        Tecton_Class target = selectTecton();
+        if (target.mushroom != null || target.isDead()) { // Check if tecton is empty and not dead   
+            System.out.println("Target tecton is already occupied by a mushroom or is dead.");    
+            return;
         }
         if (target == null) {
             System.out.println("No available tecton to place a mushroom.");
             return;
         }
         // Check currency
-        int cost = 20;
-        if (fungusCurrency < cost) {
+        int cost=mushroom.getCost(); // Placeholder for cost calculation
+        if (player.getIncome() < cost) {
             System.out.println("Not enough resources to place a mushroom.");
             return;
         }
-        fungusCurrency -= cost;
+        player.decreaseIncome(cost); // Decrease player's currency by cost
         // Place the mushroom
-        Mushroom newMushroom = new Mushroom("Basic", 30, 10, target);
-        target.mushroom = newMushroom;
-        System.out.println("Placing a new mushroom on " + target + "...");
-        System.out.println("Mushroom placed successfully on " + target + ". (Cost " + cost + ", remaining fungus currency: " + fungusCurrency + ")");
+        target.mushroom = mushroom;
+        System.out.println("Placing a new mushroom on tecton:" + target.get_ID() + "...");
+        System.out.println("Mushroom placed successfully on tecton: " + target.get_ID() + ". (Cost: " + cost + ", remaining fungus currency: " + player.getIncome() + ")");
     }
 
     // Use Case 2: Rovar mozgatása (Move Insect)
@@ -248,10 +301,10 @@ public class Proto {
     }
 
     // Use Case 4: Gomba fejlesztése (Upgrade Mushroom)
-    private static void upgradeMushroom() {
+    private static void upgradeMushroom(Player player, Mushroom_Class mushroom) {
         // Simulate selecting a mushroom to upgrade (pick first available)
-        Mushroom targetMushroom = null;
-        for (Tecton t : allTectons) {
+        Mushroom_Class targetMushroom = null;
+        for (Tecton_Class t : allTectons) {
             if (t.mushroom != null) {
                 targetMushroom = t.mushroom;
                 break;

@@ -8,12 +8,14 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
 
     private Role role;
     private int income;
+    private int fungusCounter; // lerakott gombák száma
     private int score;  //mintha income lenne, viszont soha nem csökkenhet, csak nőhet
     private final int id;
 
     public Player() {
         this.id = 0;
-        this.role = null; 
+        this.role = null;
+        this.fungusCounter = 0; // Kezdetben 0 gomba van lerakva
         this.income = 200;
         this.score = 0;
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
@@ -22,6 +24,7 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
     public Player(int id) {
         this.id = id;
         this.role = null; 
+        this.fungusCounter = 0; // Kezdetben 0 gomba van lerakva
         this.income = 200;
         this.score = 0;
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
@@ -50,6 +53,7 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
         return role;
     }
 
+
     public boolean moveInsect(Insect_Class insect, Tecton_Class target) {
         if (role instanceof Role_Insect role_insect) {
             return role_insect.validateAndMoveInsect(insect, target);
@@ -71,6 +75,8 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
         return income;
     }
 
+    
+
     public int getScore() {
         return score;
 
@@ -87,10 +93,15 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
     }
 
     public void increaseIncome(int amount) {
-        this.income += amount;
-        PLAYER_LOGGER.log(Level.forName("INCOME", 401), "Income increased by " + amount + ". New income: " + this.income);
-        this.score += amount; // SCORE is növekszik az INCOME növekedésével
-        PLAYER_LOGGER.log(Level.forName("SCORE", 401), "Score increased by " + amount + ". New score: " + this.score);
+        if (this.income - amount < 0) {
+            this.income = 0;
+        } else {
+            this.income += amount;
+            PLAYER_LOGGER.log(Level.forName("INCOME", 401), "Income increased by " + amount + ". New income: " + this.income);
+            this.score += amount; // SCORE is növekszik az INCOME növekedésével
+            PLAYER_LOGGER.log(Level.forName("SCORE", 401), "Score increased by " + amount + ". New score: " + this.score);
+        }
+        
 
     }
 

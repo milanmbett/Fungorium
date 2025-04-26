@@ -15,6 +15,7 @@ public class Mushroom_Maximus extends Mushroom_Class
         tecton.set_Mushroom(this);
         owner = p;
         ID = "Mushroom_Maximus" + Integer.toString(Plane.MushroomCollection.size());
+        cost=40;
         MUSHROOM_MAXIMUS_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Maximus Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.MushroomCollection.add(this);
         MUSHROOM_MAXIMUS_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Maximus: "+ID+ " added to MushroomCollection! MushroomCollection size: " + Plane.MushroomCollection.size());
