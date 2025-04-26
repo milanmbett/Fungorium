@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Proto",
+            "request": "launch",
+            "mainClass": "com.coderunnerlovagjai.app.Proto",
+            "projectName": "fungorium"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "com.coderunnerlovagjai.app.Main",
