@@ -159,13 +159,13 @@ public class Proto {
     private static Insect_Class selectInsect(){
         // Placeholder for selecting an insect
         System.out.println("Select an insect from the list: ");
-        for (Insect_Class i : Plane.InsectCollection) {
+        for (Insect_Class i : Game.plane.InsectCollection) {
             if (i.get_Owner().getId() == game.currentTurnsPlayer())
                 System.out.println("Insect: " + i.get_ID());
         }
         String choice;
         choice = new Scanner(System.in).nextLine();
-        Insect_Class selectedInsect = Plane.getInsectByID(choice);
+        Insect_Class selectedInsect = Game.plane.getInsectByID(choice);
 
         return selectedInsect;
     }
@@ -255,16 +255,18 @@ public class Proto {
     // Use Case 2: Rovar mozgatása (Move Insect)
     private static void moveInsect(Player player,Insect_Class insect, Tecton_Class target) {
         // Simulate moving an insect to a neighboring tecton
-        Insect insect = getAnyInsect();
+        if (target == null) {
+            System.out.println("No target tecton available for the insect to move to.");
+            return;
+        }
         if (insect == null) {
             System.out.println("No insect available to move.");
             return;
         }
-        Tecton current = insect.location;
-        Tecton destination = null;
-        for (Tecton neigh : current.neighbors) {
+        Tecton_Class current = insect.get_Tecton();
+        for (Tecton_Class neigh : current.get_TectonNeighbours()) {
             // Choose first valid neighbor (not dead, no enemy fungus)
-            if (!neigh.isDead && neigh.mushroom == null) {
+            if (!neigh.isDead()&&target) {
                 destination = neigh;
                 break;
             }
