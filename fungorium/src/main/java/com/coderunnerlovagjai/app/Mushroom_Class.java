@@ -13,6 +13,7 @@ public abstract class Mushroom_Class
     protected Player owner;
     protected String ID;
     protected int cost=0; //Grafikahoz lehet nem kell
+    protected int level=0;
 
     public Mushroom_Class()
     {
