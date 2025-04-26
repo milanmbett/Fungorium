@@ -10,7 +10,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     public static Player player1;
     public static Player player2;
     public static int turnNumber;
-    public Plane plane; // A játékhoz tartozó pálya 
+    public static Plane plane; // A játékhoz tartozó pálya 
 
     public Game() {
         player1 = new Player(1); //id = 1
