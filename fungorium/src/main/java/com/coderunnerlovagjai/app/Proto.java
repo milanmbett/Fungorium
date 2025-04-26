@@ -31,7 +31,7 @@ public class Proto {
         game.startGame(); // Elindítja a játékot
         Scanner scanner = new Scanner(System.in);
         System.out.println("Fungorium Console Prototype - "+game.currentTurnsPlayer()+"'s turn");
-        while (true) {
+        while (game.getTurnNumber()<50) {
             // Display menu
             System.out.println("\nSelect a role (1 or 2), or 0 to exit:");
             System.out.println("1 - Fungus Player (Gomba játékos)");
@@ -135,9 +135,9 @@ public class Proto {
                         case 2:
                             placeInsect(game.getPlayer(game.currentTurnsPlayer()), selectNewInsect(), selectTecton());
                             break;
-                        case 3:
+                        /*case 3:
                             insectAttacksMushroom(game.getPlayer(game.currentTurnsPlayer()), selectInsect(), selectTecton());
-                            break;
+                            break;*/
                         default:
                             System.out.println("Invalid choice for Insect Player.");
                             break;
@@ -150,6 +150,8 @@ public class Proto {
                 game.turn();
 
         }
+        // End game if turn limit reached
+        game.endGame();
     }
     
     private static Insect_Class selectInsect(){
