@@ -12,7 +12,8 @@ public abstract class Mushroom_Class
     protected Tecton_Class tecton;
     protected Player owner;
     protected String ID;
-    
+    protected int cost=0; //Grafikahoz lehet nem kell
+
     public Mushroom_Class()
     {
         MUSHROOM_CLASS_LOGGER.log(Level.forName("INIT",402),"Mushroom_Class Constructor called!"); 
@@ -36,6 +37,12 @@ public abstract class Mushroom_Class
     {
 
     } 
+
+    public int getCost()
+    {
+        return cost;
+    }
+
     public void attack_Insects()
     {
         for (Insect_Class insect : tecton.insectsOnTecton) 
@@ -62,7 +69,6 @@ public abstract class Mushroom_Class
     }
     public void upgrade_Mushroom(Mushroom_Class type) //TODO: Meg kell írni
     {
-        //úgy emlékszem ez az volt hogy egy másik gomba lesz belőle
         //valahogy megkéne nézni hogy ugyanaz-e típus e?
         //van-e pénz (még ez nem kell szerintem)
         
