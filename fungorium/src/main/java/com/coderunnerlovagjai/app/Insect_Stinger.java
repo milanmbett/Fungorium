@@ -15,6 +15,7 @@ public class Insect_Stinger extends Insect_Class
         tecton.get_InsectsOnTecton().add(this);
         owner = p;
         ID = "Insect_Stinger" + Integer.toString(Plane.InsectCollection.size());
+        cost = 20;
         INSECT_STINGER_LOGGER.log(Level.forName("CREATE",401),"Insect_Stinger Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.InsectCollection.add(this);
         INSECT_STINGER_LOGGER.log(Level.forName("ADD", 403), "Insect_Stinger: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());

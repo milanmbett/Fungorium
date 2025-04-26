@@ -132,7 +132,7 @@ public class Proto {
                             moveInsect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectTecton());
                             break;
                         case 2:
-                            placeInsect(game.getPlayer(game.currentTurnsPlayer()));
+                            placeInsect(game.getPlayer(game.currentTurnsPlayer()), selectNewInsect(), selectTecton());
                             break;
                         case 3:
                             insectAttacksMushroom(game.getPlayer(game.currentTurnsPlayer()));
@@ -192,6 +192,41 @@ public class Proto {
         // Logic to select a tecton would go here
     }
 
+    private static Insect_Class selectNewInsect() {
+        // Placeholder for selecting a new insect type
+        System.out.println("Select a new insect type:");
+        System.out.println("1 - Buglet (Alap rovar)");
+        System.out.println("2 - Buggernaut (strapabíróbb rovar)");
+        System.out.println("3 - ShroomReaper (Gombagyilkos rovar)");
+        System.out.println("4 - Stinger (Erősebb rovar)");
+        System.out.println("5 - Tektonizator (Tektontörő rovar)");
+        System.out.println("0 - Back to main menu");
+        int choice;
+        try {
+            choice = Integer.parseInt(new Scanner(System.in).nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input, please enter a number.");
+            return null;
+        }
+        switch (choice) {
+            case 1:
+                return new Insect_Buglet(selectTecton(), game.getPlayer(game.currentTurnsPlayer()));
+            case 2:
+                return new Insect_Buggernaut(selectTecton(), game.getPlayer(game.currentTurnsPlayer()));
+            case 3:
+                return new Insect_ShroomReaper(selectTecton(), game.getPlayer(game.currentTurnsPlayer()));
+            case 4:
+                return new Insect_Stinger(selectTecton(), game.getPlayer(game.currentTurnsPlayer()));
+            case 5:
+                return new Insect_Tektonizator(selectTecton(), game.getPlayer(game.currentTurnsPlayer())); 
+            case 0:
+                System.out.println("Going back to main menu.");
+                return null;
+            default:
+                System.out.println("Invalid insect type selection.");
+                return null;
+        }
+    }
 
     // Use Case 5: Játék inicializálása (Initialize Game)
     private static void initializeGame() {
@@ -267,7 +302,9 @@ public class Proto {
         for (Tecton_Class neigh : current.get_TectonNeighbours()) {
             // Choose first valid neighbor (not dead and target is neigbor)
             if (!neigh.isDead()&&target.equals(neigh)) { //TODO fonal van-e
-                destination = neigh;
+                insect.get_Tecton().get_InsectsOnTecton().remove(insect);
+                insect.set_Tecton(target);
+                target.insectsOnTecton.add(insect);
                 break;
             }
         }
@@ -276,45 +313,35 @@ public class Proto {
             return;
         }
         // Perform move
-        current.insects.remove(insect);
-        destination.insects.add(insect);
-        insect.location = destination;
-        System.out.println("Moving " + insect.type + " from " + current + " to " + destination + "...");
-        System.out.println("Insect moved successfully to " + destination + ".");
+        System.out.println("Moving " + insect.get_ID() + " from " + current.get_ID() + " to " + target.get_ID() + "...");
+        System.out.println("Insect moved successfully to " + target.get_ID() + ".");
     }
 
     // Use Case 3: Rovar lerakása (Place Insect)
-    private static void placeInsect() {
-        // Simulate choosing an insect type and placing it at the insect starting point (Tecton3)
-        Tecton start = null;
-        for (Tecton t : allTectons) {
-            if (t.id == 3) { // designate Tecton3 as starting point
-                start = t;
-                break;
-            }
-        }
-        if (start == null) {
-            System.out.println("Starting position not found.");
+    private static void placeInsect(Player player, Insect_Class insect, Tecton_Class target) {
+        // Check if the target tecton is valid
+        if (target == null) {
+            System.out.println("Target tecton is not valid.");
             return;
         }
-        if (!start.insects.isEmpty()) {
-            System.out.println("Starting position is already occupied by an insect.");
+
+        // Check if the player has enough resources to place the insect
+        int cost = insect.getCost(); // Assuming `Insect_Class` has a `getCost` method
+        if (player.getIncome() < cost) {
+            System.out.println("Not enough resources to place the insect.");
             return;
         }
-        // Simulate selecting insect type (default to "Buglet")
-        String chosenType = "Buglet";
-        // Check currency
-        int cost = 20;
-        if (insectCurrency < cost) {
-            System.out.println("Not enough resources to place an insect.");
-            return;
-        }
-        insectCurrency -= cost;
-        // Place the insect
-        Insect newInsect = new Insect(chosenType, 30, 10, start);
-        start.insects.add(newInsect);
-        System.out.println("Placing a new insect (" + chosenType + ") at starting point " + start + "...");
-        System.out.println("Insect placed successfully on " + start + ". (Cost " + cost + ", remaining insect currency: " + insectCurrency + ")");
+
+        // Deduct the cost from the player's resources
+        player.decreaseIncome(cost);
+
+        // Place the insect on the target tecton
+        insect.set_Tecton(target);
+        target.get_InsectsOnTecton().add(insect);
+
+        // Log the successful placement
+        System.out.println("Insect (" + insect.get_ID() + ") placed successfully on tecton: " + target.get_ID() + ".");
+        System.out.println("Cost: " + cost + ", remaining resources: " + player.getIncome() + ".");
     }
 
     // Use Case 4: Gomba fejlesztése (Upgrade Mushroom)

@@ -15,6 +15,8 @@ public abstract class Insect_Class
     protected boolean isParalysed = false;
     protected Player owner;
     protected String ID;
+    protected int cost=0; //Grafikahoz lehet nem kell
+
 
     protected Game game;
 
@@ -185,6 +187,10 @@ public abstract class Insect_Class
     public String get_ID()
     {
         return ID;
+    }
+    public int getCost()
+    {
+        return cost;
     }
 
     
