@@ -7,6 +7,8 @@ import java.util.*;
  * Each use case is implemented as a separate method that prints a simulation of that scenario.
  * The program uses placeholder logic and outputs to represent game state changes.
  */
+
+ 
 public class Proto {
     // Game state fields
     private static boolean gameInitialized = false;
@@ -15,72 +17,7 @@ public class Proto {
     private static int fungusCurrency;
     private static int insectCurrency;
 
-    // Domain classes (static inner classes for simplicity)
-    static class Tecton {
-        int id;
-        List<Tecton> neighbors = new ArrayList<>();
-        Mushroom mushroom = null;
-        List<Insect> insects = new ArrayList<>();
-        Spore spore = null;
-        ThreadObj thread = null;
-        boolean isDead = false;
-        Tecton() {
-            this.id = nextTectonId++;
-        }
-        public String toString() {
-            return "Tecton" + id;
-        }
-    }
-    static class Mushroom {
-        String type;
-        int hp;
-        int power;
-        Tecton location;
-        Mushroom(String type, int hp, int power, Tecton loc) {
-            this.type = type;
-            this.hp = hp;
-            this.power = power;
-            this.location = loc;
-        }
-        public String toString() {
-            return type + " Mushroom";
-        }
-    }
-    static class Insect {
-        String type;
-        int hp;
-        int attackDamage;
-        Tecton location;
-        Insect(String type, int hp, int attackDamage, Tecton loc) {
-            this.type = type;
-            this.hp = hp;
-            this.attackDamage = attackDamage;
-            this.location = loc;
-        }
-        public String toString() {
-            return type + " Insect";
-        }
-    }
-    static class Spore {
-        String type;
-        Tecton location;
-        Spore(String type, Tecton loc) {
-            this.type = type;
-            this.location = loc;
-        }
-        public String toString() {
-            return type + " Spore";
-        }
-    }
-    static class ThreadObj {
-        Tecton location;
-        ThreadObj(Tecton loc) {
-            this.location = loc;
-        }
-        public String toString() {
-            return "Thread";
-        }
-    }
+    
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
