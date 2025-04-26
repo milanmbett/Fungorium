@@ -378,39 +378,6 @@ public class Proto {
         System.out.println("Mushroom upgraded successfully! New level: "+mushroom.level);
     }
 
-    // Use Case 6: Játék vége és kiértékelés (End Game & Evaluate)
-    private static void endGame() {
-        // Simulate checking win conditions and ending the game
-        boolean fungusBaseDestroyed = false;
-        // Check if base mushroom is destroyed (HP <= 0 or removed)
-        for (Tecton t : allTectons) {
-            if (t.mushroom != null && t.mushroom.type.equals("Base") && t.mushroom.hp <= 0) {
-                fungusBaseDestroyed = true;
-                break;
-            }
-        }
-        if (fungusBaseDestroyed) {
-            System.out.println("The insect player has destroyed the main fungus! Insect player wins!");
-        } else {
-            // (Turn limit or other conditions not explicitly simulated; just show final counts)
-            int fungusCount = 0;
-            int insectCount = 0;
-            for (Tecton t : allTectons) {
-                if (t.mushroom != null) fungusCount++;
-                insectCount += t.insects.size();
-            }
-            System.out.println("Game over. Final count -> Mushrooms: " + fungusCount + ", Insects: " + insectCount + ".");
-            if (fungusCount > insectCount) {
-                System.out.println("Fungus player has the advantage.");
-            } else if (insectCount > fungusCount) {
-                System.out.println("Insect player has the advantage.");
-            } else {
-                System.out.println("The game is a tie.");
-            }
-        }
-        System.out.println("Game ended. You may start a new game (option 5) or exit.");
-        gameInitialized = false;
-    }
 
     // Use Case 7: Rovar támad gombát (Insect Attacks Mushroom)
     private static void insectAttacksMushroom() {
