@@ -89,13 +89,13 @@ public class Proto {
                             }
                             switch (choice3) {
                                 case 1:
-                                    mushroom = new Mushroom_Shroomlet(null,game.getPlayer(game.currentTurnsPlayer())); // TODO Target tecton shit
+                                    mushroom = new Mushroom_Shroomlet(selectTecton(),game.getPlayer(game.currentTurnsPlayer())); 
                                     break;
                                 case 2:
-                                    mushroom = new Mushroom_Maximus(null,game.getPlayer(game.currentTurnsPlayer())); // TODO Target tecton shit
+                                    mushroom = new Mushroom_Maximus(selectTecton(),game.getPlayer(game.currentTurnsPlayer())); 
                                     break;
                                 case 3:
-                                    mushroom = new Mushroom_Slender(null,game.getPlayer(game.currentTurnsPlayer())); // TODO Target
+                                    mushroom = new Mushroom_Slender(selectTecton(),game.getPlayer(game.currentTurnsPlayer()));
                                     break;
                                 case 0:
                                     System.out.println("Going back to main menu.");
@@ -129,13 +129,13 @@ public class Proto {
                     }
                     switch (choice2) {
                         case 1:
-                            moveInsect(game.currentTurnsPlayer());
+                            moveInsect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectTecton());
                             break;
                         case 2:
-                            placeInsect(game.currentTurnsPlayer());
+                            placeInsect(game.getPlayer(game.currentTurnsPlayer()));
                             break;
                         case 3:
-                            insectAttacksMushroom(game.currentTurnsPlayer());
+                            insectAttacksMushroom(game.getPlayer(game.currentTurnsPlayer()));
                             break;
                         default:
                             System.out.println("Invalid choice for Insect Player.");
@@ -153,6 +153,35 @@ public class Proto {
 
                 }
 
+        }
+    }
+    
+    private static Insect_Class selectInsect(){
+        // Placeholder for selecting an insect
+        System.out.println("Select an insect from the list: ");
+        int i = 0;
+        for (Insect_Class insect : Plane.InsectCollection) {
+            if (insect.get_Owner().getId() == game.currentTurnsPlayer()){
+                System.out.println(i+": " + insect.get_ID());
+                i++;
+            }
+        }
+        int choice;
+        try {
+            choice = Integer.parseInt(new Scanner(System.in).nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input, please enter a number.");
+            return null;
+        }
+        if (choice == 0) {
+            return null;
+        } else if (choice == 1) {
+            return new Insect_Buglet(selectTecton(),game.getPlayer(game.currentTurnsPlayer()));
+        } else if (choice == 2) {
+            return new Insect_Tektonizator(selectTecton(),game.getPlayer(game.currentTurnsPlayer()));
+        } else {
+            System.out.println("Invalid insect selection.");
+            return null;
         }
     }
 
@@ -239,7 +268,7 @@ public class Proto {
     }
 
     // Use Case 2: Rovar mozgatása (Move Insect)
-    private static void moveInsect() {
+    private static void moveInsect(Player player,Insect_Class insect, Tecton_Class target) {
         // Simulate moving an insect to a neighboring tecton
         Insect insect = getAnyInsect();
         if (insect == null) {
