@@ -14,7 +14,7 @@ public class Proto {
     // Game state fields
     private static boolean gameInitialized = false;
     private static int nextTectonId = 1;
-    private static List<Tecton> allTectons = new ArrayList<>();
+    private static List<Tecton_Class> allTectons = new ArrayList<>();
     private static int fungusCurrency;
     private static int insectCurrency;
     private static Game game = new Game();
