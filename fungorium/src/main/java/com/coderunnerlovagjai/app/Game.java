@@ -71,7 +71,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             }
             // Update game state on the plane
             //Plane.updateState();
-            for(Mushroom_Class m : Plane.MushroomCollection) {
+            for(Mushroom_Class m : plane.MushroomCollection) {
                 if(m.get_Owner() == currentPlayer) {
                     m.generate_Income();
                 }
