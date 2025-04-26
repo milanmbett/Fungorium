@@ -1,5 +1,6 @@
 package com.coderunnerlovagjai.app;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -21,10 +22,12 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
         spore = null;
         thread = null;
         owner = p;
-        ID = "Tecton_Base" + Integer.toString(Plane.TectonCollection.size());
+        // Use the game instance's plane collection instead of static reference
+        List<Tecton_Class> collection = game.getPlane().TectonCollection;
+        ID = "Tecton_Base" + collection.size();
         TECTON_BASE_LOGGER.log(Level.forName("CREATE",401),"Tecton_Base Created! ID: " + ID);
-        Plane.TectonCollection.add(this);
-        TECTON_BASE_LOGGER.log(Level.forName("ADD", 403), "Tecton_Base: "+ID+ " added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
+        collection.add(this);
+        TECTON_BASE_LOGGER.log(Level.forName("ADD", 403), "Tecton_Base: "+ID+ " added to TectonCollection! TectonCollection size: " + collection.size());
     }
 
     // Override the canBeCracked method to prevent Tecton_Base from being cracked
@@ -39,7 +42,11 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
     }
     public void set_Owner(Player p)
     {
-        if (p != Game.player1 && p != Game.player2) { // Ellenőrzés, hogy érvényes játékos-e
+        if (p == null) {
+            TECTON_BASE_LOGGER.log(Level.forName("NULL", 201), "Player is null!");
+            return;
+        }
+        if (!p.equals(game.getPlayer1()) && !p.equals(game.getPlayer2())) { // Validate via game instance
             TECTON_BASE_LOGGER.log(Level.forName("ERROR", 404), "Invalid player!");
             return;
         }

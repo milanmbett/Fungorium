@@ -391,7 +391,7 @@ public static void test5() // Tekton kettétörése
         
     }
     public static void test15() //Spore_Duplicator elfogyasztása 
-    {   //TODO javítani duplicate_insect() metódus
+    {   //- javítani duplicate_insect() metódus, borisz: absrtracttá tettem 
         Player p1 = new Player();
         Tecton_Basic t1 = new Tecton_Basic();
         Spore_Duplicator sd1 = new Spore_Duplicator(t1);
@@ -415,9 +415,6 @@ public static void test5() // Tekton kettétörése
     }
     public static void test16() //Spore_Paralyzing elfogyasztása
     {
-        //Turn t1 = new Turn(); 
-        //TODO Itt kéne talán szimulálni köröket, hogy lehessen tesztelni a paralyzed/unparalyzed rovarokat
-        //->Turn osztály megalkotása
         Player p1 = new Player();
         Tecton_Basic t1 = new Tecton_Basic();
         Basic_Spore s1 = new Spore_Paralysing(t1);

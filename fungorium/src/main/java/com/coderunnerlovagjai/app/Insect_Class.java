@@ -56,9 +56,14 @@ public abstract class Insect_Class
         targetTecton.get_InsectsOnTecton().add(this);
         availableSteps--;
         INSECT_CLASS_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ID + " moved to " + targetTecton.get_ID() + ". Available steps: " + availableSteps);
+
+        // Auto-attack mushroom on arrival if present and not owned
+        Mushroom_Class m = targetTecton.get_Mushroom();
+        if (m != null && m.get_Owner() != owner) {
+            INSECT_CLASS_LOGGER.log(Level.forName("AUTO_ATTACK", 401), "Insect: " + ID + " auto-attacks mushroom: " + m.get_ID());
+            attack_Mushroom(m);
+        }
     }
-    //TODO: ez nem csak move_insect + van a targettectonon egy gomba?
-    //Hiszen attack meg ezek "automatikusan megtörténnek"
     public void attack_Mushroom(Mushroom_Class m)
     {
         if(m == null)
@@ -152,10 +157,7 @@ public abstract class Insect_Class
     {
         tecton = t;
     }
-    public void duplicate_Insect()
-    {
-        //Minden leszármazott osztálynak ezt a fügvényt implementálnia kell!
-    }
+    public abstract void duplicate_Insect();
     public void paralyse_Insect()
     {
         isParalysed = true;
@@ -172,8 +174,8 @@ public abstract class Insect_Class
     }
     public void set_Owner(Player p)
     {
-        if (p != Game.player1 && p != Game.player2) { // Ellenőrzés, hogy érvényes játékos-e
-            INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 404), "Invalid player!");
+        if (p == null) { // Ensure non-null player
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Player is null!");
             return;
         }
         owner = p;
