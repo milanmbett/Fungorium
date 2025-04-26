@@ -20,6 +20,11 @@ public class Tecton_Dead extends Tecton_Class
         TECTON_DEAD_LOGGER.log(Level.forName("ADD", 403), "Tecton_Dead: "+ID+ " added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
     }
     
+    @Override
+    public boolean isDead() {
+        return true; // A Tecton_Dead mindig halott
+    }
+
     public Tecton_Dead(Tecton_Class liveTecton) {
         // Copy neighbours from the living tecton.
         this.set_TectonNeighbours(new ArrayList<>(liveTecton.get_TectonNeighbours()));
