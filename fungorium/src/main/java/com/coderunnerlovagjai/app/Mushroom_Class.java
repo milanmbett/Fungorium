@@ -34,7 +34,7 @@ public abstract class Mushroom_Class
 
     public void spawn_Spores() //TODO: Meg kell írni
     {
-        
+
     } 
     public void generate_Income() //TODO: Ez igy meg csúnya majd meg kell vizsgálni további lehetőségeket
     {
