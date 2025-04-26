@@ -11,6 +11,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     private final Player player2;
     private int turnNumber;
     private final Plane plane; // A játékhoz tartozó pálya 
+    private boolean gameOver; // Játék vége állapot
 
     public Game() {
         this.player1 = new Player(1);
@@ -26,6 +27,13 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
 
     public Plane getPlane() {
         return plane;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+    public boolean isGameOver() {
+        return gameOver;
     }
 
     public void initGame() {
@@ -104,11 +112,12 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
 
     public void endGame() { //függvény meghívódik a Tecton_Base isDeadTrue() meghívódik
         GAME_LOGGER.log(Level.forName("END_GAME", 402), "Game ended.");
-
+        setGameOver(true);
         // Calculate scores, determine winner, etc.
         
         if(player1.getScore() > player2.getScore()) {
             GAME_LOGGER.log(Level.forName("WINNER", 401), "Player 1 wins!");
+            
         } else if(player2.getScore() > player1.getScore()) {
             GAME_LOGGER.log(Level.forName("WINNER", 401), "Player 2 wins!");
         } else {
