@@ -7,7 +7,7 @@ import java.util.*;
  * Each use case is implemented as a separate method that prints a simulation of that scenario.
  * The program uses placeholder logic and outputs to represent game state changes.
  */
-public class FungoriumPrototype {
+public class Proto {
     // Game state fields
     private static boolean gameInitialized = false;
     private static int nextTectonId = 1;
@@ -90,6 +90,7 @@ public class FungoriumPrototype {
             System.out.println("\nSelect a role (1 or 2), or 0 to exit:");
             System.out.println("1 - Fungus Player (Gomba játékos)");
             System.out.println("2 - Insect Player (Rovar játékos)");
+            System.out.println("3 - Initialize Game (Játék inicializálása)");
             System.out.println("0 - Exit");
         /*  System.out.println("\nChoose an option (1-14) to simulate a use case, or 0 to exit:");
             System.out.println("1  - Gomba lerakása (Place Mushroom)");
@@ -108,31 +109,40 @@ public class FungoriumPrototype {
             System.out.println("14 - Fonal önálló terjedése (Thread Spreads)");
             System.out.println("0  - Kilépés (Exit)");*/
             // Read user choice
-            int choice;
+            int choice1;
+            int choice2;
             try {
-                choice = Integer.parseInt(scanner.nextLine().trim());
+                choice1 = Integer.parseInt(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input, please enter a number.");
                 continue;
             }
-            if (choice == 0) {
+            if (choice1 == 0) {
                 System.out.println("Exiting... Goodbye!");
                 scanner.close();
                 break;
             }
             // Require initialization before other actions
-            if (!gameInitialized && choice != 5) {
+            if (!gameInitialized && choice1 != 3) {
                 System.out.println("Game is not initialized yet. Please initialize the game first (Option 5).");
                 continue;
             }
-            switch (choice) {
+            // Handle player role selection
+            
+            switch (choice1) {
                 case 1:
                     // Fungus player actions
                     System.out.println("Fungus Player selected. Choose an action:");
                     System.out.println("1 - Place Mushroom");
                     System.out.println("2 - Upgrade Mushroom");
                     System.out.println("0 - Back to main menu");
-                    switch (choice) {
+                    try {
+                        choice2 = Integer.parseInt(scanner.nextLine().trim());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input, please enter a number.");
+                        continue;
+                    }
+                    switch (choice2) {
                         case 1:
                             placeMushroom();
                             break;
@@ -150,7 +160,13 @@ public class FungoriumPrototype {
                     System.out.println("2 - Place Insect");
                     System.out.println("3 - Insect Attacks Mushroom");
                     System.out.println("0 - Back to main menu");
-                    switch (choice) {
+                    try {
+                        choice2 = Integer.parseInt(scanner.nextLine().trim());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input, please enter a number.");
+                        continue;
+                    }
+                    switch (choice2) {
                         case 1:
                             moveInsect();
                             break;
@@ -165,9 +181,15 @@ public class FungoriumPrototype {
                             break;
                     }
                     break;
+                case 3:
+                    // Initialize game
+                    System.out.println("Initializing game...");
+                    initializeGame();
+                    break;
                 default:
                     System.out.println("Invalid choice. Please select a valid option.");
-                    continue;
+                    
+
                 }
 
             /*switch (choice) {
