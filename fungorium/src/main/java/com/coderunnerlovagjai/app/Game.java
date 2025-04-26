@@ -15,7 +15,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     public Game() {
         player1 = new Player(1); //id = 1
         player2 = new Player(2); //id = 2
-        this.turnNumber = 1;
+        this.turnNumber = 0;
 
         // Inicializáljuk a Plane-t, a bázisok inicializálása átkerült a külön initGame() metódusba,
         // hogy elkerüljük az "this" szivárgását a konstruktorban.
@@ -37,6 +37,13 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             return player2.getId(); // Player 2's turn
         }
     }
+    
+    public void startGame() { //Proto-> if choice->startGame() egész eddigi utána
+        GAME_LOGGER.log(Level.forName("START", 401), "Game started.");
+        // Implement game start logic here
+        // For example, you can initialize the game state, set up the board, etc.
+        this.turn();
+    }
 
     public static Player getPlayer(int id) {
         if (id == player1.getId()) return player1;
@@ -44,22 +51,29 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         return null;
     }
 
-    public int turn() {
-        turnNumber++;
-        GAME_LOGGER.log(Level.forName("TURN", 401), "Turn number: " + turnNumber);
-        // Implement game logic for each turn here
-        
-        // Process player turns
-        //player1.processTurn();
-        //player2.processTurn();
-        if (plane.getBase1().isDead() || plane.getBase2().isDead()) {
-            endGame();
-        }
-        // Update game state on the plane
-        //Plane.updateState();
-        
+    public int turn() { //Ez majd void lesz, csak meg _Tests miatt int
+        if(turnNumber == 0)
+        {
+            GAME_LOGGER.log(Level.forName("TURN", 401), "First Turn! Player1 starts. " + turnNumber);
+            turnNumber++;
+            return turnNumber;
+        } else {
+            turnNumber++;
+            GAME_LOGGER.log(Level.forName("TURN", 401), "Turn number: " + turnNumber);
+            // Implement game logic for each turn here
+            
+            // Process player turns
+            //player1.processTurn();
+            //player2.processTurn();
+            if (plane.getBase1().isDead() || plane.getBase2().isDead()) {
+                endGame();
+            }
+            // Update game state on the plane
+            //Plane.updateState();
+            
 
-        return turnNumber;
+            return turnNumber;
+        }
     }
 
     public void endGame() { //függvény meghívódik a Tecton_Base isDeadTrue() meghívódik
