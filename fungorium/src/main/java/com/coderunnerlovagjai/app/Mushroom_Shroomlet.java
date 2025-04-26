@@ -20,4 +20,9 @@ public class Mushroom_Shroomlet extends Mushroom_Class
         Plane.MushroomCollection.add(this);
         MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Shroomlet: "+ID+ " added to MushroomCollection! MushroomCollection size: " + Plane.MushroomCollection.size());
     }
+
+    @Override
+    public int getIncomeMultiplier() {
+        return 10; // Például a Mushroom_Shroomlet 10-szeres szorzót ad
+    }
 }

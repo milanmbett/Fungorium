@@ -15,6 +15,8 @@ public abstract class Mushroom_Class
     protected int cost=0; //Grafikahoz lehet nem kell
     protected int level=0;
 
+    public abstract int getIncomeMultiplier();
+
     public Mushroom_Class()
     {
         MUSHROOM_CLASS_LOGGER.log(Level.forName("INIT",402),"Mushroom_Class Constructor called!"); 
@@ -36,10 +38,14 @@ public abstract class Mushroom_Class
     } 
     public void generate_Income() //TODO: Ez igy meg csúnya majd meg kell vizsgálni további lehetőségeket
     {
-        if (this.ID.contains("Mushroom_Grand"))
-            owner.increaseIncome(level * 15);
-        else
-            owner.increaseIncome(level * 10);
+        //mushroom ownerje?
+        //hpja lejjebb mint 500?
+        for(Mushroom_Class mushroom : Plane.MushroomCollection)
+        {
+            owner.increaseIncome(level * mushroom.getIncomeMultiplier());
+            MUSHROOM_CLASS_LOGGER.log(Level.forName("INCOME", 401), "Mushroom: " + ID + " generated income for owner: " + owner.getId() + " with amount: " + (level * mushroom.getIncomeMultiplier()));
+        }
+        
     }
    
 

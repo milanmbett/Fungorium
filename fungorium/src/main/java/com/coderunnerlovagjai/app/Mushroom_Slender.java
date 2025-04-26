@@ -21,4 +21,9 @@ public class Mushroom_Slender extends Mushroom_Class
         MUSHROOM_SLENDER_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Slender: "+ID+ " added to MushroomCollection! MushroomCollection size: " + Plane.MushroomCollection.size());
 
     }
+
+    @Override
+    public int getIncomeMultiplier() {
+        return 10; // Például a Mushroom_Shroomlet 10-szeres szorzót ad
+    }
 }
