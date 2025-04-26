@@ -66,5 +66,15 @@ public class Plane
         ins.get_Tecton().get_InsectsOnTecton().remove(ins);
         targetTecton.get_InsectsOnTecton().add(ins);
     }
+
+    public Insect_Class getInsectByID(String id) {
+        for (Insect_Class insect : InsectCollection) {
+            if (insect.get_ID().equalsIgnoreCase(id)) {
+                return insect;
+            }
+
+        PLANE_LOGGER.log(Level.forName("ERROR", 404), "Insect with ID {} not found!", id);
+        return null;
+    }
     
 }
