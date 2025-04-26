@@ -184,6 +184,7 @@ public abstract class Insect_Class
         return ID;
     }
 
+    
 
 
     ///Lehet kéne egy buffer függvény mely eltárolja a spóra effektjét hogy ne tartson örökké 
