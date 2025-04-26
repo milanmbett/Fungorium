@@ -73,13 +73,12 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         this.turnNumber = turnNumber;
     }*/
 
-    public int turn() { //Ez majd void lesz, csak meg _Tests miatt int
+    public void turn() { //Ez majd void lesz, csak meg _Tests miatt int
         Player currentPlayer;
         if(turnNumber == 0)
         {
             GAME_LOGGER.log(Level.forName("TURN", 401), "First Turn! Player1 starts. " + turnNumber);
             turnNumber++;
-            return turnNumber;
         } else {
             currentPlayer = getPlayer(currentTurnsPlayer());
             GAME_LOGGER.log(Level.forName("TURN", 401), "Turn number: " + turnNumber);
@@ -100,7 +99,6 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             }
             
             turnNumber++;
-            return turnNumber;
         }
     }
 
