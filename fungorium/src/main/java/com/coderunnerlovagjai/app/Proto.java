@@ -31,7 +31,7 @@ public class Proto {
         game.startGame(); // Elindítja a játékot
         Scanner scanner = new Scanner(System.in);
         System.out.println("Fungorium Console Prototype - "+game.currentTurnsPlayer()+"'s turn");
-        while (true) {
+        while (!game.isGameOver()) {
             // Display menu
             System.out.println("\nSelect a role (1 or 2), or 0 to exit:");
             System.out.println("1 - Fungus Player (Gomba játékos)");
