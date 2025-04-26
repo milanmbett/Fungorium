@@ -66,6 +66,14 @@ public class Plane
         ins.get_Tecton().get_InsectsOnTecton().remove(ins);
         targetTecton.get_InsectsOnTecton().add(ins);
     }
+    
+    public void removeInsect(Insect_Class insect) {
+        if (InsectCollection.remove(insect)) {
+            PLANE_LOGGER.log(Level.forName("REMOVE", 401), "Insect: " + insect.get_ID() + " removed from InsectCollection.");
+        } else {
+            PLANE_LOGGER.log(Level.forName("ERROR", 404), "Failed to remove Insect: " + insect.get_ID() + " from InsectCollection.");
+        }
+    }
 
     public Insect_Class getInsectByID(String id) {
         for (Insect_Class insect : InsectCollection) {
