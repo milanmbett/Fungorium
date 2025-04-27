@@ -105,7 +105,8 @@ public class Proto {
                                     System.out.println("Invalid choice for mushroom type.");
                                     continue;
                             }
-                            placeMushroom(game.getPlayer(game.currentTurnsPlayer()), mushroom);
+                            game.getPlane().place_Mushroom(mushroom, selectTecton());
+                            System.out.println("Mushroom placed successfully on tecton: " + selectTecton().get_ID() + ".");
                             break;
                         case 2:
                             upgradeMushroom(game.getPlayer(game.currentTurnsPlayer()), selectExistingMushroom());
@@ -203,8 +204,10 @@ public class Proto {
     private static Tecton_Class selectTecton() {
         // Placeholder for selecting a tecton
         System.out.println("Select a tecton:");
-        for (Tecton_Class t : allTectons) {
-            System.out.println("Tecton: " + t.get_ID());
+        for (Tecton_Class t : game.getPlane().TectonCollection) {
+            if (t.get_Thread()!=null) {
+                System.out.println("Tecton: " + t.get_ID());
+            }
         }
         int choice;
         try {
@@ -272,29 +275,6 @@ public class Proto {
         }
     }
 
-    // Use Case 1: Gomba lerakása (Place Mushroom)
-    private static void placeMushroom(Player player, Mushroom_Class mushroom) {
-        Tecton_Class target = selectTecton();
-        if (target.mushroom != null || target.isDead()) { // Check if tecton is empty and not dead   
-            System.out.println("Target tecton is already occupied by a mushroom or is dead.");    
-            return;
-        }
-        if (target == null) {
-            System.out.println("No available tecton to place a mushroom.");
-            return;
-        }
-        // Check currency
-        int cost=mushroom.getCost(); // Placeholder for cost calculation
-        if (player.getIncome() < cost) {
-            System.out.println("Not enough resources to place a mushroom.");
-            return;
-        }
-        player.decreaseIncome(cost); // Decrease player's currency by cost
-        // Place the mushroom
-        target.mushroom = mushroom;
-        System.out.println("Placing a new mushroom on tecton:" + target.get_ID() + "...");
-        System.out.println("Mushroom placed successfully on tecton: " + target.get_ID() + ". (Cost: " + cost + ", remaining fungus currency: " + player.getIncome() + ")");
-    }
 
     // Use Case 2: Rovar mozgatása (Move Insect)
     private static void moveInsect(Player player,Insect_Class insect, Tecton_Class target) {
@@ -305,6 +285,22 @@ public class Proto {
         }
         if (insect == null) {
             System.out.println("No insect available to move.");
+            return;
+        }
+        if (insect.get_Tecton() == null) {
+            System.out.println("Insect is not on a tecton.");
+            return;
+        }
+        if (target.isDead()) {
+            System.out.println("Target tecton is dead. Cannot move insect there.");
+            return;
+        }
+        if (target.get_InsectsOnTecton().contains(insect)) {
+            System.out.println("Insect is already on the target tecton.");
+            return;
+        }
+        if (target.get_Thread() == null) {
+            System.out.println("You can only move insects to tectons with a thread.");
             return;
         }
         if(player.getId() != insect.get_Owner().getId()){
@@ -335,6 +331,19 @@ public class Proto {
         // Check if the target tecton is valid
         if (target == null) {
             System.out.println("Target tecton is not valid.");
+            return;
+        }
+        if (target.isDead()) {
+            System.out.println("Target tecton is dead. Cannot place insect there.");
+            return;
+        }
+        if(target.get_Thread() == null) {
+            System.out.println("You can only place insects on tectons with a thread.");
+            return;
+        }
+        // Check if the insect is valid and not already placed
+        if (insect == null) {
+            System.out.println("Insect is not valid.");
             return;
         }
 

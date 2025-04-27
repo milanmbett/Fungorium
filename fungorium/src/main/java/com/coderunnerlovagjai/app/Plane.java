@@ -36,32 +36,56 @@ public class Plane
     {
         
     }
-    public static void place_Insect(Insect_Class ins, Tecton_Class targetTecton)
+    public void place_Insect(Insect_Class ins, Tecton_Class targetTecton)
     {
         targetTecton.get_InsectsOnTecton().add(ins);
     }
-    public static void place_Spore(Basic_Spore spore, Tecton_Class targetTecton)
+    public void place_Spore(Basic_Spore spore, Tecton_Class targetTecton)
     {
         if(targetTecton.get_Spore() == null)
         {
             targetTecton.set_Spore(spore);
         }
     }
-    public static void place_Thread(Thread_Class t, Tecton_Class targetTecton)
+    public void place_Thread(Thread_Class t, Tecton_Class targetTecton)
     {
         if(targetTecton.get_Thread() == null)
         {
             targetTecton.set_Thread(t);
         }
     }
-    public static void place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton)
+    public void place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton)
     {
+        if (targetTecton== null) {
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
+            return;
+        }
+        if (targetTecton.get_Mushroom() != null || targetTecton.isDead()) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is already occupied or dead!");
+            return;
+        }
+        if(targetTecton.thread == null) {
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Thread is null!");
+            return;
+        }
+
+        
         if(targetTecton.get_Mushroom() == null)
         {
+            // Check currency
+            int cost=m.getCost(); // Placeholder for cost calculation
+            if (m.get_Owner().getIncome() < cost) {
+                PLANE_LOGGER.log(Level.forName("ERROR", 401), "Not enough currency to place mushroom!");
+                return;
+            }
+            m.get_Owner().decreaseIncome(cost); // Decrease player's currency by cost
             targetTecton.set_Mushroom(m);
+            m.set_Tecton(targetTecton); // Set the mushroom's tecton
+            MushroomCollection.add(m); // Add mushroom to the collection
+            PLANE_LOGGER.log(Level.forName("PLACE", 401), "Mushroom: " + m.get_ID() + " placed on Tecton: " + targetTecton.get_ID());
         }
     }
-    public static void move_Insect(Insect_Class ins, Tecton_Class targetTecton)
+    public void move_Insect(Insect_Class ins, Tecton_Class targetTecton)
     {
         ins.get_Tecton().get_InsectsOnTecton().remove(ins);
         targetTecton.get_InsectsOnTecton().add(ins);
