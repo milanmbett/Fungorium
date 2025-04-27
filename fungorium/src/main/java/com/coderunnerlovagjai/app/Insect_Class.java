@@ -112,6 +112,7 @@ public abstract class Insect_Class
             INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Spore is null!");
             return;
         }
+        
         sp.consumed_by(this);
         owner.increaseIncome(5);
         owner.setScore(owner.getScore() + 5);
