@@ -109,13 +109,12 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             ins.attack_Mushroom(ins.get_Tecton().get_Mushroom());
         }
         
-        // Mushroom attacks insects
+        // Mushroom attacks insects and generates income and spawns spores
         for(Mushroom_Class mush : plane.MushroomCollection) {
             if(mush.get_Owner() == currentPlayer) {
-                //mush.attack_Insects(currentPlayer); //Ezt nem tudom hogy kellene
                 mush.generate_Income();
                 mush.attack_Insects();
-                mush.spawn_Spores(new Basic_Spore(mush.get_Tecton()));
+                mush.spawn_Spores(new Basic_Spore(mush.get_Tecton(), currentPlayer)); // Spawn spores on the mushroom's tecton
             }
         }
         
@@ -130,7 +129,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         // Insects eat spores
         for(Insect_Class ins : plane.InsectCollection) {
             for(Basic_Spore sp : plane.SporeCollection) {
-                if(ins.get_Tecton().equals(sp.get_Tecton())) {
+                if(ins.get_Tecton().equals(sp.get_Tecton()) && ins.get_Owner() == currentPlayer) {
                     ins.eat_Spore(sp);
                 }
             }
