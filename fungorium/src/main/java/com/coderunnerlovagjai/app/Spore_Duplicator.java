@@ -6,6 +6,12 @@ import org.apache.logging.log4j.Logger;
 public class Spore_Duplicator extends Basic_Spore
 {
     private static final Logger SPORE_DUPLICATOR_LOGGER = LogManager.getLogger(Spore_Duplicator.class);
+
+    public Spore_Duplicator()
+    {
+        SPORE_DUPLICATOR_LOGGER.log(Level.forName("INIT",402),"Spore_Duplicator Constructor called!"); 
+    }
+
     public Spore_Duplicator(Tecton_Class targetTecton)
     {
         timeToLive = 3;

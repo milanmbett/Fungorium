@@ -1,5 +1,7 @@
 package com.coderunnerlovagjai.app;
 
+import java.util.Random;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,4 +41,20 @@ public class Mushroom_Grand extends Mushroom_Class
             game.endGame();
         }
     }
+    @Override
+    public void spawn_Spores(Basic_Spore spore)
+    {
+        Random rnd = new Random();
+        
+        for (Tecton_Class t : tecton.get_TectonNeighbours()) {
+            if (rnd.nextInt(100)<20&&!t.isDead()) { // 20% chance
+                owner.getGame().getPlane().SporeCollection.add(spore);
+            }
+        }
+    
+        // Also possibly spawn on the same tile
+        if (rnd.nextInt(100)<20&&!tecton.isDead()) { // 20% chance
+            owner.getGame().getPlane().SporeCollection.add(spore);
+        }
+    } 
 }

@@ -37,19 +37,21 @@ public abstract class Mushroom_Class
         owner.getGame().getPlane().MushroomCollection.remove(this);
     }
 
-    public void spawn_Spores()
+    public void spawn_Spores(Basic_Spore spore)
     {
         Random rnd = new Random();
         
         for (Tecton_Class t : tecton.get_TectonNeighbours()) {
             if (rnd.nextInt(100)<20&&!t.isDead()) { // 20% chance
-                owner.getGame().getPlane().SporeCollection.add(new Basic_Spore(t));
+                owner.getGame().getPlane().SporeCollection.add(spore);
+                sporeCount++;
             }
         }
     
         // Also possibly spawn on the same tile
         if (rnd.nextInt(100)<20&&!tecton.isDead()) { // 20% chance
-            owner.getGame().getPlane().SporeCollection.add(new Basic_Spore(tecton));
+            owner.getGame().getPlane().SporeCollection.add(spore);
+            sporeCount++;
         }
     } 
     public void generate_Income() //TODO: Ez igy meg csúnya majd meg kell vizsgálni további lehetőségeket

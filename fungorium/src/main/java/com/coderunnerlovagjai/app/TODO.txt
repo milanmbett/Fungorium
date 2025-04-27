@@ -1,8 +1,9 @@
+Spóra létrehozásánál kéne beállítani a tectonján ő van
 Thread_Class tryToEat_Insect után növő gomba kié
 Mushroom_Class spawnSpores() megírni
 Kör végén spórát csak az adott játékos gombája szórjon vagy mindegyik? (Game.Turn.spawn_Spores)
 spóra mikor spawn spóra megevés előtt/után
-Saját Rovar egyen spórát a körében vagy mindegyik?
+Saját Rovar egyen spórát a körében vagy mindegyik? 
 
                     System.out.println("3 - Crack Tecton (Tektontörés)");
                     System.out.println("4 - Eat Thread (Fonal megevése)");

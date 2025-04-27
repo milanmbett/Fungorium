@@ -6,12 +6,20 @@ import org.apache.logging.log4j.Logger;
 public class Spore_Paralysing extends Basic_Spore
 {
     private static final Logger SPORE_PARALYSING_LOGGER = LogManager.getLogger(Spore_Paralysing.class);
-    public Spore_Paralysing(Tecton_Class targetTecton)
+
+    public Spore_Paralysing(Player player)
+    {
+        Player owner = player;
+        SPORE_PARALYSING_LOGGER.log(Level.forName("INIT",402),"Spore_Paralysing Constructor called!"); 
+    }
+
+    public Spore_Paralysing(Tecton_Class targetTecton,Player player)
     {
         timeToLive = 3; //_TMP value
         tecton = targetTecton;
         tecton.set_Spore(this);
         ID = "Spore_Paralysing" + Integer.toString(Plane.SporeCollection.size());
+        Player owner = player;
         SPORE_PARALYSING_LOGGER.log(Level.forName("CREATE",401),"Spore_Paralysing Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         Plane.SporeCollection.add(this);
         SPORE_PARALYSING_LOGGER.log(Level.forName("ADD", 403), "Spore_Paralysing: "+ID+ " added to SporeCollection! SporeCollection size: " + Plane.SporeCollection.size());
