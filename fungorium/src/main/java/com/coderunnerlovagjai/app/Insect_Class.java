@@ -109,7 +109,8 @@ public abstract class Insect_Class
             return;
         }
         sp.consumed_by(this);
-        owner.increaseIncome(100);  
+        owner.increaseIncome(5);
+        owner.setScore(owner.getScore() + 5);
     }
     public void eat_Thread(Thread_Class th)
     {

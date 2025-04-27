@@ -86,4 +86,15 @@ public class Plane
         return null;
     }
 
+    public Mushroom_Class getMushroomByID(String id) {
+        for (Mushroom_Class mushroom : MushroomCollection) {
+            if (mushroom.get_ID().equalsIgnoreCase(id)) {
+                return mushroom;
+            }
+        }
+
+        PLANE_LOGGER.log(Level.forName("ERROR", 404), "Mushroom with ID {} not found!", id);
+        return null;
+    }
+
 }

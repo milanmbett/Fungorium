@@ -83,53 +83,63 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
 
     public void turn() { //Ez majd void lesz, csak meg _Tests miatt int
         Player currentPlayer;
-        if(turnNumber == 0)
-        {
-            GAME_LOGGER.log(Level.forName("TURN", 401), "First Turn! Player1 starts. " + turnNumber);
-            turnNumber++;
+        if(turnNumber % 2 == 1) {
+            GAME_LOGGER.log(Level.forName("TURN", 401), "Player 1's turn: " + turnNumber);
         } else {
-            currentPlayer = getPlayer(currentTurnsPlayer());
-            GAME_LOGGER.log(Level.forName("TURN", 401), "Turn number: " + turnNumber);
-            // Implement game logic for each turn here
-            
-            // Process player turns
-            //player1.processTurn();
-            //player2.processTurn();
-            if (plane.getBase1().isDead() || plane.getBase2().isDead()) {
-                endGame();
+            GAME_LOGGER.log(Level.forName("TURN", 401), "Player 2's turn: " + turnNumber);
+        }
+        currentPlayer = getPlayer(currentTurnsPlayer());
+        // Implement game logic for each turn here
+        
+        // Process player turns
+        //player1.processTurn();
+        //player2.processTurn();
+        if (plane.getBase1().isDead() || plane.getBase2().isDead()) {
+            endGame();
+        }
+        
+        // Update game state on the plane
+        //Plane.updateState();
+        for(Mushroom_Class m : plane.MushroomCollection) {
+            if(m.get_Owner() == currentPlayer) {
+                m.generate_Income();
             }
-            
-            // Update game state on the plane
-            //Plane.updateState();
-            for(Mushroom_Class m : plane.MushroomCollection) {
-                if(m.get_Owner() == currentPlayer) {
-                    m.generate_Income();
-                }
-            }
-            
-            // Insect attacks on mushrooms
-            for(Insect_Class ins : plane.InsectCollection) {
-                ins.attack_Mushroom(ins.get_Tecton().get_Mushroom());
-            }
-            
-            // Mushroom attacks insects
-            for(Mushroom_Class mush : plane.MushroomCollection) {
+        }
+        
+        // Insect attacks on mushrooms
+        for(Insect_Class ins : plane.InsectCollection) {
+            ins.attack_Mushroom(ins.get_Tecton().get_Mushroom());
+        }
+        
+        // Mushroom attacks insects
+        for(Mushroom_Class mush : plane.MushroomCollection) {
+            if(mush.get_Owner() == currentPlayer) {
+                //mush.attack_Insects(currentPlayer); //Ezt nem tudom hogy kellene
                 mush.attack_Insects();
             }
-            
-            // Mushrooms release spores
-            for(Mushroom_Class mush : plane.MushroomCollection) {
-                mush.spawn_Spores();
             }
-            
-            // Thread expansion and eating
-            for(Thread_Class th : plane.ThreadCollection) {
-                th.expand_Thread();
-                th.tryToEat_Insect();
-            }
-            
-            turnNumber++;
+        
+        // Mushrooms release spores
+        for(Mushroom_Class mush : plane.MushroomCollection) {
+            mush.spawn_Spores();
         }
+        
+        // Thread expansion and eating
+        for(Thread_Class th : plane.ThreadCollection) {
+            th.expand_Thread();
+            th.tryToEat_Insect();
+        }
+
+        // Insects eat spores
+        for(Insect_Class ins : plane.InsectCollection) {
+            for(Basic_Spore sp : plane.SporeCollection) {
+                if(ins.get_Tecton().equals(sp.get_Tecton())) {
+                    ins.eat_Spore(sp);
+                }
+            }
+        }
+        
+        turnNumber++;
     }
 
     public void endGame() { //függvény meghívódik a Tecton_Base isDeadTrue() meghívódik

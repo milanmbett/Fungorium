@@ -37,7 +37,7 @@ public class Insect_Tektonizator extends Insect_Class {
         INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ADD", 403), "Insect_Tektonizator: " + ID + " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
     }
 
-        public void tectonCrack() {
+    public void tectonCrack() {
         if (!tecton.canBeCracked()) {
             INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("WARN", 404), "Tecton:" + tecton.get_ID() + " cannot be cracked!");
             return;
