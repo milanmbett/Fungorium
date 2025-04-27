@@ -109,7 +109,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
                 //mush.attack_Insects(currentPlayer); //Ezt nem tudom hogy kellene
                 mush.generate_Income();
                 mush.attack_Insects();
-                mush.spawn_Spores(new Basic_Spore());
+                mush.spawn_Spores(new Basic_Spore(mush.get_Tecton()));
             }
         }
         

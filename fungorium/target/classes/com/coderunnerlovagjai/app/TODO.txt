@@ -1,4 +1,3 @@
-Spóra létrehozásánál kéne beállítani a tectonján ő van
 Thread_Class tryToEat_Insect után növő gomba kié
 Mushroom_Class spawnSpores() megírni
 Kör végén spórát csak az adott játékos gombája szórjon vagy mindegyik? (Game.Turn.spawn_Spores)

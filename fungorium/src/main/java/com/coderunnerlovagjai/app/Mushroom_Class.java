@@ -107,10 +107,6 @@ public abstract class Mushroom_Class
             System.out.println("No available tecton to upgrade the mushroom.");
             return;
         }
-        if (this == null) {
-            System.out.println("No mushroom available to upgrade.");
-            return;
-        }
         if (owner.getId()!=player.getId()) {
             System.out.println("You cannot upgrade a mushroom that does not belong to you.");
             return;
