@@ -11,7 +11,7 @@ public abstract class Tecton_Class {
     private static final Logger TECTON_CLASS_LOGGER = LogManager.getLogger(Tecton_Class.class);
     protected List<Tecton_Class> Neighbours = new ArrayList<>();
 
-    protected Mushroom_Class mushroom;
+    protected Mushroom_Class mushroom = null;
     protected List<Insect_Class> insectsOnTecton = new ArrayList<>();
     protected Basic_Spore spore;
     protected Thread_Class thread;
