@@ -137,7 +137,7 @@ public class Proto {
                             System.out.println("Going back.");
                             break;
                         case 1:
-                            moveInsect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectTecton());
+                            game.getPlane().move_Insect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectTecton());
                             break;
                         case 2:
                             placeInsect(game.getPlayer(game.currentTurnsPlayer()), selectNewInsect(), selectTecton());
@@ -273,57 +273,6 @@ public class Proto {
                 System.out.println("Invalid insect type selection.");
                 return null;
         }
-    }
-
-
-    // Use Case 2: Rovar mozgatása (Move Insect)
-    private static void moveInsect(Player player,Insect_Class insect, Tecton_Class target) {
-        // Simulate moving an insect to a neighboring tecton
-        if (target == null) {
-            System.out.println("No target tecton available for the insect to move to.");
-            return;
-        }
-        if (insect == null) {
-            System.out.println("No insect available to move.");
-            return;
-        }
-        if (insect.get_Tecton() == null) {
-            System.out.println("Insect is not on a tecton.");
-            return;
-        }
-        if (target.isDead()) {
-            System.out.println("Target tecton is dead. Cannot move insect there.");
-            return;
-        }
-        if (target.get_InsectsOnTecton().contains(insect)) {
-            System.out.println("Insect is already on the target tecton.");
-            return;
-        }
-        if (target.get_Thread() == null) {
-            System.out.println("You can only move insects to tectons with a thread.");
-            return;
-        }
-        if(player.getId() != insect.get_Owner().getId()){
-            System.out.println("You cannot move an insect that does not belong to you.");
-            return;
-        }
-        Tecton_Class current = insect.get_Tecton();
-        for (Tecton_Class neigh : current.get_TectonNeighbours()) {
-            // Choose first valid neighbor (not dead and target is neigbor)
-            if (!neigh.isDead()&&target.equals(neigh)) { //TODO fonal van-e
-                insect.get_Tecton().get_InsectsOnTecton().remove(insect);
-                insect.set_Tecton(target);
-                target.insectsOnTecton.add(insect);
-                break;
-            }
-        }
-        if (destination == null) {
-            System.out.println("No valid neighboring tecton for the insect to move.");
-            return;
-        }
-        // Perform move
-        System.out.println("Moving " + insect.get_ID() + " from " + current.get_ID() + " to " + target.get_ID() + "...");
-        System.out.println("Insect moved successfully to " + target.get_ID() + ".");
     }
 
     // Use Case 3: Rovar lerakása (Place Insect)
