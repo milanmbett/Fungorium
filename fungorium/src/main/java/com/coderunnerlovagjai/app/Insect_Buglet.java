@@ -14,11 +14,11 @@ public class Insect_Buglet extends Insect_Class
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
         owner = p;
-        ID = "Insect_Buglet" + Integer.toString(Plane.InsectCollection.size());
+        ID = "Insect_Buglet" + Integer.toString(owner.getGame().getPlane().InsectCollection.size());
         cost = 10;
         INSECT_BUGLET_LOGGER.log(Level.forName("CREATE",401),"Insect_Buglet Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.InsectCollection.add(this);
-        INSECT_BUGLET_LOGGER.log(Level.forName("ADD", 403), "Insect_Buglet: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
+        owner.getGame().getPlane().InsectCollection.add(this);
+        INSECT_BUGLET_LOGGER.log(Level.forName("ADD", 403), "Insect_Buglet: "+ID+ " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
 
     }
     public Insect_Buglet(Tecton_Class targetTecton, int hp, int ad, int as, Player p)
@@ -27,12 +27,12 @@ public class Insect_Buglet extends Insect_Class
         attackDamage = ad;
         availableSteps = as;
         tecton = targetTecton;
-        ID = "Insect_Buglet" + Integer.toString(Plane.InsectCollection.size());
+        ID = "Insect_Buglet" + Integer.toString(owner.getGame().getPlane().InsectCollection.size());
         owner = p;
         tecton.get_InsectsOnTecton().add(this);
         INSECT_BUGLET_LOGGER.log(Level.forName("CREATE",401),"Insect_Buglet Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.InsectCollection.add(this);
-        INSECT_BUGLET_LOGGER.log(Level.forName("ADD", 403), "Insect_Buglet: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
+        owner.getGame().getPlane().InsectCollection.add(this);
+        INSECT_BUGLET_LOGGER.log(Level.forName("ADD", 403), "Insect_Buglet: "+ID+ " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
     }
     @Override
     public void duplicate_Insect()

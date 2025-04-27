@@ -16,12 +16,12 @@ public class Insect_Tektonizator extends Insect_Class {
         availableSteps = 1;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
-        ID = "Insect_Tektonizator" + Integer.toString(Plane.InsectCollection.size());
+        ID = "Insect_Tektonizator" + Integer.toString(owner.getGame().getPlane().InsectCollection.size());
         cost = 50;
         owner = p;
         INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("CREATE", 401), "Insect_Tektonizator Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.InsectCollection.add(this);
-        INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ADD", 403), "Insect_Tektonizator: " + ID + " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
+        owner.getGame().getPlane().InsectCollection.add(this);
+        INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ADD", 403), "Insect_Tektonizator: " + ID + " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
     }
 
     public Insect_Tektonizator(Tecton_Class targetTecton, int hp, int ad, int as, Player p) {
@@ -30,11 +30,11 @@ public class Insect_Tektonizator extends Insect_Class {
         availableSteps = as;
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
-        ID = "Insect_Tektonizator" + Integer.toString(Plane.InsectCollection.size());
+        ID = "Insect_Tektonizator" + Integer.toString(owner.getGame().getPlane().InsectCollection.size());
         owner = p;
         INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("CREATE", 401), "Insect_Tektonizator Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.InsectCollection.add(this);
-        INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ADD", 403), "Insect_Tektonizator: " + ID + " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
+        owner.getGame().getPlane().InsectCollection.add(this);
+        INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ADD", 403), "Insect_Tektonizator: " + ID + " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
     }
 
     public void tectonCrack() {
@@ -53,7 +53,7 @@ public class Insect_Tektonizator extends Insect_Class {
         List<Tecton_Class> neighbours = new ArrayList<>(tecton.get_TectonNeighbours());
 
         // Remove the original tecton from the collection
-        Plane.TectonCollection.remove(tecton);
+        owner.getGame().getPlane().TectonCollection.remove(tecton);
 
         tecton.remove_InsectsOnTecton();
         tecton.remove_Mushroom();
