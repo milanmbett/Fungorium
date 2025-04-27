@@ -33,7 +33,7 @@ public class Plane
         return base2;
     }
 
-    public void init_Plane(int numberOfTectons) //Lehet nem fog kelleni Skeletonba
+    public void init_Plane(Game game) // now needs Game
     {
         Tecton_Basic t1 = new Tecton_Basic();
         Tecton_Basic t2 = new Tecton_Basic();
@@ -99,7 +99,14 @@ public class Plane
         t15.add_TectonNeighbour(base2);
         t15.add_TectonNeighbour(t16);
 
-
+        // add threads on t2, t3, t14 and t15
+        Thread_Class tr2  = new Thread_Class(t2,  game);
+        Thread_Class tr3  = new Thread_Class(t3,  game);
+        Thread_Class tr14 = new Thread_Class(t14, game);
+        Thread_Class tr15 = new Thread_Class(t15, game);
+        
+        PLANE_LOGGER.log(Level.forName("INIT_THREAD", 402),
+            "Threads initialized on t2, t3, t14, t15");
     }
     public void place_Spore(Basic_Spore spore, Tecton_Class targetTecton)
     {
