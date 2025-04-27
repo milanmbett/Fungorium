@@ -143,7 +143,7 @@ public class Plane
 
         //TODO: base tekton ellenőrzés
 
-        if (targetTecton.get_Mushroom() != null || targetTecton.isDead()) {
+        if (targetTecton.get_Mushroom() != null || targetTecton.isDead()) {  // TODO: valamiért belelép ha nincs rajta gomba akkor is
             PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is already occupied or dead!");
             return;
         }
