@@ -3,11 +3,6 @@ package com.coderunnerlovagjai.app;
 import java.time.temporal.Temporal;
 import java.util.*;
 
-import com.coderunnerlovagjai.app.FungoriumPrototype.Insect;
-import com.coderunnerlovagjai.app.FungoriumPrototype.Mushroom;
-import com.coderunnerlovagjai.app.FungoriumPrototype.Spore;
-import com.coderunnerlovagjai.app.FungoriumPrototype.Tecton;
-import com.coderunnerlovagjai.app.FungoriumPrototype.ThreadObj;
 
 /** 
  * Console-based prototype for the Fungorium game implementing all 14 use cases.
