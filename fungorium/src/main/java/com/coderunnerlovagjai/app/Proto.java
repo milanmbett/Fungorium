@@ -140,7 +140,7 @@ public class Proto {
                             game.getPlane().move_Insect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectTecton());
                             break;
                         case 2:
-                            placeInsect(game.getPlayer(game.currentTurnsPlayer()), selectNewInsect(), selectTecton());
+                            game.getPlane().placeInsect(selectNewInsect(), selectTecton());
                             break;
                         case 3:
                             insectID = selectInsect().get_ID();

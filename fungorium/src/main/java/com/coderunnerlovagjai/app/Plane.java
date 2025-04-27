@@ -134,7 +134,7 @@ public class Plane
         targetTecton.get_InsectsOnTecton().add(ins);
         PLANE_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ins.get_ID() + " moved to Tecton: " + targetTecton.get_ID() + ". Available steps: " + ins.get_availableSteps());
     }
-    private void placeInsect(Insect_Class insect, Tecton_Class target) {
+    public void placeInsect(Insect_Class insect, Tecton_Class target) {
         // Check if the target tecton is valid
         if (target == null) {
             System.out.println("Target tecton is not valid.");
