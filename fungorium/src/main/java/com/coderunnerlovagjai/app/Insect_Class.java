@@ -114,6 +114,15 @@ public abstract class Insect_Class
     }
     public void eat_Thread()
     {
+        if (tecton == null) {
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Cannot eat thread: Insect's tecton is null!");
+            return;
+        }
+        if (tecton.get_Thread() == null) {
+            INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ID + " cannot eat thread: No thread on tecton " + tecton.get_ID());
+            return;
+        }
+        INSECT_CLASS_LOGGER.log(Level.forName("EAT", 401), "Insect: " + ID + " ate the thread on tecton: " + tecton.get_ID());
         this.tecton.get_Thread().die_Thread();
     }
     public void reduceHP(int ad)
