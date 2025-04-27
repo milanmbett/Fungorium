@@ -109,7 +109,7 @@ public class Proto {
                             System.out.println("Mushroom placed successfully on tecton: " + selectTecton().get_ID() + ".");
                             break;
                         case 2:
-                            upgradeMushroom(game.getPlayer(game.currentTurnsPlayer()), selectExistingMushroom());
+                            selectExistingMushroom().upgrade_Mushroom(game.getPlayer(game.currentTurnsPlayer()));
                             break;
                         default:
                             System.out.println("Invalid choice for Fungus Player.");
@@ -275,42 +275,6 @@ public class Proto {
         }
     }
 
-
-    // Use Case 4: Gomba fejlesztése (Upgrade Mushroom)
-    private static void upgradeMushroom(Player player, Mushroom_Class mushroom) {
-        // Simulate selecting a mushroom to upgrade (pick first available)
-        if (mushroom == null) {
-            System.out.println("No mushroom available to upgrade.");
-            return;
-        }
-        Tecton_Class target= selectTecton();
-        if(target==null){
-            System.out.println("No available tecton to upgrade the mushroom.");
-            return;
-        }
-        if (target.mushroom == null) {
-            System.out.println("No mushroom available to upgrade.");
-            return;
-        }
-
-        if (mushroom.level >= 3) {
-            System.out.println("Mushroom is already at max level.");
-            return;
-        }
-        // Check currency
-        int cost = 50;
-        if (player.getIncome() < cost) {
-            System.out.println("Not enough resources to upgrade the mushroom.");
-            return;
-        }
-        player.decreaseIncome(cost);
-        // Apply upgrade (increase stats and change type)
-        mushroom.level++;
-        mushroom.hp += 20;
-        mushroom.power += 5;
-        System.out.println("Upgrading mushroom at tecton: " + target.get_ID() + "...");
-        System.out.println("Mushroom upgraded successfully! New level: "+mushroom.level);
-    }
 
     // Use Case 9: Spóra generálása (Generate Spore)
     private static void generateSpore() {                               // ez csak mintának van itt, nem használjuk
