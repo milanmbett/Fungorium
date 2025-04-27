@@ -55,7 +55,7 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
 
     @Override
     public boolean isDead() {
-        return true; 
+        return false; 
     }
 
     public void setDeadTrue()
