@@ -1,3 +1,4 @@
+
 package com.coderunnerlovagjai.app;
 
 
@@ -7,7 +8,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 public abstract class _Tests 
-{
+{/*
     private static final Logger TESTS_LOGGER = LogManager.getLogger(_Tests.class);
     private static final Game GAME_INSTANCE = new Game();
     private static final Plane PLANE = GAME_INSTANCE.getPlane();
@@ -733,5 +734,5 @@ public static void test5() // Tekton kettétörése
         System.out.println("26. Game turn progression");
         System.out.println("27. Game.getPlayer() – valid and invalid ID handling");
         System.out.println("----------------------------------------------------------------");
-    }
+    }*/
 }

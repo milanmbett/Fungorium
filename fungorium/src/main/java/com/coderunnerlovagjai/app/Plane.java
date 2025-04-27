@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 public class Plane 
 {
     private final Logger PLANE_LOGGER = LogManager.getLogger(Plane.class);
@@ -32,9 +33,73 @@ public class Plane
         return base2;
     }
 
-    public void init_Plane() //Lehet nem fog kelleni Skeletonba
+    public void init_Plane(int numberOfTectons) //Lehet nem fog kelleni Skeletonba
     {
+        Tecton_Basic t1 = new Tecton_Basic();
+        Tecton_Basic t2 = new Tecton_Basic();
+        Tecton_Basic t3 = new Tecton_Basic();
+        Tecton_Basic t4 = new Tecton_Basic();
+        Tecton_Basic t5 = new Tecton_Basic();
+        Tecton_Basic t6 = new Tecton_Basic();
+        Tecton_Basic t7 = new Tecton_Basic();
+        Tecton_Basic t8 = new Tecton_Basic();
+        Tecton_Basic t9 = new Tecton_Basic();
+        Tecton_Basic t10 = new Tecton_Basic();
+        Tecton_Basic t11 = new Tecton_Basic();
+        Tecton_Basic t12 = new Tecton_Basic();
+        Tecton_Basic t13 = new Tecton_Basic();
+        Tecton_Basic t14 = new Tecton_Basic();
+        Tecton_Basic t15 = new Tecton_Basic();
+        Tecton_Basic t16 = new Tecton_Basic();
+
+        TectonCollection.add(t1);
+        TectonCollection.add(t2);
+        TectonCollection.add(t3);
+        TectonCollection.add(t4);
+        TectonCollection.add(t5);
+        TectonCollection.add(t6);
+        TectonCollection.add(t7);
+        TectonCollection.add(t8);
+        TectonCollection.add(t9);
+        TectonCollection.add(t10);
+        TectonCollection.add(t11);
+        TectonCollection.add(t12);
+        TectonCollection.add(t13);
+        TectonCollection.add(t14);
+        TectonCollection.add(t15);
+        TectonCollection.add(t16);
         
+
+        t1.add_TectonNeighbour(t2);
+        t1.add_TectonNeighbour(t5);
+        t2.add_TectonNeighbour(t3);
+        t2.add_TectonNeighbour(t6);
+        t2.add_TectonNeighbour(base1);
+        t3.add_TectonNeighbour(t4);
+        t3.add_TectonNeighbour(t7);
+        t3.add_TectonNeighbour(base1);
+        t4.add_TectonNeighbour(t8);
+        t5.add_TectonNeighbour(t6);
+        t5.add_TectonNeighbour(t9);
+        t6.add_TectonNeighbour(t7);
+        t6.add_TectonNeighbour(t10);
+        t7.add_TectonNeighbour(t8);
+        t7.add_TectonNeighbour(t11);
+        t8.add_TectonNeighbour(t12);
+        t9.add_TectonNeighbour(t10);
+        t9.add_TectonNeighbour(t13);
+        t10.add_TectonNeighbour(t11);
+        t10.add_TectonNeighbour(t14);
+        t11.add_TectonNeighbour(t12);
+        t11.add_TectonNeighbour(t15);
+        t12.add_TectonNeighbour(t16);
+        t13.add_TectonNeighbour(t14);
+        t14.add_TectonNeighbour(base2);
+        t14.add_TectonNeighbour(t15);
+        t15.add_TectonNeighbour(base2);
+        t15.add_TectonNeighbour(t16);
+
+
     }
     public void place_Spore(Basic_Spore spore, Tecton_Class targetTecton)
     {

@@ -17,10 +17,8 @@ public class Tecton_Basic extends Tecton_Class
         insectsOnTecton = new ArrayList<>();
         spore = null;
         thread = null;
-        ID = "Tecton_Basic" + Integer.toString(Plane.TectonCollection.size());
+        ID = "Tecton_Basic"; //Integer.toString(Plane.TectonCollection.size()
         TECTON_BASIC_LOGGER.log(Level.forName("CREATE",401),"Tecton_Basic Created! ID: " + ID);
-        Plane.TectonCollection.add(this);
-        TECTON_BASIC_LOGGER.log(Level.forName("ADD", 403), "Tecton_Basic: "+ID+ " added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
     }
 
     @Override

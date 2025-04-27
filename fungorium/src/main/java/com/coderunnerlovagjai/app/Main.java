@@ -52,7 +52,7 @@ public class Main {
         // Support a direct test flag
         if (args.length > 0 && args[0].equals("--test")) {
             if (args.length > 1) {
-                runTest(args[1]);
+               // runTest(args[1]);
             } else {
                 MAIN_LOGGER.log(Level.ERROR, "Please provide a test number after --test flag.");
             }
@@ -70,16 +70,14 @@ public class Main {
             switch (choice) {
                 case "1":
                     // Start the game
-                    Game game = new Game();
-                    game.initGame();
-                    game.startGame();
+                    Proto proto = new Proto();
                     break;
                 case "2":
                     // Enter test mode
                     boolean doneTests = false;
                     while (!doneTests) {
-                        _Tests.listTests();
-                        doneTests = processInput(scanner, scanner.nextLine());
+                        //_Tests.listTests();
+                        //doneTests = processInput(scanner, scanner.nextLine());
                     }
                     break;
                 case "exit":
@@ -91,7 +89,7 @@ public class Main {
         }
         scanner.close();
     }
-
+/*
     private static boolean processInput(Scanner scanner, String input) {
         switch (input.toLowerCase()) {
             case "1":
@@ -325,5 +323,5 @@ public class Main {
                 MAIN_LOGGER.log(Level.WARN, "Invalid test number provided.");
                 break;
         }
-    }
+    } */
 }

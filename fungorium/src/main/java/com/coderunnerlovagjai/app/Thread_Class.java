@@ -12,18 +12,20 @@ public class Thread_Class
     private static final Logger THREAD_LOGGER = LogManager.getLogger(Thread_Class.class);
     private Tecton_Class tecton;
     private String ID;
+    private Game game; // új mező
     
-    public Thread_Class(Tecton_Class targetTecton)
+    public Thread_Class(Tecton_Class targetTecton, Game game) 
     {
-        ID = "Thread" + Integer.toString(Plane.ThreadCollection.size());
+        this.game = game; // eltároljuk a game referenciát
+        ID = "Thread" + Integer.toString(game.getPlane().ThreadCollection.size());
         
         try {
             // This will throw an exception if the tecton is dead
             targetTecton.set_Thread(this);
             tecton = targetTecton;
             THREAD_LOGGER.log(Level.forName("CREATE",401),"Thread Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-            Plane.ThreadCollection.add(this);
-            THREAD_LOGGER.log(Level.forName("ADD", 403), "Thread: "+ID+ " added to ThreadCollection! ThreadCollection size: " + Plane.ThreadCollection.size());
+            game.getPlane().ThreadCollection.add(this);
+            THREAD_LOGGER.log(Level.forName("ADD", 403), "Thread: "+ID+ " added to ThreadCollection! ThreadCollection size: " + game.getPlane().ThreadCollection.size());
         } catch (UnsupportedOperationException e) {
             // The tecton is dead, it threw an exception when we tried to set the thread
             tecton = null;
@@ -71,7 +73,7 @@ public class Thread_Class
             THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is expanding to tecton: " + threadlessTectonNeighbours.get(rand).get_ID());
             try 
             {
-                threadlessTectonNeighbours.get(rand).set_Thread(new Thread_Class(threadlessTectonNeighbours.get(rand)));
+                threadlessTectonNeighbours.get(rand).set_Thread(new Thread_Class(threadlessTectonNeighbours.get(rand),game));
                 done = true;    
             } catch (Exception e) 
             {
@@ -84,9 +86,8 @@ public class Thread_Class
     }
     public void die_Thread()
     {
-        //TODO: következő körben a fonál meghalása
         tecton.set_Thread(null);
-        Plane.ThreadCollection.remove(this);
+        game.getPlane().ThreadCollection.remove(this);
         
     }
     //Végig megyünk a fonál tectonján lévő összes bogaron és megnézzük hogy van-e olyan amelyik paralizálva van ha van megesszük, 

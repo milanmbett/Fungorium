@@ -3,3 +3,43 @@ spóra mikor spawn spóra megevés előtt/után
 
                     System.out.println("4 - Eat Thread (Fonal megevése)");
 
+
+HUMOROS:
+-grafikus game-re: Init_Plane okos megvalósítása.
+
+        final int ROWS = (int)Math.sqrt(numberOfTectons);
+        final int COLS = (int)Math.sqrt(numberOfTectons);
+    
+        // 1) Hozzuk létre a 4×4-es tömböt, és töltsük fel Tecton_Basic objektumokkal
+        Tecton_Basic[][] grid = new Tecton_Basic[ROWS][COLS];
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                grid[r][c] = new Tecton_Basic();
+                TectonCollection.add(grid[r][c]);
+            }
+        }
+    
+        // 2) Ciklussal állítsuk be a vízszintes (kelet–nyugat) és függőleges (észak–dél) szomszédságokat
+        for (int r = 0; r < ROWS; r++) {
+            for (int c = 0; c < COLS; c++) {
+                Tecton_Basic t = grid[r][c];
+    
+                //keleti szomszéd
+                if (c + 1 < COLS) {
+                    t.add_TectonNeighbour(grid[r][c + 1]);
+                }
+                //déli szomszéd
+                if (r + 1 < ROWS) {
+                    t.add_TectonNeighbour(grid[r + 1][c]);
+                }
+    
+                // Base1 a felső sor középső két eleméhez (T2 és T3)
+                if (r == 0 && (c == 1 || c == 2)) { //később 1,2 középérték
+                    t.add_TectonNeighbour(base1);
+                }
+                // Base2 az alsó sor középső két eleméhez (T14 és T15)
+                if (r == ROWS - 1 && (c == 1 || c == 2)) { //később 1,2 középérték
+                    t.add_TectonNeighbour(base2);
+                }
+            }
+        }
