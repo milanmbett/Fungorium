@@ -113,7 +113,8 @@ public class Proto {
                             selectExistingMushroom().upgrade_Mushroom(game.getPlayer(game.currentTurnsPlayer()));
                             break;
                         case 3:
-                            game.getPlane().upgradeSpore(selectSpore(), selectExistingMushroom());
+                            Mushroom_Class selectedMushroom = selectExistingMushroom();
+                            game.getPlane().upgradeSpore(selectSpore(selectedMushroom),selectedMushroom);
                             break;
                         default:
                             System.out.println("Invalid choice for Fungus Player.");
@@ -279,7 +280,7 @@ public class Proto {
         }
     }
 
-    private static Basic_Spore selectSpore(){
+    private static Basic_Spore selectSpore(Mushroom_Class mushroom) {
         System.out.println("Select a spore from the list: ");
         System.err.println("1 - Spore Speed (Sebesség spóra)");
         System.err.println("2 - Spore Slowing (Lassító spóra)");
@@ -294,13 +295,13 @@ public class Proto {
         }
         switch (choice) {
             case 1:
-                return new Spore_Speed();
+                return new Spore_Speed(mushroom.get_Tecton());
             case 2:
-                return new Spore_Slowing();
+                return new Spore_Slowing(mushroom.get_Tecton(),game.getPlayer(game.currentTurnsPlayer()));
             case 3:
-                return new Spore_Paralysing(game.getPlayer(game.currentTurnsPlayer()));
+                return new Spore_Paralysing(mushroom.get_Tecton(),game.getPlayer(game.currentTurnsPlayer()));
             case 4:
-                return new Spore_Duplicator();
+                return new Spore_Duplicator(mushroom.get_Tecton());
             default:
                 System.out.println("Invalid spore type selection.");
                 return null;
