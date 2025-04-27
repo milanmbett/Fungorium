@@ -20,10 +20,10 @@ public class Mushroom_Grand extends Mushroom_Class
         tecton = targetTecton;
         tecton.set_Mushroom(this);
         owner = p;
-        ID = "Mushroom_Grand" + Integer.toString(Plane.MushroomCollection.size());
+        ID = "Mushroom_Grand" + Integer.toString(owner.getGame().getPlane().MushroomCollection.size());
         MUSHROOM_GRAND_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Grand Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.MushroomCollection.add(this);
-        MUSHROOM_GRAND_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Grand: "+ID+ " added to MushroomCollection! MushroomCollection size: " + Plane.MushroomCollection.size());
+        owner.getGame().getPlane().MushroomCollection.add(this);
+        MUSHROOM_GRAND_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Grand: "+ID+ " added to MushroomCollection! MushroomCollection size: " + owner.getGame().getPlane().MushroomCollection.size());
        
     }
 
@@ -34,7 +34,7 @@ public class Mushroom_Grand extends Mushroom_Class
 
     public void die() {
         MUSHROOM_GRAND_LOGGER.log(Level.forName("DEAD", 401), "Mushroom_Grand is dead! ID: " + ID);
-        Plane.MushroomCollection.remove(this);
+        owner.getGame().getPlane().MushroomCollection.remove(this);
 
         // Értesítjük a Game osztályt a halálról
         if (game != null) {

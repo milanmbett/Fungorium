@@ -14,11 +14,11 @@ public class Insect_ShroomReaper extends Insect_Class
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
         owner = p;
-        ID = "Insect_ShroomReaper" + Integer.toString(Plane.InsectCollection.size());
+        ID = "Insect_ShroomReaper" + Integer.toString(owner.getGame().getPlane().InsectCollection.size());
         cost = 30;
         INSECT_SHROOM_REAPER_LOGGER.log(Level.forName("CREATE",401),"Insect_ShroomReaper Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.InsectCollection.add(this);
-        INSECT_SHROOM_REAPER_LOGGER.log(Level.forName("ADD", 403), "Insect_ShroomReaper: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
+        owner.getGame().getPlane().InsectCollection.add(this);
+        INSECT_SHROOM_REAPER_LOGGER.log(Level.forName("ADD", 403), "Insect_ShroomReaper: "+ID+ " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
         
     }
     public Insect_ShroomReaper(Tecton_Class targetTecton, int hp, int ad, int as, Player p)
@@ -29,10 +29,10 @@ public class Insect_ShroomReaper extends Insect_Class
         tecton = targetTecton;
         tecton.get_InsectsOnTecton().add(this);
         owner = p;
-        ID = "Insect_ShroomReaper" + Integer.toString(Plane.InsectCollection.size());
+        ID = "Insect_ShroomReaper" + Integer.toString(owner.getGame().getPlane().InsectCollection.size());
         INSECT_SHROOM_REAPER_LOGGER.log(Level.forName("CREATE",401),"Insect_ShroomReaper Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.InsectCollection.add(this);
-        INSECT_SHROOM_REAPER_LOGGER.log(Level.forName("ADD", 403), "Insect_ShroomReaper: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
+        owner.getGame().getPlane().InsectCollection.add(this);
+        INSECT_SHROOM_REAPER_LOGGER.log(Level.forName("ADD", 403), "Insect_ShroomReaper: "+ID+ " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
     }
     public void destroy_Tecton()
     {
