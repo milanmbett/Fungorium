@@ -127,7 +127,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         // Insects eat spores
         for(Insect_Class ins : plane.InsectCollection) {
             for(Basic_Spore sp : plane.SporeCollection) {
-                if(ins.get_Tecton().equals(sp.get_Tecton())) {
+                if(ins.get_Tecton().equals(sp.get_Tecton()) && ins.get_Owner() == currentPlayer) {
                     ins.eat_Spore(sp);
                 }
             }
