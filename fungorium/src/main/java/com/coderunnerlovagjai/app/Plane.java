@@ -22,8 +22,6 @@ public class Plane
     public void initBases(Player player1, Player player2, Game game) {
         this.base1 = new Tecton_Base(player1, game);
         this.base2 = new Tecton_Base(player2, game);
-        TectonCollection.add(base1);
-        TectonCollection.add(base2);
         PLANE_LOGGER.log(Level.forName("INIT", 402), "Bases initialized for players.");
     }
 
@@ -115,7 +113,7 @@ public class Plane
         ThreadCollection.add(tr3);
         ThreadCollection.add(tr14);
         ThreadCollection.add(tr15);
-        
+
         
         PLANE_LOGGER.log(Level.forName("INIT_THREAD", 402),
             "Threads initialized on t2, t3, t14, t15");
