@@ -1,7 +1,6 @@
 package com.coderunnerlovagjai.app;
 
-import java.time.temporal.Temporal;
-import java.util.*;
+import java.util.Scanner;
 
 
 /** 
@@ -88,6 +87,7 @@ public class Proto {
                             Tecton_Class selectedTecton = selectTecton();
                             switch (choice3) {
                                 case 1:
+                                // REMOVE HE ADDING IN THE CONSTRUCTOR 
                                     mushroom = new Mushroom_Shroomlet(selectedTecton,game.getPlayer(game.currentTurnsPlayer())); 
                                     break;
                                 case 2:
