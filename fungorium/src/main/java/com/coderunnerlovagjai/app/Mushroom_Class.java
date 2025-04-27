@@ -39,7 +39,6 @@ public abstract class Mushroom_Class
 
     public void spawn_Spores() //TODO: Meg kell írni
     {
-<<<<<<< HEAD
         Random rnd = new Random();
         if(owner.getGame().getPlane().MushroomCollection.isEmpty()){
             System.out.println("Plane is empty, cannot spawn spores.");
@@ -56,9 +55,6 @@ public abstract class Mushroom_Class
         if (rnd.nextInt(100)<20) { // 20% chance
             owner.getGame().getPlane().SporeCollection.add(new Basic_Spore(tecton));
         }
-=======
-        
->>>>>>> fa80d77afd3b17e56d433e287a6f76b76ab9a639
     } 
     public void generate_Income() //TODO: Ez igy meg csúnya majd meg kell vizsgálni további lehetőségeket
     {
