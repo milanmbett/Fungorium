@@ -1,6 +1,5 @@
 Thread_Class tryToEat_Insect után növő gomba kié
 spóra mikor spawn spóra megevés előtt/után
-Saját Rovar egyen spórát a körében vagy mindegyik? 
 
                     System.out.println("4 - Eat Thread (Fonal megevése)");
 

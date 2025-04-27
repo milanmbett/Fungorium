@@ -10,20 +10,22 @@ public class Basic_Spore
     protected int timeToLive;
     protected Tecton_Class tecton;
     protected String ID;
+    protected Player owner;
 
     public Basic_Spore()
     {
         BASIC_SPORE_LOGGER.log(Level.forName("INIT",402),"Basic_Spore Constructor called!"); 
     }
-    public Basic_Spore(Tecton_Class targetTecton)
+    public Basic_Spore(Tecton_Class targetTecton, Player player)
     {
         timeToLive = 3; 
         tecton = targetTecton;
         tecton.set_Spore(this);
-        ID = "Spore_Basic" + Integer.toString(Plane.SporeCollection.size());
+        Player owner = player;
+        ID = "Spore_Basic" + Integer.toString(owner.getGame().getPlane().SporeCollection.size());
         BASIC_SPORE_LOGGER.log(Level.forName("CREATE",401),"Basic_Spore Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.SporeCollection.add(this);
-        BASIC_SPORE_LOGGER.log(Level.forName("ADD", 403), "Basic_Spore: "+ID+ " added to SporeCollection! SporeCollection size: " + Plane.SporeCollection.size());
+        owner.getGame().getPlane().SporeCollection.add(this);
+        BASIC_SPORE_LOGGER.log(Level.forName("ADD", 403), "Basic_Spore: "+ID+ " added to SporeCollection! SporeCollection size: " + owner.getGame().getPlane().SporeCollection.size());
     }
 
     public void consumed_by(Insect_Class insect)
@@ -39,7 +41,7 @@ public class Basic_Spore
         }
         tecton.set_Spore(null);
         BASIC_SPORE_LOGGER.log(Level.forName("DIE", 401), "Spore: " + ID + " is dead!");
-        Plane.SporeCollection.remove(this);
+        owner.getGame().getPlane().SporeCollection.remove(this);
     }
 
     public int get_timeToLive()
