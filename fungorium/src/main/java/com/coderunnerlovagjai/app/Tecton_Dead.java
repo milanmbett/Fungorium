@@ -14,10 +14,8 @@ public class Tecton_Dead extends Tecton_Class
         insectsOnTecton = new ArrayList<>();
         spore = null;
         thread = null;
-        ID = "Tecton_Dead" + Integer.toString(Plane.TectonCollection.size());
+        ID = "Tecton_Dead"; //Integer.toString(Plane.TectonCollection.size())
         TECTON_DEAD_LOGGER.log(Level.forName("CREATE",401),"Tecton_Dead Created! ID: " + ID);
-        Plane.TectonCollection.add(this);
-        TECTON_DEAD_LOGGER.log(Level.forName("ADD", 403), "Tecton_Dead: "+ID+ " added to TectonCollection! TectonCollection size: " + Plane.TectonCollection.size());
     }
     
     @Override
@@ -33,9 +31,8 @@ public class Tecton_Dead extends Tecton_Class
         this.insectsOnTecton = new ArrayList<>();
         this.spore = null;
         this.thread = null;
-        this.ID = "Tecton_Dead" + Integer.toString(Plane.TectonCollection.size());
+        this.ID = "Tecton_Dead" ; //Integer.toString(Plane.TectonCollection.size()
         // Add the dead tecton to the collection.
-        Plane.TectonCollection.add(this);
         TECTON_DEAD_LOGGER.log(Level.forName("TRANSFORM", 404), "Tecton transformed to Dead! New ID: " + this.ID);
     }
     
