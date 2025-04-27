@@ -117,6 +117,7 @@ public class Proto {
                 case 2:
                     // Insect player actions
                     game.getPlayer(game.currentTurnsPlayer()).setRoleInsect();
+                    String insectID=null;
                     System.out.println("Insect Player selected. Choose an action:");
                     System.out.println("1 - Move Insect");
                     System.out.println("2 - Place Insect");
@@ -131,6 +132,9 @@ public class Proto {
                         continue;
                     }
                     switch (choice2) {
+                        case 0:
+                            System.out.println("Going back.");
+                            break;
                         case 1:
                             moveInsect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectTecton());
                             break;
@@ -138,20 +142,33 @@ public class Proto {
                             placeInsect(game.getPlayer(game.currentTurnsPlayer()), selectNewInsect(), selectTecton());
                             break;
                         case 3:
-                            String id = selectInsect().get_ID();
-                            if (id.contains("Insect_Tektonizator")) {
-                                ((Insect_Tektonizator) game.getPlane().getInsectByID(id)).tectonCrack();
+                            insectID = selectInsect().get_ID();
+                            if(insectID == null) {
+                                System.out.println("No insect selected.");
+                                break;
+                            }
+                            if (insectID.contains("Insect_Tektonizator")) {
+                                ((Insect_Tektonizator) game.getPlane().getInsectByID(insectID)).tectonCrack();
                                 System.out.println("Tecton cracked successfully!");
                             } else {
                                 System.out.println("You can only crack tectons with a Tektonizator insect.");
-                                
                             }
                             break;
                         case 4:
                             selectInsect().eat_Thread();
                             break;
                         case 5:
-                            
+                            insectID = selectInsect().get_ID();
+                            if(insectID == null) {
+                                System.out.println("No insect selected.");
+                                break;
+                            }
+                            if (insectID.contains("Insect_ShroomReaper")) {
+                                ((Insect_ShroomReaper) game.getPlane().getInsectByID(insectID)).destroy_Tecton();
+                                System.out.println("Tecton destroyed successfully!");
+                            } else {
+                                System.out.println("You can only destroy tectons with a ShroomReaper insect.");
+                            }
                             break;
                         default:
                             System.out.println("Invalid choice for Insect Player.");
@@ -444,157 +461,4 @@ public class Proto {
         }
     }
 
-
-    // Use Case 11: Rovar kettétör tektont (Crack Tecton)
-    private static void crackTecton() {
-        // Simulate a Tektonizator insect cracking the tecton it stands on
-        Insect tektonizator = null;
-        for (Tecton t : allTectons) {
-            for (Insect ins : t.insects) {
-                if (ins.type.equals("Tektonizator")) {
-                    tektonizator = ins;
-                    break;
-                }
-            }
-            if (tektonizator != null) break;
-        }
-        if (tektonizator == null) {
-            // Create a Tektonizator on an available tecton for demonstration
-            Tecton targetTile = null;
-            for (Tecton t : allTectons) {
-                if (!t.isDead && t.mushroom == null) {
-                    targetTile = t;
-                    break;
-                }
-            }
-            if (targetTile == null) {
-                System.out.println("No available tecton to crack.");
-                return;
-            }
-            tektonizator = new Insect("Tektonizator", 25, 5, targetTile);
-            targetTile.insects.add(tektonizator);
-            System.out.println("Tektonizator insect placed on " + targetTile + " to perform tecton crack.");
-        }
-        Tecton tile = tektonizator.location;
-        if (tile.isDead) {
-            System.out.println("This tecton is already dead and cannot be cracked.");
-            return;
-        }
-        System.out.println("Tektonizator on " + tile + " cracks the tecton!");
-        // Destroy any thread or insects on the tile (including the Tektonizator itself)
-        if (tile.thread != null) {
-            tile.thread = null;
-            System.out.println("Any fungal thread on " + tile + " is destroyed.");
-        }
-        if (!tile.insects.isEmpty()) {
-            tile.insects.clear();
-            System.out.println("Any insects on " + tile + " are lost in the cracking process.");
-        }
-        // Split the tecton into two new tectons
-        allTectons.remove(tile);
-        for (Tecton neighbor : tile.neighbors) {
-            neighbor.neighbors.remove(tile);
-        }
-        Tecton newT1 = new Tecton();
-        Tecton newT2 = new Tecton();
-        // New tectons become neighbors to each other and former neighbors of the cracked tecton
-        newT1.neighbors.add(newT2);
-        newT2.neighbors.add(newT1);
-        for (Tecton neighbor : tile.neighbors) {
-            newT1.neighbors.add(neighbor);
-            newT2.neighbors.add(neighbor);
-            neighbor.neighbors.add(newT1);
-            neighbor.neighbors.add(newT2);
-        }
-        allTectons.add(newT1);
-        allTectons.add(newT2);
-        System.out.println(tile + " splits into new tectons " + newT1 + " and " + newT2 + ".");
-        System.out.println("Neighbor relationships updated for surrounding tectons.");
-    }
-
-    // Use Case 12: Gombafonal megevése (Eat Fungal Thread)
-    private static void eatThread() {
-        // Simulate an insect eating a fungal thread on its current tecton
-        ThreadObj targetThread = null;
-        Insect eater = null;
-        for (Tecton t : allTectons) {
-            if (t.thread != null && !t.insects.isEmpty()) {
-                targetThread = t.thread;
-                eater = t.insects.get(0);
-                break;
-            }
-        }
-        if (targetThread == null) {
-            // If no thread and insect on same tile, see if any thread exists on a tile and bring an insect there
-            for (Tecton t : allTectons) {
-                if (t.thread != null) {
-                    targetThread = t.thread;
-                    eater = new Insect("Buglet", 30, 10, t);
-                    t.insects.add(eater);
-                    break;
-                }
-            }
-        }
-        if (targetThread == null) {
-            System.out.println("No fungal thread present to eat.");
-            return;
-        }
-        if (eater == null) {
-            eater = new Insect("Buglet", 30, 10, targetThread.location);
-            targetThread.location.insects.add(eater);
-        }
-        System.out.println("Insect on " + targetThread.location + " eats the fungal thread.");
-        targetThread.location.thread = null;
-        System.out.println("The fungal thread on " + targetThread.location + " has been destroyed.");
-    }
-
-    // Use Case 13: Rovar elpusztít tektont (Destroy Tecton)
-    private static void destroyTecton() {
-        // Simulate a ShroomReaper insect destroying a tecton (e.g., the main fungus's tecton)
-        Tecton targetTile = null;
-        for (Tecton t : allTectons) {
-            if (t.mushroom != null && t.mushroom.type.equals("Base")) {
-                targetTile = t;
-                break;
-            }
-        }
-        if (targetTile == null) {
-            // if no base, choose any non-dead tecton
-            for (Tecton t : allTectons) {
-                if (!t.isDead) {
-                    targetTile = t;
-                    break;
-                }
-            }
-        }
-        if (targetTile == null) {
-            System.out.println("No tecton available to destroy.");
-            return;
-        }
-        // Place a ShroomReaper on target tile if not already present
-        Insect shroomReaper = null;
-        for (Insect ins : targetTile.insects) {
-            if (ins.type.equals("ShroomReaper")) {
-                shroomReaper = ins;
-                break;
-            }
-        }
-        if (shroomReaper == null) {
-            shroomReaper = new Insect("ShroomReaper", 40, 10, targetTile);
-            targetTile.insects.add(shroomReaper);
-        }
-        System.out.println("ShroomReaper on " + targetTile + " uses its destroy ability!");
-        // Destroy any mushroom and insects on the tile
-        if (targetTile.mushroom != null) {
-            targetTile.mushroom = null;
-            System.out.println("Any mushroom on " + targetTile + " is destroyed.");
-        }
-        if (!targetTile.insects.isEmpty()) {
-            targetTile.insects.clear();
-            System.out.println("Any insects on " + targetTile + " are killed.");
-        }
-        // Mark tecton as dead (unbuildable for mushrooms)
-        targetTile.isDead = true;
-        System.out.println(targetTile + " is now a dead tecton (no new mushrooms can be built here).");
-    }
 }
