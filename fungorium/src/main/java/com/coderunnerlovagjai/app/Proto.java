@@ -34,6 +34,7 @@ public class Proto {
             System.out.println("0 - Exit");
             int choice1;
             int choice2;
+            int choice3;
             try {
                 choice1 = Integer.parseInt(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
@@ -82,7 +83,7 @@ public class Proto {
                             System.out.println("2 - FungusMaximus (Erősebb gomba)");
                             System.out.println("3 - Slender (Vékony gomba)");
                             System.out.println("0 - Back to main menu");
-                            int choice3;
+                            
                             Mushroom_Class mushroom = null;
                             try {
                                 choice3 = Integer.parseInt(scanner.nextLine().trim());
@@ -109,6 +110,7 @@ public class Proto {
                             }
                             game.getPlane().place_Mushroom(mushroom, selectTecton());
                             System.out.println("Mushroom placed successfully on tecton: " + selectTecton().get_ID() + ".");
+                            choice3 = 0; // Reset choice3 for the next iteration
                             break;
                         case 2:
                             selectExistingMushroom().upgrade_Mushroom(game.getPlayer(game.currentTurnsPlayer()));
@@ -232,6 +234,7 @@ public class Proto {
 
             return null;
         }
+        System.out.println("Selected tecton: " + game.getPlane().TectonCollection.get(choice).get_ID()+" "+game.getPlane().TectonCollection.get(choice).get_Thread().get_ID());
         return game.getPlane().TectonCollection.get(choice);
 
         // Logic to select a tecton would go here
