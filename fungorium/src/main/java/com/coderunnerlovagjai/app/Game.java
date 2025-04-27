@@ -42,6 +42,10 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         // A bázisok inicializálása külön metódusban történik
         plane.initBases(player1, player2, this);
         GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players and their bases.");
+        //Tectonok inicializálása
+        //Thread die_thread
+        //Thread init
+        //die_Spore
     }
 
     public int currentTurnsPlayer() {
@@ -140,14 +144,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         // Implement automated turn logic here
         GAME_LOGGER.log(Level.forName("AUTO_TURN", 401), "Automated turn logic executed.");
         
-        // 1. Tecton handling
         
-        
-        // 2. Thread lifecycle management
-        // Handle delayed death of cut threads
-        
-        
-        // 3. Handle insect behaviors
        
     }
 
