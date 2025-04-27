@@ -1,8 +1,12 @@
 package com.coderunnerlovagjai.app;
 
+import java.util.Random;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.coderunnerlovagjai.app.FungoriumPrototype.Tecton;
 public abstract class Mushroom_Class 
 {
     private static final Logger MUSHROOM_CLASS_LOGGER = LogManager.getLogger(Mushroom_Class.class);
@@ -35,7 +39,22 @@ public abstract class Mushroom_Class
 
     public void spawn_Spores() //TODO: Meg kell írni
     {
+        Random rnd = new Random();
+        if(owner.getGame().getPlane().MushroomCollection.isEmpty()){
+            System.out.println("Plane is empty, cannot spawn spores.");
+            return;
+        }
         
+        for (Tecton_Class t : tecton.get_TectonNeighbours()) {
+            if (rnd.nextInt(100)<20) { // 20% chance
+                owner.getGame().getPlane().SporeCollection.add(new Basic_Spore(t));
+            }
+        }
+    
+        // Also possibly spawn on the same tile
+        if (rnd.nextInt(100)<20) { // 20% chance
+            owner.getGame().getPlane().SporeCollection.add(new Basic_Spore(tecton));
+        }
     } 
     public void generate_Income() //TODO: Ez igy meg csúnya majd meg kell vizsgálni további lehetőségeket
     {
