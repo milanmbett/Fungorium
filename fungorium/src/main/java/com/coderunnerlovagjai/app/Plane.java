@@ -138,6 +138,44 @@ public class Plane
         targetTecton.get_InsectsOnTecton().add(ins);
         PLANE_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ins.get_ID() + " moved to Tecton: " + targetTecton.get_ID() + ". Available steps: " + ins.get_availableSteps());
     }
+    private static void placeInsect(Insect_Class insect, Tecton_Class target) {
+        // Check if the target tecton is valid
+        if (target == null) {
+            System.out.println("Target tecton is not valid.");
+            return;
+        }
+        if (target.isDead()) {
+            System.out.println("Target tecton is dead. Cannot place insect there.");
+            return;
+        }
+        if(target.get_Thread() == null) {
+            System.out.println("You can only place insects on tectons with a thread.");
+            return;
+        }
+        // Check if the insect is valid and not already placed
+        if (insect == null) {
+            System.out.println("Insect is not valid.");
+            return;
+        }
+
+        // Check if the player has enough resources to place the insect
+        int cost = insect.getCost(); // Assuming `Insect_Class` has a `getCost` method
+        if (insect.get_Owner().getIncome() < cost) {
+            System.out.println("Not enough resources to place the insect.");
+            return;
+        }
+
+        // Deduct the cost from the player's resources
+        insect.get_Owner().decreaseIncome(cost);
+
+        // Place the insect on the target tecton
+        insect.set_Tecton(target);
+        target.get_InsectsOnTecton().add(insect);
+
+        // Log the successful placement
+        System.out.println("Insect (" + insect.get_ID() + ") placed successfully on tecton: " + target.get_ID() + ".");
+        System.out.println("Cost: " + cost + ", remaining resources: " + insect.get_Owner().getIncome() + ".");
+    }
     
     public void removeInsect(Insect_Class insect) {
         if (InsectCollection.remove(insect)) {
@@ -168,5 +206,38 @@ public class Plane
         PLANE_LOGGER.log(Level.forName("ERROR", 404), "Mushroom with ID {} not found!", id);
         return null;
     }
+    public Basic_Spore upgradeSpore(Basic_Spore spore, Mushroom_Class targetMushroom, Tecton_Class targetTecton) {
+        if (targetMushroom == null) {
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Target mushroom is null!");
+            return null;
+        }
+        if (targetTecton == null) {
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
+            return null;
+        }
+        if (spore == null) {
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Spore is null!");
+            return null;
+        }
+        if (targetTecton.get_Spore() != null) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton already has a spore!");
+            return null;
+        }
+        if (targetTecton.isDead()) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is dead!");
+            return null;
+        }
+        // Check currency
+        int cost = 50; // Placeholder for cost calculation
+        if (targetMushroom.get_Owner().getIncome() < cost) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Not enough currency to upgrade spore!");
+            return null;
+        }
+        targetMushroom.get_Owner().decreaseIncome(cost); // Decrease player's currency by cost
+        targetTecton.set_Spore(spore); // Set the spore on the target tecton
+        SporeCollection.add(spore); // Add spore to the collection
+        PLANE_LOGGER.log(Level.forName("UPGRADE", 401), "Spore: " + spore.get_ID() + " upgraded on Tecton: " + targetTecton.get_ID());
+        return spore;
 
+    }
 }
