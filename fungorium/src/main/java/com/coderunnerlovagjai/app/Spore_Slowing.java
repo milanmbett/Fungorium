@@ -12,12 +12,12 @@ public class Spore_Slowing extends Basic_Spore
         SLOWING_SPORE_LOGGER.log(Level.forName("INIT",402),"Spore_Slowing Constructor called!"); 
     }
 
-    public Spore_Slowing(Tecton_Class targetTecton, Player owner)
+    public Spore_Slowing(Tecton_Class targetTecton, Player player)
     {
         timeToLive = 3;
         tecton = targetTecton;
         tecton.set_Spore(this);
-        Player player = owner;
+        owner = player;
         ID = "Spore_Slowing" + Integer.toString(owner.getGame().getPlane().SporeCollection.size());
         SLOWING_SPORE_LOGGER.log(Level.forName("CREATE",401),"Spore_Slowing Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         owner.getGame().getPlane().SporeCollection.add(this);
