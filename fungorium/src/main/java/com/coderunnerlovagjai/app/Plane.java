@@ -216,6 +216,7 @@ public class Plane
         }
         targetMushroom.get_Owner().decreaseIncome(cost); // Decrease player's currency by cost
         targetMushroom.spawn_Spores(spore);
+        SporeCollection.add(spore);
         return spore;
 
     }
