@@ -44,7 +44,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         //Tectonok inicializálása
         
         plane.initBases(player1, player2, this);
-        plane.init_Plane(16);
+        plane.init_Plane(this);
         //Thread die_thread
         //Thread init
         //die_Spore
