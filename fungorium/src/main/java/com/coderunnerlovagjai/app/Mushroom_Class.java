@@ -96,11 +96,41 @@ public abstract class Mushroom_Class
             }    
         }
     }
-    public void upgrade_Mushroom(Mushroom_Class type) //TODO: Meg kell írni
+    public void upgrade_Mushroom(Mushroom_Class m,Tecton_Class target) //TODO: Meg kell írni
     {
         //valahogy megkéne nézni hogy ugyanaz-e típus e?
         //van-e pénz (még ez nem kell szerintem)
-        
+        // Simulate selecting a mushroom to upgrade (pick first available)
+        if (owner.getGame().getPlane().MushroomCollection.isEmpty()) {
+            System.out.println("No mushroom available to upgrade.");
+            return;
+        }
+        if(target==null){
+            System.out.println("No available tecton to upgrade the mushroom.");
+            return;
+        }
+        if (target.mushroom == null) {
+            System.out.println("No mushroom available to upgrade.");
+            return;
+        }
+
+        if (level >= 3) {
+            System.out.println("Mushroom is already at max level.");
+            return;
+        }
+        // Check currency
+        int cost = 50;
+        if (owner.getIncome() < cost) {
+            System.out.println("Not enough resources to upgrade the mushroom.");
+            return;
+        }
+        owner.decreaseIncome(cost);
+        // Apply upgrade (increase stats and change type)
+        level++;
+        hp += 20;
+        power += 5;
+        System.out.println("Upgrading mushroom at tecton: " + target.get_ID() + "...");
+        System.out.println("Mushroom upgraded successfully! New level: " + level);
     }
     public void reduceHP(int ad)
     {
