@@ -85,10 +85,58 @@ public class Plane
             PLANE_LOGGER.log(Level.forName("PLACE", 401), "Mushroom: " + m.get_ID() + " placed on Tecton: " + targetTecton.get_ID());
         }
     }
-    public void move_Insect(Insect_Class ins, Tecton_Class targetTecton)
+    public void move_Insect(Player player,Insect_Class ins, Tecton_Class targetTecton)
     {
+        if (targetTecton == null) {
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
+            return;
+        }
+        if (ins == null) {
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Insect is null!");
+            return;
+        }
+        if (ins.get_Tecton() == null) {
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Insect's tecton is null!");
+            return;
+        }
+        if (targetTecton.isDead()) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is dead!");
+            return;
+        }
+        if (targetTecton.get_InsectsOnTecton().contains(ins)) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Insect is already on the target tecton!");
+            return;
+        }
+        if (targetTecton.get_Thread() == null) {
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton has no thread!");
+            return;
+        }
+        if(player.getId() != ins.get_Owner().getId()){
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "You cannot move an insect that does not belong to you.");
+            return;
+        }
+        if(ins.get_availableSteps() <= 0) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ins.get_ID() + " has no available steps!");
+            return;
+        }
+        if (!ins.get_Tecton().get_TectonNeighbours().contains(targetTecton)) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is not a neighbour of the insect's current tecton!");
+            return;  
+        }
+        if (ins.get_Tecton().equals(targetTecton)) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ins.get_ID() + " is already on the target tecton!");
+            return;
+        }
+        if (ins.get_Tecton().get_Thread() == null || targetTecton.get_Thread() == null) {
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "There is no thread on either tecton!");
+            return;
+        }
+
         ins.get_Tecton().get_InsectsOnTecton().remove(ins);
+        ins.set_Tecton(targetTecton); // Set the insect's tecton
+        ins.set_availableSteps(ins.get_availableSteps() - 1); // Decrease available steps
         targetTecton.get_InsectsOnTecton().add(ins);
+        PLANE_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ins.get_ID() + " moved to Tecton: " + targetTecton.get_ID() + ". Available steps: " + ins.get_availableSteps());
     }
     
     public void removeInsect(Insect_Class insect) {
