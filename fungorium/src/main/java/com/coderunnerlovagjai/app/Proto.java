@@ -85,6 +85,7 @@ public class Proto {
                             System.out.println("0 - Back to main menu");
                             
                             Mushroom_Class mushroom = null;
+                            Tecton_Class selectedTecton = selectTecton();
                             try {
                                 choice3 = Integer.parseInt(scanner.nextLine().trim());
                             } catch (NumberFormatException e) {
@@ -93,13 +94,13 @@ public class Proto {
                             }
                             switch (choice3) {
                                 case 1:
-                                    mushroom = new Mushroom_Shroomlet(selectTecton(),game.getPlayer(game.currentTurnsPlayer())); 
+                                    mushroom = new Mushroom_Shroomlet(selectedTecton,game.getPlayer(game.currentTurnsPlayer())); 
                                     break;
                                 case 2:
-                                    mushroom = new Mushroom_Maximus(selectTecton(),game.getPlayer(game.currentTurnsPlayer())); 
+                                    mushroom = new Mushroom_Maximus(selectedTecton,game.getPlayer(game.currentTurnsPlayer())); 
                                     break;
                                 case 3:
-                                    mushroom = new Mushroom_Slender(selectTecton(),game.getPlayer(game.currentTurnsPlayer()));
+                                    mushroom = new Mushroom_Slender(selectedTecton,game.getPlayer(game.currentTurnsPlayer()));
                                     break;
                                 case 0:
                                     System.out.println("Going back to main menu.");
@@ -108,8 +109,8 @@ public class Proto {
                                     System.out.println("Invalid choice for mushroom type.");
                                     continue;
                             }
-                            game.getPlane().place_Mushroom(mushroom, selectTecton());
-                            System.out.println("Mushroom placed successfully on tecton: " + selectTecton().get_ID() + ".");
+                            game.getPlane().place_Mushroom(mushroom, selectedTecton);
+                            System.out.println("Mushroom placed successfully on tecton: " + selectedTecton.get_ID() + ".");
                             choice3 = 0; // Reset choice3 for the next iteration
                             break;
                         case 2:
