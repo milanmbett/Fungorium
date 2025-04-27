@@ -220,7 +220,7 @@ public class Proto {
             System.out.println("Invalid tecton selection.");
             return null;
         }
-        return allTectons.get(choice);
+        return game.getPlane().TectonCollection.get(choice);
 
         // Logic to select a tecton would go here
     }
