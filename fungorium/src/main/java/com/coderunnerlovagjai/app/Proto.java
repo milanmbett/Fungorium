@@ -103,6 +103,7 @@ public class Proto {
                                     System.out.println("Invalid choice for mushroom type.");
                                     continue;
                             }
+                            
                             game.getPlane().place_Mushroom(mushroom, selectedTecton);
                             System.out.println("Mushroom placed successfully on tecton: " + selectedTecton.get_ID() + ".");
                             choice3 = 0; // Reset choice3 for the next iteration
