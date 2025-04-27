@@ -18,11 +18,11 @@ public class Spore_Paralysing extends Basic_Spore
         timeToLive = 3; //_TMP value
         tecton = targetTecton;
         tecton.set_Spore(this);
-        ID = "Spore_Paralysing" + Integer.toString(Plane.SporeCollection.size());
         Player owner = player;
+        ID = "Spore_Paralysing" + Integer.toString(owner.getGame().getPlane().SporeCollection.size());
         SPORE_PARALYSING_LOGGER.log(Level.forName("CREATE",401),"Spore_Paralysing Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.SporeCollection.add(this);
-        SPORE_PARALYSING_LOGGER.log(Level.forName("ADD", 403), "Spore_Paralysing: "+ID+ " added to SporeCollection! SporeCollection size: " + Plane.SporeCollection.size());
+        owner.getGame().getPlane().SporeCollection.add(this);
+        SPORE_PARALYSING_LOGGER.log(Level.forName("ADD", 403), "Spore_Paralysing: "+ID+ " added to SporeCollection! SporeCollection size: " + owner.getGame().getPlane().SporeCollection.size());
     }
     @Override
     public void consumed_by(Insect_Class insect)

@@ -17,11 +17,11 @@ public class Spore_Slowing extends Basic_Spore
         timeToLive = 3;
         tecton = targetTecton;
         tecton.set_Spore(this);
-        ID = "Spore_Slowing" + Integer.toString(Plane.SporeCollection.size());
         Player player = owner;
+        ID = "Spore_Slowing" + Integer.toString(owner.getGame().getPlane().SporeCollection.size());
         SLOWING_SPORE_LOGGER.log(Level.forName("CREATE",401),"Spore_Slowing Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        Plane.SporeCollection.add(this);
-        SLOWING_SPORE_LOGGER.log(Level.forName("ADD", 403), "Spore_Slowing: "+ID+ " added to SporeCollection! SporeCollection size: " + Plane.SporeCollection.size());
+        owner.getGame().getPlane().SporeCollection.add(this);
+        SLOWING_SPORE_LOGGER.log(Level.forName("ADD", 403), "Spore_Slowing: "+ID+ " added to SporeCollection! SporeCollection size: " + owner.getGame().getPlane().SporeCollection.size());
     }
     @Override
     public void consumed_by(Insect_Class insect)
