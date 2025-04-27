@@ -34,10 +34,10 @@ public abstract class Mushroom_Class
     public void die_Mushroom()
     {
         tecton.set_Mushroom(null);
-        Plane.MushroomCollection.remove(this);
+        owner.getGame().getPlane().MushroomCollection.remove(this);
     }
 
-    public void spawn_Spores() //TODO: Meg kell írni
+    public void spawn_Spores()
     {
         Random rnd = new Random();
         if(owner.getGame().getPlane().MushroomCollection.isEmpty()){
@@ -96,7 +96,7 @@ public abstract class Mushroom_Class
             }    
         }
     }
-    public void upgrade_Mushroom(Mushroom_Class m,Tecton_Class target) //TODO: Meg kell írni
+    public void upgrade_Mushroom(Player player) //TODO: Meg kell írni
     {
         //valahogy megkéne nézni hogy ugyanaz-e típus e?
         //van-e pénz (még ez nem kell szerintem)
@@ -105,13 +105,18 @@ public abstract class Mushroom_Class
             System.out.println("No mushroom available to upgrade.");
             return;
         }
-        if(target==null){
+        if(tecton==null){
             System.out.println("No available tecton to upgrade the mushroom.");
             return;
         }
-        if (target.mushroom == null) {
+        if (this == null) {
             System.out.println("No mushroom available to upgrade.");
             return;
+        }
+        if (owner.getId()!=player.getId()) {
+            System.out.println("You cannot upgrade a mushroom that does not belong to you.");
+            return;
+            
         }
 
         if (level >= 3) {
@@ -129,7 +134,7 @@ public abstract class Mushroom_Class
         level++;
         hp += 20;
         power += 5;
-        System.out.println("Upgrading mushroom at tecton: " + target.get_ID() + "...");
+        System.out.println("Upgrading mushroom at tecton: " + tecton.get_ID() + "...");
         System.out.println("Mushroom upgraded successfully! New level: " + level);
     }
     public void reduceHP(int ad)
