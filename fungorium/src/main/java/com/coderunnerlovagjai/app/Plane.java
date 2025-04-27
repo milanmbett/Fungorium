@@ -22,6 +22,8 @@ public class Plane
     public void initBases(Player player1, Player player2, Game game) {
         this.base1 = new Tecton_Base(player1, game);
         this.base2 = new Tecton_Base(player2, game);
+        TectonCollection.add(base1);
+        TectonCollection.add(base2);
         PLANE_LOGGER.log(Level.forName("INIT", 402), "Bases initialized for players.");
     }
 
