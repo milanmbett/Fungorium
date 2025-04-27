@@ -3,3 +3,6 @@ spóra mikor spawn spóra megevés előtt/után
 
                     System.out.println("4 - Eat Thread (Fonal megevése)");
 
+
+HUMOROS:
+-grafikus game-re: Init_Plane okos megvalósítása.
