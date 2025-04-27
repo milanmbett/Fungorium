@@ -44,7 +44,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         //Tectonok inicializálása
         
         plane.initBases(player1, player2, this);
-        plane.init_Plane(16);
+        plane.init_Plane(this);
         //Thread die_thread
         //Thread init
         //die_Spore
@@ -105,7 +105,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     
         
         // Insect attacks on mushrooms
-        for(Insect_Class ins : plane.InsectCollection) {
+        for(Insect_Class ins : new java.util.ArrayList<>(player1.getGame().getPlane().InsectCollection)) {
             ins.attack_Mushroom(ins.get_Tecton().get_Mushroom());
         }
         
@@ -121,14 +121,14 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
 
         
         // Thread expansion and eating
-        for(Thread_Class th : plane.ThreadCollection) {
+        for(Thread_Class th : new java.util.ArrayList<>(player1.getGame().getPlane().ThreadCollection)) {
             th.expand_Thread();
             th.tryToEat_Insect();
         }
 
         // Insects eat spores
-        for(Insect_Class ins : plane.InsectCollection) {
-            for(Basic_Spore sp : plane.SporeCollection) {
+        for(Insect_Class ins : new java.util.ArrayList<>(player1.getGame().getPlane().InsectCollection)) {
+            for(Basic_Spore sp : new java.util.ArrayList<>(player1.getGame().getPlane().SporeCollection)) {
                 if(ins.get_Tecton().equals(sp.get_Tecton()) && ins.get_Owner() == currentPlayer) {
                     ins.eat_Spore(sp);
                 }

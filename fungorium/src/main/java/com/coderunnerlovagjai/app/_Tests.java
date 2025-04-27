@@ -1,4 +1,3 @@
-
 package com.coderunnerlovagjai.app;
 
 
@@ -8,7 +7,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 public abstract class _Tests 
-{/*
+{
     private static final Logger TESTS_LOGGER = LogManager.getLogger(_Tests.class);
     private static final Game GAME_INSTANCE = new Game();
     private static final Plane PLANE = GAME_INSTANCE.getPlane();
@@ -92,7 +91,7 @@ public abstract class _Tests
     {
         TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Tecton death");
         Tecton_Class t1 = new Tecton_Basic();
-        Thread_Class th1 = new Thread_Class(t1);
+        Thread_Class th1 = new Thread_Class(t1,new Game());
         // Store the result of die_Tecton for testing
         t1 = t1.die_Tecton();
         
@@ -104,7 +103,7 @@ public abstract class _Tests
         }
         
         // Verify that creating a thread on the original tecton reference doesn't work
-        Thread_Class th2 = new Thread_Class(t1);
+        Thread_Class th2 = new Thread_Class(t1, new Game());
         if(th2.get_Tecton() != null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Thread_Class tecton is not null!");
@@ -112,7 +111,7 @@ public abstract class _Tests
         }
         
         // Also verify that creating a thread directly on the dead tecton doesn't work
-        Thread_Class th3 = new Thread_Class(t1);
+        Thread_Class th3 = new Thread_Class(t1, new Game());
         if(th3.get_Tecton() != null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Thread_Class on explicit dead tecton is not null!");
@@ -249,7 +248,7 @@ public static void test5() // Tekton kettétörése
     public static void test7() //Fonal létrehozása
     {
         Tecton_Basic t1 = new Tecton_Basic();
-        t1.set_Thread(new Thread_Class(t1));
+        t1.set_Thread(new Thread_Class(t1, new Game()));
         String tmp = t1.get_Thread().get_ID();
         TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Thread: " + tmp);
         if(tmp == null) 
@@ -265,7 +264,7 @@ public static void test5() // Tekton kettétörése
         Tecton_Basic t2 = new Tecton_Basic();
         t1.add_TectonNeighbour(t2);
         t2.add_TectonNeighbour(t1);
-        t1.set_Thread(new Thread_Class(t1));
+        t1.set_Thread(new Thread_Class(t1, new Game()));
         t1.get_Thread().expand_Thread();
         String tmp = t2.get_Thread().get_ID();
         TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton2's Thread: " + tmp);
@@ -293,8 +292,8 @@ public static void test5() // Tekton kettétörése
         Player p1 = new Player();
         Tecton_Basic t1 = new Tecton_Basic();
         Tecton_Basic t2 = new Tecton_Basic();
-        Thread_Class th1 = new Thread_Class(t1);
-        Thread_Class th2 = new Thread_Class(t2);
+        Thread_Class th1 = new Thread_Class(t1, new Game());
+        Thread_Class th2 = new Thread_Class(t2, new Game());
 
         t1.add_TectonNeighbour(t2); 
         t2.add_TectonNeighbour(t1);
@@ -557,9 +556,9 @@ public static void test5() // Tekton kettétörése
         Tecton_Class t3 = new Tecton_Basic(); //Van paralyzed rovar és gomba is
 
 
-        Thread_Class th1 = new Thread_Class(t1);
-        Thread_Class th2 = new Thread_Class(t2);
-        Thread_Class th3 = new Thread_Class(t3);
+        Thread_Class th1 = new Thread_Class(t1, new Game());
+        Thread_Class th2 = new Thread_Class(t2, new Game());
+        Thread_Class th3 = new Thread_Class(t3, new Game());
 
         Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
         Insect_Buglet ib2 = new Insect_Buglet(t2, p1);
@@ -613,7 +612,7 @@ public static void test5() // Tekton kettétörése
         Tecton_Class t2 = new Tecton_Dead();
         t1.add_TectonNeighbour(t2);
         t2.add_TectonNeighbour(t1);
-        Thread_Class th1 = new Thread_Class(t1);
+        Thread_Class th1 = new Thread_Class(t1, new Game());
         th1.expand_Thread();
 
         if(t2.get_Thread() != null) 
@@ -734,5 +733,5 @@ public static void test5() // Tekton kettétörése
         System.out.println("26. Game turn progression");
         System.out.println("27. Game.getPlayer() – valid and invalid ID handling");
         System.out.println("----------------------------------------------------------------");
-    }*/
+    }
 }
