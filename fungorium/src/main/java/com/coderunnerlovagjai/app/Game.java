@@ -16,8 +16,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     public Game() {
         this.player1 = new Player(1);
         this.player2 = new Player(2);
-        this.turnNumber = 0; 
-
+        this.turnNumber = 0;        
         // Inicializáljuk a Plane-t, a bázisok inicializálása átkerült a külön initGame() metódusba,
         // hogy elkerüljük az "this" szivárgását a konstruktorban.
         this.plane = new Plane();
@@ -43,6 +42,9 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         plane.initBases(player1, player2, this);
         GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players and their bases.");
         //Tectonok inicializálása
+        
+        plane.initBases(player1, player2, null);
+        plane.init_Plane();
         //Thread die_thread
         //Thread init
         //die_Spore
