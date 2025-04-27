@@ -272,41 +272,6 @@ public class Proto {
         }
     }
 
-    // Use Case 5: Játék inicializálása (Initialize Game)
-    private static void initializeGame() {
-        // Reset game state
-        gameInitialized = true;
-        nextTectonId = 1;
-        allTectons.clear();
-        // Create initial map (tectons and neighbors)
-        Tecton_Class t1 = new Tecton_Class();
-        Tecton_Class t2 = new Tecton_Class();
-        Tecton_Class t3 = new Tecton_Class();
-        Tecton_Class t4 = new Tecton_Class();
-        Tecton_Class t5 = new Tecton_Class();
-        // Define neighbor relationships (simple layout)
-        t1.neighbors.add(t2);
-        t1.neighbors.add(t4);
-        t2.neighbors.add(t1);
-        t2.neighbors.add(t3);
-        t3.neighbors.add(t2);
-        t4.neighbors.add(t1);
-        t4.neighbors.add(t5);
-        t5.neighbors.add(t4);
-        // Collect tectons
-        allTectons.add(t1);
-        allTectons.add(t2);
-        allTectons.add(t3);
-        allTectons.add(t4);
-        allTectons.add(t5);
-        // Place base mushroom for fungus player on Tecton1
-        Mushroom baseMushroom = new Mushroom("Base", 50, 15, t1);
-        t1.mushroom = baseMushroom;
-        // Starting state: fungus has one base mushroom, insect player has no insects yet
-        System.out.println("Game initialized. Board created with " + allTectons.size() + " tectons.");
-        System.out.println("Base Mushroom placed at Tecton1. Both players start with 100 currency.");
-    }
-
     // Use Case 1: Gomba lerakása (Place Mushroom)
     private static void placeMushroom(Player player, Mushroom_Class mushroom) {
         Tecton_Class target = selectTecton();
