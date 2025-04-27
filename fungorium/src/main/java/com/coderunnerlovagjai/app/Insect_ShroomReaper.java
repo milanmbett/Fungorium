@@ -34,9 +34,9 @@ public class Insect_ShroomReaper extends Insect_Class
         Plane.InsectCollection.add(this);
         INSECT_SHROOM_REAPER_LOGGER.log(Level.forName("ADD", 403), "Insect_ShroomReaper: "+ID+ " added to InsectCollection! InsectCollection size: " + Plane.InsectCollection.size());
     }
-    public void destroy_Tecton(Tecton_Class t)
+    public void destroy_Tecton()
     {
-        List<Tecton_Class> tmp_tectonList = t.get_TectonNeighbours();
+        List<Tecton_Class> tmp_tectonList = get_Tecton().get_TectonNeighbours();
         tecton.die_Tecton();
         tecton = new Tecton_Dead();
         tecton.set_TectonNeighbours(tmp_tectonList);
