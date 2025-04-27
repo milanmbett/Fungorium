@@ -6,6 +6,12 @@ import org.apache.logging.log4j.Logger;
 public class Spore_Slowing extends Basic_Spore
 {
     private static final Logger SLOWING_SPORE_LOGGER = LogManager.getLogger(Spore_Slowing.class);
+    
+    public Spore_Slowing()
+    {
+        SLOWING_SPORE_LOGGER.log(Level.forName("INIT",402),"Spore_Slowing Constructor called!"); 
+    }
+
     public Spore_Slowing(Tecton_Class targetTecton)
     {
         timeToLive = 3;

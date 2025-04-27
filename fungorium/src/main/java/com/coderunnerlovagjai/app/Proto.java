@@ -66,6 +66,7 @@ public class Proto {
                     System.out.println("Fungus Player selected. Choose an action:");
                     System.out.println("1 - Place Mushroom");
                     System.out.println("2 - Upgrade Mushroom");
+                    System.out.println("3 - Upgrade Spore (Spóra fejlesztése)");
                     System.out.println("0 - Back to main menu");
                     try {
                         choice2 = Integer.parseInt(scanner.nextLine().trim());
@@ -110,6 +111,9 @@ public class Proto {
                             break;
                         case 2:
                             selectExistingMushroom().upgrade_Mushroom(game.getPlayer(game.currentTurnsPlayer()));
+                            break;
+                        case 3:
+                            game.getPlane().upgradeSpore(selectSpore(), selectExistingMushroom());
                             break;
                         default:
                             System.out.println("Invalid choice for Fungus Player.");
@@ -275,6 +279,33 @@ public class Proto {
         }
     }
 
+    private static Basic_Spore selectSpore(){
+        System.out.println("Select a spore from the list: ");
+        System.err.println("1 - Spore Speed (Sebesség spóra)");
+        System.err.println("2 - Spore Slowing (Lassító spóra)");
+        System.err.println("3 - Spore Paralyzing (Bénító spóra)");
+        System.err.println("4 - Spore Duplicator (Duplázó spóra)");
+        int choice;
+        try {
+            choice = Integer.parseInt(new Scanner(System.in).nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input, please enter a number.");
+            return null;
+        }
+        switch (choice) {
+            case 1:
+                return new Spore_Speed();
+            case 2:
+                return new Spore_Slowing();
+            case 3:
+                return new Spore_Paralysing(game.getPlayer(game.currentTurnsPlayer()));
+            case 4:
+                return new Spore_Duplicator();
+            default:
+                System.out.println("Invalid spore type selection.");
+                return null;
+        }
+    }
 
     // Use Case 9: Spóra generálása (Generate Spore)
     private static void generateSpore() {                               // ez csak mintának van itt, nem használjuk
