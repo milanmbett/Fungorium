@@ -121,6 +121,7 @@ public class Proto {
                             break;
                         default:
                             System.out.println("Invalid choice for Fungus Player.");
+                            break;
                     }
                     break;
                 case 2:
@@ -186,7 +187,7 @@ public class Proto {
                     break;
                 default:
                     System.out.println("Invalid choice. Please select a valid option.");
-                    
+                    break;
                 }
                 choice1 = 0; // Reset choice1 for the next iteration
                 choice2 = 0; // Reset choice2 for the next iteration
