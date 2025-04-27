@@ -9,7 +9,7 @@ public class Spore_Paralysing extends Basic_Spore
 
     public Spore_Paralysing(Player player)
     {
-        Player owner = player;
+        owner = player;
         SPORE_PARALYSING_LOGGER.log(Level.forName("INIT",402),"Spore_Paralysing Constructor called!"); 
     }
 
@@ -18,7 +18,7 @@ public class Spore_Paralysing extends Basic_Spore
         timeToLive = 3; //_TMP value
         tecton = targetTecton;
         tecton.set_Spore(this);
-        Player owner = player;
+        owner = player;
         ID = "Spore_Paralysing" + Integer.toString(owner.getGame().getPlane().SporeCollection.size());
         SPORE_PARALYSING_LOGGER.log(Level.forName("CREATE",401),"Spore_Paralysing Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         owner.getGame().getPlane().SporeCollection.add(this);
