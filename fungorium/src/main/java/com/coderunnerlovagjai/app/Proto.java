@@ -200,7 +200,7 @@ public class Proto {
         }
         String choice;
         choice = new Scanner(System.in).nextLine();
-        Insect_Class selectedInsect = Game.plane.getInsectByID(choice);
+        Insect_Class selectedInsect = game.getPlane().getInsectByID(choice);
 
         return selectedInsect;
     }
@@ -306,38 +306,4 @@ public class Proto {
                 return null;
         }
     }
-
-    // Use Case 9: Spóra generálása (Generate Spore)
-    private static void generateSpore() {                               // ez csak mintának van itt, nem használjuk
-        // Simulate automatic spore generation by all mushrooms
-        if (getAnyMushroom() == null) {
-            System.out.println("No mushrooms on the board to generate spores.");
-            return;
-        }
-        Random rand = new Random();
-        List<String> sporeTypes = Arrays.asList("Speed", "Slowing", "Paralyzing", "Duplicator");
-        boolean generatedAny = false;
-        for (Tecton t : allTectons) {
-            if (t.mushroom != null) {
-                List<Tecton> possibleTargets = new ArrayList<>();
-                for (Tecton neigh : t.neighbors) {
-                    if (neigh.mushroom == null && neigh.spore == null && !neigh.isDead && neigh.thread == null) {
-                        possibleTargets.add(neigh);
-                    }
-                }
-                if (!possibleTargets.isEmpty()) {
-                    Tecton target = possibleTargets.get(rand.nextInt(possibleTargets.size()));
-                    String sporeType = sporeTypes.get(rand.nextInt(sporeTypes.size()));
-                    Spore newSpore = new Spore(sporeType, target);
-                    target.spore = newSpore;
-                    System.out.println("Mushroom at " + t + " generates a " + sporeType + " spore on " + target + ".");
-                    generatedAny = true;
-                }
-            }
-        }
-        if (!generatedAny) {
-            System.out.println("No valid neighbor available for spore generation.");
-        }
-    }
-
 }
