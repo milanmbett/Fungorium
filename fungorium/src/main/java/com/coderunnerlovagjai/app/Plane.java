@@ -138,7 +138,7 @@ public class Plane
         targetTecton.get_InsectsOnTecton().add(ins);
         PLANE_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ins.get_ID() + " moved to Tecton: " + targetTecton.get_ID() + ". Available steps: " + ins.get_availableSteps());
     }
-    private static void placeInsect(Insect_Class insect, Tecton_Class target) {
+    private void placeInsect(Insect_Class insect, Tecton_Class target) {
         // Check if the target tecton is valid
         if (target == null) {
             System.out.println("Target tecton is not valid.");
@@ -173,8 +173,8 @@ public class Plane
         target.get_InsectsOnTecton().add(insect);
 
         // Log the successful placement
-        System.out.println("Insect (" + insect.get_ID() + ") placed successfully on tecton: " + target.get_ID() + ".");
-        System.out.println("Cost: " + cost + ", remaining resources: " + insect.get_Owner().getIncome() + ".");
+        
+        PLANE_LOGGER.log(Level.forName("PLACE", 401), "Insect: " + insect.get_ID() + " placed on Tecton: " + target.get_ID() + ". Cost: " + cost + ", remaining resources: " + insect.get_Owner().getIncome() + ".");
     }
     
     public void removeInsect(Insect_Class insect) {
