@@ -15,8 +15,6 @@ import java.util.*;
 public class Proto {
     // Game state fields
     private static boolean gameInitialized = false;
-    private static int nextTectonId = 1;
-    private static List<Tecton_Class> allTectons = new ArrayList<>();
     private static Game game = new Game();
 
     
@@ -64,6 +62,13 @@ public class Proto {
                     System.out.println("2 - Upgrade Mushroom");
                     System.out.println("3 - Upgrade Spore (Spóra fejlesztése)");
                     System.out.println("0 - Back to main menu");
+
+                    for (Mushroom_Class m : game.getPlane().MushroomCollection) {
+                        System.out.println("Mushroom: " + m.get_ID());
+                    }
+                    for(Tecton_Class t : game.getPlane().TectonCollection) {
+                        System.out.println("Tecton: " + t.get_ID());
+                    }
                     try {
                         choice2 = Integer.parseInt(scanner.nextLine().trim());
                     } catch (NumberFormatException e) {
