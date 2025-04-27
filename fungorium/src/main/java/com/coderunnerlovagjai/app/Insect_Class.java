@@ -99,6 +99,10 @@ public abstract class Insect_Class
     public void die_Insect()
     {
         tecton.get_InsectsOnTecton().remove(this);
+
+        owner.getGame().getPlane().removeInsect(this);
+    
+        INSECT_CLASS_LOGGER.log(Level.forName("DIE", 401), "Insect: " + ID + " died and removed from collections.");
     }
 
     public void eat_Spore(Basic_Spore sp)
@@ -112,10 +116,18 @@ public abstract class Insect_Class
         owner.increaseIncome(5);
         owner.setScore(owner.getScore() + 5);
     }
-    public void eat_Thread(Thread_Class th)
+    public void eat_Thread()
     {
-        th.die_Thread();
-        
+        if (tecton == null) {
+            INSECT_CLASS_LOGGER.log(Level.forName("NULL", 201), "Cannot eat thread: Insect's tecton is null!");
+            return;
+        }
+        if (tecton.get_Thread() == null) {
+            INSECT_CLASS_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ID + " cannot eat thread: No thread on tecton " + tecton.get_ID());
+            return;
+        }
+        INSECT_CLASS_LOGGER.log(Level.forName("EAT", 401), "Insect: " + ID + " ate the thread on tecton: " + tecton.get_ID());
+        this.tecton.get_Thread().die_Thread();
     }
     public void reduceHP(int ad)
     {

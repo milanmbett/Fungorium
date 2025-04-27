@@ -87,6 +87,7 @@ public class Thread_Class
         //TODO: következő körben a fonál meghalása
         tecton.set_Thread(null);
         Plane.ThreadCollection.remove(this);
+        
     }
     //Végig megyünk a fonál tectonján lévő összes bogaron és megnézzük hogy van-e olyan amelyik paralizálva van ha van megesszük, 
     //és növesztünk egy gombát(Shroomlet) ha még nincsen 
