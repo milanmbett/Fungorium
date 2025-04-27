@@ -21,7 +21,7 @@ public class Proto {
 
     
 
-    public static void main(String[] args) {
+    public Proto(){
         game.initGame(); 
         game.startGame(); // Elindítja a játékot
         Scanner scanner = new Scanner(System.in);

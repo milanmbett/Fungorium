@@ -43,7 +43,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players and their bases.");
         //Tectonok inicializálása
         
-        plane.initBases(player1, player2, null);
+        plane.initBases(player1, player2, this);
         plane.init_Plane(16);
         //Thread die_thread
         //Thread init
