@@ -58,6 +58,11 @@ public class Thread_Class
                 threadlessTectonNeighbours.add(t);
             } 
         }
+        // Add guard: if no threadless neighbours, cannot expand
+        if(threadlessTectonNeighbours.isEmpty()) {
+            THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " has no threadless neighbours to expand to!");
+            return;
+        }
         Random random = new Random();
         int rand = random.nextInt(threadlessTectonNeighbours.size());
         boolean done = false;
