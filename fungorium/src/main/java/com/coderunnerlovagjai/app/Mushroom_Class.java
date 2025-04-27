@@ -40,19 +40,15 @@ public abstract class Mushroom_Class
     public void spawn_Spores()
     {
         Random rnd = new Random();
-        if(owner.getGame().getPlane().MushroomCollection.isEmpty()){
-            System.out.println("Plane is empty, cannot spawn spores.");
-            return;
-        }
         
         for (Tecton_Class t : tecton.get_TectonNeighbours()) {
-            if (rnd.nextInt(100)<20) { // 20% chance
+            if (rnd.nextInt(100)<20&&!t.isDead()) { // 20% chance
                 owner.getGame().getPlane().SporeCollection.add(new Basic_Spore(t));
             }
         }
     
         // Also possibly spawn on the same tile
-        if (rnd.nextInt(100)<20) { // 20% chance
+        if (rnd.nextInt(100)<20&&!tecton.isDead()) { // 20% chance
             owner.getGame().getPlane().SporeCollection.add(new Basic_Spore(tecton));
         }
     } 
