@@ -112,7 +112,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             if(mush.get_Owner() == currentPlayer) {
                 mush.generate_Income();
                 mush.attack_Insects();
-                mush.spawn_Spores(new Basic_Spore(mush.get_Tecton()));
+                mush.spawn_Spores(new Basic_Spore(mush.get_Tecton(), currentPlayer)); // Spawn spores on the mushroom's tecton
             }
         }
         

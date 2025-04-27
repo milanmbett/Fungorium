@@ -295,13 +295,13 @@ public class Proto {
         }
         switch (choice) {
             case 1:
-                return new Spore_Speed(mushroom.get_Tecton());
+                return new Spore_Speed(mushroom.get_Tecton(),game.getPlayer(game.currentTurnsPlayer()));
             case 2:
                 return new Spore_Slowing(mushroom.get_Tecton(),game.getPlayer(game.currentTurnsPlayer()));
             case 3:
                 return new Spore_Paralysing(mushroom.get_Tecton(),game.getPlayer(game.currentTurnsPlayer()));
             case 4:
-                return new Spore_Duplicator(mushroom.get_Tecton());
+                return new Spore_Duplicator(mushroom.get_Tecton(),game.getPlayer(game.currentTurnsPlayer()));
             default:
                 System.out.println("Invalid spore type selection.");
                 return null;
