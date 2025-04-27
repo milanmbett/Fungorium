@@ -61,22 +61,24 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
         return role;
     }
 
-
+    /* 
     public boolean moveInsect(Insect_Class insect, Tecton_Class target) {
-        if (role instanceof Role_Insect role_insect) {
-            return role_insect.validateAndMoveInsect(insect, target);
+        if (role.getRoleName().contains("insect")) {
+            return role.validateAndMoveInsect(insect, target);
         } else {
             PLAYER_LOGGER.log(Level.forName("ERROR", 404), 
                 "Player {} does not have Insect role!", id);
             return false;
         }
-    }
+    }*/
 
-    public void newTurn() {
+    public void endTurn() {
         if (role != null) {
             role.on_turn();
-            role = null; // Reset the role after the turn
+            
         }
+
+        role = null; // Reset the role after the turn
     }
 
     public int getIncome() {

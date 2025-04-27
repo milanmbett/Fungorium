@@ -63,7 +63,7 @@ public abstract class Tecton_Class {
         remove_Mushroom();
         remove_Spore();
         remove_Thread();
-        Plane.TectonCollection.remove(this);
+        
 
         // Create a new dead tecton from this live instance.
         Tecton_Dead dead = new Tecton_Dead(this);

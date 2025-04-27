@@ -19,8 +19,10 @@ public class Role_Insect implements Role //TODO: Megírás
     public void on_turn() {
         ROLE_INSECT_LOGGER.log(Level.forName("ON_TURN", 402), "Insect role's turn started.");
         //income meg ezeket itt kellene beállítani
+
     }
 
+    @Override
     public String getRoleName() {
         return "Insect";
     }
@@ -73,6 +75,7 @@ public class Role_Insect implements Role //TODO: Megírás
         return true;
     }
 
+    @Override
     public void resetRole(Player player) {
         if (player != owner) {
             ROLE_INSECT_LOGGER.log(Level.forName("ERROR", 404), "Player does not own this role!");

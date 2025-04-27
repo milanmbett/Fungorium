@@ -24,6 +24,8 @@ public class Role_Mushroom implements Role //TODO: Megírás
     public String getRoleName() {
         return "Mushroom";
     }
+
+    @Override
     public void resetRole(Player player) {
         if (player != owner) {
             ROLE_MUSHROOM_LOGGER.log(Level.forName("ERROR", 404), "Player does not own this role!");
