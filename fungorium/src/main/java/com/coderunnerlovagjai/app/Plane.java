@@ -22,6 +22,8 @@ public class Plane
     public void initBases(Player player1, Player player2, Game game) {
         this.base1 = new Tecton_Base(player1, game);
         this.base2 = new Tecton_Base(player2, game);
+        TectonCollection.add(base1);
+        TectonCollection.add(base2);
         PLANE_LOGGER.log(Level.forName("INIT", 402), "Bases initialized for players.");
     }
 
@@ -104,6 +106,16 @@ public class Plane
         Thread_Class tr3  = new Thread_Class(t3,  game);
         Thread_Class tr14 = new Thread_Class(t14, game);
         Thread_Class tr15 = new Thread_Class(t15, game);
+
+        t2.set_Thread(tr2);
+        t3.set_Thread(tr3);
+        t14.set_Thread(tr14);
+        t15.set_Thread(tr15);
+        ThreadCollection.add(tr2);
+        ThreadCollection.add(tr3);
+        ThreadCollection.add(tr14);
+        ThreadCollection.add(tr15);
+        
         
         PLANE_LOGGER.log(Level.forName("INIT_THREAD", 402),
             "Threads initialized on t2, t3, t14, t15");
@@ -128,6 +140,9 @@ public class Plane
             PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
             return;
         }
+
+        //TODO: base tekton ellenőrzés
+
         if (targetTecton.get_Mushroom() != null || targetTecton.isDead()) {
             PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is already occupied or dead!");
             return;
