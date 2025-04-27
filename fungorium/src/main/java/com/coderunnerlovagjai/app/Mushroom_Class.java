@@ -15,7 +15,8 @@ public abstract class Mushroom_Class
     protected int cost=0; //Grafikahoz lehet nem kell
     protected int level=0;
 
-    public abstract int getIncomeMultiplier();
+    public abstract int getIncomeMultiplier(); //ezt nem lenne attributummal célszerűbb megoldani?
+    //Esetleg a szorzókat egy enum-ba tenni, és abból visszaadni a megfelelő szorzót?
 
     public Mushroom_Class()
     {
@@ -40,11 +41,9 @@ public abstract class Mushroom_Class
     {
         //mushroom ownerje?
         //hpja lejjebb mint 500?
-        for(Mushroom_Class mushroom : Plane.MushroomCollection)
-        {
-            owner.increaseIncome(level * mushroom.getIncomeMultiplier());
-            MUSHROOM_CLASS_LOGGER.log(Level.forName("INCOME", 401), "Mushroom: " + ID + " generated income for owner: " + owner.getId() + " with amount: " + (level * mushroom.getIncomeMultiplier()));
-        }
+
+        owner.increaseIncome(level * getIncomeMultiplier());
+        MUSHROOM_CLASS_LOGGER.log(Level.forName("INCOME", 401), "Mushroom: " + ID + " generated income for owner: " + owner.getId() + " with amount: " + (level * getIncomeMultiplier()));
         
     }
    
