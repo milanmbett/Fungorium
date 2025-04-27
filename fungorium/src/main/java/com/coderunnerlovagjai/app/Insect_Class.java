@@ -112,10 +112,9 @@ public abstract class Insect_Class
         owner.increaseIncome(5);
         owner.setScore(owner.getScore() + 5);
     }
-    public void eat_Thread(Thread_Class th)
+    public void eat_Thread()
     {
-        th.die_Thread();
-        
+        this.tecton.get_Thread().die_Thread();
     }
     public void reduceHP(int ad)
     {
