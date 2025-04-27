@@ -137,9 +137,22 @@ public class Proto {
                         case 2:
                             placeInsect(game.getPlayer(game.currentTurnsPlayer()), selectNewInsect(), selectTecton());
                             break;
-                        /*case 3:
-                            (game.getPlayer(game.currentTurnsPlayer()), selectInsect(), selectTecton());
-                            break;*/
+                        case 3:
+                            String id = selectInsect().get_ID();
+                            if (id.contains("Insect_Tektonizator")) {
+                                ((Insect_Tektonizator) game.getPlane().getInsectByID(id)).tectonCrack();
+                                System.out.println("Tecton cracked successfully!");
+                            } else {
+                                System.out.println("You can only crack tectons with a Tektonizator insect.");
+                                
+                            }
+                            break;
+                        case 4:
+                            selectInsect().eat_Thread();
+                            break;
+                        case 5:
+                            
+                            break;
                         default:
                             System.out.println("Invalid choice for Insect Player.");
                             break;
