@@ -99,6 +99,10 @@ public abstract class Insect_Class
     public void die_Insect()
     {
         tecton.get_InsectsOnTecton().remove(this);
+
+        owner.getGame().getPlane().removeInsect(this);
+    
+        INSECT_CLASS_LOGGER.log(Level.forName("DIE", 401), "Insect: " + ID + " died and removed from collections.");
     }
 
     public void eat_Spore(Basic_Spore sp)
