@@ -78,14 +78,14 @@ public class Proto {
                             System.out.println("3 - Slender (Vékony gomba)");
                             System.out.println("0 - Back to main menu");
                             
-                            Mushroom_Class mushroom = null;
-                            Tecton_Class selectedTecton = selectTecton();
                             try {
                                 choice3 = Integer.parseInt(scanner.nextLine().trim());
                             } catch (NumberFormatException e) {
                                 System.out.println("Invalid input, please enter a number.");
                                 continue;
                             }
+                            Mushroom_Class mushroom = null;
+                            Tecton_Class selectedTecton = selectTecton();
                             switch (choice3) {
                                 case 1:
                                     mushroom = new Mushroom_Shroomlet(selectedTecton,game.getPlayer(game.currentTurnsPlayer())); 
