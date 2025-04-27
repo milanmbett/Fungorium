@@ -22,7 +22,8 @@ public class Proto {
     
 
     public Proto(){
-        game.initGame(); 
+        game.initGame();
+        gameInitialized = true; // Set the game as initialized 
         game.startGame(); // Elindítja a játékot
         Scanner scanner = new Scanner(System.in);
         System.out.println("Fungorium Console Prototype - "+game.currentTurnsPlayer()+"'s turn");
@@ -47,7 +48,7 @@ public class Proto {
                 break;
             }
             // Require initialization before other actions
-            if (!gameInitialized && choice1 != 3) {
+            if (!gameInitialized) {
                 System.out.println("Game is not initialized yet. Please initialize the game first (Option 5).");
                 continue;
             }
