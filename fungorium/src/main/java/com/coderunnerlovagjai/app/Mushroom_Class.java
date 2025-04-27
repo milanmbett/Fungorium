@@ -181,7 +181,7 @@ public abstract class Mushroom_Class
     }
     public void set_Owner(Player p)
     {
-        if (p != Game.player1 && p != Game.player2) { // Ellenőrzés, hogy érvényes játékos-e
+        if (p != owner.getGame().getPlayer1() && p != owner.getGame().getPlayer2()) { // Ellenőrzés, hogy érvényes játékos-e
             MUSHROOM_CLASS_LOGGER.log(Level.forName("ERROR", 404), "Invalid player!");
             return;
         }
