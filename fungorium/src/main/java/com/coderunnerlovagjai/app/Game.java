@@ -92,19 +92,11 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         // Implement game logic for each turn here
         
         // Process player turns
-        //player1.processTurn();
-        //player2.processTurn();
+        
         if (plane.getBase1().isDead() || plane.getBase2().isDead()) {
             endGame();
         }
-        
-        // Update game state on the plane
-        //Plane.updateState();
-        for(Mushroom_Class m : plane.MushroomCollection) {
-            if(m.get_Owner() == currentPlayer) {
-                m.generate_Income();
-            }
-        }
+    
         
         // Insect attacks on mushrooms
         for(Insect_Class ins : plane.InsectCollection) {
@@ -115,14 +107,13 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         for(Mushroom_Class mush : plane.MushroomCollection) {
             if(mush.get_Owner() == currentPlayer) {
                 //mush.attack_Insects(currentPlayer); //Ezt nem tudom hogy kellene
+                mush.generate_Income();
                 mush.attack_Insects();
+                mush.spawn_Spores();
             }
             }
         
-        // Mushrooms release spores
-        for(Mushroom_Class mush : plane.MushroomCollection) {
-            mush.spawn_Spores();
-        }
+
         
         // Thread expansion and eating
         for(Thread_Class th : plane.ThreadCollection) {
@@ -138,8 +129,26 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
                 }
             }
         }
+
+        turnSimulation(); 
+        currentPlayer.endTurn();
         
         turnNumber++;
+    }
+
+    private void turnSimulation() {
+        // Implement automated turn logic here
+        GAME_LOGGER.log(Level.forName("AUTO_TURN", 401), "Automated turn logic executed.");
+        
+        // 1. Tecton handling
+        
+        
+        // 2. Thread lifecycle management
+        // Handle delayed death of cut threads
+        
+        
+        // 3. Handle insect behaviors
+       
     }
 
     public void endGame() { //függvény meghívódik a Tecton_Base isDeadTrue() meghívódik

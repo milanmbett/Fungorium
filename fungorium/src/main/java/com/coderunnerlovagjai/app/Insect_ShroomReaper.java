@@ -1,5 +1,6 @@
 package com.coderunnerlovagjai.app;
 import java.util.List;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +38,10 @@ public class Insect_ShroomReaper extends Insect_Class
     public void destroy_Tecton()
     {
         List<Tecton_Class> tmp_tectonList = get_Tecton().get_TectonNeighbours();
+
         tecton.die_Tecton();
+        owner.getGame().getPlane().TectonCollection.remove(tecton);
+
         tecton = new Tecton_Dead();
         tecton.set_TectonNeighbours(tmp_tectonList);
     }
