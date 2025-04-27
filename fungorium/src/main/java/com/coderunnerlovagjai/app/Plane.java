@@ -36,10 +36,6 @@ public class Plane
     {
         
     }
-    public void place_Insect(Insect_Class ins, Tecton_Class targetTecton)
-    {
-        targetTecton.get_InsectsOnTecton().add(ins);
-    }
     public void place_Spore(Basic_Spore spore, Tecton_Class targetTecton)
     {
         if(targetTecton.get_Spore() == null)
@@ -206,27 +202,12 @@ public class Plane
         PLANE_LOGGER.log(Level.forName("ERROR", 404), "Mushroom with ID {} not found!", id);
         return null;
     }
-    public Basic_Spore upgradeSpore(Basic_Spore spore, Mushroom_Class targetMushroom, Tecton_Class targetTecton) {
+    public Basic_Spore upgradeSpore(Basic_Spore spore, Mushroom_Class targetMushroom) {
         if (targetMushroom == null) {
             PLANE_LOGGER.log(Level.forName("NULL", 201), "Target mushroom is null!");
             return null;
         }
-        if (targetTecton == null) {
-            PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
-            return null;
-        }
-        if (spore == null) {
-            PLANE_LOGGER.log(Level.forName("NULL", 201), "Spore is null!");
-            return null;
-        }
-        if (targetTecton.get_Spore() != null) {
-            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton already has a spore!");
-            return null;
-        }
-        if (targetTecton.isDead()) {
-            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is dead!");
-            return null;
-        }
+        
         // Check currency
         int cost = 50; // Placeholder for cost calculation
         if (targetMushroom.get_Owner().getIncome() < cost) {
@@ -234,9 +215,7 @@ public class Plane
             return null;
         }
         targetMushroom.get_Owner().decreaseIncome(cost); // Decrease player's currency by cost
-        targetTecton.set_Spore(spore); // Set the spore on the target tecton
         SporeCollection.add(spore); // Add spore to the collection
-        PLANE_LOGGER.log(Level.forName("UPGRADE", 401), "Spore: " + spore.get_ID() + " upgraded on Tecton: " + targetTecton.get_ID());
         return spore;
 
     }

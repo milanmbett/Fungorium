@@ -275,45 +275,6 @@ public class Proto {
         }
     }
 
-    // Use Case 3: Rovar lerakása (Place Insect)
-    private static void placeInsect(Player player, Insect_Class insect, Tecton_Class target) {
-        // Check if the target tecton is valid
-        if (target == null) {
-            System.out.println("Target tecton is not valid.");
-            return;
-        }
-        if (target.isDead()) {
-            System.out.println("Target tecton is dead. Cannot place insect there.");
-            return;
-        }
-        if(target.get_Thread() == null) {
-            System.out.println("You can only place insects on tectons with a thread.");
-            return;
-        }
-        // Check if the insect is valid and not already placed
-        if (insect == null) {
-            System.out.println("Insect is not valid.");
-            return;
-        }
-
-        // Check if the player has enough resources to place the insect
-        int cost = insect.getCost(); // Assuming `Insect_Class` has a `getCost` method
-        if (player.getIncome() < cost) {
-            System.out.println("Not enough resources to place the insect.");
-            return;
-        }
-
-        // Deduct the cost from the player's resources
-        player.decreaseIncome(cost);
-
-        // Place the insect on the target tecton
-        insect.set_Tecton(target);
-        target.get_InsectsOnTecton().add(insect);
-
-        // Log the successful placement
-        System.out.println("Insect (" + insect.get_ID() + ") placed successfully on tecton: " + target.get_ID() + ".");
-        System.out.println("Cost: " + cost + ", remaining resources: " + player.getIncome() + ".");
-    }
 
     // Use Case 4: Gomba fejlesztése (Upgrade Mushroom)
     private static void upgradeMushroom(Player player, Mushroom_Class mushroom) {
