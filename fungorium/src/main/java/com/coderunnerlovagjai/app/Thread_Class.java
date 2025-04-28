@@ -44,50 +44,39 @@ public class Thread_Class
     public void expand_Thread()
     {
         THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is trying to expand!");
-              
-        if(tecton.get_TectonNeighbours().size()==0)
-        {
+
+        if (tecton.get_TectonNeighbours().size() == 0) {
             THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " has no neighbours!");
             return;
         }
         List<Tecton_Class> threadlessTectonNeighbours = new ArrayList<>();
-        for(Tecton_Class t : tecton.get_TectonNeighbours())
-        {
-            if(t.get_Thread()==null)
-            {
+        for (Tecton_Class t : tecton.get_TectonNeighbours()) {
+            if (t.get_Thread() == null) {
                 threadlessTectonNeighbours.add(t);
-            } 
+            }
         }
-        // Add guard: if no threadless neighbours, cannot expand
-        if(threadlessTectonNeighbours.isEmpty()) {
+        if (threadlessTectonNeighbours.isEmpty()) {
             THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " has no threadless neighbours to expand to!");
             return;
         }
-        Random random = new Random();
-        int rand = random.nextInt(threadlessTectonNeighbours.size());
-        boolean done = false;
-        while(!done)
-        {
-            if(threadlessTectonNeighbours.size()==0)
-            {
-                THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " has no neighbours to expand to!");
-                return;
-            }
-            THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " has " + threadlessTectonNeighbours.size() + " neighbours to expand to!");
-            rand = random.nextInt(threadlessTectonNeighbours.size());
-            THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is expanding to tecton: " + threadlessTectonNeighbours.get(rand).get_ID());
-            try 
-            {
-                threadlessTectonNeighbours.get(rand).set_Thread(new Thread_Class(threadlessTectonNeighbours.get(rand),game));
-                done = true;    
-            } catch (Exception e) 
-            {
-            THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " could not expand to tecton: " + threadlessTectonNeighbours.get(rand).get_ID() + " because of: " + e.getMessage());
-            threadlessTectonNeighbours.remove(rand);
+        // Shuffle the list to try neighbours in random order
+        java.util.Collections.shuffle(threadlessTectonNeighbours, new Random());
+        boolean expanded = false;
+        for (Tecton_Class neighbour : threadlessTectonNeighbours) {
+            THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is attempting to expand to tecton: " + neighbour.get_ID());
+            try {
+                neighbour.set_Thread(new Thread_Class(neighbour, game));
+                THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " successfully expanded to tecton: " + neighbour.get_ID());
+                expanded = true;
+                break;
+            } catch (Exception e) {
+                THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " could not expand to tecton: " + neighbour.get_ID() + " because of: " + e.getMessage());
+                // Try next neighbour
             }
         }
-        THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " expanded to tecton: " + threadlessTectonNeighbours.get(0).get_ID());
-
+        if (!expanded) {
+            THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " could not expand to any neighbour.");
+        }
     }
     public void die_Thread()
     {
@@ -99,6 +88,7 @@ public class Thread_Class
     //és növesztünk egy gombát(Shroomlet) ha még nincsen 
     public void tryToEat_Insect() 
     {
+        
         THREAD_LOGGER.log(Level.forName("INFO", 400), "Trying to eat insect on tecton: " + tecton.get_ID() + " with thread: " + ID);
         // Iterate over a copy to avoid ConcurrentModificationException
         for (Insect_Class ins : new ArrayList<>(tecton.get_InsectsOnTecton())) 
