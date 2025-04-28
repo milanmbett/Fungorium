@@ -58,7 +58,6 @@ public class Proto {
                 case 1:
                     // Fungus player actions
                     game.getPlayer(game.currentTurnsPlayer()).setRoleMushroom();
-                    Role_Mushroom mushroomRole = (Role_Mushroom) game.getPlayer(game.currentTurnsPlayer()).getRole();
                     System.out.println("Fungus Player selected. Choose an action:");
                     System.out.println("1 - Place Mushroom");
                     System.out.println("2 - Upgrade Mushroom");
