@@ -10,6 +10,7 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
     private int income;
     private int fungusCounter; // lerakott gombák száma
     private int score;  //mintha income lenne, viszont soha nem csökkenhet, csak nőhet
+    private int action; //action pontok száma, amivel a játékos léphet
     private final int id;
     private Game game;
 
@@ -19,6 +20,7 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
         this.fungusCounter = 0; // Kezdetben 0 gomba van lerakva
         this.income = 200;
         this.score = 0;
+        this.action = 3; // Kezdetben 0 action pont van
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
 
@@ -120,5 +122,14 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
         PLAYER_LOGGER.log(Level.forName("INCOME", 401), "Income decreased by " + amount + ". New income: " + this.income);
     }
     
-    
+    public int getAction() {
+        return action;
+    }
+    public void setAction(int action) {
+        if (action < 0) {
+            action = 0; // Action points cannot be negative
+        }
+        this.action = action;
+        PLAYER_LOGGER.log(Level.forName("ACTION", 401), "Action points set to " + action);
+    }
 }
