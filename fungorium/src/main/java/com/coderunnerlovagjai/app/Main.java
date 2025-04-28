@@ -76,8 +76,8 @@ public class Main {
                     // Enter test mode
                     boolean doneTests = false;
                     while (!doneTests) {
-                        //_Tests.listTests();
-                        //doneTests = processInput(scanner, scanner.nextLine());
+                        _Tests.listTests();
+                        doneTests = processInput(scanner, scanner.nextLine());
                     }
                     break;
                 case "exit":
@@ -89,7 +89,7 @@ public class Main {
         }
         scanner.close();
     }
-/*
+
     private static boolean processInput(Scanner scanner, String input) {
         switch (input.toLowerCase()) {
             case "1":
@@ -323,5 +323,5 @@ public class Main {
                 MAIN_LOGGER.log(Level.WARN, "Invalid test number provided.");
                 break;
         }
-    } */
+    } 
 }
