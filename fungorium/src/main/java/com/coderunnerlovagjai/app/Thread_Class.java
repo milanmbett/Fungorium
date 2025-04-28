@@ -79,6 +79,7 @@ public class Thread_Class
             try 
             {
                 threadlessTectonNeighbours.get(rand).set_Thread(new Thread_Class(threadlessTectonNeighbours.get(rand),game));
+                
                 done = true;    
             } catch (Exception e) 
             {

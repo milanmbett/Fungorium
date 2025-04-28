@@ -24,7 +24,6 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
         // Use the game instance's plane collection instead of static reference
         ID = "Tecton_Base";
         TECTON_BASE_LOGGER.log(Level.forName("CREATE",401),"Tecton_Base Created! ID: " + ID);
-        TECTON_BASE_LOGGER.log(Level.forName("ADD", 403), "Tecton_Base: "+ID+ " added to TectonCollection! TectonCollection size: " + game.getPlane().TectonCollection.size());
     }
 
     // Override the canBeCracked method to prevent Tecton_Base from being cracked
