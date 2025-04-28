@@ -49,11 +49,13 @@ public class Player
     // Módosított szerep beállító metódusok
     public void setRoleInsect() {
         this.role = RoleType.INSECT;
+        this.setAction(3);
         PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Player {} role set to: {}", id, role.getRoleName());
     }
     
     public void setRoleMushroom() {
         this.role = RoleType.MUSHROOM;
+        this.setAction(2);
         PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Player {} role set to: {}", id, role.getRoleName());
     }
 
