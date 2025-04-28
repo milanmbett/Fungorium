@@ -34,6 +34,8 @@ public class Proto {
             int choice1;
             int choice2;
             int choice3;
+            Tecton_Class selectedTecton = null;
+            Mushroom_Class selectedMushroom=null;
             try {
                 choice1 = Integer.parseInt(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
@@ -56,7 +58,6 @@ public class Proto {
                 case 1:
                     // Fungus player actions
                     game.getPlayer(game.currentTurnsPlayer()).setRoleMushroom();
-                    Role_Mushroom mushroomRole = (Role_Mushroom) game.getPlayer(game.currentTurnsPlayer()).getRole();
                     System.out.println("Fungus Player selected. Choose an action:");
                     System.out.println("1 - Place Mushroom");
                     System.out.println("2 - Upgrade Mushroom");
@@ -84,7 +85,7 @@ public class Proto {
                                 continue;
                             }
                             Mushroom_Class mushroom = null;
-                            Tecton_Class selectedTecton = selectTecton();
+                            selectedTecton = selectTecton();
                             switch (choice3) {
                                 case 1:
                                 // REMOVE HE ADDING IN THE CONSTRUCTOR 
@@ -113,7 +114,7 @@ public class Proto {
                             game.turn();
                             break;
                         case 3:
-                            Mushroom_Class selectedMushroom = selectExistingMushroom();
+                            selectedMushroom = selectExistingMushroom();
                             game.getPlane().upgradeSpore(selectSpore(selectedMushroom),selectedMushroom);
                             game.turn();
                             break;
@@ -139,15 +140,16 @@ public class Proto {
                         System.out.println("Invalid input, please enter a number.");
                         continue;
                     }
+                    selectedTecton = selectTecton();
                     switch (choice2) {
                         case 0:
                             System.out.println("Going back.");
                             break;
                         case 1:
-                            game.getPlane().move_Insect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectTecton());
+                            game.getPlane().move_Insect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectedTecton);
                             break;
                         case 2:
-                            game.getPlane().placeInsect(selectNewInsect(), selectTecton());
+                            game.getPlane().placeInsect(selectNewInsect(selectedTecton), selectedTecton);
                             break;
                         case 3:
                             insectID = selectInsect().get_ID();
@@ -189,6 +191,8 @@ public class Proto {
                 }
                 choice1 = 0; // Reset choice1 for the next iteration
                 choice2 = 0; // Reset choice2 for the next iteration
+                selectedMushroom = null; // Reset selectedMushroom for the next iteration
+                selectedTecton = null; // Reset selectedTecton for the next iteration
                 game.turn();
 
         }
@@ -251,7 +255,7 @@ public class Proto {
         return selectedMushroom;
     }
 
-    private static Insect_Class selectNewInsect() { 
+    private static Insect_Class selectNewInsect(Tecton_Class selectedTecton) { 
         // Placeholder for selecting a new insect type
         System.out.println("Select a new insect type:");
         System.out.println("1 - Buglet (Alap rovar)");
@@ -269,15 +273,15 @@ public class Proto {
         }
         switch (choice) {
             case 1:
-                return new Insect_Buglet(selectTecton(), game.getPlayer(game.currentTurnsPlayer()));
+                return new Insect_Buglet(selectedTecton, game.getPlayer(game.currentTurnsPlayer()));
             case 2:
-                return new Insect_Buggernaut(selectTecton(), game.getPlayer(game.currentTurnsPlayer()));
+                return new Insect_Buggernaut(selectedTecton, game.getPlayer(game.currentTurnsPlayer()));
             case 3:
-                return new Insect_ShroomReaper(selectTecton(), game.getPlayer(game.currentTurnsPlayer()));
+                return new Insect_ShroomReaper(selectedTecton, game.getPlayer(game.currentTurnsPlayer()));
             case 4:
-                return new Insect_Stinger(selectTecton(), game.getPlayer(game.currentTurnsPlayer()));
+                return new Insect_Stinger(selectedTecton, game.getPlayer(game.currentTurnsPlayer()));
             case 5:
-                return new Insect_Tektonizator(selectTecton(), game.getPlayer(game.currentTurnsPlayer())); 
+                return new Insect_Tektonizator(selectedTecton, game.getPlayer(game.currentTurnsPlayer())); 
             case 0:
                 System.out.println("Going back to main menu.");
                 return null;
