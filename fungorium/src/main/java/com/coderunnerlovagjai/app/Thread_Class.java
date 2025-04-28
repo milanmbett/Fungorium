@@ -17,7 +17,7 @@ public class Thread_Class
     public Thread_Class(Tecton_Class targetTecton, Game game) 
     {
         this.game = game; // eltároljuk a game referenciát
-        ID = "Thread" + Integer.toString(game.getPlane().ThreadCollection.size());
+        
         
         try {
             // This will throw an exception if the tecton is dead
@@ -31,6 +31,8 @@ public class Thread_Class
             tecton = null;
             THREAD_LOGGER.log(Level.forName("DEAD", 404), "Cannot create thread on dead tecton!");
         }
+
+        ID = "Thread" + Integer.toString(game.getPlane().ThreadCollection.size());
     }
     
     public Tecton_Class get_Tecton()
@@ -108,6 +110,14 @@ public class Thread_Class
     public String get_ID()
     {
         return ID;
+    }
+
+    public String getTectonID() {
+        if (tecton != null) {
+            return tecton.get_ID();
+        } else {
+            return "No Tecton"; // or some other default value
+        }
     }
 }
 
