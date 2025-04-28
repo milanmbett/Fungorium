@@ -251,7 +251,7 @@ public class Proto {
         return selectedMushroom;
     }
 
-    private static Insect_Class selectNewInsect() {
+    private static Insect_Class selectNewInsect() { 
         // Placeholder for selecting a new insect type
         System.out.println("Select a new insect type:");
         System.out.println("1 - Buglet (Alap rovar)");

@@ -24,7 +24,7 @@ public class Plane
         if (base1 != null) {
             TectonCollection.add(base1);
             base1.setID(0);
-            PLANE_LOGGER.log(Level.INFO, "Base1 added to TectonCollection: " + base1.get_ID());
+            PLANE_LOGGER.log(Level.INFO, "Base1 added to TectonCollection: " + base1.get_ID() + "Tectoncollection: " + TectonCollection.size());
         } else {
             PLANE_LOGGER.log(Level.ERROR, "Base1 is null and cannot be added!");
         }
