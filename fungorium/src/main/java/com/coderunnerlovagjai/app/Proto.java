@@ -23,8 +23,8 @@ public class Proto {
         gameInitialized = true; // Set the game as initialized 
         game.startGame(); // Elindítja a játékot
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Fungorium Console Prototype - "+game.currentTurnsPlayer()+"'s turn");
         while (!game.isGameOver()) {
+            System.out.println("Fungorium Console Prototype - "+game.currentTurnsPlayer()+"'s turn");
             // Display menu
             System.out.println("\nSelect a role (1 or 2), or 0 to exit:");
             System.out.println("1 - Fungus Player (Gomba játékos)");
@@ -36,6 +36,7 @@ public class Proto {
             int choice3;
             Tecton_Class selectedTecton = null;
             Mushroom_Class selectedMushroom=null;
+            Player currPlayer = game.getPlayer(game.currentTurnsPlayer());
             try {
                 choice1 = Integer.parseInt(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
@@ -56,8 +57,8 @@ public class Proto {
             
             switch (choice1) {
                 case 1:
-                    game.getPlayer(game.currentTurnsPlayer()).setRoleMushroom();
-                    while (game.getPlayer(game.currentTurnsPlayer()).getAction()>0) {
+                    currPlayer.setRoleMushroom();
+                    while (currPlayer.getAction()>0) {
                             // Fungus player actions
                         System.out.println("Fungus Player selected. Choose an action:");
                         System.out.println("1 - Place Mushroom");
@@ -121,13 +122,13 @@ public class Proto {
                                 System.out.println("Invalid choice for Fungus Player.");
                                 break;
                         }
-                        game.getPlayer(game.currentTurnsPlayer()).setAction(game.getPlayer(game.currentTurnsPlayer()).getAction()-1); // Decrease action count
+                        currPlayer.setAction(currPlayer.getAction()-1); // Decrease action count
                     }
                     game.turn();
                     break;
                 case 2:
-                    game.getPlayer(game.currentTurnsPlayer()).setRoleInsect();
-                    while (game.getPlayer(game.currentTurnsPlayer()).getAction()>0) {
+                    currPlayer.setRoleInsect();
+                    while (currPlayer.getAction()>0) {
                             // Insect player actions
                         String insectID=null;
                         System.out.println("Insect Player selected. Choose an action:");
@@ -149,7 +150,7 @@ public class Proto {
                                 System.out.println("Going back.");
                                 break;
                             case 1:
-                                game.getPlane().move_Insect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectedTecton);
+                                game.getPlane().move_Insect(currPlayer,selectInsect(), selectedTecton);
                                 break;
                             case 2:
                                 game.getPlane().placeInsect(selectNewInsect(selectedTecton), selectedTecton);
@@ -187,7 +188,7 @@ public class Proto {
                                 System.out.println("Invalid choice for Insect Player.");
                                 break;
                         }
-                        game.getPlayer(game.currentTurnsPlayer()).setAction(game.getPlayer(game.currentTurnsPlayer()).getAction()-1); // Decrease action count
+                        currPlayer.setAction(currPlayer.getAction()-1); // Decrease action count
                     
                     }
                     game.turn();
@@ -200,8 +201,6 @@ public class Proto {
                 choice2 = 0; // Reset choice2 for the next iteration
                 selectedMushroom = null; // Reset selectedMushroom for the next iteration
                 selectedTecton = null; // Reset selectedTecton for the next iteration
-                game.turn();
-
         }
         // End game if turn limit reached
         game.endGame();

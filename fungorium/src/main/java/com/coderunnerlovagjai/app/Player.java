@@ -70,10 +70,6 @@ public class Player
 
     // Módosított kör befejezés
     public void endTurn() {
-        if (role != RoleType.NONE) {
-            role.onTurn(this);
-        }
-        
         role = RoleType.NONE; // Reset role after turn
     }
 
