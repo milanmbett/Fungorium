@@ -2,9 +2,8 @@ Thread_Class tryToEat_Insect után növő gomba kié
 spóra mikor spawn spóra megevés előtt/után
 Role-ok
 Action
-TectonID
-Base hozzaadas
 expandThread
+tryToEat_Insect -> lefut ha meg nincs is insect
 
                     System.out.println("4 - Eat Thread (Fonal megevése)");
 
