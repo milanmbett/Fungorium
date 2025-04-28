@@ -1,6 +1,5 @@
 package com.coderunnerlovagjai.app;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -65,4 +64,5 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
             game.endGame();
         }
     }
+
 }

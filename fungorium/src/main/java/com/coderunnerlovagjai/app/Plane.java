@@ -23,6 +23,7 @@ public class Plane
         this.base1 = new Tecton_Base(player1, game);
         if (base1 != null) {
             TectonCollection.add(base1);
+            base1.setID(0);
             PLANE_LOGGER.log(Level.INFO, "Base1 added to TectonCollection: " + base1.get_ID());
         } else {
             PLANE_LOGGER.log(Level.ERROR, "Base1 is null and cannot be added!");
@@ -31,6 +32,7 @@ public class Plane
         this.base2 = new Tecton_Base(player2, game);
         if (base2 != null) {
             TectonCollection.add(base2);
+            base2.setID(1);
             PLANE_LOGGER.log(Level.INFO, "Base2 added to TectonCollection: " + base2.get_ID());
         } else {
             PLANE_LOGGER.log(Level.ERROR, "Base2 is null and cannot be added!");
@@ -47,22 +49,40 @@ public class Plane
 
     public void init_Plane(Game game) // now needs Game
     {
+        // Tecton_Basic setID-jet kene hasznalni
+        
         Tecton_Basic t1 = new Tecton_Basic();
+        t1.setID(2);
         Tecton_Basic t2 = new Tecton_Basic();
+        t2.setID(3);
         Tecton_Basic t3 = new Tecton_Basic();
+        t3.setID(4);
         Tecton_Basic t4 = new Tecton_Basic();
+        t4.setID(5);
         Tecton_Basic t5 = new Tecton_Basic();
+        t5.setID(6);
         Tecton_Basic t6 = new Tecton_Basic();
+        t6.setID(7);
         Tecton_Basic t7 = new Tecton_Basic();
+        t7.setID(8);
         Tecton_Basic t8 = new Tecton_Basic();
+        t8.setID(9);
         Tecton_Basic t9 = new Tecton_Basic();
+        t9.setID(10);
         Tecton_Basic t10 = new Tecton_Basic();
+        t10.setID(11);
         Tecton_Basic t11 = new Tecton_Basic();
+        t11.setID(12);
         Tecton_Basic t12 = new Tecton_Basic();
+        t12.setID(13);
         Tecton_Basic t13 = new Tecton_Basic();
+        t13.setID(14);
         Tecton_Basic t14 = new Tecton_Basic();
+        t14.setID(15);
         Tecton_Basic t15 = new Tecton_Basic();
+        t15.setID(16);
         Tecton_Basic t16 = new Tecton_Basic();
+        t16.setID(17);
 
         TectonCollection.add(t1);
         TectonCollection.add(t2);

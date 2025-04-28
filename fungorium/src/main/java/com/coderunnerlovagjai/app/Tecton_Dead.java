@@ -14,7 +14,7 @@ public class Tecton_Dead extends Tecton_Class
         insectsOnTecton = new ArrayList<>();
         spore = null;
         thread = null;
-        ID = "Tecton_Dead"; //Integer.toString(Plane.TectonCollection.size())
+        ID = "Tecton_Dead";
         TECTON_DEAD_LOGGER.log(Level.forName("CREATE",401),"Tecton_Dead Created! ID: " + ID);
     }
     
@@ -31,7 +31,7 @@ public class Tecton_Dead extends Tecton_Class
         this.insectsOnTecton = new ArrayList<>();
         this.spore = null;
         this.thread = null;
-        this.ID = "Tecton_Dead" ; //Integer.toString(Plane.TectonCollection.size()
+        this.ID = "Tecton_Dead"; //Integer.toString(Plane.TectonCollection.size()
         // Add the dead tecton to the collection.
         TECTON_DEAD_LOGGER.log(Level.forName("TRANSFORM", 404), "Tecton transformed to Dead! New ID: " + this.ID);
     }
@@ -64,4 +64,5 @@ public class Tecton_Dead extends Tecton_Class
     public boolean canBeCracked() {
         return false; // Dead tectons cannot be cracked
     }
+
 }

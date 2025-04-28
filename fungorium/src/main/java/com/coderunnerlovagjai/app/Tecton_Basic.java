@@ -17,7 +17,7 @@ public class Tecton_Basic extends Tecton_Class
         insectsOnTecton = new ArrayList<>();
         spore = null;
         thread = null;
-        ID = "Tecton_Basic"; //Integer.toString(Plane.TectonCollection.size()
+        ID = "Tecton_Basic";
         TECTON_BASIC_LOGGER.log(Level.forName("CREATE",401),"Tecton_Basic Created! ID: " + ID);
     }
 
@@ -25,4 +25,5 @@ public class Tecton_Basic extends Tecton_Class
     public boolean isDead() {
         return true; // A Tecton_Dead mindig halott
     }
+
 }
