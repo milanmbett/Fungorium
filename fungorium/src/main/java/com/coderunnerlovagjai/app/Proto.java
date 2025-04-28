@@ -56,7 +56,7 @@ public class Proto {
             
             switch (choice1) {
                 case 1:
-                    while (game.getPlayer(game.currentTurnsPlayer()).getAction()<0) {
+                    while (game.getPlayer(game.currentTurnsPlayer()).getAction()>0) {
                             // Fungus player actions
                         game.getPlayer(game.currentTurnsPlayer()).setRoleMushroom();
                         System.out.println("Fungus Player selected. Choose an action:");
@@ -127,7 +127,7 @@ public class Proto {
                     }
                     break;
                 case 2:
-                    while (game.getPlayer(game.currentTurnsPlayer()).getAction()<0) {
+                    while (game.getPlayer(game.currentTurnsPlayer()).getAction()>0) {
                             // Insect player actions
                         game.getPlayer(game.currentTurnsPlayer()).setRoleInsect();
                         String insectID=null;
