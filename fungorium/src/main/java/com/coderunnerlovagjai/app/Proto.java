@@ -47,7 +47,7 @@ public class Proto {
             }
             // Require initialization before other actions
             if (!gameInitialized) {
-                System.out.println("Game is not initialized yet. Please initialize the game first (Option 5).");
+                System.out.println("Game is not initialized yet. Please initialize the game first.");
                 continue;
             }
             // Handle player role selection

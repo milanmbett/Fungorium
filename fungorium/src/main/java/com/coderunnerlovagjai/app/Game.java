@@ -60,7 +60,8 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         GAME_LOGGER.log(Level.forName("START", 401), "Game started.");
         // Implement game start logic here
         // For example, you can initialize the game state, set up the board, etc.
-        this.turn();
+        //this.turn();
+        turnNumber++;
     }
 
     public Player getPlayer(int id) {
