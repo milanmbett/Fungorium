@@ -166,6 +166,10 @@ public class Plane
     }
     public void place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton)
     {
+        if(m.get_Owner().getRole() != RoleType.MUSHROOM) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Mushroom role!");
+            return;
+        }
         if (targetTecton== null) {
             PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
             return;
@@ -200,6 +204,10 @@ public class Plane
     }
     public void move_Insect(Player player,Insect_Class ins, Tecton_Class targetTecton)
     {
+        if(player.getRole()!= RoleType.INSECT) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Insect role!");
+            return;
+        }
         if (targetTecton == null) {
             PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
             return;
@@ -254,27 +262,31 @@ public class Plane
     public void placeInsect(Insect_Class insect, Tecton_Class target) {
         // Check if the target tecton is valid
         if (target == null) {
-            System.out.println("Target tecton is not valid.");
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is not valid.");
             return;
         }
         if (target.isDead()) {
-            System.out.println("Target tecton is dead. Cannot place insect there.");
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is dead. Cannot place insect there.");
             return;
         }
         if(target.get_Thread() == null) {
-            System.out.println("You can only place insects on tectons with a thread.");
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "You can only place insects on tectons with a thread.");
             return;
         }
         // Check if the insect is valid and not already placed
         if (insect == null) {
-            System.out.println("Insect is not valid.");
+            PLANE_LOGGER.log(Level.forName("NULL", 201), "Insect is not valid.");
+            return;
+        }
+        if(insect.get_Owner().getRole() != RoleType.INSECT) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Insect role!");
             return;
         }
 
         // Check if the player has enough resources to place the insect
         int cost = insect.getCost(); // Assuming `Insect_Class` has a `getCost` method
         if (insect.get_Owner().getIncome() < cost) {
-            System.out.println("Not enough resources to place the insect.");
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Not enough resources to place the insect.");
             return;
         }
 
@@ -286,7 +298,6 @@ public class Plane
         target.get_InsectsOnTecton().add(insect);
 
         // Log the successful placement
-        
         PLANE_LOGGER.log(Level.forName("PLACE", 401), "Insect: " + insect.get_ID() + " placed on Tecton: " + target.get_ID() + ". Cost: " + cost + ", remaining resources: " + insect.get_Owner().getIncome() + ".");
     }
     
@@ -322,6 +333,11 @@ public class Plane
     public Basic_Spore upgradeSpore(Basic_Spore spore, Mushroom_Class targetMushroom) {
         if (targetMushroom == null) {
             PLANE_LOGGER.log(Level.forName("NULL", 201), "Target mushroom is null!");
+            return null;
+        }
+
+        if(targetMushroom.get_Owner().getRole() != RoleType.MUSHROOM) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Mushroom role!");
             return null;
         }
         
