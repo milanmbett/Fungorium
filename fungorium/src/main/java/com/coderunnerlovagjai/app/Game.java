@@ -142,6 +142,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         // Log all existing threads' IDs individually
         for (Thread_Class th : plane.ThreadCollection) {
             GAME_LOGGER.log(Level.INFO, "Existing thread id: " + th.get_ID());
+            GAME_LOGGER.log(Level.INFO, "Existing thread id: " + th.getTectonID());
         }
     }
 
