@@ -123,6 +123,7 @@ public class Proto {
                         }
                         game.getPlayer(game.currentTurnsPlayer()).setAction(game.getPlayer(game.currentTurnsPlayer()).getAction()-1); // Decrease action count
                     }
+                    game.turn();
                     break;
                 case 2:
                     while (game.getPlayer(game.currentTurnsPlayer()).getAction()>0) {
@@ -189,6 +190,7 @@ public class Proto {
                         game.getPlayer(game.currentTurnsPlayer()).setAction(game.getPlayer(game.currentTurnsPlayer()).getAction()-1); // Decrease action count
                     
                     }
+                    game.turn();
                     break;
                 default:
                     System.out.println("Invalid choice. Please select a valid option.");
