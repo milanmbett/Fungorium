@@ -138,6 +138,11 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         currentPlayer.endTurn();
         
         turnNumber++;
+
+        // Log all existing threads' IDs individually
+        for (Thread_Class th : plane.ThreadCollection) {
+            GAME_LOGGER.log(Level.INFO, "Existing thread id: " + th.get_ID());
+        }
     }
 
     private void turnSimulation() {
