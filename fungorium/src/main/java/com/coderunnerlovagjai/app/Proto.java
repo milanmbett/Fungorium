@@ -56,133 +56,140 @@ public class Proto {
             
             switch (choice1) {
                 case 1:
-                    // Fungus player actions
-                    game.getPlayer(game.currentTurnsPlayer()).setRoleMushroom();
-                    System.out.println("Fungus Player selected. Choose an action:");
-                    System.out.println("1 - Place Mushroom");
-                    System.out.println("2 - Upgrade Mushroom");
-                    System.out.println("3 - Upgrade Spore (Spóra fejlesztése)");
-                    System.out.println("0 - Back to main menu");
+                    while (game.getPlayer(game.currentTurnsPlayer()).getAction()<0) {
+                            // Fungus player actions
+                        game.getPlayer(game.currentTurnsPlayer()).setRoleMushroom();
+                        System.out.println("Fungus Player selected. Choose an action:");
+                        System.out.println("1 - Place Mushroom");
+                        System.out.println("2 - Upgrade Mushroom");
+                        System.out.println("3 - Upgrade Spore (Spóra fejlesztése)");
+                        System.out.println("0 - Back to main menu");
 
-                    try {
-                        choice2 = Integer.parseInt(scanner.nextLine().trim());
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input, please enter a number.");
-                        continue;
-                    }
-                    switch (choice2) {
-                        case 1:
-                            System.out.println("Choose a mushroom type to place:");
-                            System.out.println("1 - Shroomlet (Alap gomba)");
-                            System.out.println("2 - FungusMaximus (Erősebb gomba)");
-                            System.out.println("3 - Slender (Vékony gomba)");
-                            System.out.println("0 - Back to main menu");
-                            
-                            try {
-                                choice3 = Integer.parseInt(scanner.nextLine().trim());
-                            } catch (NumberFormatException e) {
-                                System.out.println("Invalid input, please enter a number.");
-                                continue;
-                            }
-                            Mushroom_Class mushroom = null;
-                            selectedTecton = selectTecton();
-                            switch (choice3) {
-                                case 1:
-                                // REMOVE HE ADDING IN THE CONSTRUCTOR 
-                                    mushroom = new Mushroom_Shroomlet(selectedTecton,game.getPlayer(game.currentTurnsPlayer())); 
-                                    break;
-                                case 2:
-                                    mushroom = new Mushroom_Maximus(selectedTecton,game.getPlayer(game.currentTurnsPlayer())); 
-                                    break;
-                                case 3:
-                                    mushroom = new Mushroom_Slender(selectedTecton,game.getPlayer(game.currentTurnsPlayer()));
-                                    break;
-                                case 0:
-                                    System.out.println("Going back to main menu.");
-                                    break;
-                                default:
-                                    System.out.println("Invalid choice for mushroom type.");
+                        try {
+                            choice2 = Integer.parseInt(scanner.nextLine().trim());
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid input, please enter a number.");
+                            continue;
+                        }
+                        switch (choice2) {
+                            case 1:
+                                System.out.println("Choose a mushroom type to place:");
+                                System.out.println("1 - Shroomlet (Alap gomba)");
+                                System.out.println("2 - FungusMaximus (Erősebb gomba)");
+                                System.out.println("3 - Slender (Vékony gomba)");
+                                System.out.println("0 - Back to main menu");
+                                
+                                try {
+                                    choice3 = Integer.parseInt(scanner.nextLine().trim());
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid input, please enter a number.");
                                     continue;
-                            }
-                            
-                            game.getPlane().place_Mushroom(mushroom, selectedTecton);
-                            System.out.println("Mushroom placed successfully on tecton: " + selectedTecton.get_ID() + ".");
-                            choice3 = 0; // Reset choice3 for the next iteration
-                            break;
-                        case 2:
-                            selectExistingMushroom().upgrade_Mushroom(game.getPlayer(game.currentTurnsPlayer()));
-                            game.turn();
-                            break;
-                        case 3:
-                            selectedMushroom = selectExistingMushroom();
-                            game.getPlane().upgradeSpore(selectSpore(selectedMushroom),selectedMushroom);
-                            game.turn();
-                            break;
-                        default:
-                            System.out.println("Invalid choice for Fungus Player.");
-                            break;
+                                }
+                                Mushroom_Class mushroom = null;
+                                selectedTecton = selectTecton();
+                                switch (choice3) {
+                                    case 1:
+                                    // REMOVE HE ADDING IN THE CONSTRUCTOR 
+                                        mushroom = new Mushroom_Shroomlet(selectedTecton,game.getPlayer(game.currentTurnsPlayer())); 
+                                        break;
+                                    case 2:
+                                        mushroom = new Mushroom_Maximus(selectedTecton,game.getPlayer(game.currentTurnsPlayer())); 
+                                        break;
+                                    case 3:
+                                        mushroom = new Mushroom_Slender(selectedTecton,game.getPlayer(game.currentTurnsPlayer()));
+                                        break;
+                                    case 0:
+                                        System.out.println("Going back to main menu.");
+                                        break;
+                                    default:
+                                        System.out.println("Invalid choice for mushroom type.");
+                                        continue;
+                                }
+                                
+                                game.getPlane().place_Mushroom(mushroom, selectedTecton);
+                                System.out.println("Mushroom placed successfully on tecton: " + selectedTecton.get_ID() + ".");
+                                choice3 = 0; // Reset choice3 for the next iteration
+                                break;
+                            case 2:
+                                selectExistingMushroom().upgrade_Mushroom(game.getPlayer(game.currentTurnsPlayer()));
+                                game.turn();
+                                break;
+                            case 3:
+                                selectedMushroom = selectExistingMushroom();
+                                game.getPlane().upgradeSpore(selectSpore(selectedMushroom),selectedMushroom);
+                                game.turn();
+                                break;
+                            default:
+                                System.out.println("Invalid choice for Fungus Player.");
+                                break;
+                        }
+                        game.getPlayer(game.currentTurnsPlayer()).setAction(game.getPlayer(game.currentTurnsPlayer()).getAction()-1); // Decrease action count
                     }
                     break;
                 case 2:
-                    // Insect player actions
-                    game.getPlayer(game.currentTurnsPlayer()).setRoleInsect();
-                    String insectID=null;
-                    System.out.println("Insect Player selected. Choose an action:");
-                    System.out.println("1 - Move Insect");
-                    System.out.println("2 - Place Insect");
-                    System.out.println("3 - Crack Tecton (Tektontörés)");
-                    System.out.println("4 - Eat Thread (Fonal megevése)");
-                    System.out.println("5 - Destroy Tecton (Tektont megölni)");
-                    System.out.println("0 - Back to main menu");
-                    try {
-                        choice2 = Integer.parseInt(scanner.nextLine().trim());
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid input, please enter a number.");
-                        continue;
-                    }
-                    selectedTecton = selectTecton();
-                    switch (choice2) {
-                        case 0:
-                            System.out.println("Going back.");
-                            break;
-                        case 1:
-                            game.getPlane().move_Insect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectedTecton);
-                            break;
-                        case 2:
-                            game.getPlane().placeInsect(selectNewInsect(selectedTecton), selectedTecton);
-                            break;
-                        case 3:
-                            insectID = selectInsect().get_ID();
-                            if(insectID == null) {
-                                System.out.println("No insect selected.");
+                    while (game.getPlayer(game.currentTurnsPlayer()).getAction()<0) {
+                            // Insect player actions
+                        game.getPlayer(game.currentTurnsPlayer()).setRoleInsect();
+                        String insectID=null;
+                        System.out.println("Insect Player selected. Choose an action:");
+                        System.out.println("1 - Move Insect");
+                        System.out.println("2 - Place Insect");
+                        System.out.println("3 - Crack Tecton (Tektontörés)");
+                        System.out.println("4 - Eat Thread (Fonal megevése)");
+                        System.out.println("5 - Destroy Tecton (Tektont megölni)");
+                        System.out.println("0 - Back to main menu");
+                        try {
+                            choice2 = Integer.parseInt(scanner.nextLine().trim());
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid input, please enter a number.");
+                            continue;
+                        }
+                        selectedTecton = selectTecton();
+                        switch (choice2) {
+                            case 0:
+                                System.out.println("Going back.");
                                 break;
-                            }
-                            if (insectID.contains("Insect_Tektonizator")) {
-                                ((Insect_Tektonizator) game.getPlane().getInsectByID(insectID)).tectonCrack();
-                                System.out.println("Tecton cracked successfully!");
-                            } else {
-                                System.out.println("You can only crack tectons with a Tektonizator insect.");
-                            }
-                            break;
-                        case 4:
-                            selectInsect().eat_Thread();
-                            break;
-                        case 5:
-                            insectID = selectInsect().get_ID();
-                            if(insectID == null) {
-                                System.out.println("No insect selected.");
+                            case 1:
+                                game.getPlane().move_Insect(game.getPlayer(game.currentTurnsPlayer()),selectInsect(), selectedTecton);
                                 break;
-                            }
-                            if (insectID.contains("Insect_ShroomReaper")) {
-                                ((Insect_ShroomReaper) game.getPlane().getInsectByID(insectID)).destroy_Tecton();
-                                System.out.println("Tecton destroyed successfully!");
-                            } else {
-                                System.out.println("You can only destroy tectons with a ShroomReaper insect.");
-                            }
-                            break;
-                        default:
-                            System.out.println("Invalid choice for Insect Player.");
-                            break;
+                            case 2:
+                                game.getPlane().placeInsect(selectNewInsect(selectedTecton), selectedTecton);
+                                break;
+                            case 3:
+                                insectID = selectInsect().get_ID();
+                                if(insectID == null) {
+                                    System.out.println("No insect selected.");
+                                    break;
+                                }
+                                if (insectID.contains("Insect_Tektonizator")) {
+                                    ((Insect_Tektonizator) game.getPlane().getInsectByID(insectID)).tectonCrack();
+                                    System.out.println("Tecton cracked successfully!");
+                                } else {
+                                    System.out.println("You can only crack tectons with a Tektonizator insect.");
+                                }
+                                break;
+                            case 4:
+                                selectInsect().eat_Thread();
+                                break;
+                            case 5:
+                                insectID = selectInsect().get_ID();
+                                if(insectID == null) {
+                                    System.out.println("No insect selected.");
+                                    break;
+                                }
+                                if (insectID.contains("Insect_ShroomReaper")) {
+                                    ((Insect_ShroomReaper) game.getPlane().getInsectByID(insectID)).destroy_Tecton();
+                                    System.out.println("Tecton destroyed successfully!");
+                                } else {
+                                    System.out.println("You can only destroy tectons with a ShroomReaper insect.");
+                                }
+                                break;
+                            default:
+                                System.out.println("Invalid choice for Insect Player.");
+                                break;
+                        }
+                        game.getPlayer(game.currentTurnsPlayer()).setAction(game.getPlayer(game.currentTurnsPlayer()).getAction()-1); // Decrease action count
+                    
                     }
                     break;
                 default:
