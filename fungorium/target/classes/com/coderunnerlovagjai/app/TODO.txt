@@ -1,8 +1,12 @@
 Thread_Class tryToEat_Insect után növő gomba kié
 spóra mikor spawn spóra megevés előtt/után
+Role-ok
+Action
 
                     System.out.println("4 - Eat Thread (Fonal megevése)");
 
+Tavoli Patch notes:
+GrandFungus hp increased
 
 HUMOROS:
 -grafikus game-re: Init_Plane okos megvalósítása.
