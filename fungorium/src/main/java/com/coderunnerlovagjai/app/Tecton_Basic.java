@@ -23,7 +23,7 @@ public class Tecton_Basic extends Tecton_Class
 
     @Override
     public boolean isDead() {
-        return true; // A Tecton_Dead mindig halott
+        return false; // A Tecton_Dead mindig halott
     }
 
 }

@@ -2,34 +2,35 @@ package com.coderunnerlovagjai.app;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-public class Player //TODO: Megírás: Pontok tárolása, Role választás
+public class Player 
 {
     private static final Logger PLAYER_LOGGER = LogManager.getLogger(Player.class);
 
-    private Role role;
+    private RoleType role; // Módosítva Role interfészről RoleType enumra
     private int income;
-    private int fungusCounter; // lerakott gombák száma
-    private int score;  //mintha income lenne, viszont soha nem csökkenhet, csak nőhet
-    private int action; //action pontok száma, amivel a játékos léphet
+    private int fungusCounter; 
+    private int score;
+    private int action;
     private final int id;
     private Game game;
 
     public Player() {
         this.id = 0;
-        this.role = null;
-        this.fungusCounter = 0; // Kezdetben 0 gomba van lerakva
+        this.role = RoleType.NONE; // Alapértelmezett szerep
+        this.fungusCounter = 0;
         this.income = 200;
         this.score = 0;
-        this.action = 3; // Kezdetben 0 action pont van
+        this.action = 3;
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
 
     public Player(int id) {
         this.id = id;
-        this.role = null; 
-        this.fungusCounter = 0; // Kezdetben 0 gomba van lerakva
+        this.role = RoleType.NONE; // Alapértelmezett szerep
+        this.fungusCounter = 0;
         this.income = 200;
         this.score = 0;
+        this.action = 3;
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
 
@@ -45,49 +46,48 @@ public class Player //TODO: Megírás: Pontok tárolása, Role választás
         return id;
     }
 
+    // Módosított szerep beállító metódusok
     public void setRoleInsect() {
-        this.role = new Role_Insect(this);
+        this.role = RoleType.INSECT;
         PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Player {} role set to: {}", id, role.getRoleName());
     }
+    
     public void setRoleMushroom() {
-        this.role = new Role_Mushroom(this);
+        this.role = RoleType.MUSHROOM;
         PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Player {} role set to: {}", id, role.getRoleName());
     }
 
-    public void setRoleNull(){
-        this.role = null;
-        PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Player {} role set to: {}", id, "null");
+    public void setRoleNull() {
+        this.role = RoleType.NONE;
+        PLAYER_LOGGER.log(Level.forName("ROLE", 401), "Player {} role set to: {}", id, role.getRoleName());
     }
 
-    public Role getRole() {
+    public RoleType getRole() {
         return role;
     }
 
-    /* 
-    public boolean moveInsect(Insect_Class insect, Tecton_Class target) {
-        if (role.getRoleName().contains("insect")) {
-            return role.validateAndMoveInsect(insect, target);
-        } else {
-            PLAYER_LOGGER.log(Level.forName("ERROR", 404), 
-                "Player {} does not have Insect role!", id);
-            return false;
-        }
-    }*/
-
+    // Módosított kör befejezés
     public void endTurn() {
-        if (role != null) {
-            role.on_turn();
-            
+        if (role != RoleType.NONE) {
+            role.onTurn(this);
         }
+        
+        role = RoleType.NONE; // Reset role after turn
+    }
 
-        role = null; // Reset the role after the turn
+    // Mozgás validáció közvetlenül a RoleType enum használatával
+    public boolean moveInsect(Insect_Class insect, Tecton_Class target) {
+        return role.validateAndMoveInsect(this, insect, target);
+    }
+    
+    // Gomba lehelyezés validáció közvetlenül a RoleType enum használatával
+    public boolean placeMushroom(Mushroom_Class mushroom, Tecton_Class target) {
+        return role.validateAndPlaceMushroom(this, mushroom, target);
     }
 
     public int getIncome() {
         return income;
     }
-
-    
 
     public int getScore() {
         return score;
