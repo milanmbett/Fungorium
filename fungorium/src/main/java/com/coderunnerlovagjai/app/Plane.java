@@ -21,10 +21,20 @@ public class Plane
 
     public void initBases(Player player1, Player player2, Game game) {
         this.base1 = new Tecton_Base(player1, game);
-        TectonCollection.add(base1);
+        if (base1 != null) {
+            TectonCollection.add(base1);
+            PLANE_LOGGER.log(Level.INFO, "Base1 added to TectonCollection: " + base1.get_ID());
+        } else {
+            PLANE_LOGGER.log(Level.ERROR, "Base1 is null and cannot be added!");
+        }
+
         this.base2 = new Tecton_Base(player2, game);
-        TectonCollection.add(base2);
-        PLANE_LOGGER.log(Level.forName("INIT", 402), "Bases initialized for players.");
+        if (base2 != null) {
+            TectonCollection.add(base2);
+            PLANE_LOGGER.log(Level.INFO, "Base2 added to TectonCollection: " + base2.get_ID());
+        } else {
+            PLANE_LOGGER.log(Level.ERROR, "Base2 is null and cannot be added!");
+        }
     }
 
     public Tecton_Base getBase1() {
