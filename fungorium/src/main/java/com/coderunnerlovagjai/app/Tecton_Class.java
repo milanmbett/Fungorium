@@ -22,6 +22,11 @@ public abstract class Tecton_Class {
 
     }
 
+    public void setID(int number) {
+        this.ID += "_" + number;
+        TECTON_CLASS_LOGGER.log(Level.forName("UPDATE", 402), "ID updated to: " + ID);
+    }
+
     public abstract boolean isDead();
 
     // Method to determine if this tecton can be cracked
