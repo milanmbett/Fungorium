@@ -112,12 +112,10 @@ public class Proto {
                                 break;
                             case 2:
                                 selectExistingMushroom().upgrade_Mushroom(game.getPlayer(game.currentTurnsPlayer()));
-                                game.turn();
                                 break;
                             case 3:
                                 selectedMushroom = selectExistingMushroom();
                                 game.getPlane().upgradeSpore(selectSpore(selectedMushroom),selectedMushroom);
-                                game.turn();
                                 break;
                             default:
                                 System.out.println("Invalid choice for Fungus Player.");
