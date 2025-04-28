@@ -18,13 +18,14 @@ public class Thread_Class
     {
         this.game = game; // eltároljuk a game referenciát
         
+        ID = "Thread" + Integer.toString(game.getPlane().ThreadCollection.size() + 1);
         
         try {
             // This will throw an exception if the tecton is dead
             targetTecton.set_Thread(this);
             tecton = targetTecton;
-            THREAD_LOGGER.log(Level.forName("CREATE",401),"Thread Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
             game.getPlane().ThreadCollection.add(this);
+            THREAD_LOGGER.log(Level.forName("CREATE",401),"Thread Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
             THREAD_LOGGER.log(Level.forName("ADD", 403), "Thread: "+ID+ " added to ThreadCollection! ThreadCollection size: " + game.getPlane().ThreadCollection.size());
         } catch (UnsupportedOperationException e) {
             // The tecton is dead, it threw an exception when we tried to set the thread
