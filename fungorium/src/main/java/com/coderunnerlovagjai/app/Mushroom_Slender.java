@@ -17,7 +17,6 @@ public class Mushroom_Slender extends Mushroom_Class
         ID = "Mushroom_Slender" + Integer.toString(owner.getGame().getPlane().MushroomCollection.size());
         cost=30;
         MUSHROOM_SLENDER_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Slender Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        owner.getGame().getPlane().MushroomCollection.add(this);
         MUSHROOM_SLENDER_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Slender: "+ID+ " added to MushroomCollection! MushroomCollection size: " + owner.getGame().getPlane().MushroomCollection.size());
 
     }
