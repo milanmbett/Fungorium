@@ -1,6 +1,6 @@
 Thread_Class tryToEat_Insect után növő gomba kié
 spóra mikor spawn spóra megevés előtt/után
-Role-ok
+Plane-ből a függvények átalakítása Role-okba -> fügvényhívások currentplayer.getRole().placeInsect/placeMushroom (Role típusfüggő)
 Action
 expandThread
 tryToEat_Insect -> lefut ha meg nincs is insect
