@@ -22,7 +22,6 @@ public class Mushroom_Grand extends Mushroom_Class
         owner = p;
         ID = "Mushroom_Grand" + Integer.toString(owner.getGame().getPlane().MushroomCollection.size());
         MUSHROOM_GRAND_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Grand Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        owner.getGame().getPlane().MushroomCollection.add(this);
         MUSHROOM_GRAND_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Grand: "+ID+ " added to MushroomCollection! MushroomCollection size: " + owner.getGame().getPlane().MushroomCollection.size());
        
     }

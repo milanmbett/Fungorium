@@ -225,6 +225,7 @@ public class Proto {
             System.out.println("Invalid input, please enter a number.");
             return null;
         }
+        
         if (choice < 0 || choice > game.getPlane().TectonCollection.size()) {
             System.out.println("Invalid tecton selection.");
 

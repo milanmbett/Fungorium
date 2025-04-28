@@ -17,7 +17,6 @@ public class Mushroom_Shroomlet extends Mushroom_Class
         ID = "Mushroom_Shroomlet" + Integer.toString(owner.getGame().getPlane().MushroomCollection.size());
         cost=20;
         MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Shroomlet Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        //owner.getGame().getPlane().MushroomCollection.add(this);
         MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Shroomlet: "+ID+ " added to MushroomCollection! MushroomCollection size: " + owner.getGame().getPlane().MushroomCollection.size());
     }
 
