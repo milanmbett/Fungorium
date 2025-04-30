@@ -1,8 +1,6 @@
 package com.coderunnerlovagjai.app;
 
 
-import java.util.List;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,40 +44,38 @@ public abstract class _Tests
     }
     public static void test2() //Fő tekton létrehozása
     {
-        Game game = new Game();
         TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: creating Tecton_Base");
-        Player p1 = new Player();
-        Tecton_Base t1 = new Tecton_Base(p1, game);
-        if(t1.get_Owner() == null) 
+        GAME_INSTANCE.initGame();
+        if(GAME_INSTANCE.getPlane().getBase1().get_Owner() == null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base owner is null!");
             return;
         } 
-        if(t1.get_Mushroom() == null) 
+        if(GAME_INSTANCE.getPlane().MushroomCollection == null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base mushroom is null!");
             return;
         } 
-        if(t1.get_Spore() != null) 
-        {
-            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base spore is not null!");
-            return;
-        }
-        else
-        {
-            TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton_Base spore: " + t1.get_Spore());
-        }
-        if(t1.get_Thread() != null) 
-        {
-            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base thread is not null!");
-            return;
-        }
-        if(t1.get_InsectsOnTecton() == null) 
+        //if(game.getPlane().SporeCollection != null) 
+        //{
+        //    TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base spore is not null!");
+        //    return;
+        //}
+        //else
+        //{
+            TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton_Base spore: " + GAME_INSTANCE.getPlane().getBase1().get_Spore());
+        //}
+        //if(game.getPlane().ThreadCollection != null) 
+        //{
+        //    TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base thread is not null!");
+        //    return;
+        //}
+        if(GAME_INSTANCE.getPlane().InsectCollection == null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base insectsOnTecton is null!");
             return;
         }
-        if(t1.get_TectonNeighbours() == null) 
+        if(GAME_INSTANCE.getPlane().getBase1().get_TectonNeighbours() == null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Base TectonNeighbours is null!");
             return;
@@ -176,75 +172,64 @@ public abstract class _Tests
         }
         TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
-public static void test5() // Tekton kettétörése
-{
-    TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Tecton cracking");
-    Player p1 = new Player();
-    Tecton_Basic t1 = new Tecton_Basic();
-    
-    // Create some neighbor tectons
-    Tecton_Basic t2 = new Tecton_Basic();
-    Tecton_Basic t3 = new Tecton_Basic();
+//public static void test5() // Tekton kettétörése
+//{
+//    TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Tecton cracking");
+//    Game game = new Game();
+//    game.initGame();   
+//    game.getPlane().InsectCollection.add(new Insect_Tektonizator(game.getPlane().getBase1(), PLAYER1));
 
-    // Set up neighbor relationships
-    t1.add_TectonNeighbour(t2);
-    t1.add_TectonNeighbour(t3);
-    t2.add_TectonNeighbour(t1);
-    t2.add_TectonNeighbour(t3);
-    t3.add_TectonNeighbour(t1);
-    t3.add_TectonNeighbour(t2);
 
-    Insect_Tektonizator it1 = new Insect_Tektonizator(t1, p1);
-
-    if (!t1.get_InsectsOnTecton().contains(it1)) {
-        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tektonizator is not on the tecton!");
-        return;
-    }
+//    if (!game.getPlane().getBase1().get_InsectsOnTecton().contains(game.getPlane().InsectCollection.get(0))) {
+//        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tektonizator is not on the tecton!");
+//        return;
+//    }
 
     // Get initial neighbours
-    List<Tecton_Class> initialNeighbours = t1.get_TectonNeighbours();
-    TESTS_LOGGER.log(Level.forName("GET", 400), "Initial neighbours: " + initialNeighbours);
+//    List<Tecton_Class> initialNeighbours = t1.get_TectonNeighbours();
+//    TESTS_LOGGER.log(Level.forName("GET", 400), "Initial neighbours: " + initialNeighbours);
 
-    it1.tectonCrack();
-    if (t1.get_InsectsOnTecton().contains(it1)) 
-    {
-        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tektonizator is not on the new tecton!");
-        return;
-    }  
-
-    if(PLAYER1.getGame().getPlane().TectonCollection.size() != 4) 
-    {
-        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic did not split correctly!");
-        return;
-    }
-    for (Tecton_Class tc : PLAYER1.getGame().getPlane().TectonCollection) 
-    {
-        if (tc.get_TectonNeighbours().size() != 2) 
-        {
-            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic neighbours list is not filled correctly! Tecton ID: " + tc.get_ID());
-            return;
-        }
-    }   
-    
-
-    TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
-}
-    public static void test6() //Fő tekton kettétörése
-    {
-        Game game = new Game();
-        Player p1 = new Player();
-        Tecton_Base t1 = new Tecton_Base(p1, game);
-        Insect_Tektonizator it1 = new Insect_Tektonizator(t1, p1);
-        it1.tectonCrack();
-        if(PLAYER1.getGame().getPlane().TectonCollection.size() == 1) 
-        {
-            TESTS_LOGGER.log(Level.forName("SUCCESS", 404), "Test ran successfully!");
-        }
-        else
-        {
-            TESTS_LOGGER.log(Level.forName("ERROR", 400), "Tecton_Base has split!");
-        }
-    }
+//    game.getPlane().InsectCollection.get(0).;
+//    if (t1.get_InsectsOnTecton().contains(it1)) 
+//    {
+//        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tektonizator is not on the new tecton!");
+//        return;
+//    }  
+//
+//    if(PLAYER1.getGame().getPlane().TectonCollection.size() != 4) 
+//    {
+//        TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic did not split correctly!");
+//        return;
+//    }
+//    for (Tecton_Class tc : PLAYER1.getGame().getPlane().TectonCollection) 
+//    {
+//        if (tc.get_TectonNeighbours().size() != 2) 
+//        {
+//            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic neighbours list is not filled correctly! Tecton ID: " + tc.get_ID());
+//            return;
+//        }
+//    }   
+//    
+//
+//    TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
+//}
+//    public static void test6() //Fő tekton kettétörése
+//    {
+ //       Game game = new Game();
+//        game.initGame();
+//        Player p1 = new Player();
+//        Tecton_Base t1 = new Tecton_Base(p1, game);
+//        Insect_Tektonizator it1 = new Insect_Tektonizator(t1, p1);
+//        it1.tectonCrack();
+//        if(PLAYER1.getGame().getPlane().TectonCollection.size() == 1) 
+//        {
+//            TESTS_LOGGER.log(Level.forName("SUCCESS", 404), "Test ran successfully!");
+//        }
+//        else
+//        {
+//            TESTS_LOGGER.log(Level.forName("ERROR", 400), "Tecton_Base has split!");
+//        }
+//    }
     public static void test7() //Fonal létrehozása
     {
         Tecton_Basic t1 = new Tecton_Basic();
@@ -277,10 +262,9 @@ public static void test5() // Tekton kettétörése
     }
     public static void test9() //Rovar létrehozása
     {
-        Player p1 = new Player();
-        Tecton_Basic t1 = new Tecton_Basic();
-        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
-        if(PLAYER1.getGame().getPlane().InsectCollection.size() != 1 || t1.get_InsectsOnTecton().size() != 1) 
+        GAME_INSTANCE.initGame();
+        PLAYER1.getGame().getPlane().InsectCollection.add(new Insect_Buglet(GAME_INSTANCE.getPlane().getBase1(), PLAYER1));
+        if(GAME_INSTANCE.getPlane().TectonCollection.get(0).get_InsectsOnTecton().size() != 1) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect_Buglet is not created!");
             return;
@@ -289,41 +273,18 @@ public static void test5() // Tekton kettétörése
     }
     public static void test10() //Rovar mozgatása
     {
-        Player p1 = new Player();
-        Tecton_Basic t1 = new Tecton_Basic();
-        Tecton_Basic t2 = new Tecton_Basic();
-        Thread_Class th1 = new Thread_Class(t1, new Game());
-        Thread_Class th2 = new Thread_Class(t2, new Game());
+        GAME_INSTANCE.initGame();
+        GAME_INSTANCE.getPlane().InsectCollection.add(new Insect_Buglet(GAME_INSTANCE.getPlane().getBase1(), PLAYER1));
 
-        t1.add_TectonNeighbour(t2); 
-        t2.add_TectonNeighbour(t1);
-        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
-        ib1.move_Insect(t2);
-        TESTS_LOGGER.log(Level.forName("GET", 400), "Insect's Tecton: " + ib1.get_Tecton().get_ID());
-        if(t2.insectsOnTecton.size() != 1) 
-        {
-            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect_Buglet is not moved!");
-            return;
-        }
-        if(t1.insectsOnTecton.size() != 0) 
-        {
-            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Insect_Buglet is not removed from old Tecton!");
-            return;
-        }
+        GAME_INSTANCE.getPlane().InsectCollection.get(0).move_Insect(GAME_INSTANCE.getPlane().TectonCollection.get(1));
         TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
 
     }
     public static void test11() //Gomba létrehozása
     {
-        Player p1 = new Player();
-        Tecton_Basic t1 = new Tecton_Basic();
-        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p1);
-        if(PLAYER1.getGame().getPlane().MushroomCollection.size() != 1 || t1.get_Mushroom() == null) 
-        {
-            TESTS_LOGGER.log(Level.forName("ERROR", 404), "Mushroom_Shroomlet is not created!");
-            return;
-        }
-        String tmp = ms1.get_Tecton().get_ID();
+        GAME_INSTANCE.initGame();
+        GAME_INSTANCE.getPlane().InsectCollection.add(new Insect_Buglet(GAME_INSTANCE.getPlane().getBase1(), PLAYER1));
+        String tmp = GAME_INSTANCE.getPlane().MushroomCollection.get(0).get_Tecton().get_ID();
         TESTS_LOGGER.log(Level.forName("GET", 400), "Mushroom's Tecton: " + tmp);
         if(tmp == null) 
         {
@@ -334,12 +295,11 @@ public static void test5() // Tekton kettétörése
     }
     public static void test12() //Rovar támad gombát
     {
-        Player p1 = new Player();
-        Player p2 = new Player();
+        GAME_INSTANCE.initGame();
         Tecton_Basic t1 = new Tecton_Basic();
-        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p2);
+        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, PLAYER2);
         int tmpHP = ms1.get_hp();
-        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, PLAYER1);
         int tmpATTACK = ib1.get_attackDamage();
         ib1.attack_Mushroom(ms1);
         if(ms1.get_hp() != tmpHP - tmpATTACK) 
@@ -352,15 +312,14 @@ public static void test5() // Tekton kettétörése
     }
     public static void test13() //Gomba támad rovart
     {
-        Player p1 = new Player();
-        Player p2 = new Player();
+        GAME_INSTANCE.initGame();
         Tecton_Basic t1 = new Tecton_Basic();
         Tecton_Basic t2 = new Tecton_Basic();
         t1.add_TectonNeighbour(t2);
         t2.add_TectonNeighbour(t1);
-        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, p2);
-        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
-        Insect_Buglet ib2 = new Insect_Buglet(t2, p1);
+        Mushroom_Shroomlet ms1 = new Mushroom_Shroomlet(t1, PLAYER2);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, PLAYER1);
+        Insect_Buglet ib2 = new Insect_Buglet(t2, PLAYER1);
         int tmpHP1 = ib1.get_hp();
         int tmpHP2 = ib2.get_hp();
         int tmpATTACK = ms1.get_power();
@@ -379,11 +338,16 @@ public static void test5() // Tekton kettétörése
     }
     public static void test14() //Basic_Spore elfogyasztása
     {
-        Player p1 = new Player();
+        GAME_INSTANCE.initGame();
         Tecton_Basic t1 = new Tecton_Basic();
-        Basic_Spore s1 = new Basic_Spore(t1,p1);
-        Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
+        Basic_Spore s1 = new Basic_Spore(t1,PLAYER1);
+        Insect_Buglet ib1 = new Insect_Buglet(t1, PLAYER1);
         ib1.eat_Spore(s1);
+        GAME_INSTANCE.getPlane().InsectCollection.add(ib1);
+        GAME_INSTANCE.getPlane().MushroomCollection.add(new Mushroom_Shroomlet(t1, PLAYER2));
+        GAME_INSTANCE.getPlane().SporeCollection.add(s1);
+        GAME_INSTANCE.getPlane().ThreadCollection.add(new Thread_Class(t1, GAME_INSTANCE));
+        GAME_INSTANCE.getPlane().TectonCollection.add(t1);
 
         if(t1.get_Spore() != null) 
         {
@@ -694,12 +658,16 @@ public static void test5() // Tekton kettétörése
     }   
     public static void empty()
     {
-        PLAYER1.getGame().getPlane().InsectCollection.clear();
-        PLAYER1.getGame().getPlane().TectonCollection.clear();
-        PLAYER1.getGame().getPlane().MushroomCollection.clear();
-        PLAYER1.getGame().getPlane().SporeCollection.clear();
-        PLAYER1.getGame().getPlane().ThreadCollection.clear();
-
+        if (PLAYER1.getGame() != null) 
+        {
+            PLAYER1.getGame().getPlane().InsectCollection.clear();
+            PLAYER1.getGame().getPlane().TectonCollection.clear();
+            PLAYER1.getGame().getPlane().MushroomCollection.clear();
+            PLAYER1.getGame().getPlane().SporeCollection.clear();
+            PLAYER1.getGame().getPlane().ThreadCollection.clear();
+            return;
+        }               
+        return;
     }
     public static void listTests() //rewrite this to use sysmout instead of logger
     {

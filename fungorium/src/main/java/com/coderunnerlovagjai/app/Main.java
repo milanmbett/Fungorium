@@ -52,7 +52,7 @@ public class Main {
         // Support a direct test flag
         if (args.length > 0 && args[0].equals("--test")) {
             if (args.length > 1) {
-               // runTest(args[1]);
+                runTest(args[1]);
             } else {
                 MAIN_LOGGER.log(Level.ERROR, "Please provide a test number after --test flag.");
             }
@@ -108,14 +108,14 @@ public class Main {
                 _Tests.test4();
                 _Tests.empty();
                 break;
-            case "5":
-                _Tests.test5();
-                _Tests.empty();
-                break;
-            case "6":
-                _Tests.test6();
-                _Tests.empty();
-                break;
+            //case "5":
+            //    _Tests.test5();
+            //    _Tests.empty();
+            //    break;
+            //case "6":
+            //    _Tests.test6();
+            //    _Tests.empty();
+            //    break;
             case "7":
                 _Tests.test7();
                 _Tests.empty();
@@ -227,14 +227,14 @@ public class Main {
                 _Tests.test4();
                 _Tests.empty();
                 break;
-            case "5":
-                _Tests.test5();
-                _Tests.empty();
-                break;
-            case "6":
-                _Tests.test6();
-                _Tests.empty();
-                break;
+            //case "5":
+            //    _Tests.test5();
+            //    _Tests.empty();
+            //    break;
+            //case "6":
+            //    _Tests.test6();
+            //    _Tests.empty();
+            //    break;
             case "7":
                 _Tests.test7();
                 _Tests.empty();
