@@ -16,7 +16,7 @@ public abstract class Mushroom_Class
     protected Player owner;
     protected String ID;
     protected int cost=0; //Grafikahoz lehet nem kell
-    protected int level=0;
+    protected int level=1;
 
     public abstract int getIncomeMultiplier(); //ezt nem lenne attributummal célszerűbb megoldani?
     //Esetleg a szorzókat egy enum-ba tenni, és abból visszaadni a megfelelő szorzót?
