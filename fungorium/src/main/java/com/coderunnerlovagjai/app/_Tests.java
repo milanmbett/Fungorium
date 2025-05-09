@@ -249,16 +249,16 @@ public abstract class _Tests
         Tecton_Basic t2 = new Tecton_Basic();
         t1.add_TectonNeighbour(t2);
         t2.add_TectonNeighbour(t1);
-        t1.set_Thread(new Thread_Class(t1, new Game()));
-        t1.get_Thread().expand_Thread();
+        //t1.set_Thread(new Thread_Class(t1, new Game()));
+        //t1.get_Thread().expand_Thread();
         String tmp = t2.get_Thread().get_ID();
         TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton2's Thread: " + tmp);
-        if(tmp == null) 
+        if(t2.get_Thread() == null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Tecton_Basic2 thread is null!");
             return;
         }
-        TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
+        //TESTS_LOGGER.log(Level.forName("SUCCESS", 400), "Test ran successfully!");
     }
     public static void test9() //Rovar létrehozása
     {

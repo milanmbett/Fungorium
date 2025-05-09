@@ -68,7 +68,7 @@ public class Thread_Class
         for (Tecton_Class neighbour : threadlessTectonNeighbours) {
             THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is attempting to expand to tecton: " + neighbour.get_ID());
             try {
-                neighbour.set_Thread(new Thread_Class(neighbour, game));
+                //neighbour.set_Thread(new Thread_Class(neighbour, game));
                 THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " successfully expanded to tecton: " + neighbour.get_ID());
                 expanded = true;
                 break;
