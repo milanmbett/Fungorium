@@ -22,10 +22,11 @@ for testDir in $(ls -d test* | sort -V); do
         EXIT_CODE=$?
         ONE_LINED_OUTPUT=$(echo "$OUTPUT" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g')
         TOTAL=$((TOTAL+1))
-        if [ "$EXIT_CODE" -eq 0 ]; then
+        # Check for zero exit and explicit success message
+        if [ "$EXIT_CODE" -eq 0 ] && [[ "$OUTPUT" == *"Test ran successfully!"* ]]; then
             SUCCESS=$((SUCCESS+1))
             echo -e "${GREEN}${ONE_LINED_OUTPUT} (code $EXIT_CODE) ✓${RESET}"
-        else
+        else  # failure or missing success marker
             FAIL=$((FAIL+1))
             echo -e "${RED}${testDir}: ${ONE_LINED_OUTPUT} (code $EXIT_CODE)${RESET}"
         fi
