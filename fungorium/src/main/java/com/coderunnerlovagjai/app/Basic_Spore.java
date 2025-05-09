@@ -4,7 +4,7 @@ package com.coderunnerlovagjai.app;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-public class Basic_Spore
+public class Basic_Spore extends Entity 
 {
     private static final Logger BASIC_SPORE_LOGGER = LogManager.getLogger(Basic_Spore.class);
     protected int timeToLive;
