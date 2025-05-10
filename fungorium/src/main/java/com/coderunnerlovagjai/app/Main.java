@@ -47,8 +47,9 @@ public class Main {
 
     private static final Logger MAIN_LOGGER = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) 
+    {
+        /*Scanner scanner = new Scanner(System.in);
         // Support a direct test flag
         if (args.length > 0 && args[0].equals("--test")) {
             if (args.length > 1) {
@@ -322,6 +323,9 @@ public class Main {
             default:
                 MAIN_LOGGER.log(Level.WARN, "Invalid test number provided.");
                 break;
-        }
+        }*/
+    
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.setVisible(true);
     } 
 }
