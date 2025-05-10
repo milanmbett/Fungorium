@@ -49,3 +49,35 @@ HUMOROS:
                 }
             }
         }
+
+
+
+
+
+GRAFIKUS:
+-Model:
+    -Entity megöröklése 0 (Milán)
+    -Bugok kijavítása 3 (Balu&Derék)
+    -Plane tectonok szétosztása(tecton_basic,tecton_dead) 2 (Balu&Derék)
+    -Tectonok MAX rovarszám 1 (Borisz&Mirkó)
+    -Eventekre való feliratokzás (Borisz&Mirkó)
+    -End game pontok eltárolása 2 (Balu&Derék)
+-View:
+    -Grafikus osztályok megírása 1 (Borisz&Mirkó)
+    -GamePanel megírása 1 (Borisz&Mirkó)
+    -Tecton rovar Slotok 1 (Borisz&Mirkó)
+-Zene:
+    -Danika house 4
+-???
+    -Attacock 3(Mushroom, Insect attack) (Balu&Derék)
+-MainMenu megírása (MainMenu) (Milán)
+-Rekordok , felhasználó, pontok, tecton_base died? (Milán)
+
+-----------------[X] 
+user|points|destroyed|
+                    |
+                    |
+-----------------
+x-re bezáról a rekord, és mainmenu.visible=true
+
+-Dokumentom
