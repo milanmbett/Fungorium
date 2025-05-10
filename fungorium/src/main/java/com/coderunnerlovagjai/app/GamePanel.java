@@ -3,6 +3,8 @@ import java.awt.Graphics2D;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
+
+/* 
 public class GamePanel extends JPanel 
 {
     private final Game game;
@@ -22,3 +24,4 @@ public class GamePanel extends JPanel
         gfx.render(g2);
     }
 }
+*/

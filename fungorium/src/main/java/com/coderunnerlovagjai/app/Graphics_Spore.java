@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 public class Graphics_Spore 
 {
     private final Basic_Spore model;
+    
 
     public Graphics_Spore(Basic_Spore m)
     {

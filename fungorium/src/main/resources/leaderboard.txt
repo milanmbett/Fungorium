@@ -1,0 +1,3 @@
+Alice,120,true
+Bob,85,false
+Carol,200,true
