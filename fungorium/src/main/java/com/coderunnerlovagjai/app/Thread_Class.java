@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Thread_Class 
+public class Thread_Class extends Entity
 {
     private static final Logger THREAD_LOGGER = LogManager.getLogger(Thread_Class.class);
     private Tecton_Class tecton;

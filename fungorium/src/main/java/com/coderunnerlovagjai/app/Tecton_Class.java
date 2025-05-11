@@ -7,7 +7,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class Tecton_Class {
+public abstract class Tecton_Class extends Entity
+{
     private static final Logger TECTON_CLASS_LOGGER = LogManager.getLogger(Tecton_Class.class);
     protected List<Tecton_Class> Neighbours = new ArrayList<>();
 

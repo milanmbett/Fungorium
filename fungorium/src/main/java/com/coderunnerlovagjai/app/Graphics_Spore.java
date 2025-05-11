@@ -1,11 +1,9 @@
 package com.coderunnerlovagjai.app;
 import java.awt.Graphics2D;
 
-public class Graphics_Spore 
-{
-    private final Basic_Spore model;
-    
 
+public class Graphics_Spore extends Graphics_Object
+{
     public Graphics_Spore(Basic_Spore m)
     {
         this.model = m;

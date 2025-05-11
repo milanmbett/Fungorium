@@ -1,153 +1,127 @@
 package com.coderunnerlovagjai.app;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.table.*;
 
-public class LeaderBoardFrame extends JFrame {
-    // same palette & fonts as MainMenu
-    private static final Color BG_COLOR      = new Color(0x0D392C);
-    private static final Color BUTTON_COLOR  = new Color(0x34978D);
-    private static final Color BUTTON_SHADOW = new Color(0x2A7471);
-    private static final Color TITLE_BG      = new Color(0xFFF8E7);
-    private static final Font  TITLE_FONT    = new Font("SansSerif", Font.BOLD, 36);
-    private static final Font  BUTTON_FONT   = new Font("SansSerif", Font.BOLD, 24);
-
+public class LeaderBoardFrame extends FrameStyle {
     private MainMenu parent;
-    private JTable table; // reference for debug removals
-    public UserData data;
+    private JTable table;
+    private UserData data;
     private JPanel debugPanel;
-    private JButton backToMenuButton;
+    private JButton backBtn;
+    private static final String APP_DIR  = System.getProperty("user.home") + File.separator + ".fungorium";
+    private static final String DATA_FILE = APP_DIR + File.separator + "leaderboard.txt";
 
-    private static final String APP_DIR    =
-        System.getProperty("user.home") + File.separator + ".fungorium";
-    private static final String DATA_FILE  = APP_DIR + File.separator + "leaderboard.txt";
-
-    public LeaderBoardFrame(MainMenu parent) {
-        super("Leaderboard");
-        this.parent = parent;
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        // window icon
-        ImageIcon ico = new ImageIcon(getClass().getResource("/images/fungoriumIcon.png"));
-        setIconImage(ico.getImage());
-
-        // load data model
+    public LeaderBoardFrame(MainMenu p) {
+        super("Leaderboard", "/images/fungoriumIcon3.png");
+        this.parent = p;
         data = new UserData();
+        this.setResizable(false);
         loadData();
+        buildUI();
+        pack();
+        setLocationRelativeTo(p);
+        setVisible(true);
+    }
 
-        // build styled content pane
-        JPanel content = new JPanel();
-        content.setBackground(BG_COLOR);
-        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
-        content.setBorder(new EmptyBorder(20,20,20,20));
-        setContentPane(content);
-
-        // 1) Header bar
-        ImageIcon rawIcon = new ImageIcon(getClass().getResource("/images/mushroom_logo.png"));
-        Image scaled   = rawIcon.getImage().getScaledInstance(48, 48, Image.SCALE_SMOOTH);
-        ImageIcon icon = new ImageIcon(scaled);
-
-        JLabel header = new JLabel("Leaderboard", icon, SwingConstants.CENTER);
-        header.setAlignmentX(Component.CENTER_ALIGNMENT);
-        header.setFont(TITLE_FONT);
-        header.setOpaque(true);
-        header.setBackground(TITLE_BG);
-        header.setForeground(Color.BLACK);
-        header.setBorder(new CompoundBorder(
-            new LineBorder(TITLE_BG.darker(), 1),
-            new EmptyBorder(10,20,10,20)
-        ));
-        content.add(header);
-        content.add(Box.createVerticalStrut(20));
-
-        // 2) Table
+    @Override
+    protected void buildUI() {
+        // --- Table setup ---
         table = new JTable(data);
         table.setFillsViewportHeight(true);
         table.setRowSorter(new TableRowSorter<>(table.getModel()));
         table.setFont(new Font("SansSerif", Font.PLAIN, 18));
         table.setRowHeight(28);
+        // transparent background to let the silhouettes show
+        table.setOpaque(false);
+        table.setBackground(new Color(0,0,0,0));
 
-        // style header row
+        // header styling
         JTableHeader th = table.getTableHeader();
         th.setBackground(BUTTON_COLOR);
         th.setForeground(Color.WHITE);
         th.setFont(new Font("SansSerif", Font.BOLD, 18));
 
-        JScrollPane scroll = new JScrollPane(table);
-        scroll.setAlignmentX(Component.CENTER_ALIGNMENT);
-        scroll.setPreferredSize(new Dimension(480, 200));
-        content.add(scroll);
+        // disable automatic column resizing so we can set our own widths
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        // compute and apply a preferred width for each column
+        TableColumnModel colModel = table.getColumnModel();
+        FontMetrics headerFm = th.getFontMetrics(th.getFont());
+        FontMetrics cellFm   = table.getFontMetrics(table.getFont());
+        for (int col = 0; col < colModel.getColumnCount(); col++) {
+            TableColumn column = colModel.getColumn(col);
+            String header = column.getHeaderValue().toString();
+
+            // width needed for header text
+            int max = headerFm.stringWidth(header);
+
+            // width needed for cell contents
+            for (int row = 0; row < table.getRowCount(); row++) {
+                Object value = table.getValueAt(row, col);
+                if (value != null) {
+                    int w = cellFm.stringWidth(value.toString());
+                    max = Math.max(max, w);
+                }
+            }
+
+            // add some padding
+            column.setPreferredWidth(max + 32);
+        }
+
+        // wrap in scroll pane
+        JScrollPane sp = new JScrollPane(table,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+        sp.setOpaque(false);
+        sp.getViewport().setOpaque(false);
+        sp.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sp.setPreferredSize(new Dimension(480, 200));
+
+        content.add(sp);
         content.add(Box.createVerticalStrut(20));
 
-        // 3) Back button
-        backToMenuButton = createMenuButton("Back to Menu");
-        backToMenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backToMenuButton.addActionListener(e -> {
+        // --- Back button ---
+        backBtn = createMenuButton("Back to Menu");
+        backBtn.addActionListener(e -> {
             saveData();
             parent.setVisible(true);
             dispose();
         });
-        content.add(backToMenuButton);
+        content.add(backBtn);
         content.add(Box.createVerticalGlue());
 
-        // keybinding for debug panel
+        // debug panel toggle
         setupDebugKeyBinding();
-
-        pack();
-        setLocationRelativeTo(parent);
-        setVisible(true);
-    }
-
-    private JButton createMenuButton(String text) {
-        JButton b = new JButton(text);
-        b.setFont(BUTTON_FONT);
-        b.setBackground(BUTTON_COLOR);
-        b.setForeground(Color.WHITE);
-        b.setFocusPainted(false);
-        b.setAlignmentX(Component.CENTER_ALIGNMENT);
-        b.setBorder(new CompoundBorder(
-            BorderFactory.createMatteBorder(0,0,4,0, BUTTON_SHADOW),
-            BorderFactory.createEmptyBorder(12, 30, 12, 30)
-        ));
-        return b;
     }
 
     private void loadData() {
         new File(APP_DIR).mkdirs();
         File f = new File(DATA_FILE);
-
-        try (
-          BufferedReader br = f.exists()
-             // If we have an external file, read from it:
-             ? new BufferedReader(new FileReader(f))
-                // Otherwise, fall back to the embedded resource:
-                : new BufferedReader(new InputStreamReader(
-                    getClass().getResourceAsStream("/leaderboard.txt")
-                ))
-        )   {
-           String line;
-          while ((line = br.readLine()) != null) {
+        try (BufferedReader br = f.exists()
+                ? new BufferedReader(new FileReader(f))
+                : new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/leaderboard.txt")))) {
+            String line;
+            while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty() || line.startsWith("//")) continue;
-               String[] p = line.split(",");
-               data.addRecord(
-                  p[0],
-                 Integer.parseInt(p[1]),  Boolean.parseBoolean(p[2])
-            );
+                String[] p = line.split(",");
+                data.addRecord(p[0], Integer.parseInt(p[1]), Boolean.parseBoolean(p[2]));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    } catch (IOException e) {
-        e.printStackTrace();
     }
-    }
+
     private void saveData() {
         try (PrintWriter pw = new PrintWriter(new FileWriter(DATA_FILE))) {
             for (User u : data.uR) {
-                pw.printf("%s,%d,%b%n",
-                    u.getName(), u.getPoints(), u.getDestroyedTecton_Base());
+                pw.printf("%s,%d,%b%n", u.getName(), u.getPoints(), u.getDestroyedTecton_Base());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -155,12 +129,11 @@ public class LeaderBoardFrame extends JFrame {
     }
 
     private void setupDebugKeyBinding() {
-        InputMap  im = getRootPane()
-            .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap am = getRootPane().getActionMap();
-        im.put(KeyStroke.getKeyStroke('D'), "toggleDebug");
-        am.put("toggleDebug", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
+        im.put(KeyStroke.getKeyStroke('D'), "toggle");
+        am.put("toggle", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
                 if (debugPanel == null) createDebugPanel();
                 debugPanel.setVisible(!debugPanel.isVisible());
                 pack();
@@ -172,55 +145,44 @@ public class LeaderBoardFrame extends JFrame {
         debugPanel = new JPanel(new FlowLayout());
         debugPanel.setOpaque(false);
 
-        JLabel nameLabel = new JLabel("Name:");
-        nameLabel.setForeground(Color.BLACK);
-        debugPanel.add(nameLabel);
-        JTextField nameField = new JTextField(10);
-        debugPanel.add(nameField);
-
-        JLabel pointsLabel = new JLabel("Points:");
-        pointsLabel.setForeground(Color.BLACK);
-        debugPanel.add(pointsLabel);
-        JTextField ptsField = new JTextField(5);
-        debugPanel.add(ptsField);
-
+        JTextField nf = new JTextField(10), pf = new JTextField(5);
         JCheckBox chk = new JCheckBox("Destroyed");
         chk.setForeground(Color.BLACK);
+
+        debugPanel.add(new JLabel("Name:"));
+        debugPanel.add(nf);
+        debugPanel.add(new JLabel("Points:"));
+        debugPanel.add(pf);
         debugPanel.add(chk);
 
         JButton add = new JButton("Add");
         add.addActionListener(ev -> {
             try {
-                data.addRecord(
-                  nameField.getText(),
-                  Integer.parseInt(ptsField.getText()),
-                  chk.isSelected()
-                );
+                data.addRecord(nf.getText(),
+                               Integer.parseInt(pf.getText()),
+                               chk.isSelected());
                 data.fireTableRowsInserted(
-                  data.getRowCount()-1, data.getRowCount()-1);
+                    data.getRowCount()-1, data.getRowCount()-1);
                 saveData();
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this,
-                  "Invalid points value", "Error",
-                  JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(
+                    this, "Invalid points", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        debugPanel.add(add);
-        // button to remove selected row
-        JButton remove = new JButton("Remove Selected");
-        remove.addActionListener(ev -> {
-            int viewRow = table.getSelectedRow();
-            if (viewRow < 0) {
-                JOptionPane.showMessageDialog(this, "No row selected", "Error", JOptionPane.WARNING_MESSAGE);
+        JButton rem = new JButton("Remove Selected");
+        rem.addActionListener(ev -> {
+            int vr = table.getSelectedRow();
+            if (vr < 0) {
+                JOptionPane.showMessageDialog(
+                    this, "No row selected", "Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            int modelRow = table.convertRowIndexToModel(viewRow);
-            data.removeRecord(modelRow);
+            data.removeRecord(table.convertRowIndexToModel(vr));
             saveData();
         });
-        debugPanel.add(remove);
 
-        // insert debug panel into content pane
+        debugPanel.add(add);
+        debugPanel.add(rem);
         getContentPane().add(debugPanel, 2);
     }
 }

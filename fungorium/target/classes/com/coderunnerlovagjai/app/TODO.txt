@@ -56,7 +56,7 @@ HUMOROS:
 
 GRAFIKUS:
 -Model:
-    -Entity megöröklése 0 (Milán)
+    -Entity megöröklése 0 (Milán)---------------------------DONE
     -Bugok kijavítása 3 (Balu&Derék)
     -Plane tectonok szétosztása(tecton_basic,tecton_dead) 2 (Balu&Derék)
     -Tectonok MAX rovarszám 1 (Borisz&Mirkó)
@@ -70,8 +70,8 @@ GRAFIKUS:
     -Danika house 4
 -???
     -Attacock 3(Mushroom, Insect attack) (Balu&Derék)
--MainMenu megírása (MainMenu) (Milán)
--Rekordok , felhasználó, pontok, tecton_base died? (Milán)
+-MainMenu megírása (MainMenu) (Milán)---------------------------DONE
+-Rekordok , felhasználó, pontok, tecton_base died? (Milán)---------------------------DONE
 
 -----------------[X] 
 user|points|destroyed|
@@ -80,4 +80,6 @@ user|points|destroyed|
 -----------------
 x-re bezáról a rekord, és mainmenu.visible=true
 
--Dokumentom
+-GamePanel megírása 1 (Borisz&Mirkó) FrameStyle-t örökölje
+
+-Dokumentum
