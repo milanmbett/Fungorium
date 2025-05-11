@@ -18,6 +18,7 @@ public class LeaderBoardFrame extends JFrame {
     private static final Font  BUTTON_FONT   = new Font("SansSerif", Font.BOLD, 24);
 
     private MainMenu parent;
+    private JTable table; // reference for debug removals
     public UserData data;
     private JPanel debugPanel;
     private JButton backToMenuButton;
@@ -65,7 +66,7 @@ public class LeaderBoardFrame extends JFrame {
         content.add(Box.createVerticalStrut(20));
 
         // 2) Table
-        JTable table = new JTable(data);
+        table = new JTable(data);
         table.setFillsViewportHeight(true);
         table.setRowSorter(new TableRowSorter<>(table.getModel()));
         table.setFont(new Font("SansSerif", Font.PLAIN, 18));
@@ -171,15 +172,20 @@ public class LeaderBoardFrame extends JFrame {
         debugPanel = new JPanel(new FlowLayout());
         debugPanel.setOpaque(false);
 
-        debugPanel.add(new JLabel("Name:"));
+        JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setForeground(Color.BLACK);
+        debugPanel.add(nameLabel);
         JTextField nameField = new JTextField(10);
         debugPanel.add(nameField);
 
-        debugPanel.add(new JLabel("Points:"));
+        JLabel pointsLabel = new JLabel("Points:");
+        pointsLabel.setForeground(Color.BLACK);
+        debugPanel.add(pointsLabel);
         JTextField ptsField = new JTextField(5);
         debugPanel.add(ptsField);
 
         JCheckBox chk = new JCheckBox("Destroyed");
+        chk.setForeground(Color.BLACK);
         debugPanel.add(chk);
 
         JButton add = new JButton("Add");
@@ -200,8 +206,21 @@ public class LeaderBoardFrame extends JFrame {
             }
         });
         debugPanel.add(add);
+        // button to remove selected row
+        JButton remove = new JButton("Remove Selected");
+        remove.addActionListener(ev -> {
+            int viewRow = table.getSelectedRow();
+            if (viewRow < 0) {
+                JOptionPane.showMessageDialog(this, "No row selected", "Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            int modelRow = table.convertRowIndexToModel(viewRow);
+            data.removeRecord(modelRow);
+            saveData();
+        });
+        debugPanel.add(remove);
 
-        // insert just above the scroll pane
+        // insert debug panel into content pane
         getContentPane().add(debugPanel, 2);
     }
 }

@@ -61,4 +61,10 @@ public class UserData extends AbstractTableModel
     {
         uR.add(new User(n, p, d));
     }
+    /** Remove a record at the given model index */
+    public void removeRecord(int index) {
+        uR.remove(index);
+        // notify table of deletion
+        fireTableRowsDeleted(index, index);
+    }
 }
