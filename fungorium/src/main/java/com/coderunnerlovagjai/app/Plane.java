@@ -252,6 +252,10 @@ public class Plane
             PLANE_LOGGER.log(Level.forName("NULL", 201), "There is no thread on either tecton!");
             return;
         }
+        if(targetTecton.get_InsectsOnTecton().size()>=5) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is full! Cannot move insect there.");
+            return;
+        }
 
         ins.get_Tecton().get_InsectsOnTecton().remove(ins);
         ins.set_Tecton(targetTecton); // Set the insect's tecton
@@ -282,7 +286,10 @@ public class Plane
             PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Insect role!");
             return;
         }
-
+        if(target.get_InsectsOnTecton().size()>=5) {
+            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is full! Cannot move insect there.");
+            return;
+        }
         // Check if the player has enough resources to place the insect
         int cost = insect.getCost(); // Assuming `Insect_Class` has a `getCost` method
         if (insect.get_Owner().getIncome() < cost) {
