@@ -59,7 +59,7 @@ GRAFIKUS:
     -Entity megöröklése 0 (Milán)---------------------------DONE
     -Bugok kijavítása 3 (Balu&Derék)
     -Plane tectonok szétosztása(tecton_basic,tecton_dead) 2 (Balu&Derék)
-    -Tectonok MAX rovarszám 1 (Borisz&Mirkó)
+    -Tectonok MAX rovarszám 1 (Borisz&Mirkó) (ideiglenesen 5 később változztatni kell)
     -Eventekre való feliratokzás (Borisz&Mirkó)
     -End game pontok eltárolása 2 (Balu&Derék)
 -View:
