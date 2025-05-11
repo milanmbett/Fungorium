@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public abstract class Insect_Class 
+public abstract class Insect_Class extends Entity
 {
     private static final Logger INSECT_CLASS_LOGGER = LogManager.getLogger(Insect_Class.class);
     protected int hp;
