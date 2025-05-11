@@ -10,7 +10,7 @@
 
     <groupId>com.coderunnerlovagjai.app</groupId>
     <artifactId>fungorium</artifactId>
-    <version>PROTO 0.1</version>
+    <version>GUI</version>
 
     <name>fungorium</name>
     <url>http://www.example.com</url>
