@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Proto {
     // Game state fields
     private static boolean gameInitialized = false;
-    private static Game game = new Game();
+    private static Game game = new Game("A","B");
 
     
 
