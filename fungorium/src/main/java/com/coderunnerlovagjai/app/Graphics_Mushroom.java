@@ -1,26 +1,30 @@
+// Graphics_Mushroom.java
 package com.coderunnerlovagjai.app;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
-public class Graphics_Mushroom extends Graphics_Object
-{
-    public Graphics_Mushroom(Mushroom_Class m)
-    {
-        this.model = m;
-        model.addListener(this::onModelEvent);
+public class Graphics_Mushroom extends GraphicsObject<Mushroom_Class> {
+    public Graphics_Mushroom(Mushroom_Class model) {
+        super(model);
     }
-    private void onModelEvent(ModelEvent e) {
-        // szükség esetén logika: 
-        //   ha e.type == REMOVED -> unregister és eltávolítjuk magunkat a render listából
-        //   ha e.type == UPDATED -> repaint kérése
-       // GameCanvas.getInstance().repaint();
-    }
+
+    @Override
     public void render(Graphics2D g) {
-        // 1. koordináta‑transzformáció a model.getPosition(), model.getRotation() alapján
-        // 2. alak kirajzolása (shape, kép, szín)
-    }
-    private void unregister() 
-    {
-        model.removeListener(this::onModelEvent);
+        // 1. set up transform based on model.getRotation(), etc.
+        AffineTransform old = g.getTransform();
+        g.translate(x, y);
+        g.rotate(Math.toRadians(model.getRotation()), width/2.0, height/2.0);
+
+        // 2. draw the mushroom image (or fallback to a shape)
+        if (img != null) {
+            g.drawImage(img, 0, 0, width, height, null);
+        } else {
+            g.setColor(Color.RED);
+            g.fillOval(0, 0, width, height);
+        }
+
+        g.setTransform(old);
     }
 }
