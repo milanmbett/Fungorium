@@ -64,7 +64,8 @@ GRAFIKUS:
     -End game pontok eltárolása 2 (Balu&Derék)
 -View:
     -Grafikus osztályok megírása 1 (Borisz&Mirkó)
-    -GamePanel megírása 1 (Borisz&Mirkó)
+    -GameCanvas megírása 1 (Borisz&Mirkó)
+    -GameCanvasFrame megírása 1 (Borisz&Mirkó)
     -Tecton rovar Slotok 1 (Borisz&Mirkó)
 -Zene:
     -Danika house 4
@@ -80,6 +81,5 @@ user|points|destroyed|
 -----------------
 x-re bezáról a rekord, és mainmenu.visible=true
 
--GamePanel megírása 1 (Borisz&Mirkó) FrameStyle-t örökölje
 
 -Dokumentum
