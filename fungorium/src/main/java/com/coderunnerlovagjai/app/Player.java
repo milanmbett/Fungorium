@@ -13,6 +13,7 @@ public class Player
     private int action;
     private final int id;
     private Game game;
+    private String name;
 
     public Player() {
         this.id = 0;
@@ -24,13 +25,14 @@ public class Player
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
 
-    public Player(int id) {
+    public Player(int id, String name) {
         this.id = id;
         this.role = RoleType.NONE; // Alapértelmezett szerep
         this.fungusCounter = 0;
         this.income = 200;
         this.score = 0;
         this.action = 3;
+        this.name = name;
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
 
@@ -129,5 +131,8 @@ public class Player
         }
         this.action = action;
         PLAYER_LOGGER.log(Level.forName("ACTION", 401), "Action points set to " + action);
+    }
+    public String getName() {
+        return name;
     }
 }

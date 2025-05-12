@@ -270,6 +270,7 @@ public class MainMenu extends FrameStyle {
         }
         JOptionPane.showMessageDialog(this,
             "Starting game with players: " + p1 + " and " + p2);
+            Game game = new Game(p1, p2);
     }
 
     /**
