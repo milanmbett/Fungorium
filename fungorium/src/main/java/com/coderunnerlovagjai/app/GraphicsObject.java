@@ -1,8 +1,9 @@
 // GraphicsObject.java
 package com.coderunnerlovagjai.app;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 
 /**
  * Base class for any view object that renders an Entity and listens to its ModelEvents.
@@ -40,6 +41,11 @@ public abstract class GraphicsObject<T extends Entity> implements ModelListener 
                 GameCanvas.getInstance().removeGraphics(this);
                 break;
         }
+    }
+    
+    /** Get the associated model entity */
+    public T getModel() {
+        return model;
     }
 
     /** Subclasses implement their specific drawing logic here. */

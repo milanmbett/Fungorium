@@ -1,14 +1,36 @@
 package com.coderunnerlovagjai.app;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.ContainerOrderFocusTraversalPolicy;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
-import javazoom.jl.player.Player;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+
+import javazoom.jl.player.Player;
 
 public class MainMenu extends FrameStyle {
     private LeaderBoardFrame lbFrame;
@@ -25,11 +47,41 @@ public class MainMenu extends FrameStyle {
     private Player player;
     private Thread musicThread;
 
+    private static boolean musicInitialized = false;
+    private static MainMenu instance;
+    
+    /**
+     * Get the singleton instance of MainMenu
+     */
+    public static MainMenu getInstance() {
+        return instance;
+    }
+    
+    /**
+     * Stop background music playback. This can be called from other parts of the application
+     * when transitioning away from the main menu.
+     */
+    public void stopMusic() {
+        try {
+            soundOn = false;
+            if (player != null) {
+                player.close();
+                player = null;
+            }
+            if (musicThread != null && musicThread.isAlive()) {
+                musicThread.interrupt();
+            }
+        } catch (Exception e) {
+            System.err.println("Error stopping music: " + e.getMessage());
+        }
+    }
+    
     /**
      * Constructs the main menu frame, initializes audio and builds UI components.
      */
     public MainMenu() {
         super("Fungorium", "/images/fungoriumIcon3.png");
+        instance = this;
         initAudio();     // start music
         buildUI();
         pack();

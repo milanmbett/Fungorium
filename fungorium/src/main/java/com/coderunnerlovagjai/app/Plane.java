@@ -37,6 +37,23 @@ public class Plane
         } else {
             PLANE_LOGGER.log(Level.ERROR, "Base2 is null and cannot be added!");
         }
+        // Place default starting items for each player on their base
+        if (base1 != null) {
+            // Default mushroom for player1
+            new Mushroom_Shroomlet(base1, player1);
+        }
+        if (base2 != null) {
+            // Default insect for player2
+            new Insect_Buglet(base2, player2);
+        }
+        // Place default items on starting bases
+        try {
+            // A basic mushroom on base1 and a stinger insect on base2
+            new Mushroom_Shroomlet(base1, player1);
+            new Insect_Stinger(base2, player2);
+        } catch (Exception e) {
+            PLANE_LOGGER.log(Level.ERROR, "Error placing default items: " + e.getMessage());
+        }
     }
 
     public Tecton_Base getBase1() {
