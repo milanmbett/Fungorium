@@ -8,29 +8,44 @@ import java.io.IOException;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.CompoundBorder;
+import javax.swing.border.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
 
 public abstract class FrameStyle extends JFrame {
-    protected static final Color BG_COLOR       = new Color(0x181818);
-    protected static final Color BUTTON_COLOR   = new Color(0x34978D);
-    protected static final Color BUTTON_SHADOW  = new Color(0x2A7471);
-    protected static final Font  TITLE_FONT     = new Font("SansSerif", Font.BOLD, 48);
-    protected static final Font  BUTTON_FONT    = new Font("SansSerif", Font.BOLD, 32);
+    protected static final Color BG_COLOR      = new Color(0x181818);
+    protected static final Color BUTTON_COLOR  = new Color(0x34978D);
+    protected static final Color BUTTON_SHADOW = new Color(0x2A7471);
+    protected static final Font  TITLE_FONT    = new Font("SansSerif", Font.BOLD, 48);
+    protected static final Font  BUTTON_FONT   = new Font("SansSerif", Font.BOLD, 32);
+
+    // ─── globally skin all JOptionPanes ───────────────────────────────────────
+    static {
+        // global dialog styling
+        UIManager.put("OptionPane.background",       new ColorUIResource(BG_COLOR));
+        UIManager.put("Panel.background",            new ColorUIResource(BG_COLOR));
+        UIManager.put("OptionPane.messageForeground",new ColorUIResource(Color.WHITE));
+        UIManager.put("OptionPane.messageFont",      new FontUIResource(new Font("SansSerif", Font.BOLD, 18)));
+        UIManager.put("OptionPane.buttonFont",       new FontUIResource(BUTTON_FONT));
+        UIManager.put("Button.background",           new ColorUIResource(BUTTON_COLOR));
+        UIManager.put("Button.foreground",           new ColorUIResource(Color.WHITE));
+        // default border is still bottom-shadow; we override per-button below
+        UIManager.put("Button.border", new CompoundBorder(
+            BorderFactory.createMatteBorder(0,0,4,0,BUTTON_SHADOW),
+            BorderFactory.createEmptyBorder(15,40,15,40)
+        ));
+    }
 
     protected JPanel content;
 
     /**
      * Constructs a styled frame with animated background, common colors/fonts, and window icon.
-     * @param title the window title
-     * @param iconResource path to the icon resource
      */
-    public FrameStyle(String title, String iconResource) {
+      public FrameStyle(String title, String iconResource) {
         super(title);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(500, 600);
+        setSize(500,600);
         setLocationRelativeTo(null);
-        // window icon
         ImageIcon ico = new ImageIcon(getClass().getResource(iconResource));
         setIconImage(ico.getImage());
 
@@ -40,10 +55,89 @@ public abstract class FrameStyle extends JFrame {
         content.setBorder(new EmptyBorder(20,20,20,20));
         setContentPane(content);
     }
+    // ─── public API for styled dialogs ────────────────────────────────────────
+
+    /**
+     * Shows a message dialog on top of the animated background, with styled buttons.
+     */
+    protected void showStyledMessageDialog(String msg, String title, int type) {
+        JOptionPane pane = new JOptionPane(msg, type, JOptionPane.DEFAULT_OPTION);
+        makeTransparent(pane);
+        JDialog dlg = pane.createDialog(this, title);
+
+        JPanel anim = createAnimatedPanel();
+        anim.setLayout(new BorderLayout());
+        anim.add(pane, BorderLayout.CENTER);
+
+        styleOptionPaneButtons(anim);
+
+        dlg.setContentPane(anim);
+        dlg.pack();
+        dlg.setResizable(false);
+        dlg.setLocationRelativeTo(this);
+        dlg.setModal(true);
+        dlg.setVisible(true);
+    }
+    /**
+     * Shows a confirm dialog on top of the animated background, with styled buttons.
+     * @return the user’s choice (YES/NO/CANCEL)
+     */
+
+    protected int showStyledConfirmDialog(String msg, String title, int optType, int msgType) {
+        JOptionPane pane = new JOptionPane(msg, msgType, optType);
+        makeTransparent(pane);
+        JDialog dlg = pane.createDialog(this, title);
+
+        JPanel anim = createAnimatedPanel();
+        anim.setLayout(new BorderLayout());
+        anim.add(pane, BorderLayout.CENTER);
+
+        styleOptionPaneButtons(anim);
+
+        dlg.setContentPane(anim);
+        dlg.pack();
+        dlg.setResizable(false);
+        dlg.setLocationRelativeTo(this);
+        dlg.setModal(true);
+        dlg.setVisible(true);
+
+        Object v = pane.getValue();
+        return v instanceof Integer ? (Integer)v : JOptionPane.CLOSED_OPTION;
+    }
+    // ─── internally used helpers ──────────────────────────────────────────────
+
+    /** Recursively sets all sub-components non-opaque so the animation can show through */
+    private void makeTransparent(JComponent c) {
+        c.setOpaque(false);
+        for (Component ch : c.getComponents()) {
+            if (ch instanceof JComponent) makeTransparent((JComponent)ch);
+        }
+    }
+
+    /**
+     * Applies the MainMenu button style—only smaller padding—to every JButton in the dialog.
+     */
+    private void styleOptionPaneButtons(Container cont) {
+        for (Component comp : cont.getComponents()) {
+            if (comp instanceof JButton) {
+                JButton b = (JButton) comp;
+                b.setFont(BUTTON_FONT);
+                b.setBackground(BUTTON_COLOR);
+                b.setForeground(Color.WHITE);
+                b.setFocusPainted(false);
+                // now a 2px border on all sides + tighter padding
+                b.setBorder(new CompoundBorder(
+                    BorderFactory.createLineBorder(BUTTON_SHADOW, 2),
+                    BorderFactory.createEmptyBorder(6, 20, 6, 20)
+                ));
+            } else if (comp instanceof Container) {
+                styleOptionPaneButtons((Container)comp);
+            }
+        }
+    }
 
     /**
      * Creates a JPanel that animates falling, rotating silhouette images in the background.
-     * @return an animated JPanel for use as content pane
      */
     private JPanel createAnimatedPanel() {
         final int COUNT = 4;
@@ -51,9 +145,7 @@ public abstract class FrameStyle extends JFrame {
             private int[] bx = new int[COUNT], by = new int[COUNT];
             private int[] sx = new int[COUNT], sy = new int[COUNT];
             private double[] br = new double[COUNT], sr = new double[COUNT];
-            private BufferedImage bugImg, shImg;
-            private BufferedImage tmpImg;
-            // per-instance type: true if this slot uses tmp silhouette
+            private BufferedImage bugImg, shImg, tmpImg;
             private boolean[] istmp = new boolean[COUNT];
             private boolean init = false;
             {
@@ -65,64 +157,61 @@ public abstract class FrameStyle extends JFrame {
                     } catch (IOException ex) {
                         tmpImg = null;
                     }
-                } catch(IOException ex){}
+                } catch(IOException ignored){}
+
                 addComponentListener(new ComponentAdapter(){
                     public void componentResized(ComponentEvent e){
-                        if(!init && getWidth()>0 && getHeight()>0){
+                        if (!init && getWidth() > 0 && getHeight() > 0) {
                             Random r = new Random();
-                            int w=getWidth(),h=getHeight(),iw=100,ih=100;
-                            for(int i=0;i<COUNT;i++){
-                                bx[i] = r.nextInt(Math.max(w - iw + 1, 1));
-                                by[i] = r.nextInt(h + ih + 1) - ih;
-                                br[i] = r.nextDouble() * 40 - 20;
-                                sx[i] = r.nextInt(Math.max(w - iw + 1, 1));
-                                sy[i] = r.nextInt(h + ih + 1) - ih;
-                                sr[i] = r.nextDouble() * 40 - 20;
-                                istmp[i] = (tmpImg != null && r.nextDouble() < 0.1);
+                            int w = getWidth(), h = getHeight(), iw = 100, ih = 100;
+                            for (int i = 0; i < COUNT; i++) {
+                                bx[i]   = r.nextInt(Math.max(w - iw + 1, 1));
+                                by[i]   = r.nextInt(h + ih + 1) - ih;
+                                br[i]   = r.nextDouble() * 40 - 20;
+                                sx[i]   = r.nextInt(Math.max(w - iw + 1, 1));
+                                sy[i]   = r.nextInt(h + ih + 1) - ih;
+                                sr[i]   = r.nextDouble() * 40 - 20;
+                                istmp[i]= (tmpImg != null && r.nextDouble() < 0.1);
                             }
-                            init=true;
+                            init = true;
                         }
                     }
                 });
-                // animate positions and respawn off-screen with new randomization
-                final Random rnd = new Random();
-                final int iw = 100, ih = 100;
-                new Timer(40, e->{
+
+                new Timer(40, e -> {
                     int w = getWidth(), h = getHeight();
-                    for(int i = 0; i < COUNT; i++) {
-                        // fall
+                    for (int i = 0; i < COUNT; i++) {
                         by[i] += 2;
                         if (by[i] > h) {
-                            // respawn above with new random X, rotation, and tmp chance
-                            by[i] = -ih;
-                            bx[i] = rnd.nextInt(Math.max(w - iw + 1, 1));
-                            br[i] = rnd.nextDouble() * 40 - 20;
-                            istmp[i] = (tmpImg != null && rnd.nextDouble() < 0.1);
+                            by[i] = -100;
+                            bx[i] = new Random().nextInt(Math.max(w - 100 + 1, 1));
+                            br[i] = new Random().nextDouble() * 40 - 20;
+                            istmp[i] = (tmpImg != null && new Random().nextDouble() < 0.1);
                         }
-                        // secondary silhouettes
                         sy[i] += 2;
-                        if (sy[i] > h) sy[i] = -ih;
+                        if (sy[i] > h) sy[i] = -100;
                     }
                     repaint();
                 }).start();
             }
-            protected void paintComponent(Graphics g){
+
+            protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Graphics2D g2=(Graphics2D)g.create();
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.05f));
-                int iw=100,ih=100;
-                for(int i=0;i<COUNT;i++){
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.05f));
+                int iw = 100, ih = 100;
+                for (int i = 0; i < COUNT; i++) {
                     AffineTransform old = g2.getTransform();
                     g2.rotate(Math.toRadians(br[i]), bx[i] + iw/2.0, by[i] + ih/2.0);
-                    // draw either bug or tmp based on fixed flag
-                    if (istmp[i]) {
+                    if (istmp[i] && tmpImg != null) {
                         g2.drawImage(tmpImg, bx[i], by[i], iw, ih, null);
                     } else {
                         g2.drawImage(bugImg, bx[i], by[i], iw, ih, null);
                     }
                     g2.setTransform(old);
-                    g2.rotate(Math.toRadians(sr[i]),sx[i]+iw/2.0,sy[i]+ih/2.0);
-                    g2.drawImage(shImg,sx[i],sy[i],iw,ih,null);
+
+                    g2.rotate(Math.toRadians(sr[i]), sx[i] + iw/2.0, sy[i] + ih/2.0);
+                    g2.drawImage(shImg, sx[i], sy[i], iw, ih, null);
                     g2.setTransform(old);
                 }
                 g2.dispose();
@@ -132,13 +221,11 @@ public abstract class FrameStyle extends JFrame {
 
     /**
      * Creates a uniformly styled menu button with hover color change effect.
-     * @param text the button label
-     * @return a styled JButton
      */
     protected JButton createMenuButton(String text) {
-        JButton b=new JButton(text);
+        JButton b = new JButton(text);
         b.setFont(BUTTON_FONT);
-        Color orig=BUTTON_COLOR, hover=orig.brighter();
+        Color orig = BUTTON_COLOR, hover = orig.brighter();
         b.setBackground(orig);
         b.setForeground(Color.WHITE);
         b.setFocusPainted(false);
@@ -148,31 +235,26 @@ public abstract class FrameStyle extends JFrame {
             BorderFactory.createEmptyBorder(15,40,15,40)
         ));
         b.addMouseListener(new MouseAdapter(){
-            public void mouseEntered(MouseEvent e){b.setBackground(hover);}
-            public void mouseExited(MouseEvent e){b.setBackground(orig);}
+            public void mouseEntered(MouseEvent e){ b.setBackground(hover); }
+            public void mouseExited(MouseEvent e){ b.setBackground(orig); }
         });
         return b;
     }
 
     /**
-     * Rotates an image by the specified degrees around its center, returning a new Image.
-     * @param src source image to rotate
-     * @param deg degrees to rotate
-     * @return the rotated image
+     * Rotates an image by the specified degrees around its center.
      */
     protected Image rotateImage(Image src, double deg) {
-        int w=src.getWidth(null),h=src.getHeight(null);
-        if(w<=0||h<=0){w=32;h=32;}
-        BufferedImage out=new BufferedImage(w,h,BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2=out.createGraphics();
-        g2.rotate(Math.toRadians(deg),w/2.0,h/2.0);
-        g2.drawImage(src,0,0,w,h,null);
-        g2.dispose();return out;
+        int w = src.getWidth(null), h = src.getHeight(null);
+        if (w <= 0 || h <= 0) { w = 32; h = 32; }
+        BufferedImage out = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = out.createGraphics();
+        g2.rotate(Math.toRadians(deg), w/2.0, h/2.0);
+        g2.drawImage(src, 0, 0, w, h, null);
+        g2.dispose();
+        return out;
     }
 
-    /**
-     * Abstract method for subclasses to build and layout their specific UI components.
-     */
+    /** Subclasses must implement to build their specific UI. */
     protected abstract void buildUI();
-
 }

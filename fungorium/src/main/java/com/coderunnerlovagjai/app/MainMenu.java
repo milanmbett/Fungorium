@@ -49,17 +49,18 @@ public class MainMenu extends FrameStyle {
         musicThread = new Thread(() -> {
             try {
                 while (soundOn) {
-                    if (r==7)
+                    if (r == 7) {
                         try (InputStream is = getClass().getResourceAsStream("/sounds/chillsong2.mp3")) {
                             if (is == null) break;
                             player = new Player(is);
                             player.play();
                         }
-                    else
-                    try (InputStream is = getClass().getResourceAsStream("/sounds/chillsong1.mp3")) {
-                        if (is == null) break;
-                        player = new Player(is);
-                        player.play();
+                    } else {
+                        try (InputStream is = getClass().getResourceAsStream("/sounds/chillsong1.mp3")) {
+                            if (is == null) break;
+                            player = new Player(is);
+                            player.play();
+                        }
                     }
                 }
             } catch (Exception e) {
@@ -86,7 +87,6 @@ public class MainMenu extends FrameStyle {
         soundButton.setBorderPainted(false);
         soundButton.setContentAreaFilled(false);
         soundButton.setFocusPainted(false);
-        // header panel for alignment
         JPanel header = new JPanel();
         header.setOpaque(false);
         header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
@@ -101,7 +101,6 @@ public class MainMenu extends FrameStyle {
             } else if (soundOn) {
                 initAudio();
             }
-            // update icon
             if (soundIcon != null && noSoundIcon != null) {
                 soundButton.setIcon(soundOn ? soundIcon : noSoundIcon);
             }
@@ -126,7 +125,6 @@ public class MainMenu extends FrameStyle {
         submit      = createMenuButton("Submit");
         back        = createMenuButton("Back to Menu");
 
-        // unify button sizes
         JButton[] all = { play, leaderboard, exit, submit, back };
         int mw = 0, mh = 0;
         for (JButton b : all) {
@@ -138,6 +136,7 @@ public class MainMenu extends FrameStyle {
             b.setPreferredSize(new Dimension(mw, mh));
             b.setMaximumSize(new Dimension(mw, mh));
         }
+
         content.add(play);
         content.add(Box.createVerticalStrut(20));
         content.add(leaderboard);
@@ -194,7 +193,7 @@ public class MainMenu extends FrameStyle {
         entry.add(submit, gbc);
         gbc.gridy = 3;
         entry.add(back, gbc);
-        entry.setVisible(false);  // hide initially
+        entry.setVisible(false);
         content.add(Box.createVerticalStrut(30));
         content.add(entry);
         content.add(Box.createVerticalGlue());
@@ -208,19 +207,16 @@ public class MainMenu extends FrameStyle {
             BufferedImage bi = ImageIO.read(getClass().getResource("/images/Insect_Buggernaut.png"));
             Image r = rotateImage(bi.getScaledInstance(32, 32, Image.SCALE_SMOOTH), -20);
             icons.add(new JLabel(new ImageIcon(r)));
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
         icons.add(Box.createHorizontalGlue());
         try {
             BufferedImage si = ImageIO.read(getClass().getResource("/images/Mushroom_Shroomlet.png"));
             Image r = rotateImage(si.getScaledInstance(32, 32, Image.SCALE_SMOOTH), 20);
             icons.add(new JLabel(new ImageIcon(r)));
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
         content.add(icons);
         content.add(Box.createVerticalStrut(20));
-        JLabel foot = new JLabel("© 2025, Borisz, Milán, Balázs, Mirkó, Zoltán",
-            SwingConstants.CENTER);
+        JLabel foot = new JLabel("© 2025, Borisz, Milán, Balázs, Mirkó, Zoltán", SwingConstants.CENTER);
         foot.setForeground(Color.LIGHT_GRAY);
         foot.setAlignmentX(Component.CENTER_ALIGNMENT);
         content.add(foot);
@@ -228,24 +224,14 @@ public class MainMenu extends FrameStyle {
         // --- 5) Listeners ---
         exit.addActionListener(e -> System.exit(0));
         play.addActionListener(e -> {
-            // hide all main components
-            for (Component c : content.getComponents()) {
-                c.setVisible(false);
-            }
-            // show entry panel and its contents
+            for (Component c : content.getComponents()) c.setVisible(false);
             entry.setVisible(true);
-            for (Component f : entry.getComponents()) {
-                f.setVisible(true);
-            }
+            for (Component f : entry.getComponents()) f.setVisible(true);
             u1t.setText("");
             u2t.setText("");
         });
         back.addActionListener(e -> {
-            // restore all main components
-            for (Component c : content.getComponents()) {
-                c.setVisible(true);
-            }
-            // hide entry panel
+            for (Component c : content.getComponents()) c.setVisible(true);
             entry.setVisible(false);
         });
         leaderboard.addActionListener(e -> {
@@ -258,19 +244,25 @@ public class MainMenu extends FrameStyle {
     }
 
     /**
-     * Handles submission of player names, validating input and showing confirmation dialog.
+     * Handles submission of player names, validating input and showing styled dialogs.
      */
     private void handleSubmit() {
         String p1 = u1t.getText().trim(), p2 = u2t.getText().trim();
         if (p1.isEmpty() || p2.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
+            showStyledMessageDialog(
                 "Please enter names for both players!",
-                "Missing Info", JOptionPane.WARNING_MESSAGE);
+                "Missing Info",
+                JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
-        JOptionPane.showMessageDialog(this,
-            "Starting game with players: " + p1 + " and " + p2);
-            Game game = new Game(p1, p2);
+
+        showStyledMessageDialog(
+            "Starting game with players: " + p1 + " and " + p2,
+            "Game Start",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+        new Game(p1, p2);
     }
 
     /**
@@ -278,28 +270,14 @@ public class MainMenu extends FrameStyle {
      */
     private static class RoundedBorder implements Border {
         private final int radius;
-        /**
-         * Creates a RoundedBorder with specified corner radius.
-         */
         public RoundedBorder(int radius) { this.radius = radius; }
-        /**
-         * Returns insets of the border for layout calculations.
-         */
         @Override public Insets getBorderInsets(Component c) {
             return new Insets(radius + 2, radius + 2, radius + 2, radius + 2);
         }
-        /**
-         * Indicates this border is not opaque.
-         */
         @Override public boolean isBorderOpaque() { return false; }
-        /**
-         * Paints the rounded rectangle border around the component.
-         */
-        @Override public void paintBorder(Component c, Graphics g, int x, int y,
-                                          int w, int h) {
+        @Override public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
             Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                                RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(new Color(0x555555));
             g2.drawRoundRect(x, y, w - 1, h - 1, radius, radius);
             g2.dispose();
