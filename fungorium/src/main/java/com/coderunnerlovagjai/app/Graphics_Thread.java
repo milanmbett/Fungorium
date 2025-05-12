@@ -1,24 +1,25 @@
 package com.coderunnerlovagjai.app;
+import java.awt.Color;
 import java.awt.Graphics2D;
-public class Graphics_Thread extends Graphics_Object
-{
-    public Graphics_Thread(Thread_Class m)
-    {
-        this.model = m;
-        model.addListener(this::onModelEvent);
+import java.awt.geom.AffineTransform;
+public class Graphics_Thread extends GraphicsObject<Thread_Class> {
+    public Graphics_Thread(Thread_Class model) {
+        super(model);
     }
-    private void onModelEvent(ModelEvent e) {
-        // szükség esetén logika: 
-        //   ha e.type == REMOVED -> unregister és eltávolítjuk magunkat a render listából
-        //   ha e.type == UPDATED -> repaint kérése
-       // GameCanvas.getInstance().repaint();
-    }
+
+    @Override
     public void render(Graphics2D g) {
-        // 1. koordináta‑transzformáció a model.getPosition(), model.getRotation() alapján
-        // 2. alak kirajzolása (shape, kép, szín)
-    }
-    private void unregister() 
-    {
-        model.removeListener(this::onModelEvent);
+        AffineTransform old = g.getTransform();
+        g.translate(x, y);
+        g.rotate(Math.toRadians(model.getRotation()), width/2.0, height/2.0);
+
+        if (img != null) {
+            g.drawImage(img, 0, 0, width, height, null);
+        } else {
+            g.setColor(Color.MAGENTA);
+            g.fillRect(0, height/2 - 2, width, 4); // simple thread line
+        }
+
+        g.setTransform(old);
     }
 }

@@ -3,14 +3,14 @@ D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlo
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Entity.java
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\FrameStyle.java
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Game.java
-D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GamePanel.java
-D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Graphics_Game.java
+D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GameCanvas.java
+D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GameCanvasFrame.java
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Graphics_Insect.java
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Graphics_Mushroom.java
-D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Graphics_Object.java
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Graphics_Spore.java
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Graphics_Tecton.java
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Graphics_Thread.java
+D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GraphicsObject.java
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Buggernaut.java
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Buglet.java
 D:\Uni\S6\Szoftproj\Fungorium\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Class.java

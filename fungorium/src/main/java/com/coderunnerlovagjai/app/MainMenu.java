@@ -263,6 +263,8 @@ public class MainMenu extends FrameStyle {
             JOptionPane.INFORMATION_MESSAGE
         );
         new Game(p1, p2);
+        dispose();
+        new GameCanvasFrame(p1, p2);
     }
 
     /**

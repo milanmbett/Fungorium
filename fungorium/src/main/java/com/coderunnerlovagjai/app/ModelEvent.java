@@ -1,14 +1,15 @@
 package com.coderunnerlovagjai.app;
 
-public class ModelEvent 
-{
-    public enum Type { CREATED, UPDATED, REMOVED /*, … */ }
-    private final Object source;
+public class ModelEvent {
+    public enum Type { UPDATED, REMOVED }
+    private final Entity source;
     private final Type type;
-    // opcionálisan további adatok: pl. property name, régi és új érték…
-    public ModelEvent(Object s, Type t)
-    {
-        this.source =s;
-        this.type = t;
-    }   
+
+    public ModelEvent(Entity source, Type type) {
+        this.source = source;
+        this.type = type;
+    }
+    public Entity getSource() { return source; }
+    public Type getType() { return type; }
 }
+
