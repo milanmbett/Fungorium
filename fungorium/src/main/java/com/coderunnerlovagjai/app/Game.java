@@ -13,9 +13,9 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     private final Plane plane; // A játékhoz tartozó pálya 
     private boolean gameOver; // Játék vége állapot
 
-    public Game() {
-        this.player1 = new Player(1);
-        this.player2 = new Player(2);
+    public Game(String player1Name, String player2Name) {
+        this.player1 = new Player(1, player1Name);
+        this.player2 = new Player(2, player2Name);
         this.turnNumber = 0;        
         // Inicializáljuk a Plane-t, a bázisok inicializálása átkerült a külön initGame() metódusba,
         // hogy elkerüljük az "this" szivárgását a konstruktorban.
