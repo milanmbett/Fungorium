@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 public abstract class _Tests 
 {
     private static final Logger TESTS_LOGGER = LogManager.getLogger(_Tests.class);
-    private static final Game GAME_INSTANCE = new Game();
+    private static final Game GAME_INSTANCE = new Game("A","B");
     private static final Plane PLANE = GAME_INSTANCE.getPlane();
     private static final Player PLAYER1 = GAME_INSTANCE.getPlayer1();
     private static final Player PLAYER2 = GAME_INSTANCE.getPlayer2();
@@ -87,7 +87,7 @@ public abstract class _Tests
     {
         TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Tecton death");
         Tecton_Class t1 = new Tecton_Basic();
-        Thread_Class th1 = new Thread_Class(t1,new Game());
+        Thread_Class th1 = new Thread_Class(t1,new Game("A","B"));
         // Store the result of die_Tecton for testing
         t1 = t1.die_Tecton();
         
@@ -99,7 +99,7 @@ public abstract class _Tests
         }
         
         // Verify that creating a thread on the original tecton reference doesn't work
-        Thread_Class th2 = new Thread_Class(t1, new Game());
+        Thread_Class th2 = new Thread_Class(t1, new Game("A","B"));
         if(th2.get_Tecton() != null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Thread_Class tecton is not null!");
@@ -107,7 +107,7 @@ public abstract class _Tests
         }
         
         // Also verify that creating a thread directly on the dead tecton doesn't work
-        Thread_Class th3 = new Thread_Class(t1, new Game());
+        Thread_Class th3 = new Thread_Class(t1, new Game("A","B"));
         if(th3.get_Tecton() != null) 
         {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Thread_Class on explicit dead tecton is not null!");
@@ -233,7 +233,7 @@ public abstract class _Tests
     public static void test7() //Fonal létrehozása
     {
         Tecton_Basic t1 = new Tecton_Basic();
-        t1.set_Thread(new Thread_Class(t1, new Game()));
+        t1.set_Thread(new Thread_Class(t1, new Game("A","B")));
         String tmp = t1.get_Thread().get_ID();
         TESTS_LOGGER.log(Level.forName("GET", 400), "Tecton's Thread: " + tmp);
         if(tmp == null) 
@@ -520,9 +520,9 @@ public abstract class _Tests
         Tecton_Class t3 = new Tecton_Basic(); //Van paralyzed rovar és gomba is
 
 
-        Thread_Class th1 = new Thread_Class(t1, new Game());
-        Thread_Class th2 = new Thread_Class(t2, new Game());
-        Thread_Class th3 = new Thread_Class(t3, new Game());
+        Thread_Class th1 = new Thread_Class(t1, new Game("A","B"));
+        Thread_Class th2 = new Thread_Class(t2, new Game("A","B"));
+        Thread_Class th3 = new Thread_Class(t3, new Game("A","B"));
 
         Insect_Buglet ib1 = new Insect_Buglet(t1, p1);
         Insect_Buglet ib2 = new Insect_Buglet(t2, p1);
@@ -576,7 +576,7 @@ public abstract class _Tests
         Tecton_Class t2 = new Tecton_Dead();
         t1.add_TectonNeighbour(t2);
         t2.add_TectonNeighbour(t1);
-        Thread_Class th1 = new Thread_Class(t1, new Game());
+        Thread_Class th1 = new Thread_Class(t1, new Game("A","B"));
         th1.expand_Thread();
 
         if(t2.get_Thread() != null) 
@@ -604,7 +604,7 @@ public abstract class _Tests
     }
     public static void test25() { // Game inicializálás
         TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Game initialization");
-        Game g = new Game();
+        Game g = new Game("A","B");
         if (PLAYER1 == null || PLAYER2 == null) {
             TESTS_LOGGER.log(Level.forName("ERROR", 404), "Game players not initialized!");
             return;
@@ -621,7 +621,7 @@ public abstract class _Tests
     }
     public static void test26() { // Game turn hívás
         TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Game turn progression");
-        Game g = new Game();
+        Game g = new Game("A","B");
         g.turn();
         int next = g.getTurnNumber();
         if (next != 2 || g.getTurnNumber() != 2) {
@@ -636,7 +636,7 @@ public abstract class _Tests
     }
     public static void test27() { //getPlayer(id) – helyes és érvénytelen ID-k kezelése
         TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Game.getPlayer()");
-        Game g = new Game();
+        Game g = new Game("A","B");
         int id1 = PLAYER1.getId();
         int id2 = PLAYER2.getId();
         if (GAME_INSTANCE.getPlayer(id1) != PLAYER1) {
@@ -652,7 +652,7 @@ public abstract class _Tests
 
     public static void test28() { //TODO
         TESTS_LOGGER.log(Level.forName("TEST", 401), "Testing: Game.getPlayer() with invalid ID");
-        Game g = new Game();
+        Game g = new Game("A","B");
         PLAYER1.setRoleInsect();
         //Game.player2
     }   
