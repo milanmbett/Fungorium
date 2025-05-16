@@ -314,7 +314,8 @@ public class MainMenu extends FrameStyle {
             "Game Start",
             JOptionPane.INFORMATION_MESSAGE
         );
-        new Game(p1, p2);
+        // No need to create a separate Game instance here, 
+        // as GameCanvasFrame creates and initializes the game
         dispose();
         new GameCanvasFrame(p1, p2);
     }

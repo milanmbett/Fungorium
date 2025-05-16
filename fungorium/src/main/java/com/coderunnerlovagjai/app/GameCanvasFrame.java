@@ -1,22 +1,40 @@
 // filepath: /home/borisz/projlab-jva/Fungorium/fungorium/src/main/java/com/coderunnerlovagjai/app/GameCanvasFrame.java
 package com.coderunnerlovagjai.app;
 
-import com.coderunnerlovagjai.app.view.GameBoardPanel;
-import com.coderunnerlovagjai.app.view.GameBoardView;
-import com.coderunnerlovagjai.app.view.TectonSelectionListener;
-import com.coderunnerlovagjai.app.controller.GameController;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonModel;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+import com.coderunnerlovagjai.app.controller.GameController;
+import com.coderunnerlovagjai.app.view.GameBoardPanel;
+import com.coderunnerlovagjai.app.view.TectonSelectionListener;
 
 /**
  * GameCanvasFrame is the main game window, styled like FrameStyle.
@@ -28,6 +46,8 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
     private GameController gameController;
     private Clip backgroundMusic;
     private JPanel playerInventoryPanel;
+    private JButton endTurnBtn; // Added for easy access
+    private Timer endTurnPulseTimer; // Timer for pulsing effect on end turn button
     
     // Selected item types for placement
     private String selectedMushroomType = null;
@@ -47,6 +67,9 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
         // Initialize the game model
         gameModel = new Game(player1, player2);
         gameModel.initGame();
+        
+        // Call startGame to initialize and assign roles randomly
+        gameModel.startGame();
         
         // Initialize the controller
         gameController = new GameController(gameModel);
@@ -76,6 +99,10 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
      */
     @Override
     protected void buildUI() {
+        // Create player turn indicator panel at the top
+        JPanel turnIndicatorPanel = createTurnIndicatorPanel();
+        content.add(turnIndicatorPanel, BorderLayout.NORTH);
+        
         gamePanel = new GamePanel();
         content.setLayout(new BorderLayout());
         content.add(gamePanel, BorderLayout.CENTER);
@@ -90,6 +117,25 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
     }
     
     /**
+     * Creates a panel that displays whose turn it is at the top of the screen.
+     */
+    private JPanel createTurnIndicatorPanel() {
+        JPanel panel = new JPanel();
+        panel.setBackground(new Color(30, 30, 40));
+        panel.setPreferredSize(new Dimension(800, 40));
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        
+        // Create turn label with placeholder text - will be updated in refreshUI()
+        JLabel turnLabel = new JLabel("Current Turn: Player 1", JLabel.CENTER);
+        turnLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        turnLabel.setForeground(Color.WHITE);
+        turnLabel.setName("turnIndicator"); // Set name for easy finding later
+        
+        panel.add(turnLabel);
+        return panel;
+    }
+    
+    /**
      * Creates a Civilization 6-style end turn panel on the left side
      */
     private JPanel createEndTurnSidePanel() {
@@ -99,7 +145,7 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
         panel.setBackground(new Color(30, 30, 40));
         
         // Create the round end turn button at the center-left
-        JButton endTurnBtn = new JButton("<html><center>END<br>TURN</center></html>");
+        endTurnBtn = new JButton("<html><center>END<br>TURN</center></html>");
         endTurnBtn.setFont(new Font("Arial", Font.BOLD, 14));
         endTurnBtn.setBackground(new Color(180, 20, 20));
         endTurnBtn.setForeground(Color.WHITE);
@@ -144,8 +190,40 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
         
         // Action when end turn button is clicked
         endTurnBtn.addActionListener(e -> {
-            gameController.endTurn();
-            refreshUI(); // Use the new method to refresh everything
+            // Show a confirmation dialog when ending turn with actions remaining
+            Player currentPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+            boolean proceed = true;
+            
+            if (currentPlayer.getAction() > 0) {
+                proceed = JOptionPane.showConfirmDialog(this, 
+                    "You still have " + currentPlayer.getAction() + " action points left. End your turn anyway?",
+                    "Confirm End Turn", 
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+            }
+            
+            if (proceed) {
+                // Log state before ending turn
+                Player player1 = gameModel.getPlayer1();
+                Player player2 = gameModel.getPlayer2();
+                System.out.println("BEFORE END TURN - Current turn: " + gameModel.getTurnNumber());
+                System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
+                                 ", Actions: " + player1.getAction());
+                System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
+                                 ", Actions: " + player2.getAction());
+                
+                // End the turn - this will advance the turn and swap roles
+                gameController.endTurn();
+                
+                // Log state after ending turn
+                System.out.println("AFTER END TURN - Current turn: " + gameModel.getTurnNumber());
+                System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
+                                 ", Actions: " + player1.getAction());
+                System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
+                                 ", Actions: " + player2.getAction());
+                
+                // Update the UI to reflect the new state
+                refreshUI(); 
+            }
         });
         
         // Add button in a panel to center it
@@ -170,35 +248,53 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
     
     /**
      * Creates a panel with game control buttons.
+     * Removed role selection buttons as roles are now randomly assigned.
      */
     private JPanel createControlPanel() {
         JPanel panel = new JPanel(new FlowLayout());
         panel.setOpaque(false);
         
         // End Turn Button
-        JButton endTurnBtn = new JButton("End Turn");
-        endTurnBtn.addActionListener(e -> {
-            gameController.endTurn();
-            refreshUI();
+        JButton bottomEndTurnBtn = new JButton("End Turn");
+        bottomEndTurnBtn.addActionListener(e -> {
+            // Show a confirmation dialog when ending turn with actions remaining
+            Player currentPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+            boolean proceed = true;
+            
+            if (currentPlayer.getAction() > 0) {
+                proceed = JOptionPane.showConfirmDialog(this, 
+                    "You still have " + currentPlayer.getAction() + " action points left. End your turn anyway?",
+                    "Confirm End Turn", 
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+            }
+            
+            if (proceed) {
+                // Log state before ending turn
+                Player player1 = gameModel.getPlayer1();
+                Player player2 = gameModel.getPlayer2();
+                System.out.println("BEFORE END TURN - Current turn: " + gameModel.getTurnNumber());
+                System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
+                                 ", Actions: " + player1.getAction());
+                System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
+                                 ", Actions: " + player2.getAction());
+                
+                // End the turn - this will advance the turn and swap roles
+                gameController.endTurn();
+                
+                // Log state after ending turn
+                System.out.println("AFTER END TURN - Current turn: " + gameModel.getTurnNumber());
+                System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
+                                 ", Actions: " + player1.getAction());
+                System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
+                                 ", Actions: " + player2.getAction());
+                
+                // Update the UI to reflect the new state
+                refreshUI();
+            }
         });
         
-        // Mushroom Role Button
-        JButton mushroomRoleBtn = new JButton("Mushroom Role");
-        mushroomRoleBtn.addActionListener(e -> {
-            gameModel.getPlayer(gameModel.currentTurnsPlayer()).setRoleMushroom();
-            refreshUI();
-        });
-        
-        // Insect Role Button
-        JButton insectRoleBtn = new JButton("Insect Role");
-        insectRoleBtn.addActionListener(e -> {
-            gameModel.getPlayer(gameModel.currentTurnsPlayer()).setRoleInsect();
-            refreshUI();
-        });
-        
-        panel.add(mushroomRoleBtn);
-        panel.add(insectRoleBtn);
-        panel.add(endTurnBtn);
+        // Only add the end turn button since roles are randomly assigned now
+        panel.add(bottomEndTurnBtn);
         
         return panel;
     }
@@ -206,9 +302,9 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
     /** Starts the continuous game loop on a separate thread. */
     private void startGameLoop() {
         Thread loop = new Thread(() -> {
-            while (gamePanel.isRunning()) {
-                gamePanel.updateGame();
-                gamePanel.repaint();
+            while (!gameModel.isGameOver()) {
+                // Update and repaint in a loop
+                repaint();
                 try {
                     Thread.sleep(16); // ~60 FPS
                 } catch (InterruptedException ignored) {}
@@ -229,6 +325,47 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
         
         // Get current player
         Player currentPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+        
+        // Log current player and role info for debugging
+        System.out.println("Current player: " + currentPlayer.getId() + 
+                          ", Role: " + currentPlayer.getRole().getRoleName() + 
+                          ", Actions: " + currentPlayer.getAction());
+        
+        // Get player roles for debugging
+        Player player1 = gameModel.getPlayer1();
+        Player player2 = gameModel.getPlayer2();
+        System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
+                          ", Player 2 role: " + player2.getRole().getRoleName());
+        
+        // Update end turn button state based on action points
+        if (endTurnBtn != null) {
+            // Highlight the button when player has no actions left
+            if (currentPlayer.getAction() <= 0) {
+                endTurnBtn.setBackground(new Color(220, 50, 50)); // Brighter red to indicate ready to end turn
+                endTurnBtn.setForeground(new Color(255, 255, 255));
+                endTurnBtn.setToolTipText("Click to end your turn");
+                // Make the button pulse to draw attention
+                if (endTurnPulseTimer == null) {
+                    endTurnPulseTimer = new Timer(500, e -> {
+                        if (endTurnBtn.getBackground().getRed() > 200) {
+                            endTurnBtn.setBackground(new Color(180, 30, 30));
+                        } else {
+                            endTurnBtn.setBackground(new Color(220, 50, 50));
+                        }
+                    });
+                    endTurnPulseTimer.start();
+                }
+            } else {
+                // Stop pulsing if it was active
+                if (endTurnPulseTimer != null && endTurnPulseTimer.isRunning()) {
+                    endTurnPulseTimer.stop();
+                    endTurnPulseTimer = null;
+                }
+                endTurnBtn.setBackground(new Color(180, 20, 20)); // Default color
+                endTurnBtn.setForeground(Color.WHITE);
+                endTurnBtn.setToolTipText("You still have " + currentPlayer.getAction() + " actions remaining");
+            }
+        }
         
         // Create title for inventory
         JLabel titleLabel = new JLabel("INVENTORY");
@@ -425,6 +562,14 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
         
         Player currentPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
         
+        // Check if player has enough action points
+        if (currentPlayer.getAction() <= 0) {
+            JOptionPane.showMessageDialog(this, 
+                "You have no action points left! End your turn to continue.",
+                "No Actions", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         // If a mushroom type is selected and player has mushroom role
         if (selectedMushroomType != null && currentPlayer.getRole() == RoleType.MUSHROOM) {
             try {
@@ -448,6 +593,9 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
                         return;
                 }
                 
+                // Reduce action points after successful placement
+                currentPlayer.setAction(currentPlayer.getAction() - 1);
+                
                 JOptionPane.showMessageDialog(this, 
                     selectedMushroomType + " mushroom placed successfully!",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -457,6 +605,9 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
                 
                 // Refresh view
                 gamePanel.refreshView();
+                
+                // Update inventory to show reduced action points
+                updateCurrentPlayerInventory();
                 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, 
@@ -488,6 +639,9 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
                         return;
                 }
                 
+                // Reduce action points after successful placement
+                currentPlayer.setAction(currentPlayer.getAction() - 1);
+                
                 JOptionPane.showMessageDialog(this, 
                     selectedInsectType + " insect placed successfully!",
                     "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -497,6 +651,9 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
                 
                 // Refresh view
                 gamePanel.refreshView();
+                
+                // Update inventory to show reduced action points
+                updateCurrentPlayerInventory();
                 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, 
@@ -510,15 +667,75 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
      * Refreshes the entire UI to reflect latest game state
      */
     private void refreshUI() {
-        // Refresh the game board
-        gamePanel.refreshView();
+        // Log the current state for debugging
+        Player player1 = gameModel.getPlayer1();
+        Player player2 = gameModel.getPlayer2();
+        Player currentPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
         
-        // Update the inventory panel
+        System.out.println("REFRESH UI - Current player: " + currentPlayer.getId() + 
+                          ", Current turn: " + gameModel.getTurnNumber());
+        System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
+                         ", Actions: " + player1.getAction());
+        System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
+                         ", Actions: " + player2.getAction());
+        
+        // Update the inventory panel to reflect current player's role and actions
         updateCurrentPlayerInventory();
         
-        // Repaint the frame
+        // Update the turn indicator to show current player
+        updateTurnIndicator();
+        
+        // Force refresh of the game panel to update entity views
+        if (gamePanel != null) {
+            gamePanel.refreshView();
+        }
+        
+        // Update the status panel in the game panel
+        if (gamePanel != null) {
+            gamePanel.updateStatusPanel();
+        }
+        
+        // Repaint the entire frame
         revalidate();
         repaint();
+    }
+
+    /**
+     * Updates the turn indicator panel to show the current player's turn and role.
+     */
+    private void updateTurnIndicator() {
+        // Find the turn indicator label
+        Component[] components = content.getComponents();
+        for (Component comp : components) {
+            if (comp instanceof JPanel && comp == content.getComponent(0)) { // The north component is our indicator panel
+                JPanel panel = (JPanel) comp;
+                for (Component panelComp : panel.getComponents()) {
+                    if (panelComp instanceof JLabel && "turnIndicator".equals(panelComp.getName())) {
+                        JLabel turnLabel = (JLabel) panelComp;
+                        
+                        // Get current player and their role
+                        Player currentPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+                        String playerName = currentPlayer.getName();
+                        String roleName = currentPlayer.getRole().getRoleName();
+                        
+                        // Update the label
+                        turnLabel.setText("Current Turn: " + playerName + " (" + roleName + ")");
+                        
+                        // Change color based on role
+                        if (roleName.equals("Mushroom")) {
+                            turnLabel.setForeground(new Color(200, 150, 50)); // Gold color for Mushroom
+                        } else if (roleName.equals("Insect")) {
+                            turnLabel.setForeground(new Color(50, 200, 100)); // Green color for Insect
+                        } else {
+                            turnLabel.setForeground(Color.WHITE); // Default color
+                        }
+                        
+                        break;
+                    }
+                }
+                break;
+            }
+        }
     }
 
     /**
@@ -566,11 +783,28 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
             p2Panel.add(p2Label);
             p2Panel.add(p2Score);
             
-            // Turn indicator in the center
+            // Turn indicator in the center with current player and role
             JPanel turnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             turnPanel.setOpaque(false);
-            JLabel turnLabel = new JLabel("Turn: " + gameModel.getTurnNumber());
-            turnLabel.setForeground(Color.WHITE);
+            
+            // Get current player and role information
+            Player currentPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+            String currentPlayerName = currentPlayer.getName();
+            String currentRole = currentPlayer.getRole().getRoleName();
+            
+            // Create label with current player and role
+            JLabel turnLabel = new JLabel("Current Turn: " + currentPlayerName + " (" + currentRole + ")");
+            turnLabel.setFont(new Font("Arial", Font.BOLD, 14));
+            
+            // Set color based on role
+            if (currentRole.equals("Mushroom")) {
+                turnLabel.setForeground(new Color(200, 150, 50)); // Gold for Mushroom
+            } else if (currentRole.equals("Insect")) {
+                turnLabel.setForeground(new Color(50, 200, 100)); // Green for Insect
+            } else {
+                turnLabel.setForeground(Color.YELLOW); // Default
+            }
+            
             turnPanel.add(turnLabel);
             
             panel.add(p1Panel, BorderLayout.WEST);
@@ -583,6 +817,20 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
         /** Updates the view to reflect current game state */
         public void refreshView() {
             boardPanel.refreshViews();
+            repaint();
+        }
+        
+        /** Updates the status panel with current player info */
+        public void updateStatusPanel() {
+            Component[] components = getComponents();
+            for (Component comp : components) {
+                if (comp instanceof JPanel && comp == getComponent(0)) { // The north component is our status panel
+                    remove(comp);
+                    add(createStatusPanel(), BorderLayout.NORTH);
+                    break;
+                }
+            }
+            revalidate();
             repaint();
         }
 

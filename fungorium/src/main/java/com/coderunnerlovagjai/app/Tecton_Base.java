@@ -64,4 +64,8 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
         }
     }
 
+    public Game getGame() { // Added getter for game instance
+        return game;
+    }
+
 }

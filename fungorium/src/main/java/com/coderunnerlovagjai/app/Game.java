@@ -58,10 +58,35 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     
     public void startGame() { //Proto-> if choice->startGame() egész eddigi utána
         GAME_LOGGER.log(Level.forName("START", 401), "Game started.");
-        // Implement game start logic here
-        // For example, you can initialize the game state, set up the board, etc.
-        //this.turn();
+        
+        // Randomly assign roles to players at the start of the game
+        assignRandomRoles();
+        
+        // Start the first turn
         turnNumber++;
+    }
+    
+    /**
+     * Randomly assigns Mushroom and Insect roles to the two players.
+     * This ensures that one player gets the Mushroom role and the other gets the Insect role.
+     */
+    private void assignRandomRoles() {
+        // Use Math.random() to decide which player gets which role
+        if (Math.random() < 0.5) {
+            // Player 1 gets Mushroom, Player 2 gets Insect
+            player1.setRoleMushroom();
+            player2.setRoleInsect();
+            GAME_LOGGER.log(Level.forName("ROLE", 401), 
+                "Random roles assigned: Player 1 ({}) is Mushroom, Player 2 ({}) is Insect", 
+                player1.getName(), player2.getName());
+        } else {
+            // Player 1 gets Insect, Player 2 gets Mushroom
+            player1.setRoleInsect();
+            player2.setRoleMushroom();
+            GAME_LOGGER.log(Level.forName("ROLE", 401), 
+                "Random roles assigned: Player 1 ({}) is Insect, Player 2 ({}) is Mushroom", 
+                player1.getName(), player2.getName());
+        }
     }
 
     public Player getPlayer(int id) {

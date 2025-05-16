@@ -17,6 +17,7 @@ public abstract class Tecton_Class extends Entity
     protected Basic_Spore spore;
     protected Thread_Class thread;
     protected String ID;
+    protected Player owner; // Added owner field
 
     public Tecton_Class() {
         TECTON_CLASS_LOGGER.log(Level.forName("INIT", 402), "Tecton_Class Constructor called!");
@@ -182,5 +183,14 @@ public abstract class Tecton_Class extends Entity
         }
         TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's ID: " + ID);
         return ID;
+    }
+
+    public Player getOwner() { // Added getOwner method
+        // TODO: Implement actual owner logic
+        return owner;
+    }
+
+    public void setOwner(Player owner) { // Added setOwner method
+        this.owner = owner;
     }
 }

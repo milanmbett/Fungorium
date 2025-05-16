@@ -207,10 +207,11 @@ public abstract class Insect_Class extends Entity
         return cost;
     }
 
-    
+    public Player getOwner() { // Added getOwner method
+        return owner;
+    }
 
-
-    ///Lehet kéne egy buffer függvény mely eltárolja a spóra effektjét hogy ne tartson örökké 
-    /// pl.: Spore_Slowing az csak következő támadásig tart csak kéne jegyezni hogy megtörtén-t e már a támadás vagy akkor hasonló módon a Spore_Paralysing is 
-    /// mert az csak következő turn-be lesz érvényes
+    public void setOwner(Player owner) { // Added setOwner method
+        this.owner = owner;
+    }
 }

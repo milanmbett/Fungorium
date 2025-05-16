@@ -48,6 +48,11 @@ public abstract class GraphicsObject<T extends Entity> implements ModelListener 
         return model;
     }
 
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
+
     /** Subclasses implement their specific drawing logic here. */
     public abstract void render(Graphics2D g);
 }

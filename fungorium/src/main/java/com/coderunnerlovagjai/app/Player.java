@@ -2,11 +2,13 @@ package com.coderunnerlovagjai.app;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.awt.Color; // Added import for Color
+
 public class Player 
 {
     private static final Logger PLAYER_LOGGER = LogManager.getLogger(Player.class);
 
-    private RoleType role; // Módosítva Role interfészről RoleType enumra
+    private RoleType role; 
     private int income;
     private int fungusCounter; 
     private int score;
@@ -14,25 +16,35 @@ public class Player
     private final int id;
     private Game game;
     private String name;
+    private Color color; // Added color field
 
     public Player() {
         this.id = 0;
-        this.role = RoleType.NONE; // Alapértelmezett szerep
+        this.role = RoleType.NONE; 
         this.fungusCounter = 0;
         this.income = 200;
         this.score = 0;
         this.action = 3;
+        this.color = Color.GRAY; // Default color
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
 
     public Player(int id, String name) {
         this.id = id;
-        this.role = RoleType.NONE; // Alapértelmezett szerep
+        this.role = RoleType.NONE; 
         this.fungusCounter = 0;
         this.income = 200;
         this.score = 0;
         this.action = 3;
         this.name = name;
+        // Assign unique colors based on ID or other logic
+        if (id == 1) {
+            this.color = Color.BLUE; 
+        } else if (id == 2) {
+            this.color = Color.RED;
+        } else {
+            this.color = Color.GRAY; // Default for other players
+        }
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
 
@@ -72,7 +84,9 @@ public class Player
 
     // Módosított kör befejezés
     public void endTurn() {
-        role = RoleType.NONE; // Reset role after turn
+        // Do NOT reset role here so role switching in GameController works properly
+        // Just reset action points or any other per-turn resources
+        this.action = 0;
     }
 
     // Mozgás validáció közvetlenül a RoleType enum használatával
@@ -134,5 +148,13 @@ public class Player
     }
     public String getName() {
         return name;
+    }
+
+    public Color getColor() { // Added getColor method
+        return color;
+    }
+
+    public void setColor(Color color) { // Added setColor method
+        this.color = color;
     }
 }
