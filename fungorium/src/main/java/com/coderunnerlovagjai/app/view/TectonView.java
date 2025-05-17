@@ -9,9 +9,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import javax.imageio.ImageIO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +25,7 @@ import com.coderunnerlovagjai.app.Insect_Class;
 import com.coderunnerlovagjai.app.Player;
 import com.coderunnerlovagjai.app.Tecton_Base;
 import com.coderunnerlovagjai.app.Tecton_Class;
+import com.coderunnerlovagjai.app.Tecton_Dead;
 import com.coderunnerlovagjai.app.viewmodel.TectonViewModel;
 
 /**
@@ -49,6 +53,18 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
     public TectonView(Tecton_Class model) {
         super(model);
         VIEW_LOGGER.debug("TectonView created for model ID: {}", model.get_ID());
+
+        try { //TODO: ez igy ok nem?
+            if (model instanceof Tecton_Base) {
+                this.img = ImageIO.read(getClass().getClassLoader().getResource("images/Tecton_BaseWithSpace.png"));
+            } else if (model instanceof Tecton_Dead) {
+                this.img = ImageIO.read(getClass().getClassLoader().getResource("images/Tecton_Dead.png"));
+            } else {
+                this.img = ImageIO.read(getClass().getClassLoader().getResource("images/Tecton_Basic.png"));
+            }
+        } catch (IOException | IllegalArgumentException e) {
+            this.img = null;
+        }
     }
 
     public Tecton_Class getModel() { // Added getModel() method
@@ -157,6 +173,7 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
         // Position the graphics context at the Tecton's location
         g.translate(x, y);
 
+        /* 
         // Determine Tecton color based on its state
         Color baseColor = model.isDead() ? TECTON_DEAD_COLOR : TECTON_COLOR;
         if (model instanceof Tecton_Base) {
@@ -164,11 +181,26 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
         }
         if (tempColor != null) { // For temporary highlight
             baseColor = tempColor;
+        }*/
+
+        if (img != null) {
+        g.drawImage(img, 0, 0, width, height, null);
+        } else {
+            // Ha nincs kép, akkor színezés az állapot szerint
+            Color baseColor = model.isDead() ? TECTON_DEAD_COLOR : TECTON_COLOR;
+            if (model instanceof Tecton_Base) {
+                baseColor = TECTON_BASE_COLOR;
+            }
+            if (tempColor != null) { // For temporary highlight
+                baseColor = tempColor;
+            }
+            g.setColor(baseColor);
+            g.fillRect(0, 0, width, height);
         }
 
         // Draw Tecton body
-        g.setColor(baseColor);
-        g.fillRect(0, 0, width, height);
+        //g.setColor(baseColor);
+        //g.fillRect(0, 0, width, height);
         g.setColor(TECTON_BORDER);
         g.setStroke(new BasicStroke(2));
         g.drawRect(0, 0, width, height);

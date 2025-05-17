@@ -9,16 +9,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JPanel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// Corrected imports for model classes
 import com.coderunnerlovagjai.app.Game;
 import com.coderunnerlovagjai.app.Plane;
-import com.coderunnerlovagjai.app.Tecton_Class;
 import com.coderunnerlovagjai.app.Tecton_Basic;
+import com.coderunnerlovagjai.app.Tecton_Class;
 // import com.coderunnerlovagjai.app.view.TectonSelectionListener; // Already in the same package
 
 public class GameBoardPanel extends JPanel {
@@ -29,13 +29,13 @@ public class GameBoardPanel extends JPanel {
     private final List<TectonSelectionListener> listeners = new ArrayList<>();
 
     // Constants for hexagonal grid layout
-    private static final int HEX_WIDTH = Tecton_Basic.DEFAULT_WIDTH;
-    private static final int HEX_HEIGHT = Tecton_Basic.DEFAULT_HEIGHT;
-    private static final int HEX_COL_SPACING = HEX_WIDTH + 10;
-    private static final int HEX_ROW_SPACING = (int) (HEX_HEIGHT * 0.75);
-    private static final int GRID_START_X = 50;
-    private static final int GRID_START_Y = 50;
-    private static final int DEFAULT_NUM_COLUMNS = 5; // Added constant
+    private static final int HEX_WIDTH = Tecton_Basic.DEFAULT_WIDTH; // nagyobb hexagon
+    private static final int HEX_HEIGHT = Tecton_Basic.DEFAULT_HEIGHT; // nagyobb hexagon
+    private static final int HEX_COL_SPACING = (int)(HEX_WIDTH * 0.85); // kicsit nagyobb átfedés
+    private static final int HEX_ROW_SPACING = (int)(HEX_HEIGHT * 0.75); // honeycomb vertical spacing
+    private static final int GRID_START_X = 80; // nagyobb margó
+    private static final int GRID_START_Y = 80;
+    private static final int DEFAULT_NUM_COLUMNS = 4; // 4 oszlop
 
     public GameBoardPanel(Game gameModel) {
         if (gameModel == null) {
@@ -79,46 +79,40 @@ public class GameBoardPanel extends JPanel {
 
     // Nested class for managing layout state
     private static class LayoutState {
-        int currentX;
-        int currentY;
-        int tectonsInRow;
-        boolean oddRow;
-        final int numColumns;
-        final int startX;
-        final int colSpacing;
-        final int rowSpacing;
+        int tectonsPlaced = 0;
+        int numColumns;
+        int numRows;
+        int startX;
+        int startY;
+        int colSpacing;
+        int rowSpacing;
 
         LayoutState(int startX, int startY, int numColumns, int colSpacing, int rowSpacing) {
             this.startX = startX;
-            this.currentX = startX;
-            this.currentY = startY;
+            this.startY = startY;
             this.numColumns = numColumns;
             this.colSpacing = colSpacing;
             this.rowSpacing = rowSpacing;
-            this.tectonsInRow = 0;
-            this.oddRow = false;
+            this.numRows = 4; // fixen 4 sor
         }
 
         public Point getNextPosition() {
-            int xPos = currentX + (oddRow ? colSpacing / 2 : 0);
-            int yPos = currentY;
-
-            tectonsInRow++;
-            currentX += colSpacing;
-            if (tectonsInRow >= numColumns) {
-                tectonsInRow = 0;
-                currentX = startX;
-                currentY += rowSpacing;
-                oddRow = !oddRow;
+            int row = tectonsPlaced / numColumns;
+            int col = tectonsPlaced % numColumns;
+            int x = startX + col * colSpacing;
+            int y = startY + row * rowSpacing;
+            // minden páratlan sor legyen eltolva fél hexagon szélességgel
+            if (row % 2 == 1) {
+                x += colSpacing / 2;
             }
-            return new Point(xPos, yPos);
+            tectonsPlaced++;
+            return new Point(x, y);
         }
     }
 
     private void initializeTectonViews() {
         BOARD_LOGGER.info("initializeTectonViews called. Panel visible: {}, Panel width: {}, Panel height: {}, Panel preferred size: {}",
                           isVisible(), getWidth(), getHeight(), getPreferredSize());
-
         if (this.gameModel == null) {
             BOARD_LOGGER.error("this.gameModel (hash: {}) is null. Cannot initialize TectonViews.", System.identityHashCode(this.gameModel));
             this.tectonViews.clear();
@@ -127,56 +121,58 @@ public class GameBoardPanel extends JPanel {
         }
 
         Plane plane = this.gameModel.getPlane();
-        BOARD_LOGGER.info("Using Plane instance (hash: {}) from this.gameModel (hash: {})",
-                          System.identityHashCode(plane), System.identityHashCode(this.gameModel));
-
         if (plane == null) {
-            BOARD_LOGGER.error("this.gameModel\\'s Plane is null. Cannot initialize TectonViews.");
+            BOARD_LOGGER.error("this.gameModel's Plane is null. Cannot initialize TectonViews.");
             this.tectonViews.clear();
             repaint();
             return;
         }
 
         List<Tecton_Class> tectons = plane.TectonCollection;
-        BOARD_LOGGER.info("TectonCollection reference (hash: {}) from Plane (hash: {}).",
-                          System.identityHashCode(tectons), System.identityHashCode(plane));
-
-        if (tectons == null) {
-            BOARD_LOGGER.error("TectonCollection is null in Plane instance (hash: {}). Cannot initialize TectonViews.",
-                              System.identityHashCode(plane));
+        if (tectons == null || tectons.isEmpty()) {
             this.tectonViews.clear();
+            setPreferredSize(new java.awt.Dimension(0,0));
+            revalidate();
             repaint();
             return;
         }
 
-        BOARD_LOGGER.info("TectonCollection size as seen by GameBoardPanel.initializeTectonViews: {}. Current tectonViews count before clear: {}",
-                          tectons.size(), this.tectonViews.size());
-
-        this.tectonViews.clear();
-        BOARD_LOGGER.info("TectonViews cleared. Current tectonViews count: {}", this.tectonViews.size());
-
-        if (tectons.isEmpty()) {
-            BOARD_LOGGER.warn("TectonCollection is empty. No TectonViews will be created. Setting preferred size to 0,0.");
-            setPreferredSize(new java.awt.Dimension(0,0)); // Explicitly set to 0,0 if empty
-            revalidate(); // Notify layout manager
-            repaint();
-            return; // Return early as no views to create or layout
+        Tecton_Class base1 = plane.getBase1();
+        Tecton_Class base2 = plane.getBase2();
+        List<Tecton_Class> nonBaseTectons = new ArrayList<>();
+        for (Tecton_Class t : tectons) {
+            if (t != base1 && t != base2) {
+                nonBaseTectons.add(t);
+            }
         }
 
-        LayoutState layoutManager = new LayoutState(GRID_START_X, GRID_START_Y, DEFAULT_NUM_COLUMNS, HEX_COL_SPACING, HEX_ROW_SPACING);
+        this.tectonViews.clear();
+
+        // Bázisok pozíciója (felül és alul középen)
+        int panelWidth = DEFAULT_NUM_COLUMNS * HEX_COL_SPACING + GRID_START_X;
+        int baseX = panelWidth / 2 - HEX_WIDTH / 2;
+        int baseYTop = GRID_START_Y / 2;
+        int baseYBottom = GRID_START_Y / 2 + 4 * HEX_ROW_SPACING + HEX_HEIGHT;
+
+        // Felső bázis
+        if (base1 != null) {
+            base1.setPosition(baseX, baseYTop);
+            base1.setSize(HEX_WIDTH, HEX_HEIGHT); //TODO itt megfeleloen
+            this.tectonViews.add(new TectonView(base1));
+        }
+
+        // Grid középen (16 tecton)
+        LayoutState layoutManager = new LayoutState(GRID_START_X, GRID_START_Y + HEX_ROW_SPACING, DEFAULT_NUM_COLUMNS, HEX_COL_SPACING, HEX_ROW_SPACING);
         int maxX = 0;
         int maxY = 0;
-
-        for (Tecton_Class tectonModel : tectons) {
+        for (Tecton_Class tectonModel : nonBaseTectons) {
             if (tectonModel != null) {
                 Point position = layoutManager.getNextPosition();
-                
                 tectonModel.setPosition(position.x, position.y);
                 // Ensure width and height are set on the model if not already
                 if (tectonModel.getWidth() == 0 || tectonModel.getHeight() == 0) {
                     tectonModel.setSize(HEX_WIDTH, HEX_HEIGHT);
                 }
-
                 TectonView tectonView = new TectonView(tectonModel);
                 this.tectonViews.add(tectonView);
                 
@@ -184,27 +180,24 @@ public class GameBoardPanel extends JPanel {
                 // The position from layoutManager already includes GRID_START_X/Y offsets
                 maxX = Math.max(maxX, position.x + tectonModel.getWidth());
                 maxY = Math.max(maxY, position.y + tectonModel.getHeight());
-                
-            } else {
-                BOARD_LOGGER.warn("Encountered a null Tecton_Class model in TectonCollection during initialization.");
             }
         }
-        
-        if (!this.tectonViews.isEmpty()) {
-            // Add a small margin to the calculated maximums
-            java.awt.Dimension preferredDim = new java.awt.Dimension(maxX + GRID_START_X/2, maxY + GRID_START_Y/2); // Using half of grid start as margin
-            setPreferredSize(preferredDim);
-            BOARD_LOGGER.info("Calculated and set preferred size to: {}. tectonViews count: {}", preferredDim, this.tectonViews.size());
-        } else {
-            // This case is handled by the tectons.isEmpty() check above, but as a fallback:
-            setPreferredSize(new java.awt.Dimension(GRID_START_X * 2, GRID_START_Y * 2)); // Minimal default if somehow empty but not caught
-            BOARD_LOGGER.warn("TectonViews list is empty after loop, setting minimal preferred size.");
-        }
-        
-        revalidate(); // Crucial for layout manager to recognize new preferred size
 
-        BOARD_LOGGER.info("Initialized {} TectonViews with hexagonal layout. Panel preferred size: {}. Repainting.",
-                          this.tectonViews.size(), getPreferredSize());
+        // Alsó bázis
+        if (base2 != null) {
+            base2.setPosition(baseX, baseYBottom);
+            base2.setSize(HEX_WIDTH, HEX_HEIGHT);
+            this.tectonViews.add(new TectonView(base2));
+        }
+
+        // Preferred size beállítása
+        if (!this.tectonViews.isEmpty()) {
+            java.awt.Dimension preferredDim = new java.awt.Dimension(maxX + GRID_START_X/2, baseYBottom + HEX_HEIGHT + GRID_START_Y/2);
+            setPreferredSize(preferredDim);
+        } else {
+            setPreferredSize(new java.awt.Dimension(GRID_START_X * 2, GRID_START_Y * 2));
+        }
+        revalidate();
         repaint();
     }
 

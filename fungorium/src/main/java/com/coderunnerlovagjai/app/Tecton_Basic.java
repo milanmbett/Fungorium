@@ -1,6 +1,7 @@
 package com.coderunnerlovagjai.app;
 
 import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger; // Added import
 // import org.apache.logging.log4j.Level; // Keep commented if not directly used
@@ -9,8 +10,8 @@ public class Tecton_Basic extends Tecton_Class
 {
 
     private static final Logger TECTON_BASIC_LOGGER = LogManager.getLogger(Tecton_Basic.class);
-    public static final int DEFAULT_WIDTH = 80;
-    public static final int DEFAULT_HEIGHT = 70;
+    public static final int DEFAULT_WIDTH = 140;
+    public static final int DEFAULT_HEIGHT = 120;
 
     public Tecton_Basic()
     {
