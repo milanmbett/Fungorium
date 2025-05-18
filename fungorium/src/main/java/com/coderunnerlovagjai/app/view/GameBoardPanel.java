@@ -196,23 +196,22 @@ public class GameBoardPanel extends JPanel {
             }
         }
 
-        // Nem bázis tectonok feljebb: kezdő Y pozíció -60 px
+        // Nem bázis tectonok feljebb
         LayoutState layoutManager = new LayoutState(
             (int)GRID_START_X,
-            (int)baseYTop + (int)BASE_HEIGHT - 55, // volt: +5, most -55, tehát kb. 60 px feljebb
+            (int)baseYTop + (int)BASE_HEIGHT - 55,
             4, (int)HEX_COL_SPACING, (int)HEX_ROW_SPACING
         );
         int maxX = 0;
         int maxY = 0;
 
-        Set<Tecton_Class> slotted = new HashSet<>();
-        if (base1 != null && base1.get_TectonNeighbours() != null) {
-            slotted.addAll(base1.get_TectonNeighbours());
-        }
+        Set<Tecton_Class> slottedTectons = new HashSet<>();
+        if (base1 != null) slottedTectons.addAll(base1.get_TectonNeighbours());
+        if (base2 != null) slottedTectons.addAll(base2.get_TectonNeighbours());
 
 
         for (Tecton_Class t : nonBaseTectons) {
-            if (slotted.contains(t)) continue;
+            if (slottedTectons.contains(t)) continue;
             Point p = layoutManager.getNextPosition();
             t.setPosition(p.x, p.y);
             t.setSize((int)HEX_WIDTH, (int)HEX_HEIGHT); // Ensure size is set
