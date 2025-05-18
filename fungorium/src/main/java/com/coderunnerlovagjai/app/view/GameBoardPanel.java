@@ -152,11 +152,16 @@ public class GameBoardPanel extends JPanel {
         this.tectonViews.clear();
 
         // Bázisok pozíciója (felül és alul középen)
-        int panelWidth = getWidth() > 0 ? getWidth() : 800; // Use a default if getWidth is 0 initially
-        
+
+        int panelWidth = getWidth();
+        if (panelWidth <= 0) {                              // ha a layout még nem futott le
+            panelWidth = ((int)GRID_START_X                     
+                        + (int)HEX_COL_SPACING * 4            
+                        + (int)BASE_WIDTH);                    
+        }
+        int baseX = (panelWidth - (int)BASE_WIDTH) / 2 + 100; 
         // Corrected baseX calculation: Center the base, then shift right by 100px.
         // The previous calculation: (panelWidth - BASE_WIDTH) + 624; pushed bases off-screen.
-        double baseX = (panelWidth - BASE_WIDTH) / 2.0 + 100.0; 
         BOARD_LOGGER.info("Calculated baseX: {} (panelWidth: {}, BASE_WIDTH: {})", baseX, panelWidth, BASE_WIDTH);
 
         double baseYTop   = 10;
@@ -326,8 +331,16 @@ public class GameBoardPanel extends JPanel {
 
     public void refreshViews() {
         BOARD_LOGGER.debug("refreshViews called. Re-initializing TectonViews and repainting.");
+        // Preserve current selection before clearing views
+        Tecton_Class prevSelected = getSelectedTectonModel();
+
+        // Re-initialize all tecton views (clears tectonViews and repaints)
         initializeTectonViews();
-        // repaint(); // initializeTectonViews already calls repaint
+
+        // Restore selection if still present
+        if (prevSelected != null) {
+            setSelectedTectonModel(prevSelected);
+        }
     }
 
     @Override

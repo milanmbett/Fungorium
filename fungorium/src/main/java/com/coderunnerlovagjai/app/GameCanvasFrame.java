@@ -538,6 +538,8 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
                 
                 // Update inventory to show reduced action points
                 updateCurrentPlayerInventory();
+
+                //refreshUI();
                 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, 

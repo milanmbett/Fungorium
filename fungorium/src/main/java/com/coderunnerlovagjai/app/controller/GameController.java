@@ -275,10 +275,11 @@ public class GameController {
         }
         
         // Advance the turn (this increments turnNumber and calls Player.endTurn())
-        // Player.endTurn() just sets action points to 0 but doesn't change roles
         gameModel.turn();
-        
         CONTROLLER_LOGGER.log(Level.INFO, "TectonCollection size AFTER gameModel.turn(): {}", gameModel.getPlane().TectonCollection.size());
+
+        // Ensure the board views and tectonViews list are refreshed immediately
+        //refreshViews();
 
         // Log the turn number after advancing
         CONTROLLER_LOGGER.log(Level.INFO, "Turn number after advancing: {}", gameModel.getTurnNumber());

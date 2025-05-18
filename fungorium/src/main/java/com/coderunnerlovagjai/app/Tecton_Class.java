@@ -66,11 +66,17 @@ public abstract class Tecton_Class extends Entity
 
     // Tectonon lévő összes dolog halálát okozó függvény
     public Tecton_Dead die_Tecton() {
+        // Begin batch mode to avoid multiple events
+        beginBatch();
+        
+        // Remove creatures first
         remove_InsectsOnTecton();
         remove_Mushroom();
         remove_Spore();
         remove_Thread();
         
+        // End batch before firing REMOVED (we don't want that batched)
+        endBatch();
 
         // Create a new dead tecton from this live instance.
         Tecton_Dead dead = new Tecton_Dead(this);
@@ -79,8 +85,16 @@ public abstract class Tecton_Class extends Entity
         List<Tecton_Class> neighbours = new ArrayList<>(get_TectonNeighbours());
         for (Tecton_Class neighbour : neighbours) {
             neighbour.del_TectonNeighbour(this);
+            // Batch neighbor updates too
+            neighbour.beginBatch();
+            neighbour.fireEvent(ModelEvent.Type.UPDATED);
+            neighbour.endBatch();
         }
-        fireEvent(ModelEvent.Type.UPDATED);
+
+        // This object is being replaced, so it should fire REMOVED instead of UPDATED
+        fireEvent(ModelEvent.Type.REMOVED);
+        
+
         return dead;
     }
 
@@ -90,12 +104,15 @@ public abstract class Tecton_Class extends Entity
     }
 
     public void remove_InsectsOnTecton() {
+        if (insectsOnTecton.isEmpty()) return;
+        
+        beginBatch();
         List<Insect_Class> insectsToRemove = new ArrayList<>(insectsOnTecton);
         for (Insect_Class ins : insectsToRemove) {
             ins.die_Insect();
         }
         insectsOnTecton.clear();
-        fireEvent(ModelEvent.Type.UPDATED);
+        endBatch();
     }
 
     public List<Insect_Class> get_InsectsOnTecton() {

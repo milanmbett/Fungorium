@@ -119,7 +119,11 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             GAME_LOGGER.log(Level.forName("TURN", 401), "Player 2's turn: " + turnNumber);
         }
         currentPlayer = getPlayer(currentTurnsPlayer());
-        // Implement game logic for each turn here
+        
+        // Put all tectons in batch mode to reduce event spam during the full turn simulation
+        for (Tecton_Class tecton : plane.TectonCollection) {
+            tecton.beginBatch();
+        }
         
         // Process player turns
         
@@ -163,12 +167,17 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         turnNumber++;
         currentPlayer.endTurn();
         
+        // End batch mode for all tectons and let their final states propagate events
+        for (Tecton_Class tecton : plane.TectonCollection) {
+            tecton.endBatch();
+        }
 
         // Log all existing threads' IDs individually
         for (Thread_Class th : plane.ThreadCollection) {
             GAME_LOGGER.log(Level.INFO, "Existing thread id: " + th.get_ID());
             GAME_LOGGER.log(Level.INFO, "Existing thread id: " + th.getTectonID());
         }
+    
     }
 
     private void turnSimulation() {

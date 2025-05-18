@@ -1,10 +1,9 @@
 package com.coderunnerlovagjai.app;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
+import java.awt.Image;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JPanel;
 
 // --- Model layer ---
 
@@ -15,11 +14,36 @@ public abstract class Entity {
     private int x, y, width, height;
     private double rotation;
     private Image image;
+    private boolean batchMode = false;
+    private boolean needsUpdate = false;
 
     public void addListener(ModelListener l)    { listeners.add(l); }
     public void removeListener(ModelListener l) { listeners.remove(l); }
 
+    /**
+     * Start a batch of changes. No events will be fired until endBatch() is called.
+     */
+    public void beginBatch() {
+        batchMode = true;
+    }
+
+    /**
+     * End a batch of changes and fire a single update event if needed.
+     */
+    public void endBatch() {
+        batchMode = false;
+        if (needsUpdate) {
+            fireEvent(ModelEvent.Type.UPDATED);
+            needsUpdate = false;
+        }
+    }
+
     protected void fireEvent(ModelEvent.Type type) {
+        // If in batch mode, just mark the need for an update (unless it's a REMOVED event)
+        if (batchMode && type == ModelEvent.Type.UPDATED) {
+            needsUpdate = true;
+            return;
+        }
         ModelEvent e = new ModelEvent(this, type);
         for (var l : new ArrayList<>(listeners)) {
             l.onModelEvent(e);
