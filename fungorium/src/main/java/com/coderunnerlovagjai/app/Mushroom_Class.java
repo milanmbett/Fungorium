@@ -188,5 +188,13 @@ public abstract class Mushroom_Class extends Entity
     {
         return ID;
     }
+    public void addScore(int score)
+    {
+        if (owner != null) {
+            owner.setScore(owner.getScore() + score);
+        } else {
+            MUSHROOM_CLASS_LOGGER.log(Level.forName("ERROR", 404), "Owner is null, cannot add score.");
+        }
+    }
 
 }

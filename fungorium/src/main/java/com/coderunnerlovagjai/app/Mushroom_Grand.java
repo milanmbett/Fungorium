@@ -14,6 +14,12 @@ public class Mushroom_Grand extends Mushroom_Class
     
     public Mushroom_Grand(Tecton_Class targetTecton,Player p)
     {
+        if (!(targetTecton instanceof Tecton_Base)) 
+        {
+            MUSHROOM_GRAND_LOGGER.log(Level.forName("ERROR", 404), "Target Cannot place on Tecton_Base");
+            return;
+        }
+        addScore(5);
         hp = 500;
         power = 50;
         sporeCount = 0;

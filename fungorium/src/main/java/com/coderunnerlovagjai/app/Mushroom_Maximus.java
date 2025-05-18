@@ -8,6 +8,12 @@ public class Mushroom_Maximus extends Mushroom_Class
     private static final Logger MUSHROOM_MAXIMUS_LOGGER = LogManager.getLogger(Mushroom_Maximus.class);
     public Mushroom_Maximus(Tecton_Class targetTecton,Player p)
     {
+        if(!(targetTecton.get_Thread()== null))
+        {
+            MUSHROOM_MAXIMUS_LOGGER.log(Level.forName("ERROR", 404), "Target Cannot has no Thread");
+            return;
+        }
+        addScore(5);
         hp = 400;
         power = 40;
         sporeCount = 0;
