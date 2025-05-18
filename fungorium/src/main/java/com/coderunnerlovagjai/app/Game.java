@@ -87,6 +87,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     public void setTurnNumber(int turnNumber) {
         this.turnNumber = turnNumber;
     }*/
+    
 
     public void turn() { //Ez majd void lesz, csak meg _Tests miatt int
         turnNumber++; // Move this to the start!
