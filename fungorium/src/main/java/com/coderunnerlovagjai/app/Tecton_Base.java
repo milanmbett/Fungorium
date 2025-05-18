@@ -19,7 +19,7 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
         mushroom = new Mushroom_Grand(this,p);
         insectsOnTecton = new ArrayList<>();
         spore = null;
-        thread = null;
+        thread = new Thread_Class(this, game);
         owner = p;
         // Use the game instance's plane collection instead of static reference
         ID = "Tecton_Base";

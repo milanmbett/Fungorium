@@ -161,7 +161,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     }
 
     private void turnSimulation() {
-        // Implement automated turn logic here
+        plane.ThreadCollection.forEach(Thread_Class::expand_Thread);
         GAME_LOGGER.log(Level.forName("AUTO_TURN", 401), "Automated turn logic executed.");
              
     }
