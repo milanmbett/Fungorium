@@ -8,7 +8,7 @@ public class Mushroom_Slender extends Mushroom_Class
     private static final Logger MUSHROOM_SLENDER_LOGGER = LogManager.getLogger(Mushroom_Slender.class);
     public Mushroom_Slender(Tecton_Class targetTecton, Player p)
     {
-        if(!(targetTecton.get_Thread()== null))
+        if((targetTecton.get_Thread()== null))
         {
             MUSHROOM_SLENDER_LOGGER.log(Level.forName("ERROR", 404), "Target Cannot has no Thread");
             return;
