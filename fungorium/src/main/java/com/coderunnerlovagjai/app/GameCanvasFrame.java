@@ -28,13 +28,12 @@ public class GameCanvasFrame extends FrameStyle {
     /**
      * Constructs a new game window for two players.
      * @param player1 Name of player 1
+     * @param player2 Name of player 2
      */
     public GameCanvasFrame(String player1, String player2) {
         super("Fungorium - " + player1 + " vs " + player2, "/images/fungoriumIcon3.png");
-        // initialize game model and start
         this.gameModel = new Game(player1, player2);
         gameModel.initGame();
-        // Set roles explicitly and immediately (redundant, but ensure correct assignment)
         gameModel.getPlayer1().setRoleMushroom();
         gameModel.getPlayer2().setRoleInsect();
         gameModel.startGame();
@@ -44,8 +43,10 @@ public class GameCanvasFrame extends FrameStyle {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-        // game loop using Swing Timer
-        new Timer(40, e -> { gameModel.turn(); GameCanvas.getInstance().repaint(); }).start();
+
+        // ↓ remove turn() from the loop here ↓
+        // old: new Timer(40, e -> { gameModel.turn(); GameCanvas.getInstance().repaint(); }).start();
+        new Timer(40, e -> GameCanvas.getInstance().repaint()).start();
     }
 
     /**
