@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.coderunnerlovagjai.app.Game;
+import com.coderunnerlovagjai.app.Mushroom_Class;
 import com.coderunnerlovagjai.app.Plane;
 import com.coderunnerlovagjai.app.Tecton_Basic;
 import com.coderunnerlovagjai.app.Tecton_Class;
@@ -360,4 +361,11 @@ public class GameBoardPanel extends JPanel {
             g2d.dispose(); // Dispose of the graphics copy
         }
     }
+    private Class<? extends Mushroom_Class> previewType = null;
+
+    public void setPreviewMushroomType(Class<? extends Mushroom_Class> type) {
+    this.previewType = type;
+    // keep the current hex selected, so repaint() will draw the ghost
+    repaint();
+}
 }

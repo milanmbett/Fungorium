@@ -2,6 +2,7 @@ package com.coderunnerlovagjai.app.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -26,6 +27,8 @@ import com.coderunnerlovagjai.app.Player;
 import com.coderunnerlovagjai.app.Tecton_Base;
 import com.coderunnerlovagjai.app.Tecton_Class;
 import com.coderunnerlovagjai.app.Tecton_Dead;
+import com.coderunnerlovagjai.app.Mushroom_Shroomlet;
+import com.coderunnerlovagjai.app.Mushroom_Class;
 import com.coderunnerlovagjai.app.viewmodel.TectonViewModel;
 
 /**
@@ -43,12 +46,14 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
     private static final Color SLOT_BACKGROUND = new Color(235, 235, 225, 150);
     private static final Color SELECTION_HIGHLIGHT_COLOR = new Color(255, 255, 0, 150);
 
+    private static final int STATUS_ICON_SIZE = 16;
     private List<Rectangle> insectSlots = new ArrayList<>();
     private boolean modelHasThread = false;
     private boolean modelHasSpore = false;
     private boolean modelHasMushroom = false;
     
     private Color tempColor = null;
+    private Image shroomletIcon;
 
     public TectonView(Tecton_Class model) {
         super(model);
@@ -64,6 +69,14 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
             }
         } catch (IOException | IllegalArgumentException e) {
             this.img = null;
+        }
+        // load Shroomlet mushroom icon
+        try {
+            shroomletIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Mushroom_Shroomlet.png"));
+        } catch (IOException e) {
+            VIEW_LOGGER.warn("Failed to load Shroomlet icon", e);
+            shroomletIcon = null;
         }
     }
 
@@ -220,7 +233,18 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
             drawIcon(g, "S", Color.MAGENTA, MARGIN + 15, iconY);
         }
         if (modelHasMushroom) {
-            drawIcon(g, "M", Color.GREEN, MARGIN + 30, iconY);
+            // show specific mushroom icon if Shroomlet
+            Mushroom_Class mush = model.get_Mushroom();
+            if (mush instanceof Mushroom_Shroomlet && shroomletIcon != null) {
+                g.drawImage(shroomletIcon,
+                            MARGIN + 30,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+            } else {
+                drawIcon(g, "M", Color.GREEN, MARGIN + 30, iconY);
+            }
         }
 
         // Draw insect slots and insects

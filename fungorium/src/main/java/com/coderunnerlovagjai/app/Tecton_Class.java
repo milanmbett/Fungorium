@@ -80,12 +80,13 @@ public abstract class Tecton_Class extends Entity
         for (Tecton_Class neighbour : neighbours) {
             neighbour.del_TectonNeighbour(this);
         }
-
+        fireEvent(ModelEvent.Type.UPDATED);
         return dead;
     }
 
     public void set_InsectsOnTecton(List<Insect_Class> insectList) {
         insectsOnTecton = insectList;
+        fireEvent(ModelEvent.Type.UPDATED);
     }
 
     public void remove_InsectsOnTecton() {
@@ -94,6 +95,7 @@ public abstract class Tecton_Class extends Entity
             ins.die_Insect();
         }
         insectsOnTecton.clear();
+        fireEvent(ModelEvent.Type.UPDATED);
     }
 
     public List<Insect_Class> get_InsectsOnTecton() {
@@ -102,6 +104,7 @@ public abstract class Tecton_Class extends Entity
             return null;
         }
         TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Insects: " + insectsOnTecton);
+        fireEvent(ModelEvent.Type.UPDATED);
         return insectsOnTecton;
     }
 
@@ -114,6 +117,8 @@ public abstract class Tecton_Class extends Entity
         } else {
             mushroom = mush;
             TECTON_CLASS_LOGGER.log(Level.forName("SET", 400), "Tecton's Mushroom: " + mushroom);
+            // Notify listeners that the tecton model has updated
+            fireEvent(ModelEvent.Type.UPDATED);
         }
     }
 
@@ -123,6 +128,7 @@ public abstract class Tecton_Class extends Entity
             return;
         }
         mushroom.die_Mushroom();
+        fireEvent(ModelEvent.Type.UPDATED);
     }
 
     public Mushroom_Class get_Mushroom() {
@@ -144,6 +150,7 @@ public abstract class Tecton_Class extends Entity
             return;
         }
         spore.die_Spore();
+        fireEvent(ModelEvent.Type.UPDATED);
     }
 
     public Basic_Spore get_Spore() {
@@ -157,6 +164,7 @@ public abstract class Tecton_Class extends Entity
 
     public void set_Thread(Thread_Class t) {
         thread = t;
+        fireEvent(ModelEvent.Type.UPDATED);
     }
 
     public void remove_Thread() {
@@ -165,6 +173,7 @@ public abstract class Tecton_Class extends Entity
             return;
         }
         thread.die_Thread();
+        fireEvent(ModelEvent.Type.UPDATED);
     }
 
     public Thread_Class get_Thread() {
