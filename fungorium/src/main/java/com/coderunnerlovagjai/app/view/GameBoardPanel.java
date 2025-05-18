@@ -84,7 +84,6 @@ public class GameBoardPanel extends JPanel {
     private static class LayoutState {
         int tectonsPlaced = 0;
         int numColumns;
-        int numRows;
         int startX;
         int startY;
         int colSpacing;
@@ -96,7 +95,6 @@ public class GameBoardPanel extends JPanel {
             this.numColumns = numColumns;
             this.colSpacing = colSpacing;
             this.rowSpacing = rowSpacing;
-            this.numRows = 4; // fixen 4 sor
         }
 
         public Point getNextPosition() {
@@ -134,9 +132,10 @@ public class GameBoardPanel extends JPanel {
         List<Tecton_Class> tectons = plane.TectonCollection;
         if (tectons == null || tectons.isEmpty()) {
             this.tectonViews.clear();
-            setPreferredSize(new java.awt.Dimension(0,0));
+            setPreferredSize(new java.awt.Dimension(0,0)); // Explicitly set to 0,0 if no tectons
             revalidate();
             repaint();
+            BOARD_LOGGER.warn("TectonCollection is null or empty. GameBoardPanel will be blank.");
             return;
         }
 
@@ -152,11 +151,19 @@ public class GameBoardPanel extends JPanel {
         this.tectonViews.clear();
 
         // Bázisok pozíciója (felül és alul középen)
-        int panelWidth = getWidth();
-        // Bázisok jobbra tolása: +100 px
-        double baseX      = (panelWidth - BASE_WIDTH) + 624;
+        int panelWidth = getWidth() > 0 ? getWidth() : 800; // Use a default if getWidth is 0 initially
+        
+        // Corrected baseX calculation: Center the base, then shift right by 100px.
+        // The previous calculation: (panelWidth - BASE_WIDTH) + 624; pushed bases off-screen.
+        double baseX = (panelWidth - BASE_WIDTH) / 2.0 + 100.0; 
+        BOARD_LOGGER.info("Calculated baseX: {} (panelWidth: {}, BASE_WIDTH: {})", baseX, panelWidth, BASE_WIDTH);
+
         double baseYTop   = 10;
-        double baseYBottom= baseYTop + 4*HEX_ROW_SPACING + BASE_HEIGHT + 10;
+        // Adjusted baseYBottom calculation to be more dynamic based on rows and hex heights
+        // Assuming 4 rows of non-base tectons as per LayoutState
+        double nonBaseGridHeight = 4 * HEX_ROW_SPACING; 
+        double baseYBottom= baseYTop + (int)BASE_HEIGHT + (int)nonBaseGridHeight + 20; // Added some spacing
+
 
         // Felső bázis
         if (base1 != null) {
@@ -191,42 +198,64 @@ public class GameBoardPanel extends JPanel {
 
         // Nem bázis tectonok feljebb: kezdő Y pozíció -60 px
         LayoutState layoutManager = new LayoutState(
-            (int)GRID_START_X, 
+            (int)GRID_START_X,
             (int)baseYTop + (int)BASE_HEIGHT - 55, // volt: +5, most -55, tehát kb. 60 px feljebb
             4, (int)HEX_COL_SPACING, (int)HEX_ROW_SPACING
         );
         int maxX = 0;
         int maxY = 0;
 
-        Set<Tecton_Class> slotted = new HashSet<>(base1.get_TectonNeighbours());
+        Set<Tecton_Class> slotted = new HashSet<>();
+        if (base1 != null && base1.get_TectonNeighbours() != null) {
+            slotted.addAll(base1.get_TectonNeighbours());
+        }
+
 
         for (Tecton_Class t : nonBaseTectons) {
             if (slotted.contains(t)) continue;
             Point p = layoutManager.getNextPosition();
             t.setPosition(p.x, p.y);
+            t.setSize((int)HEX_WIDTH, (int)HEX_HEIGHT); // Ensure size is set
             this.tectonViews.add(new TectonView(t));
-        }       
+            maxX = Math.max(maxX, p.x + (int)HEX_WIDTH);
+            maxY = Math.max(maxY, p.y + (int)HEX_HEIGHT);
+        }
 
         // Alsó bázis
         if (base2 != null) {
-            base2.setPosition((int)baseX+50, (int)baseYBottom-80);
+            // Ensure baseYBottom is below the maxY of non-base tectons if they exist
+            double actualBaseYBottom = maxY > 0 ? Math.max(maxY + 20, baseYBottom-80) : baseYBottom-80;
+            base2.setPosition((int)baseX+50, (int)actualBaseYBottom);
             base2.setSize((int)BASE_WIDTH, (int)BASE_HEIGHT);
             this.tectonViews.add(new TectonView(base2));
+            // Update overall maxY if base2 is lower
+            maxY = Math.max(maxY, (int)actualBaseYBottom + (int)BASE_HEIGHT);
         }
+
 
         // Preferred size beállítása
         if (!this.tectonViews.isEmpty()) {
-            java.awt.Dimension preferredDim = new java.awt.Dimension(
-                Math.max(maxX + (int)GRID_START_X/2, 
-                (int)baseX + (int)BASE_WIDTH + (int)GRID_START_X/2),
-                (int)baseYBottom + (int)BASE_HEIGHT + (int)GRID_START_Y/2
-            );
+            int finalWidth = (int)GRID_START_X; // Start with left margin
+            if (base1 != null || base2 != null) {
+                 finalWidth = Math.max(finalWidth, (int)baseX + (int)BASE_WIDTH + (int)GRID_START_X/2);
+            }
+            finalWidth = Math.max(finalWidth, maxX + (int)GRID_START_X/2);
+            
+            int finalHeight = maxY + (int)GRID_START_Y; // Add top/bottom margin
+
+            // Ensure minimum size for visibility
+            finalWidth = Math.max(finalWidth, GRID_START_X * 2);
+            finalHeight = Math.max(finalHeight, GRID_START_Y * 2);
+
+            java.awt.Dimension preferredDim = new java.awt.Dimension(finalWidth, finalHeight);
             setPreferredSize(preferredDim);
+            BOARD_LOGGER.info("Preferred size set to: {}", preferredDim);
         } else {
-            setPreferredSize(new java.awt.Dimension(GRID_START_X * 2, GRID_START_Y * 2));
+            setPreferredSize(new java.awt.Dimension(GRID_START_X * 2, GRID_START_Y * 2)); // Default small size
+            BOARD_LOGGER.info("No TectonViews, preferred size set to default small.");
         }
-        revalidate();
-        repaint();
+        revalidate(); // Ensure layout is updated with new preferred size
+        repaint(); // Repaint after views and size are set
     }
 
     private void setupMouseListener() {

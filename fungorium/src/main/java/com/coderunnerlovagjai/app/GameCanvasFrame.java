@@ -1,7 +1,6 @@
 // filepath: /home/borisz/projlab-jva/Fungorium/fungorium/src/main/java/com/coderunnerlovagjai/app/GameCanvasFrame.java
 package com.coderunnerlovagjai.app;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -9,9 +8,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -20,13 +16,10 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -102,18 +95,73 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
         // Create player turn indicator panel at the top
         JPanel turnIndicatorPanel = createTurnIndicatorPanel();
         content.add(turnIndicatorPanel, BorderLayout.NORTH);
-        
+
         gamePanel = new GamePanel();
         content.setLayout(new BorderLayout());
         content.add(gamePanel, BorderLayout.CENTER);
-        
-        // Add Civilization 6-style end turn button on the left side
-        JPanel leftPanel = createEndTurnSidePanel();
-        content.add(leftPanel, BorderLayout.WEST);
-        
-        // Add game controls panel to the bottom
-        JPanel controlPanel = createControlPanel();
-        content.add(controlPanel, BorderLayout.SOUTH);
+
+        // --- REMOVE the left panel (vertical end turn + inventory) ---
+        // JPanel leftPanel = createEndTurnSidePanel();
+        // content.add(leftPanel, BorderLayout.WEST);
+
+        // --- Add new horizontal toolbar at the bottom ---
+        JPanel toolbarPanel = new JPanel();
+        toolbarPanel.setLayout(new BoxLayout(toolbarPanel, BoxLayout.X_AXIS));
+        toolbarPanel.setBackground(new Color(40, 40, 50));
+        toolbarPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+        // Inventory panel (horizontal)
+        playerInventoryPanel = new JPanel();
+        playerInventoryPanel.setLayout(new BoxLayout(playerInventoryPanel, BoxLayout.X_AXIS));
+        playerInventoryPanel.setOpaque(false);
+        updateCurrentPlayerInventory();
+        toolbarPanel.add(playerInventoryPanel);
+
+        // Add glue to push the End Turn button to the right
+        toolbarPanel.add(Box.createHorizontalGlue());
+
+        // End Turn Button (styled horizontally)
+        endTurnBtn = new JButton("<html><b>END TURN</b></html>");
+        endTurnBtn.setFont(new Font("Arial", Font.BOLD, 16));
+        endTurnBtn.setBackground(new Color(180, 20, 20));
+        endTurnBtn.setForeground(Color.WHITE);
+        endTurnBtn.setFocusPainted(false);
+        endTurnBtn.setBorderPainted(false);
+        endTurnBtn.setPreferredSize(new Dimension(120, 48));
+        // Attach the correct action listener for ending turn
+        endTurnBtn.addActionListener(e -> {
+            Player currentPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+            boolean proceed = true;
+            if (currentPlayer.getAction() > 0) {
+                proceed = JOptionPane.showConfirmDialog(this, 
+                    "You still have " + currentPlayer.getAction() + " action points left. End your turn anyway?",
+                    "Confirm End Turn", 
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+            }
+            if (proceed) {
+                // Log state before ending turn
+                Player player1 = gameModel.getPlayer1();
+                Player player2 = gameModel.getPlayer2();
+                System.out.println("BEFORE END TURN - Current turn: " + gameModel.getTurnNumber());
+                System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
+                                 ", Actions: " + player1.getAction());
+                System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
+                                 ", Actions: " + player2.getAction());
+                // End the turn - this will advance the turn and swap roles
+                gameController.endTurn();
+                // Log state after ending turn
+                System.out.println("AFTER END TURN - Current turn: " + gameModel.getTurnNumber());
+                System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
+                                 ", Actions: " + player1.getAction());
+                System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
+                                 ", Actions: " + player2.getAction());
+                // Update the UI to reflect the new state
+                refreshUI(); 
+            }
+        });
+        toolbarPanel.add(endTurnBtn);
+
+        content.add(toolbarPanel, BorderLayout.SOUTH);
     }
     
     /**
@@ -135,170 +183,6 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
         return panel;
     }
     
-    /**
-     * Creates a Civilization 6-style end turn panel on the left side
-     */
-    private JPanel createEndTurnSidePanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setPreferredSize(new Dimension(80, 600));
-        panel.setBackground(new Color(30, 30, 40));
-        
-        // Create the round end turn button at the center-left
-        endTurnBtn = new JButton("<html><center>END<br>TURN</center></html>");
-        endTurnBtn.setFont(new Font("Arial", Font.BOLD, 14));
-        endTurnBtn.setBackground(new Color(180, 20, 20));
-        endTurnBtn.setForeground(Color.WHITE);
-        endTurnBtn.setFocusPainted(false);
-        endTurnBtn.setBorderPainted(false);
-        endTurnBtn.setPreferredSize(new Dimension(70, 70));
-        
-        // Make the button round
-        endTurnBtn.setUI(new javax.swing.plaf.basic.BasicButtonUI() {
-            @Override
-            public void paint(Graphics g, JComponent c) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                
-                AbstractButton b = (AbstractButton) c;
-                ButtonModel model = b.getModel();
-                
-                // Choose button color based on state
-                if (model.isPressed()) {
-                    g2.setColor(new Color(140, 10, 10)); // Darker when pressed
-                } else if (model.isRollover()) {
-                    g2.setColor(new Color(220, 30, 30)); // Brighter on hover
-                } else {
-                    g2.setColor(b.getBackground());
-                }
-                
-                // Draw the circular button
-                g2.fillOval(0, 0, c.getWidth(), c.getHeight());
-                
-                // Draw border
-                g2.setColor(new Color(240, 240, 240));
-                g2.setStroke(new BasicStroke(2));
-                g2.drawOval(0, 0, c.getWidth() - 1, c.getHeight() - 1);
-                
-                // Reset graphics context
-                g2.dispose();
-                
-                // Paint the text
-                super.paint(g, c);
-            }
-        });
-        
-        // Action when end turn button is clicked
-        endTurnBtn.addActionListener(e -> {
-            // Show a confirmation dialog when ending turn with actions remaining
-            Player currentPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
-            boolean proceed = true;
-            
-            if (currentPlayer.getAction() > 0) {
-                proceed = JOptionPane.showConfirmDialog(this, 
-                    "You still have " + currentPlayer.getAction() + " action points left. End your turn anyway?",
-                    "Confirm End Turn", 
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
-            }
-            
-            if (proceed) {
-                // Log state before ending turn
-                Player player1 = gameModel.getPlayer1();
-                Player player2 = gameModel.getPlayer2();
-                System.out.println("BEFORE END TURN - Current turn: " + gameModel.getTurnNumber());
-                System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
-                                 ", Actions: " + player1.getAction());
-                System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
-                                 ", Actions: " + player2.getAction());
-                
-                // End the turn - this will advance the turn and swap roles
-                gameController.endTurn();
-                
-                // Log state after ending turn
-                System.out.println("AFTER END TURN - Current turn: " + gameModel.getTurnNumber());
-                System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
-                                 ", Actions: " + player1.getAction());
-                System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
-                                 ", Actions: " + player2.getAction());
-                
-                // Update the UI to reflect the new state
-                refreshUI(); 
-            }
-        });
-        
-        // Add button in a panel to center it
-        JPanel buttonContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonContainer.setOpaque(false);
-        buttonContainer.add(endTurnBtn);
-        
-        // Add inventory panel for the current player
-        playerInventoryPanel = new JPanel();
-        playerInventoryPanel.setLayout(new BoxLayout(playerInventoryPanel, BoxLayout.Y_AXIS));
-        playerInventoryPanel.setBackground(new Color(40, 40, 50));
-        playerInventoryPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        
-        updateCurrentPlayerInventory(); // Initialize inventory display
-        
-        // Add components to the main panel
-        panel.add(buttonContainer, BorderLayout.CENTER);
-        panel.add(playerInventoryPanel, BorderLayout.NORTH);
-        
-        return panel;
-    }
-    
-    /**
-     * Creates a panel with game control buttons.
-     * Removed role selection buttons as roles are now randomly assigned.
-     */
-    private JPanel createControlPanel() {
-        JPanel panel = new JPanel(new FlowLayout());
-        panel.setOpaque(false);
-        
-        // End Turn Button
-        JButton bottomEndTurnBtn = new JButton("End Turn");
-        bottomEndTurnBtn.addActionListener(e -> {
-            // Show a confirmation dialog when ending turn with actions remaining
-            Player currentPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
-            boolean proceed = true;
-            
-            if (currentPlayer.getAction() > 0) {
-                proceed = JOptionPane.showConfirmDialog(this, 
-                    "You still have " + currentPlayer.getAction() + " action points left. End your turn anyway?",
-                    "Confirm End Turn", 
-                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
-            }
-            
-            if (proceed) {
-                // Log state before ending turn
-                Player player1 = gameModel.getPlayer1();
-                Player player2 = gameModel.getPlayer2();
-                System.out.println("BEFORE END TURN - Current turn: " + gameModel.getTurnNumber());
-                System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
-                                 ", Actions: " + player1.getAction());
-                System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
-                                 ", Actions: " + player2.getAction());
-                
-                // End the turn - this will advance the turn and swap roles
-                gameController.endTurn();
-                
-                // Log state after ending turn
-                System.out.println("AFTER END TURN - Current turn: " + gameModel.getTurnNumber());
-                System.out.println("Player 1 role: " + player1.getRole().getRoleName() + 
-                                 ", Actions: " + player1.getAction());
-                System.out.println("Player 2 role: " + player2.getRole().getRoleName() + 
-                                 ", Actions: " + player2.getAction());
-                
-                // Update the UI to reflect the new state
-                refreshUI();
-            }
-        });
-        
-        // Only add the end turn button since roles are randomly assigned now
-        panel.add(bottomEndTurnBtn);
-        
-        return panel;
-    }
-
     /** Starts the continuous game loop on a separate thread. */
     private void startGameLoop() {
         Thread loop = new Thread(() -> {
@@ -496,7 +380,7 @@ public class GameCanvasFrame extends FrameStyle implements TectonSelectionListen
             // Set volume to 20%
             FloatControl gainControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
             float range = gainControl.getMaximum() - gainControl.getMinimum();
-            float gain = (range * 0.2f) + gainControl.getMinimum();
+            float gain = (range) + gainControl.getMinimum();
             gainControl.setValue(gain);
 
             // Stop existing main menu music

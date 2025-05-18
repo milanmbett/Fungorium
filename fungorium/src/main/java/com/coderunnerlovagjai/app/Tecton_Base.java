@@ -11,7 +11,7 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
     private boolean isDead = false; //TODO: Valójában ez nem feltétlen kellhet, mert a setDeadTrue enélkül is hívható
     private Game game;
 
-    private static final Logger TECTON_BASE_LOGGER = LogManager.getLogger(Tecton_Base.class);
+    private static final Logger TECTON_BASE_LOGGER = LogManager.getLogger(Object.class);
 
     public Tecton_Base(Player p, Game game)
     {
