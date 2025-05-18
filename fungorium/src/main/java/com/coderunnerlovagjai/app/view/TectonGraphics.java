@@ -4,13 +4,45 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.util.Map;
+import java.util.HashMap;
+
 import com.coderunnerlovagjai.app.GraphicsObject;
+import com.coderunnerlovagjai.app.Mushroom_Maximus;
+import com.coderunnerlovagjai.app.Mushroom_Shroomlet;
 import com.coderunnerlovagjai.app.Tecton_Class;
+import com.coderunnerlovagjai.app.Mushroom_Grand;
+import com.coderunnerlovagjai.app.Mushroom_Slender;
+
+
 
 /**
  * Draws a hex tile and its contents based on the underlying Tecton model.
  */
 public class TectonGraphics extends GraphicsObject<Tecton_Class> {
+
+
+        private static final Map<String, BufferedImage> mushroomImages = new HashMap<>();
+
+    static {
+        String[] types = { "Mushroom_Grand", "Mushroom_Maximus", "Mushroom_Shroomlet", "Mushroom_Slender" };
+        for (String type : types) {
+            try {
+                BufferedImage img = ImageIO.read(
+                    TectonGraphics.class.getClassLoader()
+                        .getResourceAsStream("images/" + type + ".png")
+                );
+                mushroomImages.put(type, img);
+            } catch (Exception e) {
+                // log or ignore missing image
+            }
+        }
+    }
+
+
+
     // model and registration handled by super
     private final Polygon hexShape;
     private final int[] xs, ys;
@@ -48,8 +80,18 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
 
         // draw mushroom if present
         if (model.get_Mushroom() != null) {
-            g.setColor(Color.GREEN);
-            g.fillOval(-10, -10, 20, 20);
+            String type = model.get_Mushroom().getClass().getSimpleName();
+            BufferedImage img = mushroomImages.get(type);
+            int size = 20;
+            int half = size / 2;
+            if (img != null) {
+                int w = img.getWidth(), h = img.getHeight();
+                g.drawImage(img, -half, -half,size,size ,null);
+            } else {
+                // fallback
+                g.setColor(Color.GREEN);
+                g.fillOval(-10, -10, 20, 20);
+            }
         }
         // draw insect count
         int count = model.get_InsectsOnTecton().size();
