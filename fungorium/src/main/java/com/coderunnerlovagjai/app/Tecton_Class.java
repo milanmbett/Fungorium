@@ -104,7 +104,7 @@ public abstract class Tecton_Class extends Entity
             return null;
         }
         TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Insects: " + insectsOnTecton);
-        fireEvent(ModelEvent.Type.UPDATED);
+
         return insectsOnTecton;
     }
 

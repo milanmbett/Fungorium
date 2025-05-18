@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.coderunnerlovagjai.app.Basic_Spore;
 import com.coderunnerlovagjai.app.GameCanvas;
 import com.coderunnerlovagjai.app.GraphicsObject;
 import com.coderunnerlovagjai.app.Insect_Class;
@@ -51,9 +52,31 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
     private boolean modelHasThread = false;
     private boolean modelHasSpore = false;
     private boolean modelHasMushroom = false;
+    private boolean modelHasInsect = false;
+
     
     private Color tempColor = null;
-    private Image shroomletIcon;
+    
+    //Gombák ikonja
+    private Image mushroomShroomletIcon;
+    private Image mushroomGrandIcon;
+    private Image mushroomMaximusIcon;
+    private Image musrhoomSlenderIcon;
+
+    //Rovarok ikonja
+    private Image insectShroomreaperIcon;
+    private Image insectBuggernautIcon;
+    private Image insectBugletIcon;
+    private Image insectStingerIcon;
+    private Image insectTektonizatorIcon;
+    //Spórák ikonja
+    private Image sporeBasicIcon;
+    private Image sporeSlowingIcon;
+    private Image sporeParalysingIcon;
+    private Image sporeDuplicatorIcon;
+    private Image sporeSpeedIcon;
+    //Fonál ikonja
+    private Image threadIcon;
 
     public TectonView(Tecton_Class model) {
         super(model);
@@ -70,14 +93,115 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
         } catch (IOException | IllegalArgumentException e) {
             this.img = null;
         }
-        // load Shroomlet mushroom icon
-        try {
-            shroomletIcon = ImageIO.read(getClass().getClassLoader()
+        // load Icons
+        try 
+        {
+            mushroomShroomletIcon = ImageIO.read(getClass().getClassLoader()
                 .getResource("images/Mushroom_Shroomlet.png"));
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) 
+        {
             VIEW_LOGGER.warn("Failed to load Shroomlet icon", e);
-            shroomletIcon = null;
+            mushroomShroomletIcon = null;
         }
+        try {
+            mushroomGrandIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Mushroom_Grand.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Grand mushroom icon", e);
+            mushroomGrandIcon = null;
+        }
+        try {
+            mushroomMaximusIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Mushroom_Maximus.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Maximus mushroom icon", e);
+            mushroomMaximusIcon = null;
+        }
+        try {
+            musrhoomSlenderIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Mushroom_Slender.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Slender mushroom icon", e);
+            musrhoomSlenderIcon = null;
+        }
+        try {
+            insectShroomreaperIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Insect_Shroomreaper.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Shroomreaper insect icon", e);
+            insectShroomreaperIcon = null;
+        }
+        try {
+            insectBuggernautIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Insect_Buggernaut.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Buggernaut insect icon", e);
+            insectBuggernautIcon = null;
+        }
+        try {
+            insectBugletIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Insect_Buglet.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Buglet insect icon", e);
+            insectBugletIcon = null;
+        }
+        try {
+            insectStingerIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Insect_Stinger.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Stinger insect icon", e);
+            insectStingerIcon = null;
+        }
+        try {
+            insectTektonizatorIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Insect_Tektonizator.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Tektonizator insect icon", e);
+            insectTektonizatorIcon = null;
+        }
+        try {
+            sporeBasicIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Spore_Basic.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Basic spore icon", e);
+            sporeBasicIcon = null;
+        }
+        try {
+            sporeSlowingIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Spore_Slowing.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Slowing spore icon", e);
+            sporeSlowingIcon = null;
+        }
+        try {
+            sporeParalysingIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Spore_Paralysing.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Paralysing spore icon", e);
+            sporeParalysingIcon = null;
+        }
+        try {
+            sporeDuplicatorIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Spore_Duplicator.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Duplicator spore icon", e);
+            sporeDuplicatorIcon = null;
+        }
+        try {
+            sporeSpeedIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Spore_Speed.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Speed spore icon", e);
+            sporeSpeedIcon = null;
+        }
+        try {
+            threadIcon = ImageIO.read(getClass().getClassLoader()
+                .getResource("images/Thread.png"));
+        } catch (IOException | IllegalArgumentException e) {
+            VIEW_LOGGER.warn("Failed to load Thread icon", e);
+            threadIcon = null;
+        }
+
     }
 
     public Tecton_Class getModel() { // Added getModel() method
@@ -95,6 +219,7 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
         this.modelHasThread = this.model.get_Thread() != null;
         this.modelHasSpore = this.model.get_Spore() != null;
         this.modelHasMushroom = this.model.get_Mushroom() != null;
+        this.modelHasInsect = this.model.get_InsectsOnTecton() != null && !this.model.get_InsectsOnTecton().isEmpty();
         setupInsectSlots();
         VIEW_LOGGER.trace("TectonView updated from model ID: {}", this.model.get_ID());
     }
@@ -227,23 +352,162 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
         // Draw status icons (thread, spore, mushroom)
         int iconY = MARGIN + fm.getHeight() + 5;
         if (modelHasThread) {
-            drawIcon(g, "T", Color.CYAN, MARGIN, iconY);
-        }
-        if (modelHasSpore) {
-            drawIcon(g, "S", Color.MAGENTA, MARGIN + 15, iconY);
-        }
-        if (modelHasMushroom) {
-            // show specific mushroom icon if Shroomlet
-            Mushroom_Class mush = model.get_Mushroom();
-            if (mush instanceof Mushroom_Shroomlet && shroomletIcon != null) {
-                g.drawImage(shroomletIcon,
-                            MARGIN + 30,
+            if (threadIcon != null) {
+                g.drawImage(threadIcon,
+                            MARGIN,
                             iconY,
                             STATUS_ICON_SIZE,
                             STATUS_ICON_SIZE,
                             null);
             } else {
+                drawIcon(g, "T", Color.BLUE, MARGIN, iconY);
+            }
+        }
+        if (modelHasSpore) {
+            Basic_Spore spore = model.get_Spore();
+            if (sporeBasicIcon != null && spore instanceof Basic_Spore) 
+            {
+                g.drawImage(sporeBasicIcon,
+                            MARGIN + 15,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+            }
+            else if (sporeSlowingIcon != null && spore instanceof Basic_Spore) 
+            {
+                g.drawImage(sporeSlowingIcon,
+                            MARGIN + 15,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+            }
+            else if (sporeParalysingIcon != null && spore instanceof Basic_Spore) 
+            {
+                g.drawImage(sporeParalysingIcon,
+                            MARGIN + 15,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+            }
+            else if (sporeDuplicatorIcon != null && spore instanceof Basic_Spore) 
+            {
+                g.drawImage(sporeDuplicatorIcon,
+                            MARGIN + 15,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+            }
+            else if (sporeSpeedIcon != null && spore instanceof Basic_Spore) 
+            {
+                g.drawImage(sporeSpeedIcon,
+                            MARGIN + 15,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+            } 
+            else 
+            {
+                drawIcon(g, "S", Color.YELLOW, MARGIN + 15, iconY);
+            }
+        }
+        if (modelHasMushroom) {
+            // show specific mushroom icon if Shroomlet
+            Mushroom_Class mush = model.get_Mushroom();
+            if (mush instanceof Mushroom_Shroomlet && mushroomShroomletIcon != null) 
+            {
+                g.drawImage(mushroomShroomletIcon,
+                            MARGIN + 30,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+            }
+            else if (mushroomGrandIcon != null && mush instanceof Mushroom_Class) 
+            {
+                g.drawImage(mushroomGrandIcon,
+                            MARGIN + 30,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+            }
+            else if (mushroomMaximusIcon != null && mush instanceof Mushroom_Class) 
+            {
+                g.drawImage(mushroomMaximusIcon,
+                            MARGIN + 30,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+            }
+            else if (musrhoomSlenderIcon != null && mush instanceof Mushroom_Class) 
+            {
+                g.drawImage(musrhoomSlenderIcon,
+                            MARGIN + 30,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+            } 
+            else 
+            {
                 drawIcon(g, "M", Color.GREEN, MARGIN + 30, iconY);
+            }
+        }
+        if(modelHasInsect)
+        {
+            Insect_Class insect = model.get_InsectsOnTecton().get(0); // Assuming first insect for demo
+            if (insect != null) {
+                if (insectShroomreaperIcon != null && insect instanceof Insect_Class) 
+                {
+                    g.drawImage(insectShroomreaperIcon,
+                                MARGIN + 45,
+                                iconY,
+                                STATUS_ICON_SIZE,
+                                STATUS_ICON_SIZE,
+                                null);
+                }
+                else if (insectBuggernautIcon != null && insect instanceof Insect_Class) 
+                {
+                    g.drawImage(insectBuggernautIcon,
+                                MARGIN + 45,
+                                iconY,
+                                STATUS_ICON_SIZE,
+                                STATUS_ICON_SIZE,
+                                null);
+                }
+                else if (insectBugletIcon != null && insect instanceof Insect_Class) 
+                {
+                    g.drawImage(insectBugletIcon,
+                                MARGIN + 45,
+                                iconY,
+                                STATUS_ICON_SIZE,
+                                STATUS_ICON_SIZE,
+                                null);
+                }
+                else if (insectStingerIcon != null && insect instanceof Insect_Class) 
+                {
+                    g.drawImage(insectStingerIcon,
+                                MARGIN + 45,
+                                iconY,
+                                STATUS_ICON_SIZE,
+                                STATUS_ICON_SIZE,
+                                null);
+                }
+                else if (insectTektonizatorIcon != null && insect instanceof Insect_Class) 
+                {
+                    g.drawImage(insectTektonizatorIcon,
+                            MARGIN + 45,
+                            iconY,
+                            STATUS_ICON_SIZE,
+                            STATUS_ICON_SIZE,
+                            null);
+                } 
             }
         }
 
