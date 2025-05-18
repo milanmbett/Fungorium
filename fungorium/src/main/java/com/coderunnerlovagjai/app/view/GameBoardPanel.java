@@ -8,7 +8,9 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -19,7 +21,6 @@ import com.coderunnerlovagjai.app.Game;
 import com.coderunnerlovagjai.app.Plane;
 import com.coderunnerlovagjai.app.Tecton_Basic;
 import com.coderunnerlovagjai.app.Tecton_Class;
-// import com.coderunnerlovagjai.app.view.TectonSelectionListener; // Already in the same package
 
 public class GameBoardPanel extends JPanel {
     private static final Logger BOARD_LOGGER = LogManager.getLogger(GameBoardPanel.class);
@@ -29,13 +30,15 @@ public class GameBoardPanel extends JPanel {
     private final List<TectonSelectionListener> listeners = new ArrayList<>();
 
     // Constants for hexagonal grid layout
-    private static final int HEX_WIDTH = Tecton_Basic.DEFAULT_WIDTH; // nagyobb hexagon
-    private static final int HEX_HEIGHT = Tecton_Basic.DEFAULT_HEIGHT; // nagyobb hexagon
-    private static final int HEX_COL_SPACING = (int)(HEX_WIDTH * 0.85); // kicsit nagyobb átfedés
-    private static final int HEX_ROW_SPACING = (int)(HEX_HEIGHT * 0.75); // honeycomb vertical spacing
-    private static final int GRID_START_X = 80; // nagyobb margó
-    private static final int GRID_START_Y = 80;
-    private static final int DEFAULT_NUM_COLUMNS = 4; // 4 oszlop
+    // Kisebb sima tecton, sokkal nagyobb bázis, kisebb margó fent
+    private static final double BASE_WIDTH = Tecton_Basic.DEFAULT_WIDTH * 4.6;
+    private static final double BASE_HEIGHT = Tecton_Basic.DEFAULT_HEIGHT * 1.5;
+    private static final double HEX_WIDTH = Tecton_Basic.DEFAULT_WIDTH * 0.85;
+    private static final double HEX_HEIGHT = Tecton_Basic.DEFAULT_HEIGHT * 0.85;
+    private static final double HEX_COL_SPACING = HEX_WIDTH * 0.85;
+    private static final double HEX_ROW_SPACING = HEX_HEIGHT * 0.75;
+    private static final int GRID_START_X = 80;
+    private static final int GRID_START_Y = 20; // kisebb, hogy fentebb legyen
 
     public GameBoardPanel(Game gameModel) {
         if (gameModel == null) {
@@ -149,50 +152,75 @@ public class GameBoardPanel extends JPanel {
         this.tectonViews.clear();
 
         // Bázisok pozíciója (felül és alul középen)
-        int panelWidth = DEFAULT_NUM_COLUMNS * HEX_COL_SPACING + GRID_START_X;
-        int baseX = panelWidth / 2 - HEX_WIDTH / 2;
-        int baseYTop = GRID_START_Y / 2;
-        int baseYBottom = GRID_START_Y / 2 + 4 * HEX_ROW_SPACING + HEX_HEIGHT;
+        int panelWidth = getWidth();
+        // Bázisok jobbra tolása: +100 px
+        double baseX      = (panelWidth - BASE_WIDTH) + 624;
+        double baseYTop   = 10;
+        double baseYBottom= baseYTop + 4*HEX_ROW_SPACING + BASE_HEIGHT + 10;
 
         // Felső bázis
         if (base1 != null) {
-            base1.setPosition(baseX, baseYTop);
-            base1.setSize(HEX_WIDTH, HEX_HEIGHT); //TODO itt megfeleloen
-            this.tectonViews.add(new TectonView(base1));
-        }
+            // 1) felülre kirakjuk a bázist
+            base1.setPosition((int)baseX, (int)baseYTop);
+            base1.setSize((int)BASE_WIDTH , (int)BASE_HEIGHT);
+            TectonView baseView = new TectonView(base1);
+            this.tectonViews.add(baseView);
 
-        // Grid középen (16 tecton)
-        LayoutState layoutManager = new LayoutState(GRID_START_X, GRID_START_Y + HEX_ROW_SPACING, DEFAULT_NUM_COLUMNS, HEX_COL_SPACING, HEX_ROW_SPACING);
-        int maxX = 0;
-        int maxY = 0;
-        for (Tecton_Class tectonModel : nonBaseTectons) {
-            if (tectonModel != null) {
-                Point position = layoutManager.getNextPosition();
-                tectonModel.setPosition(position.x, position.y);
-                // Ensure width and height are set on the model if not already
-                if (tectonModel.getWidth() == 0 || tectonModel.getHeight() == 0) {
-                    tectonModel.setSize(HEX_WIDTH, HEX_HEIGHT);
-                }
-                TectonView tectonView = new TectonView(tectonModel);
-                this.tectonViews.add(tectonView);
-                
-                // Update maxX and maxY based on the tecton's position and dimensions
-                // The position from layoutManager already includes GRID_START_X/Y offsets
-                maxX = Math.max(maxX, position.x + tectonModel.getWidth());
-                maxY = Math.max(maxY, position.y + tectonModel.getHeight());
+            // 2) ide jönnek a slot-mezők:
+            Point[] slotOffsets = new Point[] {
+                new Point( 60,  20),
+                new Point(120,  20),
+                new Point( 30,  80),
+                new Point( 90,  80),
+                new Point(150,  80),
+            };
+            List<Tecton_Class> children = base1.get_TectonNeighbours();
+            for (int i = 0; i < children.size() && i < slotOffsets.length; i++) {
+                Tecton_Class child = children.get(i);
+                Point off = slotOffsets[i];
+
+                // a slot középre igazítása a gyermek-hex alá
+                int childX = (int)baseX + off.x  - (int)HEX_WIDTH/2;
+                int childY = (int)baseYTop + off.y - (int)HEX_HEIGHT/2;
+
+                child.setPosition(childX, childY);
+                child.setSize((int)HEX_WIDTH, (int)HEX_HEIGHT);
+                this.tectonViews.add(new TectonView(child));
             }
         }
 
+        // Nem bázis tectonok feljebb: kezdő Y pozíció -60 px
+        LayoutState layoutManager = new LayoutState(
+            (int)GRID_START_X, 
+            (int)baseYTop + (int)BASE_HEIGHT - 55, // volt: +5, most -55, tehát kb. 60 px feljebb
+            4, (int)HEX_COL_SPACING, (int)HEX_ROW_SPACING
+        );
+        int maxX = 0;
+        int maxY = 0;
+
+        Set<Tecton_Class> slotted = new HashSet<>(base1.get_TectonNeighbours());
+
+        for (Tecton_Class t : nonBaseTectons) {
+            if (slotted.contains(t)) continue;
+            Point p = layoutManager.getNextPosition();
+            t.setPosition(p.x, p.y);
+            this.tectonViews.add(new TectonView(t));
+        }       
+
         // Alsó bázis
         if (base2 != null) {
-            base2.setPosition(baseX, baseYBottom);
-            base2.setSize(HEX_WIDTH, HEX_HEIGHT);
+            base2.setPosition((int)baseX+50, (int)baseYBottom-80);
+            base2.setSize((int)BASE_WIDTH, (int)BASE_HEIGHT);
             this.tectonViews.add(new TectonView(base2));
         }
 
         // Preferred size beállítása
         if (!this.tectonViews.isEmpty()) {
-            java.awt.Dimension preferredDim = new java.awt.Dimension(maxX + GRID_START_X/2, baseYBottom + HEX_HEIGHT + GRID_START_Y/2);
+            java.awt.Dimension preferredDim = new java.awt.Dimension(
+                Math.max(maxX + (int)GRID_START_X/2, 
+                (int)baseX + (int)BASE_WIDTH + (int)GRID_START_X/2),
+                (int)baseYBottom + (int)BASE_HEIGHT + (int)GRID_START_Y/2
+            );
             setPreferredSize(preferredDim);
         } else {
             setPreferredSize(new java.awt.Dimension(GRID_START_X * 2, GRID_START_Y * 2));
@@ -286,8 +314,18 @@ public class GameBoardPanel extends JPanel {
             }
 
             for (TectonView view : tectonViews) {
-                // Pass selection state to TectonView\'s render method
-                view.render(g2d, view == selectedTectonView);
+                // Felső bázis (Base1) elforgatása 180 fokkal
+                if (view.getModel() == gameModel.getPlane().getBase1()) {
+                    Graphics2D g2dRot = (Graphics2D) g2d.create();
+                    Point pos = view.getModel().getPosition();
+                    int cx = pos.x + view.getModel().getWidth() / 2;
+                    int cy = pos.y + view.getModel().getHeight() / 2;
+                    g2dRot.rotate(Math.PI, cx, cy);
+                    view.render(g2dRot, view == selectedTectonView);
+                    g2dRot.dispose();
+                } else {
+                    view.render(g2d, view == selectedTectonView);
+                }
             }
         } finally {
             g2d.dispose(); // Dispose of the graphics copy

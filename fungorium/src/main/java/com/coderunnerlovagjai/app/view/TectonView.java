@@ -173,37 +173,21 @@ public class TectonView extends GraphicsObject<Tecton_Class> implements Consumer
         // Position the graphics context at the Tecton's location
         g.translate(x, y);
 
-        /* 
-        // Determine Tecton color based on its state
-        Color baseColor = model.isDead() ? TECTON_DEAD_COLOR : TECTON_COLOR;
-        if (model instanceof Tecton_Base) {
-            baseColor = TECTON_BASE_COLOR;
-        }
-        if (tempColor != null) { // For temporary highlight
-            baseColor = tempColor;
-        }*/
+        // ...existing code for image or fallback color...
 
         if (img != null) {
-        g.drawImage(img, 0, 0, width, height, null);
+            g.drawImage(img, 0, 0, width, height, null);
         } else {
-            // Ha nincs kép, akkor színezés az állapot szerint
             Color baseColor = model.isDead() ? TECTON_DEAD_COLOR : TECTON_COLOR;
             if (model instanceof Tecton_Base) {
                 baseColor = TECTON_BASE_COLOR;
             }
-            if (tempColor != null) { // For temporary highlight
+            if (tempColor != null) {
                 baseColor = tempColor;
             }
             g.setColor(baseColor);
             g.fillRect(0, 0, width, height);
         }
-
-        // Draw Tecton body
-        //g.setColor(baseColor);
-        //g.fillRect(0, 0, width, height);
-        g.setColor(TECTON_BORDER);
-        g.setStroke(new BasicStroke(2));
-        g.drawRect(0, 0, width, height);
 
         // Draw selection highlight if selected
         if (isSelected) {
