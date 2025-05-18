@@ -34,8 +34,6 @@ public class GameCanvasFrame extends FrameStyle {
         super("Fungorium - " + player1 + " vs " + player2, "/images/fungoriumIcon3.png");
         this.gameModel = new Game(player1, player2);
         gameModel.initGame();
-        gameModel.getPlayer1().setRoleMushroom();
-        gameModel.getPlayer2().setRoleInsect();
         gameModel.startGame();
         buildUI();
         updateInventoryVisibility();
@@ -43,9 +41,6 @@ public class GameCanvasFrame extends FrameStyle {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-
-        // ↓ remove turn() from the loop here ↓
-        // old: new Timer(40, e -> { gameModel.turn(); GameCanvas.getInstance().repaint(); }).start();
         new Timer(40, e -> GameCanvas.getInstance().repaint()).start();
     }
 
@@ -171,9 +166,17 @@ public class GameCanvasFrame extends FrameStyle {
 
     private void endTurn() {
         gameModel.turn();
-        currentPlayerLabel.setText("Current player: " + getCurrentPlayerName());
+        currentPlayerLabel.setText("Current player: " + getCurrentPlayerName() + " (" + getCurrentPlayerRole() + ")");
         updateInventoryVisibility();
         GameCanvas.getInstance().repaint();
+    }
+
+    private String getCurrentPlayerRole() {
+        var player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+        var role = player.getRole();
+        if (role == RoleType.MUSHROOM) return "Mushroom";
+        if (role == RoleType.INSECT) return "Insect";
+        return "None";
     }
 
     private String getCurrentPlayerName() {

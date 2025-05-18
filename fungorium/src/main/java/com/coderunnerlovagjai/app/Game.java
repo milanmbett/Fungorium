@@ -38,6 +38,8 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     public void initGame() {
         player1.setGame(this);  
         player2.setGame(this); 
+        player1.setRoleMushroom();
+        player2.setRoleInsect();
         // A bázisok inicializálása külön metódusban történik
         plane.initBases(player1, player2, this);
         GAME_LOGGER.log(Level.forName("INIT", 402), "Game initialized with two players and their bases.");
@@ -87,6 +89,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     }*/
 
     public void turn() { //Ez majd void lesz, csak meg _Tests miatt int
+        turnNumber++; // Move this to the start!
         Player currentPlayer;
         if(turnNumber % 2 == 1) {
             GAME_LOGGER.log(Level.forName("TURN", 401), "Player 1's turn: " + turnNumber);
@@ -139,7 +142,6 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         }
 
         turnSimulation(); 
-        turnNumber++;
         currentPlayer.endTurn();
         
 

@@ -24,6 +24,8 @@ public class Plane
         if (base1 != null) {
             TectonCollection.add(base1);
             base1.setID(0);
+            // Set base1 position (leftmost)
+            base1.setPosition(100, 300);
             PLANE_LOGGER.log(Level.INFO, "Base1 added to TectonCollection: " + base1.get_ID() + "Tectoncollection: " + TectonCollection.size());
         } else {
             PLANE_LOGGER.log(Level.ERROR, "Base1 is null and cannot be added!");
@@ -33,6 +35,8 @@ public class Plane
         if (base2 != null) {
             TectonCollection.add(base2);
             base2.setID(1);
+            // Set base2 position (rightmost)
+            base2.setPosition(700, 300);
             PLANE_LOGGER.log(Level.INFO, "Base2 added to TectonCollection: " + base2.get_ID());
         } else {
             PLANE_LOGGER.log(Level.ERROR, "Base2 is null and cannot be added!");
@@ -47,109 +51,54 @@ public class Plane
         return base2;
     }
 
-    public void init_Plane(Game game) // now needs Game
-    {
-        // Tecton_Basic setID-jet kene hasznalni
-        
-        Tecton_Basic t1 = new Tecton_Basic();
-        t1.setID(2);
-        Tecton_Basic t2 = new Tecton_Basic();
-        t2.setID(3);
-        Tecton_Basic t3 = new Tecton_Basic();
-        t3.setID(4);
-        Tecton_Basic t4 = new Tecton_Basic();
-        t4.setID(5);
-        Tecton_Basic t5 = new Tecton_Basic();
-        t5.setID(6);
-        Tecton_Basic t6 = new Tecton_Basic();
-        t6.setID(7);
-        Tecton_Basic t7 = new Tecton_Basic();
-        t7.setID(8);
-        Tecton_Basic t8 = new Tecton_Basic();
-        t8.setID(9);
-        Tecton_Basic t9 = new Tecton_Basic();
-        t9.setID(10);
-        Tecton_Basic t10 = new Tecton_Basic();
-        t10.setID(11);
-        Tecton_Basic t11 = new Tecton_Basic();
-        t11.setID(12);
-        Tecton_Basic t12 = new Tecton_Basic();
-        t12.setID(13);
-        Tecton_Basic t13 = new Tecton_Basic();
-        t13.setID(14);
-        Tecton_Basic t14 = new Tecton_Basic();
-        t14.setID(15);
-        Tecton_Basic t15 = new Tecton_Basic();
-        t15.setID(16);
-        Tecton_Basic t16 = new Tecton_Basic();
-        t16.setID(17);
-
-        TectonCollection.add(t1);
-        TectonCollection.add(t2);
-        TectonCollection.add(t3);
-        TectonCollection.add(t4);
-        TectonCollection.add(t5);
-        TectonCollection.add(t6);
-        TectonCollection.add(t7);
-        TectonCollection.add(t8);
-        TectonCollection.add(t9);
-        TectonCollection.add(t10);
-        TectonCollection.add(t11);
-        TectonCollection.add(t12);
-        TectonCollection.add(t13);
-        TectonCollection.add(t14);
-        TectonCollection.add(t15);
-        TectonCollection.add(t16);
-        
-
-        t1.add_TectonNeighbour(t2);
-        t1.add_TectonNeighbour(t5);
-        t2.add_TectonNeighbour(t3);
-        t2.add_TectonNeighbour(t6);
-        t2.add_TectonNeighbour(base1);
-        t3.add_TectonNeighbour(t4);
-        t3.add_TectonNeighbour(t7);
-        t3.add_TectonNeighbour(base1);
-        t4.add_TectonNeighbour(t8);
-        t5.add_TectonNeighbour(t6);
-        t5.add_TectonNeighbour(t9);
-        t6.add_TectonNeighbour(t7);
-        t6.add_TectonNeighbour(t10);
-        t7.add_TectonNeighbour(t8);
-        t7.add_TectonNeighbour(t11);
-        t8.add_TectonNeighbour(t12);
-        t9.add_TectonNeighbour(t10);
-        t9.add_TectonNeighbour(t13);
-        t10.add_TectonNeighbour(t11);
-        t10.add_TectonNeighbour(t14);
-        t11.add_TectonNeighbour(t12);
-        t11.add_TectonNeighbour(t15);
-        t12.add_TectonNeighbour(t16);
-        t13.add_TectonNeighbour(t14);
-        t14.add_TectonNeighbour(base2);
-        t14.add_TectonNeighbour(t15);
-        t15.add_TectonNeighbour(base2);
-        t15.add_TectonNeighbour(t16);
-
-        // add threads on t2, t3, t14 and t15
-        Thread_Class tr2  = new Thread_Class(t2,  game);
-        Thread_Class tr3  = new Thread_Class(t3,  game);
-        Thread_Class tr14 = new Thread_Class(t14, game);
-        Thread_Class tr15 = new Thread_Class(t15, game);
-
-        t2.set_Thread(tr2);
-        t3.set_Thread(tr3);
-        t14.set_Thread(tr14);
-        t15.set_Thread(tr15);
-        ThreadCollection.add(tr2);
-        ThreadCollection.add(tr3);
-        ThreadCollection.add(tr14);
-        ThreadCollection.add(tr15);
-
-        
-        PLANE_LOGGER.log(Level.forName("INIT_THREAD", 402),
-            "Threads initialized on t2, t3, t14, t15");
+    public void init_Plane(Game game) {
+        // Clear previous tectons if any
+        TectonCollection.clear();
+        // Place bases first
+        initBases(game.getPlayer1(), game.getPlayer2(), game);
+        // Hex grid: 4 rows, 5 columns (excluding bases)
+        int rows = 4, cols = 5;
+        int hexRadius = 40;
+        int x0 = 180, y0 = 180; // starting offset for first hex
+        Tecton_Basic[][] grid = new Tecton_Basic[rows][cols];
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                Tecton_Basic t = new Tecton_Basic();
+                t.setID(2 + row * cols + col);
+                // Hex grid positioning
+                int x = x0 + col * (int)(hexRadius * 1.75);
+                int y = y0 + row * (int)(hexRadius * 1.5) + (col % 2 == 1 ? hexRadius : 0);
+                t.setPosition(x, y);
+                grid[row][col] = t;
+                TectonCollection.add(t);
+            }
+        }
+        // Connect neighbors (hex grid)
+        int[][] directions = {{-1,0},{-1,1},{0,-1},{0,1},{1,0},{1,-1}};
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                Tecton_Basic t = grid[row][col];
+                for (int[] d : directions) {
+                    int nr = row + d[0];
+                    int nc = col + d[1];
+                    if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+                        t.add_TectonNeighbour(grid[nr][nc]);
+                    }
+                }
+            }
+        }
+        // Connect base1 to leftmost column
+        for (int row = 0; row < rows; row++) {
+            base1.add_TectonNeighbour(grid[row][0]);
+            grid[row][0].add_TectonNeighbour(base1);
+        }
+        // Connect base2 to rightmost column
+        for (int row = 0; row < rows; row++) {
+            base2.add_TectonNeighbour(grid[row][cols-1]);
+            grid[row][cols-1].add_TectonNeighbour(base2);
+        }
     }
+
     public void place_Spore(Basic_Spore spore, Tecton_Class targetTecton)
     {
         if(targetTecton.get_Spore() == null)

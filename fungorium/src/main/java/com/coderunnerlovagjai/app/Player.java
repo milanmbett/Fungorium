@@ -72,7 +72,7 @@ public class Player
 
     // Módosított kör befejezés
     public void endTurn() {
-        role = RoleType.NONE; // Reset role after turn
+        // role = RoleType.NONE; // Removed! Role assignment is handled by Game.turn()
     }
 
     // Mozgás validáció közvetlenül a RoleType enum használatával
