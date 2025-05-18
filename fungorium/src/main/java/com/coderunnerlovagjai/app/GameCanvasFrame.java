@@ -1,28 +1,50 @@
 package com.coderunnerlovagjai.app;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+import com.coderunnerlovagjai.app.view.TectonGraphics;
 
 /**
  * GameCanvasFrame is the main game window, styled like FrameStyle.
  * It hosts the game drawing surface and runs the game loop.
  */
 public class GameCanvasFrame extends FrameStyle {
-    private GamePanel gamePanel;
+    private final Game gameModel;
+    private JPanel toolbar;
+    private JButton endTurnButton;
+    private JComboBox<String> mushroomSelector;
+    private JComboBox<String> insectSelector;
+    private JLabel currentPlayerLabel;
 
     /**
      * Constructs a new game window for two players.
      * @param player1 Name of player 1
-     * @param player2 Name of player 2
      */
     public GameCanvasFrame(String player1, String player2) {
         super("Fungorium - " + player1 + " vs " + player2, "/images/fungoriumIcon3.png");
+        // initialize game model and start
+        this.gameModel = new Game(player1, player2);
+        gameModel.initGame();
+        gameModel.startGame();
+        // Set roles explicitly
+        gameModel.getPlayer1().setRoleMushroom();
+        gameModel.getPlayer2().setRoleInsect();
         buildUI();
         pack();
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-        startGameLoop();
+        // game loop using Swing Timer
+        new Timer(40, e -> { gameModel.turn(); GameCanvas.getInstance().repaint(); }).start();
     }
 
     /**
@@ -30,53 +52,129 @@ public class GameCanvasFrame extends FrameStyle {
      */
     @Override
     protected void buildUI() {
-        gamePanel = new GamePanel();
+        // use our new GameCanvas for rendering
+        GameCanvas canvas = GameCanvas.getInstance();
+        canvas.setPreferredSize(new Dimension(800, 600));
         content.setLayout(new BorderLayout());
-        content.add(gamePanel, BorderLayout.CENTER);
-    }
-
-    /** Starts the continuous game loop on a separate thread. */
-    private void startGameLoop() {
-        Thread loop = new Thread(() -> {
-            while (gamePanel.isRunning()) {
-                gamePanel.updateGame();
-                gamePanel.repaint();
-                try {
-                    Thread.sleep(16); // ~60 FPS
-                } catch (InterruptedException ignored) {}
+        content.add(canvas, BorderLayout.CENTER);
+        // register each Tecton for rendering
+        for (var t : gameModel.getPlane().TectonCollection) {
+            canvas.addGraphics(new TectonGraphics(t));
+        }
+        // Compact toolbar below the map
+        toolbar = new JPanel();
+        toolbar.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        currentPlayerLabel = new JLabel("Current player: " + getCurrentPlayerName());
+        toolbar.add(currentPlayerLabel);
+        toolbar.add(new JLabel("Mushroom:"));
+        mushroomSelector = new JComboBox<>(new String[]{"Shroomlet", "Maximus", "Slender", "Grand", "Maximus"});
+        mushroomSelector.setFocusable(false);
+        toolbar.add(mushroomSelector);
+        toolbar.add(new JLabel("Insect:"));
+        insectSelector = new JComboBox<>(new String[]{"Buglet", "Buggernaut", "Stinger", "Tektonizator", "ShroomReaper"});
+        insectSelector.setFocusable(false);
+        toolbar.add(insectSelector);
+        endTurnButton = new JButton("End Turn");
+        endTurnButton.setFocusable(false);
+        endTurnButton.addActionListener(e -> endTurn());
+        toolbar.add(endTurnButton);
+        content.add(toolbar, BorderLayout.SOUTH);
+        // Mouse input for tecton selection
+        canvas.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                handleCanvasClick(e.getX(), e.getY());
             }
         });
-        loop.setDaemon(true);
-        loop.start();
+        // repaint on a timer (~60 FPS)
+        new Timer(40, e -> canvas.repaint()).start();
     }
 
-    /**
-     * Inner panel that performs all game drawing and logic updates.
-     */
-    private static class GamePanel extends JPanel {
-        private boolean running = true;
-        // TODO: reference your Game model/controller here
-
-        public GamePanel() {
-            setPreferredSize(new Dimension(800, 600));
-            setBackground(BG_COLOR);
-            // initialize your game here, e.g. load entities
+    private void handleCanvasClick(int x, int y) {
+        // Find which tecton was clicked
+        for (var t : gameModel.getPlane().TectonCollection) {
+            int tx = t.getPosition().x, ty = t.getPosition().y;
+            double dist = Math.hypot(x - tx, y - ty);
+            if (dist < 40) { // hex radius
+                onTectonClicked(t);
+                break;
+            }
         }
+    }
 
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
-            // TODO: render your game entities, e.g. via GraphicsObject instances
+    private void onTectonClicked(Tecton_Class tecton) {
+        // Determine current player and role
+        var player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+        String role = player.getRole() != null ? player.getRole().getClass().getSimpleName() : "";
+        boolean isMushroomRole = role.contains("Mushroom");
+        boolean isInsectRole = role.contains("Insect");
+        if (isMushroomRole) {
+            if (!canPlaceMushroomHere(tecton)) {
+                JOptionPane.showMessageDialog(this, "Cannot place mushroom here!", "Invalid", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            String type = (String) mushroomSelector.getSelectedItem();
+            Mushroom_Class mush = null;
+            switch (type) {
+                case "Shroomlet": mush = new Mushroom_Shroomlet(tecton, player); break;
+                case "Maximus": mush = new Mushroom_Maximus(tecton, player); break;
+                case "Slender": mush = new Mushroom_Slender(tecton, player); break;
+                case "Grand": mush = new Mushroom_Grand(tecton, player); break;
+                // Fifth type can be another valid mushroom, e.g., Maximus again or a new one if available
+                default: break;
+            }
+            if (mush != null) {
+                gameModel.getPlane().place_Mushroom(mush, tecton);
+                GameCanvas.getInstance().repaint();
+            }
+        } else if (isInsectRole) {
+            if (!canPlaceInsectHere(tecton)) {
+                JOptionPane.showMessageDialog(this, "Cannot place insect here!", "Invalid", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            String type = (String) insectSelector.getSelectedItem();
+            Insect_Class insect = null;
+            switch (type) {
+                case "Buglet": insect = new Insect_Buglet(tecton, player); break;
+                case "Buggernaut": insect = new Insect_Buggernaut(tecton, player); break;
+                case "Stinger": insect = new Insect_Stinger(tecton, player); break;
+                case "Tektonizator": insect = new Insect_Tektonizator(tecton, player); break;
+                case "ShroomReaper": insect = new Insect_ShroomReaper(tecton, player); break;
+                default: break;
+            }
+            if (insect != null) {
+                gameModel.getPlane().placeInsect(insect, tecton);
+                GameCanvas.getInstance().repaint();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Unknown player role!", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
 
-        /** Update game state (positions, collisions, etc.) */
-        public void updateGame() {
-            // TODO: advance your Game model
+    private boolean canPlaceMushroomHere(Tecton_Class tecton) {
+        // Example rule: can't place next to insect base (implement real logic)
+        for (var neighbor : tecton.get_TectonNeighbours()) {
+            if (neighbor.get_Mushroom() != null && neighbor.get_Mushroom().getClass().getSimpleName().contains("Insect")) {
+                return false;
+            }
         }
+        return tecton.get_Mushroom() == null;
+    }
 
-        public boolean isRunning() {
-            return running;
-        }
+    private boolean canPlaceInsectHere(Tecton_Class tecton) {
+        // Example: only allow if no insect present
+        return tecton.get_InsectsOnTecton().isEmpty();
+    }
+
+    private void endTurn() {
+        gameModel.turn();
+        currentPlayerLabel.setText("Current player: " + getCurrentPlayerName());
+        GameCanvas.getInstance().repaint();
+    }
+
+    private String getCurrentPlayerName() {
+        int id = gameModel.currentTurnsPlayer();
+        var p = gameModel.getPlayer(id);
+        return p != null ? p.getName() : "?";
     }
 }
