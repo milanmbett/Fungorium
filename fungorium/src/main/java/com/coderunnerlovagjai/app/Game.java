@@ -90,8 +90,12 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         Player currentPlayer;
         if(turnNumber % 2 == 1) {
             GAME_LOGGER.log(Level.forName("TURN", 401), "Player 1's turn: " + turnNumber);
+            player1.setRoleMushroom();
+            player2.setRoleNull();
         } else {
             GAME_LOGGER.log(Level.forName("TURN", 401), "Player 2's turn: " + turnNumber);
+            player2.setRoleInsect();
+            player1.setRoleNull();
         }
         currentPlayer = getPlayer(currentTurnsPlayer());
         // Implement game logic for each turn here

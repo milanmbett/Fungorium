@@ -34,11 +34,12 @@ public class GameCanvasFrame extends FrameStyle {
         // initialize game model and start
         this.gameModel = new Game(player1, player2);
         gameModel.initGame();
-        gameModel.startGame();
-        // Set roles explicitly
+        // Set roles explicitly and immediately (redundant, but ensure correct assignment)
         gameModel.getPlayer1().setRoleMushroom();
         gameModel.getPlayer2().setRoleInsect();
+        gameModel.startGame();
         buildUI();
+        updateInventoryVisibility();
         pack();
         setResizable(false);
         setLocationRelativeTo(null);
@@ -88,6 +89,7 @@ public class GameCanvasFrame extends FrameStyle {
         });
         // repaint on a timer (~60 FPS)
         new Timer(40, e -> canvas.repaint()).start();
+        updateInventoryVisibility();
     }
 
     private void handleCanvasClick(int x, int y) {
@@ -105,9 +107,9 @@ public class GameCanvasFrame extends FrameStyle {
     private void onTectonClicked(Tecton_Class tecton) {
         // Determine current player and role
         var player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
-        String role = player.getRole() != null ? player.getRole().getClass().getSimpleName() : "";
-        boolean isMushroomRole = role.contains("Mushroom");
-        boolean isInsectRole = role.contains("Insect");
+        var role = player.getRole();
+        boolean isMushroomRole = role == RoleType.MUSHROOM;
+        boolean isInsectRole = role == RoleType.INSECT;
         if (isMushroomRole) {
             if (!canPlaceMushroomHere(tecton)) {
                 JOptionPane.showMessageDialog(this, "Cannot place mushroom here!", "Invalid", JOptionPane.WARNING_MESSAGE);
@@ -169,6 +171,7 @@ public class GameCanvasFrame extends FrameStyle {
     private void endTurn() {
         gameModel.turn();
         currentPlayerLabel.setText("Current player: " + getCurrentPlayerName());
+        updateInventoryVisibility();
         GameCanvas.getInstance().repaint();
     }
 
@@ -176,5 +179,20 @@ public class GameCanvasFrame extends FrameStyle {
         int id = gameModel.currentTurnsPlayer();
         var p = gameModel.getPlayer(id);
         return p != null ? p.getName() : "?";
+    }
+
+    private void updateInventoryVisibility() {
+        // Show only the relevant inventory for the current player
+        var player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+        var role = player.getRole();
+        boolean isMushroomRole = role == RoleType.MUSHROOM;
+        boolean isInsectRole = role == RoleType.INSECT;
+        mushroomSelector.setVisible(isMushroomRole);
+        // The label before it
+        ((JLabel)toolbar.getComponent(toolbar.getComponentZOrder(mushroomSelector)-1)).setVisible(isMushroomRole);
+        insectSelector.setVisible(isInsectRole);
+        ((JLabel)toolbar.getComponent(toolbar.getComponentZOrder(insectSelector)-1)).setVisible(isInsectRole);
+        toolbar.revalidate();
+        toolbar.repaint();
     }
 }

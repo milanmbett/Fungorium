@@ -31,11 +31,20 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
         // translate to model position (fields x,y updated by super)
         g.translate(x, y);
 
-        // fill base
-        g.setColor(new Color(80, 60, 40));
+        // draw shadow for depth
+        g.setColor(new Color(40, 40, 40, 120));
+        Polygon shadow = new Polygon();
+        for (int i = 0; i < 6; i++) shadow.addPoint(xs[i]+4, ys[i]+6);
+        g.fill(shadow);
+
+        // fill base with brighter color
+        g.setColor(new Color(180, 140, 80));
         g.fill(hexShape);
-        g.setColor(Color.BLACK);
+        // thick white border
+        g.setColor(Color.WHITE);
+        g.setStroke(new java.awt.BasicStroke(3f));
         g.draw(hexShape);
+        g.setStroke(new java.awt.BasicStroke(1f));
 
         // draw mushroom if present
         if (model.get_Mushroom() != null) {
