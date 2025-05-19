@@ -91,11 +91,11 @@ x-re bezáról a rekord, és mainmenu.visible=true
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
--Tectonok egymás mellett
--Slotok igazítása
+-Tectonok egymás mellett --Zoli ON_IT
+-Slotok igazítása --Zoli ON_IT
 -Textúrák igazítása (Spóra ne legyen ennyire messze vagy fasz tudja)
--Spórák generálása, evése, cuccmókok
--Első kör role választás
+-Spórák generálása, evése, cuccmókok 
+-Első kör role választás -- Zoli DONE
 -Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán
 -endgame?
 -currencicik való cuccmókok
