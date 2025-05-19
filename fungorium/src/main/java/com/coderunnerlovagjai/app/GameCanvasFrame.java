@@ -53,13 +53,13 @@ public class GameCanvasFrame extends FrameStyle {
         gameModel.initGame();
         gameModel.startGame();
         buildUI();
-        updateInventoryVisibility();
         pack();
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
         new Timer(40, e -> GameCanvas.getInstance().repaint()).start();
         RoleChoose(); // Role selection at the start of the game
+        updateInventoryVisibility();
     }
 
     /**
