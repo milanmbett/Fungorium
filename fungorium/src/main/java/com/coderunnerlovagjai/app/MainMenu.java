@@ -178,6 +178,7 @@ public class MainMenu extends FrameStyle {
 
         u1t = new JTextField(10);
         u2t = new JTextField(10);
+
         Font tfFont = new Font("SansSerif", Font.PLAIN, 18);
         Color tfBg = new Color(0x2E2E2E);
         Color tfFg = Color.WHITE;
@@ -249,8 +250,8 @@ public class MainMenu extends FrameStyle {
             for (Component c : content.getComponents()) c.setVisible(false);
             entry.setVisible(true);
             for (Component f : entry.getComponents()) f.setVisible(true);
-            u1t.setText("");
-            u2t.setText("");
+            u1t.setText("Player 1");
+            u2t.setText("Player 2");
         });
         back.addActionListener(e -> {
             for (Component c : content.getComponents()) c.setVisible(true);
@@ -263,6 +264,9 @@ public class MainMenu extends FrameStyle {
             setVisible(false);
         });
         submit.addActionListener(e -> handleSubmit());
+
+
+ 
     }
 
     /**
@@ -270,9 +274,9 @@ public class MainMenu extends FrameStyle {
      */
     private void handleSubmit() {
         String p1 = u1t.getText().trim(), p2 = u2t.getText().trim();
-        if (p1.isEmpty() || p2.isEmpty()) {
+        if (p1.isEmpty() || p2.isEmpty() ||  p1.equals(p2)) {
             showStyledMessageDialog(
-                "Please enter names for both players!",
+                "Please enter unique names for both players!",
                 "Missing Info",
                 JOptionPane.WARNING_MESSAGE
             );
