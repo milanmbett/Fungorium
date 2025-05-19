@@ -33,17 +33,21 @@ public enum RoleType {
      */
     public void onTurn(Player player) {
         switch (this) {
-            case MUSHROOM:
-                ROLE_LOGGER.log(Level.forName("ON_TURN", 402), "Mushroom role's turn started.");
-                // Mushroom-specific turn actions
-                break;
-            case INSECT:
-                ROLE_LOGGER.log(Level.forName("ON_TURN", 402), "Insect role's turn started.");
-                // Insect-specific turn actions
-                break;
-            case NONE:
-                ROLE_LOGGER.log(Level.forName("ON_TURN", 402), "No role's turn started.");
-                break;
+        case MUSHROOM:
+            player.setAction(2);
+            ROLE_LOGGER.log(Level.forName("ON_TURN", 402),
+                            "Mushroom role's turn started, 2 actions granted.");
+            break;
+        case INSECT:
+            player.setAction(3);
+            ROLE_LOGGER.log(Level.forName("ON_TURN", 402),
+                            "Insect role's turn started, 3 actions granted.");
+            break;
+        case NONE:
+            player.setAction(0);
+            ROLE_LOGGER.log(Level.forName("ON_TURN", 402),
+                            "No role's turn started, 0 actions granted.");
+            break;
         }
     }
 

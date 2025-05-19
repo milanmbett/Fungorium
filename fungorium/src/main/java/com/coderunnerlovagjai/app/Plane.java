@@ -277,6 +277,7 @@ public class Plane
             PLANE_LOGGER.log(Level.forName("ERROR", 401), "Not enough resources to place the insect.");
             return;
         }
+        
 
         // Deduct the cost from the player's resources
         insect.get_Owner().decreaseIncome(cost);
@@ -288,6 +289,17 @@ public class Plane
         // Log the successful placement
         PLANE_LOGGER.log(Level.forName("PLACE", 401), "Insect: " + insect.get_ID() + " placed on Tecton: " + target.get_ID() + ". Cost: " + cost + ", remaining resources: " + insect.get_Owner().getIncome() + ".");
     }
+
+    public boolean placeInsectPossible(Insect_Class insect, Tecton_Class tecton) {
+    if (tecton.get_InsectsOnTecton().contains(insect)) {
+        // already placed here
+        return false;
+    }
+    // your existing add logic, e.g.:
+    InsectCollection.add(insect);
+    tecton.get_InsectsOnTecton().add(insect);
+    return true;
+}
     
     public void removeInsect(Insect_Class insect) {
         if (InsectCollection.remove(insect)) {

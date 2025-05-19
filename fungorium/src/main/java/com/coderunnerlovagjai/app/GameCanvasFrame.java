@@ -222,6 +222,8 @@ public class GameCanvasFrame extends FrameStyle {
             if (insect != null) {
                 gameModel.getPlane().placeInsect(insect, tecton);
                 GameCanvas.getInstance().repaint();
+                player.setAction(player.getAction() - 1); // Reduce action points
+                updateInfoPanels();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Unknown player role!", "Error", JOptionPane.ERROR_MESSAGE);

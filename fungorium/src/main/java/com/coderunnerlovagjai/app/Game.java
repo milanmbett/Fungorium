@@ -145,6 +145,8 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             }
         }
 
+            player1.getRole().onTurn(player1);
+    player2.getRole().onTurn(player2);
         turnSimulation(); 
         currentPlayer.endTurn();
         
@@ -180,4 +182,5 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             GAME_LOGGER.log(Level.forName("WINNER", 401), "It's a draw!");
         }
     }
+    
 }

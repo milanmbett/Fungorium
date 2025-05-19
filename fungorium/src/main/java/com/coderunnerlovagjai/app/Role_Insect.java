@@ -89,6 +89,7 @@ public class Role_Insect implements Role //TODO: Megírás
         ROLE_INSECT_LOGGER.log(Level.forName("RESET", 401), "Insect role reset.");
 
     }
+    
 
 
 
