@@ -65,7 +65,12 @@ public class Plane
             for (int col = 0; col < cols; col++) {
                 Tecton_Basic t = new Tecton_Basic();
                 t.setID(2 + row * cols + col);
-                
+                //EZ NAGYON ROSSZ :---) my bad nem akartam ezzel baszkodni
+                if(t.get_ID().equals("Tecton_Basic_7") || t.get_ID().equals("Tecton_Basic_12") || t.get_ID().equals("Tecton_Basic_17") 
+                || t.get_ID().equals("Tecton_Basic_11") || t.get_ID().equals("Tecton_Basic_16") || t.get_ID().equals("Tecton_Basic_21"))
+                {
+                    t.set_Thread(new Thread_Class(t, game));
+                }
                 // Calculate hex position to create perfect honeycomb pattern
                 // For flat-topped hexagons that touch at sides:
                 // - Horizontal distance between centers = 2 × radius × cos(30°) = radius × √3

@@ -13,7 +13,7 @@ public class Thread_Class extends Entity
      * Probability [0.0–1.0] that a thread actually expands each turn.
      * Lower → slower spread.
      */
-    private static final double EXPANSION_PROBABILITY = 0.3;
+    private static final double EXPANSION_PROBABILITY = 0.1;
     private static final Logger THREAD_LOGGER = LogManager.getLogger(Thread_Class.class);
     private Tecton_Class tecton;
     private String ID;
