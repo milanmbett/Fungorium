@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.SwingUtilities;
 
 import com.coderunnerlovagjai.app.view.TectonGraphics;
 
@@ -59,18 +60,25 @@ public class GameCanvasFrame extends FrameStyle {
         gameModel.startGame();
         buildUI();
         
-        // Add role selection at the beginning for the first player
-        Player firstPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
-        showRoleSelectionDialog(firstPlayer);
-        
         updateInventoryVisibility();
         pack();
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
         new Timer(40, e -> GameCanvas.getInstance().repaint()).start();
-        RoleChoose(); // Role selection at the start of the game
-        updateInventoryVisibility();
+        
+        // Remove the premature RoleChoose call:
+        // RoleChoose(); 
+        
+        // Instead, do a single role selection when the game is fully loaded and visible
+        // This ensures the game UI is ready before showing dialogs
+        SwingUtilities.invokeLater(() -> {
+            Player firstPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+            showRoleSelectionDialog(firstPlayer);
+            updateInventoryVisibility();
+            GameCanvas.getInstance().repaint();
+            currentPlayerLabel.setText(getTopInfoText());
+        });
     }
 
     /**
@@ -205,17 +213,17 @@ private void handleCanvasClick(int x, int y) {
             handleInsectSelection(x, y);
             break;
             
-        case SELECTING_DESTINATION:
-            // Find which tecton was clicked
-            for (var t : gameModel.getPlane().TectonCollection) {
-                int tx = t.getPosition().x, ty = t.getPosition().y;
-                double dist = Math.hypot(x - tx, y - ty);
-                if (dist < 40) { // hex radius
-                    handleDestinationSelection(t);
-                    break;
-                }
-            }
-            break;
+case SELECTING_DESTINATION:
+    // Find which tecton was clicked
+    for (var t : gameModel.getPlane().TectonCollection) {
+        int tx = t.getPosition().x, ty = t.getPosition().y;
+        double dist = Math.hypot(x - tx, y - ty);
+        if (dist < 40) { // hex radius
+            handleDestinationSelection(t);
+            break; // Now properly inside the if block
+        }
+    }
+    break;
             
         case NORMAL:
         default:
@@ -481,8 +489,9 @@ private void showRoleSelectionDialog(Player player) {
     
     // Change to insect selection state
     currentState = InteractionState.SELECTING_INSECT;
+    updateMoveInsectButtonAppearance(); // Add this line
     JOptionPane.showMessageDialog(this, "Click on an insect to move", 
-                                 "Select Insect", JOptionPane.INFORMATION_MESSAGE);
+                               "Select Insect", JOptionPane.INFORMATION_MESSAGE);
 }
 
 /**
@@ -507,6 +516,7 @@ private boolean handleInsectSelection(int x, int y) {
                 JOptionPane.showMessageDialog(this, "No insects on this tecton.", 
                                              "No Insects", JOptionPane.WARNING_MESSAGE);
                 currentState = InteractionState.NORMAL; // Reset state
+                updateMoveInsectButtonAppearance(); // Add this line
                 return false;
             }
             
@@ -518,6 +528,7 @@ private boolean handleInsectSelection(int x, int y) {
                         JOptionPane.showMessageDialog(this, "This insect is paralyzed and cannot move.", 
                                                     "Insect Paralyzed", JOptionPane.WARNING_MESSAGE);
                         currentState = InteractionState.NORMAL; // Reset state
+                        updateMoveInsectButtonAppearance(); // Add this line
                         return false;
                     }
                     
@@ -526,12 +537,14 @@ private boolean handleInsectSelection(int x, int y) {
                         JOptionPane.showMessageDialog(this, "This insect has no more steps available.", 
                                                     "No Steps", JOptionPane.WARNING_MESSAGE);
                         currentState = InteractionState.NORMAL; // Reset state
+                        updateMoveInsectButtonAppearance(); // Add this line
                         return false;
                     }
                     
                     // Select this insect
                     selectedInsect = insect;
                     currentState = InteractionState.SELECTING_DESTINATION;
+                    updateMoveInsectButtonAppearance(); // Add this line
                     JOptionPane.showMessageDialog(this, "Now click on a destination tecton.", 
                                                 "Select Destination", JOptionPane.INFORMATION_MESSAGE);
                     return true;
@@ -541,6 +554,7 @@ private boolean handleInsectSelection(int x, int y) {
             JOptionPane.showMessageDialog(this, "No insects owned by you on this tecton.", 
                                          "No Valid Insects", JOptionPane.WARNING_MESSAGE);
             currentState = InteractionState.NORMAL; // Reset state
+            updateMoveInsectButtonAppearance(); // Add this line
             return false;
         }
     }
@@ -548,6 +562,7 @@ private boolean handleInsectSelection(int x, int y) {
     JOptionPane.showMessageDialog(this, "No tecton selected. Click closer to a tecton with insects.", 
                                  "No Selection", JOptionPane.WARNING_MESSAGE);
     currentState = InteractionState.NORMAL; // Reset state
+    updateMoveInsectButtonAppearance(); // Add this line
     return false;
 }
 
@@ -564,6 +579,7 @@ private boolean handleDestinationSelection(Tecton_Class destinationTecton) {
         JOptionPane.showMessageDialog(this, "No insect selected. Please try again.", 
                                      "Error", JOptionPane.ERROR_MESSAGE);
         currentState = InteractionState.NORMAL; // Reset state
+        updateMoveInsectButtonAppearance(); // Add this line
         return false;
     }
     
@@ -596,6 +612,24 @@ private boolean handleDestinationSelection(Tecton_Class destinationTecton) {
         // Reset state
         selectedInsect = null;
         currentState = InteractionState.NORMAL;
+        updateMoveInsectButtonAppearance(); // Add this line
+    }
+}
+
+// Add this method to update the Move Insect button appearance based on current state
+private void updateMoveInsectButtonAppearance() {
+    boolean isMovingState = (currentState == InteractionState.SELECTING_INSECT || 
+                            currentState == InteractionState.SELECTING_DESTINATION);
+    
+    if (isMovingState) {
+        // Highlighted state - blue border like selected entities
+        moveInsectButton.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+            javax.swing.BorderFactory.createLineBorder(new java.awt.Color(60,180,255), 4, true),
+            javax.swing.BorderFactory.createEmptyBorder(6,6,6,6)
+        ));
+    } else {
+        // Normal state - no border
+        moveInsectButton.setBorder(null);
     }
 }
 }
