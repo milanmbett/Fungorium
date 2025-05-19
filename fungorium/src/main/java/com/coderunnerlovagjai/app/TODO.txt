@@ -96,7 +96,7 @@ x-re bezáról a rekord, és mainmenu.visible=true
 -Textúrák igazítása (Spóra ne legyen ennyire messze vagy fasz tudja)
 -Spórák generálása, evése, cuccmókok
 -Első kör role választás
--Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go)
+-Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán
 -endgame?
 -currencicik való cuccmókok
 -leaderboardba való beírások
