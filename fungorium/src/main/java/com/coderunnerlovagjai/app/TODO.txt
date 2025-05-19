@@ -92,13 +92,14 @@ x-re bezáról a rekord, és mainmenu.visible=true
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -Tectonok egymás mellett --Zoli ON_IT
--Slotok igazítása --Zoli DONE
+-----Slotok igazítása --Zoli DONE
 -Textúrák igazítása (Spóra ne legyen ennyire messze vagy fasz tudja)
 -Spórák generálása, evése, cuccmókok
--Első kör role választás --Derék DONE
--Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán DONE
--endgame --Milán DONE (Max a enemy base kettétörése)
--currencicik való cuccmókok
--leaderboardba való beírások
--gombok kijavítása--Milán DONE
+-----Első kör role választás --Derék DONE
+-----Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán DONE
+---endgame --Milán DONE (Max a enemy base kettétörése)
+-currencicik való cuccmókok --Balu
+-----leaderboardba való beírások --Milán DONE
+-----gombok kijavítása--Milán DONE
+-tekonizator
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
