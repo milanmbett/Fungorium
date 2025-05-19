@@ -237,6 +237,18 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
                 LOGGER.warn("Mushroom image not found for type: {}. Using fallback.", mushroomType);
                 g.setColor(Color.GREEN);
                 g.fillOval(-mushroomSize/2, -mushroomSize/2, mushroomSize, mushroomSize);
+            }            // draw mushroom HP
+            {
+                int hp = model.get_Mushroom().get_hp();
+                String txt = String.valueOf(hp);
+                var origColor = g.getColor();
+                g.setColor(Color.WHITE);
+                var fm = g.getFontMetrics();
+                int w = fm.stringWidth(txt);
+                int x0 = -w/2;
+                int y0 = fm.getAscent()/2;  // roughly vertical center
+                g.drawString(txt, x0, y0);
+                g.setColor(origColor);
             }
         }
 
@@ -289,6 +301,19 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
                     // fallback if image missing
                     g.setColor(Color.RED);
                     g.fillRect(x, slotY, slotSize, slotSize);
+                }
+                // draw insect HP
+                {
+                    int hp = insect.get_hp();
+                    String txt = String.valueOf(hp);
+                    var origColor = g.getColor();
+                    g.setColor(Color.WHITE);
+                    var fm = g.getFontMetrics();
+                    int w = fm.stringWidth(txt);
+                    int x0 = x + (slotSize - w)/2;
+                    int y0 = slotY + slotSize - 2;  // just above bottom
+                    g.drawString(txt, x0, y0);
+                    g.setColor(origColor);
                 }
                 idx++;
             }
