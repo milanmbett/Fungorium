@@ -27,7 +27,7 @@ public abstract class Mushroom_Class extends Entity
     }
     public Mushroom_Class(Tecton_Class targetTecton)
     {
-
+        
     }
 
     public void die_Mushroom()

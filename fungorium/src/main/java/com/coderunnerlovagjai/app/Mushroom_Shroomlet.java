@@ -8,9 +8,10 @@ public class Mushroom_Shroomlet extends Mushroom_Class
     private static final Logger MUSHROOM_SHROOMLET_LOGGER = LogManager.getLogger(Mushroom_Shroomlet.class);
     public Mushroom_Shroomlet(Tecton_Class targetTecton, Player p)
     {
+        MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("INIT",402),"TRYING TO CREATE MUSHROOM ON TECTON: " + targetTecton.get_ID());
         if((targetTecton.get_Thread()== null))
         {
-            MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("ERROR", 404), "Target Cannot has no Thread");
+            MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("ERROR", 404), "Target has no Thread");
             return;
         }
         addScore(5);

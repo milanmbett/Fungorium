@@ -9,6 +9,11 @@ import org.apache.logging.log4j.Logger;
 
 public class Thread_Class extends Entity
 {
+    /**
+     * Probability [0.0–1.0] that a thread actually expands each turn.
+     * Lower → slower spread.
+     */
+    private static final double EXPANSION_PROBABILITY = 0.3;
     private static final Logger THREAD_LOGGER = LogManager.getLogger(Thread_Class.class);
     private Tecton_Class tecton;
     private String ID;
@@ -46,6 +51,11 @@ public class Thread_Class extends Entity
     }
     public void expand_Thread()
     {
+        if (Math.random() > EXPANSION_PROBABILITY) {
+            //THREAD_LOGGER.log(Level.forName("EXPAND_SKIP", 402),
+                              //"Thread: {} skips expansion this turn", ID);
+            return;
+        }
         THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is trying to expand!");
 
         if (tecton.get_TectonNeighbours().size() == 0) {
@@ -68,17 +78,18 @@ public class Thread_Class extends Entity
         for (Tecton_Class neighbour : threadlessTectonNeighbours) {
             THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " is attempting to expand to tecton: " + neighbour.get_ID());
             try {
-                //neighbour.set_Thread(new Thread_Class(neighbour, game));
-                THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " successfully expanded to tecton: " + neighbour.get_ID());
-                expanded = true;
-                break;
+                if (expandTo(neighbour)) {
+                    //TODO THREAD_LOGGER.log(Level.forName("EXPAND", 401), "Thread: " + ID + " successfully expanded to tecton: " + neighbour.get_ID());
+                    expanded = true;
+                    break;
+                }
             } catch (Exception e) {
-                THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " could not expand to tecton: " + neighbour.get_ID() + " because of: " + e.getMessage());
+                //TODO THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " could not expand to tecton: " + neighbour.get_ID() + " because of: " + e.getMessage());
                 // Try next neighbour
             }
         }
         if (!expanded) {
-            THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " could not expand to any neighbour.");
+            //THREAD_LOGGER.log(Level.forName("WARN", 401), "Thread: " + ID + " could not expand to any neighbour.");
         }
     }
     public void die_Thread()
@@ -118,6 +129,23 @@ public class Thread_Class extends Entity
             return tecton.get_ID();
         } else {
             return "No Tecton"; // or some other default value
+        }
+    }
+
+    /**
+     * Instead of “moving” this thread, we now “expand” by spawning a new one.
+     * The original thread remains on its tecton, and a fresh Thread_Class
+     * is created on the neighbour.
+     */
+    public boolean expandTo(Tecton_Class target) {
+        try {
+            // 1) spawn a new Thread on the target
+            new Thread_Class(target, game);
+            //TODO THREAD_LOGGER.log(Level.forName("EXPAND", 410),"Thread: {} spawned new thread on {}",this.ID,target.get_ID());
+            return true;
+        } catch (UnsupportedOperationException e) {
+            //TODO THREAD_LOGGER.log(Level.forName("EXPAND_FAIL", 411),"Thread: {} could not expand to {} (dead): {}",this.ID, target.get_ID(), e.getMessage());
+            return false;
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.coderunnerlovagjai.app;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -154,7 +157,11 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     }
 
    private void turnSimulation() {
-        plane.ThreadCollection.forEach(Thread_Class::expand_Thread);
+            List<Thread_Class> threads = new ArrayList<>(plane.ThreadCollection);
+            for (Thread_Class t : threads) 
+            {
+                t.expand_Thread();
+    }
         GAME_LOGGER.log(Level.forName("AUTO_TURN", 401), "Automated turn logic executed.");
              
     }

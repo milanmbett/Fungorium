@@ -37,11 +37,11 @@ public abstract class Tecton_Class extends Entity
 
     public List<Tecton_Class> get_TectonNeighbours() {
         if (Neighbours == null) {
-            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Tecton Neighbours is null!");
+           //TODO  TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Tecton Neighbours is null!");
             return null;
         }
 
-        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Neighbours: " + Neighbours);
+        //TODO TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Neighbours: " + Neighbours);
         return Neighbours;
     }
 
@@ -97,10 +97,10 @@ public abstract class Tecton_Class extends Entity
 
     public List<Insect_Class> get_InsectsOnTecton() {
         if (insectsOnTecton == null) {
-            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Insects on Tecton is null!");
+            //TODO TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Insects on Tecton is null!");
             return null;
         }
-        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Insects: " + insectsOnTecton);
+        //TODO TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Insects: " + insectsOnTecton);
         return insectsOnTecton;
     }
 
@@ -126,10 +126,10 @@ public abstract class Tecton_Class extends Entity
 
     public Mushroom_Class get_Mushroom() {
         if (mushroom == null) {
-            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Mushroom is null!");
+           //TODO  TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Mushroom is null!");
             return null;
         }
-        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Mushroom: " + mushroom);
+        //TODO TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Mushroom: " + mushroom);
         return mushroom;
     }
 
@@ -147,10 +147,10 @@ public abstract class Tecton_Class extends Entity
 
     public Basic_Spore get_Spore() {
         if (spore == null) {
-            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Spore is null!");
+           //TODO  TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Spore is null!");
             return null;
         }
-        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Spore: " + spore);
+        //TODO TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Spore: " + spore);
         return spore;
     }
 
@@ -168,10 +168,10 @@ public abstract class Tecton_Class extends Entity
 
     public Thread_Class get_Thread() {
         if (thread == null) {
-            TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Thread is null!");
+           //TODO  TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Thread is null!");
             return null;
         }
-        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Thread: " + thread);
+        //TODO  TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's Thread: " + thread);
         return thread;
     }
 
@@ -180,7 +180,7 @@ public abstract class Tecton_Class extends Entity
             TECTON_CLASS_LOGGER.log(Level.forName("NULL", 201), "Tecton ID is null!");
             return null;
         }
-        TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's ID: " + ID);
+        //TODO TECTON_CLASS_LOGGER.log(Level.forName("GET", 400), "Tecton's ID: " + ID);
         return ID;
     }
 }

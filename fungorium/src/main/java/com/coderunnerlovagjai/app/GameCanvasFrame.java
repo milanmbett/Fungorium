@@ -166,6 +166,15 @@ public class GameCanvasFrame extends FrameStyle {
         var role = player.getRole();
         boolean isMushroomRole = role == RoleType.MUSHROOM;
         boolean isInsectRole = role == RoleType.INSECT;
+                if (player.getAction() == 0) {
+            JOptionPane.showMessageDialog(
+                this,
+                "No actions left. Please use the Skip Turn button!",
+                "No Actions Remaining",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+            return;
+        }
         
         // Check if an entity is selected
         if (selectedEntityIndex < 0) {
@@ -218,8 +227,8 @@ public class GameCanvasFrame extends FrameStyle {
             JOptionPane.showMessageDialog(this, "Unknown player role!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    private boolean canPlaceMushroomHere(Tecton_Class tecton) {
+    //Dunno mi ez
+   /*  private boolean canPlaceMushroomHere(Tecton_Class tecton) {
         // Example rule: can't place next to insect base (implement real logic)
         for (var neighbor : tecton.get_TectonNeighbours()) {
             if (neighbor.get_Mushroom() != null && neighbor.get_Mushroom().getClass().getSimpleName().contains("Insect")) {
@@ -227,6 +236,11 @@ public class GameCanvasFrame extends FrameStyle {
             }
         }
         return tecton.get_Mushroom() == null;
+    }
+    */
+    private boolean canPlaceMushroomHere(Tecton_Class tecton) {
+        // Example: only allow if no mushroom present
+        return (tecton.get_Mushroom()==null && tecton.get_Thread() != null);
     }
 
     private boolean canPlaceInsectHere(Tecton_Class tecton) {
@@ -268,6 +282,12 @@ public class GameCanvasFrame extends FrameStyle {
         // Update top info
         currentPlayerLabel.setText(getTopInfoText());
         var player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+                boolean enabled = player.getAction() > 0;
+        entityPanel.setEnabled(enabled);
+        for (var comp : entityPanel.getComponents()) {
+            comp.setEnabled(enabled);
+        }
+        entityPanel.repaint();
         scoreValueLabel.setText(String.valueOf(player.getScore()));
         actionsValueLabel.setText(String.valueOf(player.getAction()));
         // Update entityPanel: show 5 nice boxes with icons for current role

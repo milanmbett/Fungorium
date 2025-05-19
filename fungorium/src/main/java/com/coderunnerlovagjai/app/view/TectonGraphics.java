@@ -21,6 +21,9 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
 
     private static final Logger LOGGER = LogManager.getLogger(TectonGraphics.class);
     private static final Map<String, BufferedImage> mushroomImages = new HashMap<>();
+    private static final Map<String, BufferedImage> insectImages = new HashMap<>();
+    private static final Map<String, BufferedImage> sporeImages = new HashMap<>();
+    private static BufferedImage threadImage;
     private static BufferedImage tectonBasicImage;
     private static BufferedImage tectonBaseWithSpaceImage;
     private static BufferedImage tectonBaseImage; // Base image
@@ -46,11 +49,28 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
                 LOGGER.error("IllegalArgumentException (likely null resource) for mushroom image: images/{}.png", type, e);
             }
         }
+        String[] sporeTypes = { "Basic_Spore", "Spore_Duplicator", "Spore_Paralysing", "Spore_Slowing", "Spore_Speed" };
+            for (String type : sporeTypes) {
+                String imagePath = "images/" + type + ".png";
+                try {
+                    BufferedImage img = ImageIO.read(
+                    TectonGraphics.class.getClassLoader().getResourceAsStream(imagePath)
+                    );
+                    if (img != null) {
+                        sporeImages.put(type, img);
+                    } else {
+                        LOGGER.warn("Failed to load spore image: {}. Resource stream was null.", imagePath);
+                    }
+                    } catch (IOException|IllegalArgumentException e) {
+                        LOGGER.error("Error loading spore image: images/{}.png", type, e);
+                    }
+        }
         
         try {
             tectonBasicImage = loadImageResource("images/Tecton_Basic.png");
             tectonBaseWithSpaceImage = loadImageResource("images/Tecton_BaseWithSpace.png");
             tectonBaseImage = loadImageResource("images/Tecton_Base.png");
+            threadImage = loadImageResource("images/Thread_Class.png");
             
             if (tectonBaseImage != null) {
                 // Left base should appear rotated to its right on the screen
@@ -132,6 +152,8 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
             renderBaseTecton(g, baseTectonModel);
         } else {
             renderRegularTecton(g);
+            //DEBUG
+            drawDebugId(g);
         }
 
         drawEntitiesOnTecton(g);
@@ -163,46 +185,61 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
     }
 
     private void renderRegularTecton(Graphics2D g) {
-        int imgSize = 120; // Increased to 120px for better visibility and proper honeycomb shape
-        BufferedImage imageToDraw = null;
-
-        if (model.get_Mushroom() != null || (model.get_InsectsOnTecton() != null && !model.get_InsectsOnTecton().isEmpty()) ) {
-            imageToDraw = tectonBaseWithSpaceImage; 
-        } else {
-            imageToDraw = tectonBasicImage; 
-        }
-
+        int imgSize = 120;
+        // always draw the same base image
+        BufferedImage imageToDraw = tectonBasicImage;
         if (imageToDraw != null) {
             g.drawImage(imageToDraw, -imgSize/2, -imgSize/2, imgSize, imgSize, null);
         } else {
-            LOGGER.warn("Fallback hex rendering for regular Tecton ID: {}", model.get_ID());
-            // Fallback hex rendering logic
-            g.setColor(new Color(40, 40, 40, 120));
-            Polygon shadowPolygon = new Polygon();
-            for (int i = 0; i < 6; i++) shadowPolygon.addPoint(xs[i]+4, ys[i]+6);
-            g.fill(shadowPolygon);
-
-            g.setColor(new Color(180, 140, 80));
-            g.fill(hexShape);
-            g.setColor(Color.WHITE);
-            g.setStroke(new java.awt.BasicStroke(3f));
-            g.draw(hexShape);
-            g.setStroke(new java.awt.BasicStroke(1f)); 
+            g.setColor(Color.DARK_GRAY);
+            g.fillOval(-imgSize/2, -imgSize/2, imgSize, imgSize);
         }
     }
 
     private void drawEntitiesOnTecton(Graphics2D g) {
-        // Draw mushroom if present
+        // 1) Draw Thread (bigger than mushroom)
+        if (model.get_Thread() != null) {
+            int threadSize = 80;  // slightly larger
+            if (threadImage != null) {
+                g.drawImage(threadImage, -threadSize/2, -threadSize/2, threadSize, threadSize, null);
+            } else {
+                LOGGER.warn("Thread image not found. Using fallback.");
+                g.setColor(Color.BLUE);
+                g.fillOval(-threadSize/2, -threadSize/2, threadSize, threadSize);
+            }
+        }
+
+        // 2) Draw Mushroom (middle layer)
         if (model.get_Mushroom() != null) {
             String mushroomType = model.get_Mushroom().getClass().getSimpleName();
-            BufferedImage mushroomImg = mushroomImages.get(mushroomType); 
-            int mushroomDisplaySize = 20; 
+            BufferedImage mushroomImg = mushroomImages.get(mushroomType);
+            int mushroomSize = 50;
             if (mushroomImg != null) {
-                g.drawImage(mushroomImg, -mushroomDisplaySize/2, -mushroomDisplaySize/2, mushroomDisplaySize, mushroomDisplaySize, null);
+                g.drawImage(mushroomImg, -mushroomSize/2, -mushroomSize/2, mushroomSize, mushroomSize, null);
             } else {
                 LOGGER.warn("Mushroom image not found for type: {}. Using fallback.", mushroomType);
-                g.setColor(Color.GREEN); 
-                g.fillOval(-10, -10, 20, 20); // Fallback circle for mushroom
+                g.setColor(Color.GREEN);
+                g.fillOval(-mushroomSize/2, -mushroomSize/2, mushroomSize, mushroomSize);
+            }
+        }
+
+        // 3) Draw Spore (top layer, offset slightly to the right)
+        if (model.get_Spore() != null) {
+            String sporeType = model.get_Spore().getClass().getSimpleName();
+            BufferedImage sporeImg = sporeImages.get(sporeType);
+            int sporeSize = 40;
+            int xOffset = (sporeSize / 2) + 30;  // move right
+            if (sporeImg != null) {
+                g.drawImage(sporeImg,
+                            -sporeSize/2 + xOffset,
+                            -sporeSize/2,
+                            sporeSize,
+                            sporeSize,
+                            null);
+            } else {
+                LOGGER.warn("Spore image not found for type: {}. Using fallback.", sporeType);
+                g.setColor(Color.MAGENTA);
+                g.fillOval(-sporeSize/2 + xOffset, -sporeSize/2, sporeSize, sporeSize);
             }
         }
 
@@ -210,7 +247,29 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
         if (model.get_InsectsOnTecton() != null && !model.get_InsectsOnTecton().isEmpty()) {
             int insectCount = model.get_InsectsOnTecton().size();
             g.setColor(Color.RED);
-            g.drawString(String.valueOf(insectCount), -5, 5); 
+            g.drawString(String.valueOf(insectCount), -5, 5);
         }
+    }
+        private void drawDebugId(Graphics2D g) {
+        String id = String.valueOf(model.get_ID());
+        // save original settings
+        var origColor = g.getColor();
+        var origFont  = g.getFont();
+
+        // configure debug font & color
+        g.setFont(origFont.deriveFont(java.awt.Font.BOLD, 14f));
+        g.setColor(Color.YELLOW);
+
+        // center text above hex (radius ≈55)
+        var fm = g.getFontMetrics();
+        int textWidth = fm.stringWidth(id);
+        int xPos = -textWidth / 2;
+        int yPos = -60;  
+
+        g.drawString(id, xPos, yPos);
+
+        // restore
+        g.setFont(origFont);
+        g.setColor(origColor);
     }
 }
