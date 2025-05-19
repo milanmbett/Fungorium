@@ -100,4 +100,5 @@ x-re bezáról a rekord, és mainmenu.visible=true
 -endgame?
 -currencicik való cuccmókok
 -leaderboardba való beírások
+-gombok kijavítása
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
