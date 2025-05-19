@@ -99,4 +99,5 @@ x-re bezáról a rekord, és mainmenu.visible=true
 -Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go)
 -endgame?
 -currencicik való cuccmókok
+-leaderboardba való beírások
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
