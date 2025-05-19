@@ -21,7 +21,7 @@ public class Basic_Spore extends Entity
         timeToLive = 3; 
         tecton = targetTecton;
         tecton.set_Spore(this);
-        Player owner = player;
+        this.owner = player;
         ID = "Spore_Basic" + Integer.toString(owner.getGame().getPlane().SporeCollection.size());
         BASIC_SPORE_LOGGER.log(Level.forName("CREATE",401),"Basic_Spore Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         owner.getGame().getPlane().SporeCollection.add(this);

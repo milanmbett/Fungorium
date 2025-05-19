@@ -12,13 +12,14 @@ public class Insect_Buglet extends Insect_Class
         attackDamage = 100;
         availableSteps = 2;
         tecton = targetTecton;
-        tecton.get_InsectsOnTecton().add(this);
+        //tecton.get_InsectsOnTecton().add(this);
         owner = p;
         ID = "Insect_Buglet" + Integer.toString(owner.getGame().getPlane().InsectCollection.size());
         cost = 10;
-        INSECT_BUGLET_LOGGER.log(Level.forName("CREATE",401),"Insect_Buglet Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        owner.getGame().getPlane().InsectCollection.add(this);
-        INSECT_BUGLET_LOGGER.log(Level.forName("ADD", 403), "Insect_Buglet: "+ID+ " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
+        INSECT_BUGLET_LOGGER.log(Level.forName("CREATE",401),
+        "Insect_Buglet Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
+        //owner.getGame().getPlane().InsectCollection.add(this);
+        //INSECT_BUGLET_LOGGER.log(Level.forName("ADD", 403), "Insect_Buglet: "+ID+ " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
 
     }
     public Insect_Buglet(Tecton_Class targetTecton, int hp, int ad, int as, Player p)

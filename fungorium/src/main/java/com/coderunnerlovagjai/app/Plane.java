@@ -151,43 +151,43 @@ public class Plane
         }
     }
     public void place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton)
-    {
-        if(m.get_Owner().getRole() != RoleType.MUSHROOM) {
-            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Mushroom role!");
-            return;
-        }
-        if (targetTecton== null) {
-            PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
-            return;
-        }
-
-        //TODO: base tekton ellenőrzés
-
-        if (targetTecton.get_Mushroom() != null || targetTecton.isDead()) {  // TODO: valamiért belelép ha nincs rajta gomba akkor is
-            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is already occupied or dead!");
-            return;
-        }
-        if(targetTecton.thread == null) {
-            PLANE_LOGGER.log(Level.forName("NULL", 201), "Thread is null!");
-            return;
-        }
-
-        
-        if(targetTecton.get_Mushroom() == null)
-        {
-            // Check currency
-            int cost=m.getCost(); // Placeholder for cost calculation
-            if (m.get_Owner().getIncome() < cost) {
-                PLANE_LOGGER.log(Level.forName("ERROR", 401), "Not enough currency to place mushroom!");
-                return;
-            }
-            m.get_Owner().decreaseIncome(cost); // Decrease player's currency by cost
-            targetTecton.set_Mushroom(m);
-            m.set_Tecton(targetTecton); // Set the mushroom's tecton
-            MushroomCollection.add(m); // Add mushroom to the collection
-            PLANE_LOGGER.log(Level.forName("PLACE", 401), "Mushroom: " + m.get_ID() + " placed on Tecton: " + targetTecton.get_ID());
-        }
+{
+    if(m.get_Owner().getRole() != RoleType.MUSHROOM) {
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Mushroom role!");
+        return;
     }
+    if (targetTecton == null) {
+        PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
+        return;
+    }
+    
+    // Do validation BEFORE modifying anything
+    if (targetTecton.get_Mushroom() != null || targetTecton.isDead()) {
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is already occupied or dead!");
+        return;
+    }
+    if(targetTecton.thread == null) {
+        PLANE_LOGGER.log(Level.forName("NULL", 201), "Thread is null!");
+        return;
+    }
+    
+    // Check currency
+    int cost = m.getCost();
+    if (m.get_Owner().getIncome() < cost) {
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "Not enough currency to place mushroom!");
+        return;
+    }
+    
+    // Only after all validation passes, we modify state
+    m.get_Owner().decreaseIncome(cost);
+    targetTecton.set_Mushroom(m);
+    m.set_Tecton(targetTecton);
+    MushroomCollection.add(m);
+    
+    PLANE_LOGGER.log(Level.forName("PLACE", 401), "Mushroom: " + m.get_ID() + 
+        " placed on Tecton: " + targetTecton.get_ID() + ". Cost: " + cost + 
+        ", remaining resources: " + m.get_Owner().getIncome());
+}
     public void move_Insect(Player player,Insect_Class ins, Tecton_Class targetTecton)
     {
         if(player.getRole()!= RoleType.INSECT) {
@@ -249,62 +249,61 @@ public class Plane
         targetTecton.get_InsectsOnTecton().add(ins);
         PLANE_LOGGER.log(Level.forName("MOVE", 401), "Insect: " + ins.get_ID() + " moved to Tecton: " + targetTecton.get_ID() + ". Available steps: " + ins.get_availableSteps());
     }
-    public void placeInsect(Insect_Class insect, Tecton_Class target) {
-        // Check if the target tecton is valid
-        if (target == null) {
-            PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is not valid.");
-            return;
-        }
-        if (target.isDead()) {
-            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is dead. Cannot place insect there.");
-            return;
-        }
-        if(target.get_Thread() == null) {
-            PLANE_LOGGER.log(Level.forName("NULL", 201), "You can only place insects on tectons with a thread.");
-            return;
-        }
-        // Check if the insect is valid and not already placed
-        if (insect == null) {
-            PLANE_LOGGER.log(Level.forName("NULL", 201), "Insect is not valid.");
-            return;
-        }
-        if(insect.get_Owner().getRole() != RoleType.INSECT) {
-            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Insect role!");
-            return;
-        }
-        if(target.get_InsectsOnTecton().size()>=5) {
-            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is full! Cannot move insect there.");
-            return;
-        }
-        // Check if the player has enough resources to place the insect
-        int cost = insect.getCost(); // Assuming `Insect_Class` has a `getCost` method
-        if (insect.get_Owner().getIncome() < cost) {
-            PLANE_LOGGER.log(Level.forName("ERROR", 401), "Not enough resources to place the insect.");
-            return;
-        }
-        
-
-        // Deduct the cost from the player's resources
-        insect.get_Owner().decreaseIncome(cost);
-
-        // Place the insect on the target tecton
-        insect.set_Tecton(target);
-        target.get_InsectsOnTecton().add(insect);
-
-        // Log the successful placement
-        PLANE_LOGGER.log(Level.forName("PLACE", 401), "Insect: " + insect.get_ID() + " placed on Tecton: " + target.get_ID() + ". Cost: " + cost + ", remaining resources: " + insect.get_Owner().getIncome() + ".");
-    }
-
-    public boolean placeInsectPossible(Insect_Class insect, Tecton_Class tecton) {
-    if (tecton.get_InsectsOnTecton().contains(insect)) {
-        // already placed here
+   public boolean placeInsect(Insect_Class insect, Tecton_Class target) {
+    // Check if the target tecton is valid
+    if (target == null) {
+        PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is not valid.");
         return false;
     }
-    // your existing add logic, e.g.:
+    if (target.isDead()) {
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is dead. Cannot place insect there.");
+        return false;
+    }
+    if(target.get_Thread() == null) {
+        PLANE_LOGGER.log(Level.forName("NULL", 201), "You can only place insects on tectons with a thread.");
+        return false;
+    }
+    // Check if the insect is valid and not already placed
+    if (insect == null) {
+        PLANE_LOGGER.log(Level.forName("NULL", 201), "Insect is not valid.");
+        return false;
+    }
+    if(insect.get_Owner().getRole() != RoleType.INSECT) {
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Insect role!");
+        return false;
+    }
+    if(target.get_InsectsOnTecton().size() >= 5) {
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is full! Cannot place insect there.");
+        return false;
+    }
+    if(target.get_InsectsOnTecton().contains(insect)) {
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "Insect already exists on this tecton!");
+        return false;
+    }
+    
+    // Check if the player has enough resources to place the insect
+    int cost = insect.getCost();
+    if (insect.get_Owner().getIncome() < cost) {
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "Not enough resources to place the insect.");
+        return false;
+    }
+
+    // Only after all validation passes - deduct the cost and modify collections
+    insect.get_Owner().decreaseIncome(cost);
+    insect.set_Tecton(target);
+    target.get_InsectsOnTecton().add(insect);
     InsectCollection.add(insect);
-    tecton.get_InsectsOnTecton().add(insect);
+    
+    // Log the successful placement
+    PLANE_LOGGER.log(Level.forName("PLACE", 401), 
+        "Insect: " + insect.get_ID() + 
+        " placed on Tecton: " + target.get_ID() + 
+        ". Cost: " + cost + 
+        ", remaining resources: " + insect.get_Owner().getIncome() + ".");
+    
     return true;
 }
+
     
     public void removeInsect(Insect_Class insect) {
         if (InsectCollection.remove(insect)) {

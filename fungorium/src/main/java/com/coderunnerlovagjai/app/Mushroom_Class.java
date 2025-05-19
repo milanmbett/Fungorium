@@ -1,5 +1,7 @@
 package com.coderunnerlovagjai.app;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.logging.log4j.Level;
@@ -71,26 +73,33 @@ public abstract class Mushroom_Class extends Entity
 
     public void attack_Insects()
     {
-        for (Insect_Class insect : tecton.insectsOnTecton) 
-        {
-            if(insect.get_Owner() != owner)
+            if (tecton == null) 
             {
-                MUSHROOM_CLASS_LOGGER.log(Level.forName("ATTACK", 401), "Mushroom: " + ID + " is attacking insect: " + insect.get_ID() + " with power: " + power);
+            return;
+            }
+        List<Insect_Class> insectsCopy = new ArrayList<>(tecton.get_InsectsOnTecton());
+        for (Insect_Class insect : insectsCopy) 
+        {
+            if (insect.get_Owner() != owner)
+            {
+                MUSHROOM_CLASS_LOGGER.log(Level.forName("ATTACK", 401),
+                    "Mushroom: " + ID + " is attacking insect: " + insect.get_ID() + " with power: " + power);
                 insect.reduceHP(power);
             }
-            
         }
         //Körbemegy a tektonja szomszédsági listáján, és megtámadja az összes rovart.
-        for (Tecton_Class t : tecton.get_TectonNeighbours()) 
+for (Tecton_Class t : new ArrayList<>(tecton.get_TectonNeighbours())) 
         {
-            for (Insect_Class insect : t.get_InsectsOnTecton()) 
+            for (Insect_Class insect : new ArrayList<>(t.get_InsectsOnTecton())) 
             {
-                if(insect.get_Owner() != owner)
+                if (insect.get_Owner() != owner)
                 {
-                    MUSHROOM_CLASS_LOGGER.log(Level.forName("ATTACK", 401), "Mushroom: " + ID + " is attacking insect: " + insect.get_ID() + " with power: " + power);
+                    MUSHROOM_CLASS_LOGGER.log(Level.forName("ATTACK", 401),
+                        "Mushroom: " + ID + " is attacking insect: " + insect.get_ID() +
+                        " on neighbour tecton: " + t.get_ID() + " with power: " + power);
                     insect.reduceHP(power);
                 }
-            }    
+            }
         }
     }
     public void upgrade_Mushroom(Player player) //TODO: Meg kell írni

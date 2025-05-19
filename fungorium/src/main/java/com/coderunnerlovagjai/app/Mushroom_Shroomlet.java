@@ -14,17 +14,16 @@ public class Mushroom_Shroomlet extends Mushroom_Class
             MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("ERROR", 404), "Target has no Thread");
             return;
         }
-        addScore(5);
         hp = 250;
         power = 25; 
         sporeCount = 0;
         tecton = targetTecton;
-        tecton.set_Mushroom(this);
+        //tecton.set_Mushroom(this);
         owner = p;
-        ID = "Mushroom_Shroomlet" + Integer.toString(owner.getGame().getPlane().MushroomCollection.size());
+        ID = "Mushroom_Shroomlet" + p.getGame().getPlane().MushroomCollection.size();
         cost=20;
-        MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Shroomlet Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("ADD", 403), "Mushroom_Shroomlet: "+ID+ " added to MushroomCollection! MushroomCollection size: " + owner.getGame().getPlane().MushroomCollection.size());
+        addScore(5);
+        MUSHROOM_SHROOMLET_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Shroomlet Created! ID: " + ID + " on Tecton: " + targetTecton.get_ID());
     }
 
     @Override

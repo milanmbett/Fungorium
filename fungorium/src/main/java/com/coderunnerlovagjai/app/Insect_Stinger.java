@@ -12,13 +12,14 @@ public class Insect_Stinger extends Insect_Class
         attackDamage = 150; 
         availableSteps = 1;
         tecton = targetTecton;
-        tecton.get_InsectsOnTecton().add(this);
+        //tecton.get_InsectsOnTecton().add(this);
         owner = p;
         ID = "Insect_Stinger" + Integer.toString(owner.getGame().getPlane().InsectCollection.size());
         cost = 20;
-        INSECT_STINGER_LOGGER.log(Level.forName("CREATE",401),"Insect_Stinger Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
-        owner.getGame().getPlane().InsectCollection.add(this);
-        INSECT_STINGER_LOGGER.log(Level.forName("ADD", 403), "Insect_Stinger: "+ID+ " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
+        INSECT_STINGER_LOGGER.log(Level.forName("CREATE",401),
+        "Insect_Buggernaut Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
+        //owner.getGame().getPlane().InsectCollection.add(this);
+        //INSECT_STINGER_LOGGER.log(Level.forName("ADD", 403), "Insect_Stinger: "+ID+ " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
 
     }
     public Insect_Stinger(Tecton_Class targetTecton, int hp, int ad, int as, Player p)

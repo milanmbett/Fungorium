@@ -10,11 +10,15 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import java.awt.Rectangle;
+import java.awt.Stroke;
+import java.awt.BasicStroke;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.coderunnerlovagjai.app.GraphicsObject;
+import com.coderunnerlovagjai.app.Mushroom_Class;
+import com.coderunnerlovagjai.app.Player;
 import com.coderunnerlovagjai.app.Tecton_Base;
 import com.coderunnerlovagjai.app.Tecton_Class;
 
@@ -228,27 +232,37 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
 
         // 2) Draw Mushroom (middle layer)
         if (model.get_Mushroom() != null) {
-            String mushroomType = model.get_Mushroom().getClass().getSimpleName();
-            BufferedImage mushroomImg = mushroomImages.get(mushroomType);
-            int mushroomSize = 50;
-            if (mushroomImg != null) {
-                g.drawImage(mushroomImg, -mushroomSize/2, -mushroomSize/2, mushroomSize, mushroomSize, null);
+            Mushroom_Class m = model.get_Mushroom();
+            BufferedImage img = mushroomImages.get(m.getClass().getSimpleName());
+            int size = 50;
+            if (img != null) {
+                g.drawImage(img, -size/2, -size/2, size, size, null);
             } else {
-                LOGGER.warn("Mushroom image not found for type: {}. Using fallback.", mushroomType);
+                // fallback
                 g.setColor(Color.GREEN);
-                g.fillOval(-mushroomSize/2, -mushroomSize/2, mushroomSize, mushroomSize);
-            }            // draw mushroom HP
+                g.fillOval(-size/2, -size/2, size, size);
+            }
+
+            // outline by owner
+            Player owner = m.get_Owner();
+            Color outline = owner.getId() == 1 ? Color.BLUE : Color.RED;
+            Stroke oldStroke = g.getStroke();
+            g.setColor(outline);
+            g.setStroke(new BasicStroke(3f));
+            g.drawOval(-size/2, -size/2, size, size);
+            g.setStroke(oldStroke);
+
+            // draw mushroom HP (white text)
             {
-                int hp = model.get_Mushroom().get_hp();
+                int hp = m.get_hp();
                 String txt = String.valueOf(hp);
-                var origColor = g.getColor();
+                Color orig = g.getColor();
                 g.setColor(Color.WHITE);
                 var fm = g.getFontMetrics();
                 int w = fm.stringWidth(txt);
-                int x0 = -w/2;
-                int y0 = fm.getAscent()/2;  // roughly vertical center
-                g.drawString(txt, x0, y0);
-                g.setColor(origColor);
+                int y0 = fm.getAscent()/2;
+                g.drawString(txt, -w/2, y0);
+                g.setColor(orig);
             }
         }
 
@@ -302,6 +316,20 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
                     g.setColor(Color.RED);
                     g.fillRect(x, slotY, slotSize, slotSize);
                 }
+                // outline by owner
+Player owner = insect.get_Owner();
+Color outline;
+                if (owner != null) {
+                    outline = owner.getId() == 1 ? Color.BLUE : Color.RED;
+                } else {
+                    outline = Color.GRAY; 
+                    LOGGER.warn("Insect owner is null for insect: {}", insect.get_ID());
+                }
+                Stroke old = g.getStroke();
+                g.setColor(outline);
+                g.setStroke(new BasicStroke(2f));
+                g.drawRect(x, slotY, slotSize, slotSize);
+                g.setStroke(old);
                 // draw insect HP
                 {
                     int hp = insect.get_hp();
