@@ -50,6 +50,11 @@ public class GameCanvasFrame extends FrameStyle {
     public GameCanvasFrame(String player1, String player2) {
         super("Fungorium - " + player1 + " vs " + player2, "/images/fungoriumIcon3.png");
         this.gameModel = new Game(player1, player2);
+        initGame();
+    }
+
+    private void initGame() {
+        // Initialize game state here if needed
         gameModel.initGame();
         gameModel.startGame();
         buildUI();
@@ -64,6 +69,8 @@ public class GameCanvasFrame extends FrameStyle {
         setLocationRelativeTo(null);
         setVisible(true);
         new Timer(40, e -> GameCanvas.getInstance().repaint()).start();
+        RoleChoose(); // Role selection at the start of the game
+        updateInventoryVisibility();
     }
 
     /**
@@ -322,6 +329,15 @@ private void handleCanvasClick(int x, int y) {
     private void endTurn() {
         gameModel.turn();
 
+
+        RoleChoose();
+
+        currentPlayerLabel.setText("Current player: " + getCurrentPlayerName() + " (" + getCurrentPlayerRole() + ")");
+        updateInventoryVisibility();
+        GameCanvas.getInstance().repaint();
+    }
+
+    private void RoleChoose() {
         Player nextPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
         showRoleSelectionDialog(nextPlayer);
 
