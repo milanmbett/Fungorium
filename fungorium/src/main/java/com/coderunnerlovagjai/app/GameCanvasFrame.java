@@ -32,8 +32,8 @@ public class GameCanvasFrame extends FrameStyle {
     private JPanel entityPanel;
     private javax.swing.JLayeredPane layeredPane;
     private int selectedEntityIndex = -1;
-    private String[] mushroomTypes = {"Shroomlet", "Maximus", "Slender", "Grand", "Maximus"};
-    private String[] insectTypes = {"Buglet", "Buggernaut", "Stinger", "Tektonizator", "ShroomReaper"};
+    private String[] mushroomTypes = {"Shroomlet", "Maximus", "Slender"};
+    private String[] insectTypes = {"Buglet", "Buggernaut", "Stinger", "Tektonizator", "Shroomreaper"};
 
     /**
      * Constructs a new game window for two players.
@@ -194,7 +194,7 @@ public class GameCanvasFrame extends FrameStyle {
                 case "Shroomlet": mush = new Mushroom_Shroomlet(tecton, player); break;
                 case "Maximus": mush = new Mushroom_Maximus(tecton, player); break;
                 case "Slender": mush = new Mushroom_Slender(tecton, player); break;
-                case "Grand": mush = new Mushroom_Grand(tecton, player); break;
+                //case "Grand": mush = new Mushroom_Grand(tecton, player); break;
                 // Fifth type can be another valid mushroom, e.g., Maximus again or a new one if available
                 default: break;
             }
@@ -295,14 +295,17 @@ public class GameCanvasFrame extends FrameStyle {
         String[] types;
         String imagePrefix;
         boolean isMushroom = player.getRole() == RoleType.MUSHROOM;
+        int length  = 0;
         if (isMushroom) {
             types = mushroomTypes;
             imagePrefix = "Mushroom_";
+            length = types.length;
         } else {
             types = insectTypes;
             imagePrefix = "Insect_";
+            length = types.length;
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < length; i++) {
             // Create a final copy of the index to use in the anonymous inner class
             final int index = i;
             JPanel box = new JPanel() {
