@@ -58,26 +58,52 @@ public class Plane
         initBases(game.getPlayer1(), game.getPlayer2(), game);
         // Hex grid: 4 rows, 5 columns (excluding bases)
         int rows = 4, cols = 5;
-        int hexRadius = 40;
-        int x0 = 180, y0 = 180; // starting offset for first hex
+        int hexRadius = 60; // Increased radius for larger, touching hexes
+        int x0 = 200, y0 = 170; // Adjusted starting offset to center the smaller grid
         Tecton_Basic[][] grid = new Tecton_Basic[rows][cols];
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 Tecton_Basic t = new Tecton_Basic();
                 t.setID(2 + row * cols + col);
-                // Hex grid positioning
-                int x = x0 + col * (int)(hexRadius * 1.75);
-                int y = y0 + row * (int)(hexRadius * 1.5) + (col % 2 == 1 ? hexRadius : 0);
+                
+                // Calculate hex position to create perfect honeycomb pattern
+                // For flat-topped hexagons that touch at sides:
+                // - Horizontal distance between centers = 2 × radius × cos(30°) = radius × √3
+                // - Vertical distance between centers = radius × 1.5 for row spacing
+                int x = x0 + col * (int)(hexRadius * Math.sqrt(3)); // Exact horizontal spacing for touching
+                
+                // Offset odd columns to create the honeycomb pattern
+                int y = y0 + row * (int)(hexRadius * 1.5);
+                if (col % 2 == 1) {
+                    y += (int)(hexRadius * 0.75); // Offset for odd columns (half of 1.5)
+                }
+                
                 t.setPosition(x, y);
                 grid[row][col] = t;
                 TectonCollection.add(t);
             }
         }
         // Connect neighbors (hex grid)
-        int[][] directions = {{-1,0},{-1,1},{0,-1},{0,1},{1,0},{1,-1}};
+        // For even-q offset coordinates (flat-topped hexes), different directions based on column parity
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 Tecton_Basic t = grid[row][col];
+                // Different neighbors for even and odd columns
+                int[][] directions;
+                if (col % 2 == 0) { // Even column
+                    directions = new int[][] {
+                        {-1, 0}, {-1, 1},  // Northwest, Northeast
+                        {0, -1}, {0, 1},    // West, East
+                        {1, 0}, {1, 1}      // Southwest, Southeast
+                    };
+                } else { // Odd column
+                    directions = new int[][] {
+                        {-1, -1}, {-1, 0},  // Northwest, Northeast
+                        {0, -1}, {0, 1},    // West, East
+                        {1, -1}, {1, 0}     // Southwest, Southeast
+                    };
+                }
+                
                 for (int[] d : directions) {
                     int nr = row + d[0];
                     int nc = col + d[1];
@@ -87,13 +113,19 @@ public class Plane
                 }
             }
         }
-        // Connect base1 to leftmost column
-        for (int row = 0; row < rows; row++) {
+        
+        // Connect base1 to leftmost column (first column)
+        // Adjust base1 position to fit the smaller honeycomb grid
+        base1.setPosition(100, 300); // Moved to match the smaller grid
+        for (int row = 1; row < rows-1; row++) { // Connect to middle rows of the smaller grid
             base1.add_TectonNeighbour(grid[row][0]);
             grid[row][0].add_TectonNeighbour(base1);
         }
-        // Connect base2 to rightmost column
-        for (int row = 0; row < rows; row++) {
+        
+        // Connect base2 to rightmost column (last column)
+        // Adjust base2 position to fit the smaller honeycomb grid
+        base2.setPosition(675, 300); // Moved to match the smaller grid
+        for (int row = 1; row < rows-1; row++) { // Connect to middle rows of the smaller grid
             base2.add_TectonNeighbour(grid[row][cols-1]);
             grid[row][cols-1].add_TectonNeighbour(base2);
         }

@@ -151,20 +151,14 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             GAME_LOGGER.log(Level.INFO, "Existing thread id: " + th.get_ID());
             GAME_LOGGER.log(Level.INFO, "Existing thread id: " + th.getTectonID());
         }
-        //endGame();
-        //1) Either Tecton_Base is dead
-        //2) After a certain number of turns :maxTurns
-        if (turnNumber >= 50) 
-        { // Example condition for ending the game
-            endGame();
-        }
     }
 
-    private void turnSimulation() {
-        // Implement automated turn logic here
+   private void turnSimulation() {
+        plane.ThreadCollection.forEach(Thread_Class::expand_Thread);
         GAME_LOGGER.log(Level.forName("AUTO_TURN", 401), "Automated turn logic executed.");
              
     }
+
     public void endGame() { //függvény meghívódik a Tecton_Base isDeadTrue() meghívódik
         GAME_LOGGER.log(Level.forName("END_GAME", 402), "Game ended.");
         setGameOver(true);
