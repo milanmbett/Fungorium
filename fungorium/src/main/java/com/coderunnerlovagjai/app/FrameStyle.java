@@ -255,6 +255,53 @@ public abstract class FrameStyle extends JFrame {
         return out;
     }
 
+    // In FrameStyle.java, alongside your other styled-dialog methods:
+
+/**
+ * Shows a styled option dialog with custom button labels.
+ * @param msg the message to display
+ * @param title the dialog title
+ * @param options an array of button labels
+ * @return the index of the button clicked, or CLOSED_OPTION
+ */
+protected int showStyledOptionDialog(String msg, String title, String[] options) {
+    // Create a JOptionPane with your custom labels
+    JOptionPane pane = new JOptionPane(
+        msg,
+        JOptionPane.QUESTION_MESSAGE,
+        JOptionPane.DEFAULT_OPTION,
+        null,             // no custom icon
+        options,          // the labels
+        options[0]        // default selection
+    );
+
+    makeTransparent(pane);
+    JDialog dlg = pane.createDialog(this, title);
+
+    // Wrap in animated panel
+    JPanel anim = createAnimatedPanel();
+    anim.setLayout(new BorderLayout());
+    anim.add(pane, BorderLayout.CENTER);
+    styleOptionPaneButtons(anim);
+
+    dlg.setContentPane(anim);
+    dlg.pack();
+    dlg.setResizable(false);
+    dlg.setLocationRelativeTo(this);
+    dlg.setModal(true);
+    dlg.setVisible(true);
+
+    // Figure out which button was clicked
+    Object v = pane.getValue();
+    if (v instanceof String) {
+        for (int i = 0; i < options.length; i++) {
+            if (options[i].equals(v)) return i;
+        }
+    }
+    return JOptionPane.CLOSED_OPTION;
+}
+
+
     /** Subclasses must implement to build their specific UI. */
     protected abstract void buildUI();
 }

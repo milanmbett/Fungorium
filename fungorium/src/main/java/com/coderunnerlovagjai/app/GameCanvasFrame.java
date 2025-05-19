@@ -67,8 +67,6 @@ public class GameCanvasFrame extends FrameStyle {
         setVisible(true);
         new Timer(40, e -> GameCanvas.getInstance().repaint()).start();
         
-        // Remove the premature RoleChoose call:
-        // RoleChoose(); 
         
         // Instead, do a single role selection when the game is fully loaded and visible
         // This ensures the game UI is ready before showing dialogs
@@ -218,7 +216,8 @@ case SELECTING_DESTINATION:
     for (var t : gameModel.getPlane().TectonCollection) {
         int tx = t.getPosition().x, ty = t.getPosition().y;
         double dist = Math.hypot(x - tx, y - ty);
-        if (dist < 40) { // hex radius
+        if (dist < 40) // hex radius
+        {
             handleDestinationSelection(t);
             break; // Now properly inside the if block
         }
@@ -247,8 +246,7 @@ case SELECTING_DESTINATION:
         boolean isMushroomRole = role == RoleType.MUSHROOM;
         boolean isInsectRole = role == RoleType.INSECT;
                 if (player.getAction() == 0) {
-            JOptionPane.showMessageDialog(
-                this,
+            showStyledMessageDialog(
                 "No actions left. Please use the Skip Turn button!",
                 "No Actions Remaining",
                 JOptionPane.INFORMATION_MESSAGE
@@ -258,13 +256,13 @@ case SELECTING_DESTINATION:
         
         // Check if an entity is selected
         if (selectedEntityIndex < 0) {
-            JOptionPane.showMessageDialog(this, "Please select an entity to place first!", "No Selection", JOptionPane.INFORMATION_MESSAGE);
+            showStyledMessageDialog( "Please select an entity to place first!", "No Selection", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         
         if (isMushroomRole) {
             if (!canPlaceMushroomHere(tecton)) {
-                JOptionPane.showMessageDialog(this, "Cannot place mushroom here!", "Invalid", JOptionPane.WARNING_MESSAGE);
+                showStyledMessageDialog( "Cannot place mushroom here!", "Invalid", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             
@@ -286,7 +284,7 @@ case SELECTING_DESTINATION:
             }
         } else if (isInsectRole) {
             if (!canPlaceInsectHere(tecton)) {
-                JOptionPane.showMessageDialog(this, "Cannot place insect here!", "Invalid", JOptionPane.WARNING_MESSAGE);
+                showStyledMessageDialog( "Cannot place insect here!", "Invalid", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             String type = insectTypes[selectedEntityIndex];
@@ -299,14 +297,21 @@ case SELECTING_DESTINATION:
                 case "ShroomReaper": insect = new Insect_ShroomReaper(tecton, player); break;
                 default: break;
             }
-            if (insect != null) {
-                gameModel.getPlane().placeInsect(insect, tecton);
-                GameCanvas.getInstance().repaint();
-                player.setAction(player.getAction() - 1); // Reduce action points
-                updateInfoPanels();
-            }
+if (insect != null) {
+    boolean placementSuccessful = gameModel.getPlane().placeInsect(insect, tecton);
+    if (placementSuccessful) {
+        GameCanvas.getInstance().repaint();
+        player.setAction(player.getAction() - 1); // Reduce action points only if successful
+        updateInfoPanels();
+    } else {
+        // Show specific error message from plane's validation
+        showStyledMessageDialog( 
+            "Cannot place insect here. The location may be invalid or you lack resources.", 
+            "Placement Failed", JOptionPane.WARNING_MESSAGE);
+    }
+}
         } else {
-            JOptionPane.showMessageDialog(this, "Unknown player role!", "Error", JOptionPane.ERROR_MESSAGE);
+            showStyledMessageDialog( "Unknown player role!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     //Dunno mi ez
@@ -360,15 +365,10 @@ case SELECTING_DESTINATION:
  */
 private void showRoleSelectionDialog(Player player) {
     String[] roles = { "Gombász", "Rovarász" };
-    int choice = JOptionPane.showOptionDialog(
-        this,
+    int choice = showStyledOptionDialog(
         player.getName() + ", válassz szerepet a következő körre:",
         "Szerepválasztás",
-        JOptionPane.DEFAULT_OPTION,
-        JOptionPane.QUESTION_MESSAGE,
-        null,
-        roles,
-        roles[0]
+        roles
     );
     if (choice == 0) {
         player.setRoleMushroom();
@@ -475,14 +475,14 @@ private void showRoleSelectionDialog(Player player) {
     
     // Check if current player has insect role
     if (player.getRole() != RoleType.INSECT) {
-        JOptionPane.showMessageDialog(this, "You must have the Insect role to move insects.", 
+        showStyledMessageDialog( "You must have the Insect role to move insects.", 
                                       "Invalid Role", JOptionPane.WARNING_MESSAGE);
         return;
     }
     
     // Check if player has remaining actions
     if (player.getAction() <= 0) {
-        JOptionPane.showMessageDialog(this, "No action points left!", 
+        showStyledMessageDialog( "No action points left!", 
                                       "No Actions", JOptionPane.WARNING_MESSAGE);
         return;
     }
@@ -490,7 +490,7 @@ private void showRoleSelectionDialog(Player player) {
     // Change to insect selection state
     currentState = InteractionState.SELECTING_INSECT;
     updateMoveInsectButtonAppearance(); // Add this line
-    JOptionPane.showMessageDialog(this, "Click on an insect to move", 
+    showStyledMessageDialog( "Click on an insect to move", 
                                "Select Insect", JOptionPane.INFORMATION_MESSAGE);
 }
 
@@ -513,7 +513,7 @@ private boolean handleInsectSelection(int x, int y) {
         if (dist < 60) { // Approximate hex radius
             // Check if the tecton has insects
             if (tecton.get_InsectsOnTecton() == null || tecton.get_InsectsOnTecton().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No insects on this tecton.", 
+                showStyledMessageDialog( "No insects on this tecton.", 
                                              "No Insects", JOptionPane.WARNING_MESSAGE);
                 currentState = InteractionState.NORMAL; // Reset state
                 updateMoveInsectButtonAppearance(); // Add this line
@@ -525,7 +525,7 @@ private boolean handleInsectSelection(int x, int y) {
                 if (insect.get_Owner() != null && insect.get_Owner().getId() == player.getId()) {
                     // Check if insect is paralyzed
                     if (insect.get_isParalysed()) {
-                        JOptionPane.showMessageDialog(this, "This insect is paralyzed and cannot move.", 
+                        showStyledMessageDialog( "This insect is paralyzed and cannot move.", 
                                                     "Insect Paralyzed", JOptionPane.WARNING_MESSAGE);
                         currentState = InteractionState.NORMAL; // Reset state
                         updateMoveInsectButtonAppearance(); // Add this line
@@ -534,7 +534,7 @@ private boolean handleInsectSelection(int x, int y) {
                     
                     // Check if insect has steps left
                     if (insect.get_availableSteps() <= 0) {
-                        JOptionPane.showMessageDialog(this, "This insect has no more steps available.", 
+                        showStyledMessageDialog( "This insect has no more steps available.", 
                                                     "No Steps", JOptionPane.WARNING_MESSAGE);
                         currentState = InteractionState.NORMAL; // Reset state
                         updateMoveInsectButtonAppearance(); // Add this line
@@ -545,13 +545,13 @@ private boolean handleInsectSelection(int x, int y) {
                     selectedInsect = insect;
                     currentState = InteractionState.SELECTING_DESTINATION;
                     updateMoveInsectButtonAppearance(); // Add this line
-                    JOptionPane.showMessageDialog(this, "Now click on a destination tecton.", 
+                    showStyledMessageDialog( "Now click on a destination tecton.", 
                                                 "Select Destination", JOptionPane.INFORMATION_MESSAGE);
                     return true;
                 }
             }
             
-            JOptionPane.showMessageDialog(this, "No insects owned by you on this tecton.", 
+            showStyledMessageDialog( "No insects owned by you on this tecton.", 
                                          "No Valid Insects", JOptionPane.WARNING_MESSAGE);
             currentState = InteractionState.NORMAL; // Reset state
             updateMoveInsectButtonAppearance(); // Add this line
@@ -559,7 +559,7 @@ private boolean handleInsectSelection(int x, int y) {
         }
     }
     
-    JOptionPane.showMessageDialog(this, "No tecton selected. Click closer to a tecton with insects.", 
+    showStyledMessageDialog( "No tecton selected. Click closer to a tecton with insects.", 
                                  "No Selection", JOptionPane.WARNING_MESSAGE);
     currentState = InteractionState.NORMAL; // Reset state
     updateMoveInsectButtonAppearance(); // Add this line
@@ -576,43 +576,76 @@ private boolean handleDestinationSelection(Tecton_Class destinationTecton) {
     
     // Make sure we have a selected insect
     if (selectedInsect == null) {
-        JOptionPane.showMessageDialog(this, "No insect selected. Please try again.", 
+        showStyledMessageDialog( "No insect selected. Please try again.", 
                                      "Error", JOptionPane.ERROR_MESSAGE);
-        currentState = InteractionState.NORMAL; // Reset state
-        updateMoveInsectButtonAppearance(); // Add this line
+        currentState = InteractionState.NORMAL;
+        updateMoveInsectButtonAppearance();
         return false;
     }
     
-    // Attempt to move the insect
+    // Get the original tecton and validate movement conditions before attempting to move
+    Tecton_Class originalTecton = selectedInsect.get_Tecton();
+    
+    // Check if destination is a neighbor of the current tecton
+    boolean isNeighbor = false;
+    for (Tecton_Class neighbor : originalTecton.get_TectonNeighbours()) {
+        if (neighbor == destinationTecton) {
+            isNeighbor = true;
+            break;
+        }
+    }
+    
+    if (!isNeighbor) {
+        showStyledMessageDialog( 
+            "Cannot move to the selected location. It's not adjacent to the insect's current position.", 
+            "Invalid Move", JOptionPane.WARNING_MESSAGE);
+        currentState = InteractionState.NORMAL;
+        selectedInsect = null;
+        updateMoveInsectButtonAppearance();
+        return false;
+    }
+    
+    // Check if there's a thread on the destination tecton
+    if (destinationTecton.get_Thread() == null) {
+        showStyledMessageDialog( 
+            "Cannot move to the selected tecton. There is no thread for the insect to walk on.", 
+            "Invalid Move", JOptionPane.WARNING_MESSAGE);
+        currentState = InteractionState.NORMAL;
+        selectedInsect = null;
+        updateMoveInsectButtonAppearance();
+        return false;
+    }
+    
     try {
-        // Save the original tecton to check if the move was successful
-        Tecton_Class originalTecton = selectedInsect.get_Tecton();
-        
         // Call the move_Insect method from Plane
         gameModel.getPlane().move_Insect(player, selectedInsect, destinationTecton);
         
         // Check if the insect actually moved (its tecton reference changed)
         if (selectedInsect.get_Tecton() != originalTecton) {
-            // Success!
-            JOptionPane.showMessageDialog(this, "Insect moved successfully!", 
-                                         "Success", JOptionPane.INFORMATION_MESSAGE);
+            // Success! No message box needed per requirement
             player.setAction(player.getAction() - 1); // Decrease action points
             updateInfoPanels(); // Update UI
             GameCanvas.getInstance().repaint(); // Redraw
             return true;
         } else {
-            // Move didn't happen - the plane.move_Insect method should have shown an error already
+            // Move didn't happen but none of our checks caught it
+            // This could be due to other validation in the move_Insect method
+            showStyledMessageDialog( 
+                "Could not move insect. The move may be invalid for gameplay reasons.", 
+                "Move Failed", JOptionPane.WARNING_MESSAGE);
             return false;
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error moving insect: " + e.getMessage(), 
-                                     "Error", JOptionPane.ERROR_MESSAGE);
+        // Handle any exceptions from the move_Insect method
+        showStyledMessageDialog( 
+            "Error moving insect: " + e.getMessage(), 
+            "Error", JOptionPane.ERROR_MESSAGE);
         return false;
     } finally {
         // Reset state
         selectedInsect = null;
         currentState = InteractionState.NORMAL;
-        updateMoveInsectButtonAppearance(); // Add this line
+        updateMoveInsectButtonAppearance();
     }
 }
 
