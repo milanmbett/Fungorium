@@ -15,6 +15,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     private int turnNumber;
     private final Plane plane; // A játékhoz tartozó pálya 
     private boolean gameOver; // Játék vége állapot
+    private final int maxTurns = 3; //TODO Maximum körök száma DEBUG miatt 3
 
     public Game(String player1Name, String player2Name) {
         this.player1 = new Player(1, player1Name);
@@ -93,6 +94,14 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     
 
     public void turn() { //Ez majd void lesz, csak meg _Tests miatt int
+        
+        if(turnNumber >= maxTurns) 
+        {
+            GAME_LOGGER.log(Level.forName("MAX_TURNS", 401), "Maximum turns reached. Ending game.");
+            endGame();
+            return;
+        }
+        
         turnNumber++; // Move this to the start!
         Player currentPlayer;
         if(turnNumber % 2 == 1) {
@@ -158,7 +167,10 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         }
     }
 
-   private void turnSimulation() {
+   private void turnSimulation() 
+   {
+        
+
             List<Thread_Class> threads = new ArrayList<>(plane.ThreadCollection);
             for (Thread_Class t : threads) 
             {

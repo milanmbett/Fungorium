@@ -339,16 +339,90 @@ if (insect != null) {
         return false;
     }
 
-    private void endTurn() {
-        gameModel.turn();
+private void endTurn() {
+    gameModel.turn();
 
-
-        RoleChoose();
-
-        currentPlayerLabel.setText("Current player: " + getCurrentPlayerName() + " (" + getCurrentPlayerRole() + ")");
-        updateInventoryVisibility();
-        GameCanvas.getInstance().repaint();
+    // Check if game is over after the turn
+    if (gameModel.isGameOver()) {
+        handleGameOver();
+        return;
     }
+
+    RoleChoose();
+
+    currentPlayerLabel.setText("Current player: " + getCurrentPlayerName() + " (" + getCurrentPlayerRole() + ")");
+    updateInventoryVisibility();
+    GameCanvas.getInstance().repaint();
+}
+
+/**
+ * Handles game over state: saves scores to leaderboard and shows end game dialog
+ */
+private void handleGameOver() {
+    Player player1 = gameModel.getPlayer1();
+    Player player2 = gameModel.getPlayer2();
+    
+    // Determine the winner
+    String winnerMessage;
+    Player winner = null;
+    boolean destroyedBase = false;
+    
+    // Check for base destruction (assume this is what determines complete victory)
+    if (gameModel.getPlane().getBase1().isDead() || gameModel.getPlane().getBase2().isDead()) {
+        destroyedBase = true;
+        if (gameModel.getPlane().getBase1().isDead()) {
+            winner = player2;
+            winnerMessage = player2.getName() + " wins by destroying " + player1.getName() + "'s base!";
+        } else {
+            winner = player1;
+            winnerMessage = player1.getName() + " wins by destroying " + player2.getName() + "'s base!";
+        }
+    } else if (player1.getScore() > player2.getScore()) {
+        winner = player1;
+        winnerMessage = player1.getName() + " wins with " + player1.getScore() + " points!";
+    } else if (player2.getScore() > player1.getScore()) {
+        winner = player2;
+        winnerMessage = player2.getName() + " wins with " + player2.getScore() + " points!";
+    } else {
+        winnerMessage = "It's a tie! Both players have " + player1.getScore() + " points.";
+    }
+    
+    // Save to leaderboard (only the winner or both players if it's a tie)
+    if (winner != null) {
+        saveToLeaderboard(winner.getName(), winner.getScore(), destroyedBase);
+    } else {
+        // It's a tie, save both
+        saveToLeaderboard(player1.getName(), player1.getScore(), false);
+        saveToLeaderboard(player2.getName(), player2.getScore(), false);
+    }
+    
+    // Show game over dialog
+    String message = "Game Over!\n\n" + winnerMessage + 
+                    "\n\nPlayer 1: " + player1.getScore() + " points" +
+                    "\nPlayer 2: " + player2.getScore() + " points";
+    
+    String[] options = {"Back to Main Menu", "Exit Game"};
+    int choice = showStyledOptionDialog(
+        message,
+        "Game Over",
+        options
+    );
+    
+    if (choice == 0) {
+        // Return to main menu
+        dispose();
+        try {
+            SoundManager.stopMusic();
+        } catch (Exception e) {
+            // Ignore if sound manager isn't available
+        }
+        new MainMenu();
+    } else {
+        // Exit game
+        System.exit(0);
+    }
+}
+
 
     private void RoleChoose() {
         Player nextPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
@@ -663,6 +737,30 @@ private void updateMoveInsectButtonAppearance() {
     } else {
         // Normal state - no border
         moveInsectButton.setBorder(null);
+    }
+}
+    /**
+ * Saves a player's score to the leaderboard file
+ */
+private void saveToLeaderboard(String playerName, int score, boolean destroyedBase) {
+    String appDir = System.getProperty("user.home") + java.io.File.separator + ".fungorium";
+    String dataFile = appDir + java.io.File.separator + "leaderboard.txt";
+    
+    // Make sure the directory exists
+    new java.io.File(appDir).mkdirs();
+    
+    try {
+        // Append to the file
+        java.io.FileWriter fw = new java.io.FileWriter(dataFile, true);
+        try (java.io.PrintWriter pw = new java.io.PrintWriter(fw)) {
+            pw.printf("%s,%d,%b%n", playerName, score, destroyedBase);
+        }
+    } catch (java.io.IOException e) {
+        showStyledMessageDialog(
+            "Could not save score to leaderboard: " + e.getMessage(),
+            "Error",
+            JOptionPane.ERROR_MESSAGE
+        );
     }
 }
 }
