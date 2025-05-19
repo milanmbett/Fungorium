@@ -37,6 +37,11 @@ public class GameCanvasFrame extends FrameStyle {
     private String[] mushroomTypes = {"Shroomlet", "Maximus", "Slender"};
     private String[] insectTypes = {"Buglet", "Buggernaut", "Stinger", "Tektonizator", "ShroomReaper"};
 
+    private JButton moveInsectButton;
+        private enum InteractionState { NORMAL, SELECTING_INSECT, SELECTING_DESTINATION }
+        private InteractionState currentState = InteractionState.NORMAL;
+        private Insect_Class selectedInsect = null;
+
     /**
      * Constructs a new game window for two players.
      * @param player1 Name of player 1
@@ -48,6 +53,11 @@ public class GameCanvasFrame extends FrameStyle {
         gameModel.initGame();
         gameModel.startGame();
         buildUI();
+        
+        // Add role selection at the beginning for the first player
+        Player firstPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+        showRoleSelectionDialog(firstPlayer);
+        
         updateInventoryVisibility();
         pack();
         setResizable(false);
@@ -137,6 +147,30 @@ public class GameCanvasFrame extends FrameStyle {
         endTurnButton.addActionListener(e -> endTurn());
         endTurnButton.setBounds(670, 10, 80, 80); // Position in the bottom panel next to entity selection
         bottomPanel.add(endTurnButton); // Add directly to the bottom panel instead of layered pane
+
+        // Move Insect button: positioned at the left side of the bottom panel
+        moveInsectButton = new JButton();
+        moveInsectButton.setFocusable(false);
+        moveInsectButton.setBorderPainted(false);
+        moveInsectButton.setContentAreaFilled(false);
+        moveInsectButton.setFocusPainted(false);
+        moveInsectButton.setMargin(new java.awt.Insets(0,0,0,0));
+        moveInsectButton.setOpaque(false);
+        moveInsectButton.setToolTipText("Move an insect");
+        try {
+            Image img = ImageIO.read(getClass().getClassLoader().getResourceAsStream("images/moveInsectButton.png"));
+            if (img != null) {
+                moveInsectButton.setIcon(new ImageIcon(img.getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+            } else {
+                // Fallback if image not found
+                moveInsectButton.setText("Move");
+            }
+        } catch (IOException | IllegalArgumentException e) {
+            moveInsectButton.setText("Move");
+        }
+moveInsectButton.addActionListener(e -> startInsectMovement());
+moveInsectButton.setBounds(10, 10, 80, 80); // New position to avoid overlap
+bottomPanel.add(moveInsectButton);
         
         content.add(bottomPanel, BorderLayout.SOUTH);
         
@@ -158,17 +192,38 @@ public class GameCanvasFrame extends FrameStyle {
         }
     }
 
-    private void handleCanvasClick(int x, int y) {
-        // Find which tecton was clicked
-        for (var t : gameModel.getPlane().TectonCollection) {
-            int tx = t.getPosition().x, ty = t.getPosition().y;
-            double dist = Math.hypot(x - tx, y - ty);
-            if (dist < 40) { // hex radius
-                onTectonClicked(t);
-                break;
+private void handleCanvasClick(int x, int y) {
+    switch (currentState) {
+        case SELECTING_INSECT:
+            handleInsectSelection(x, y);
+            break;
+            
+        case SELECTING_DESTINATION:
+            // Find which tecton was clicked
+            for (var t : gameModel.getPlane().TectonCollection) {
+                int tx = t.getPosition().x, ty = t.getPosition().y;
+                double dist = Math.hypot(x - tx, y - ty);
+                if (dist < 40) { // hex radius
+                    handleDestinationSelection(t);
+                    break;
+                }
             }
-        }
+            break;
+            
+        case NORMAL:
+        default:
+            // Normal behavior - for placing entities
+            for (var t : gameModel.getPlane().TectonCollection) {
+                int tx = t.getPosition().x, ty = t.getPosition().y;
+                double dist = Math.hypot(x - tx, y - ty);
+                if (dist < 40) { // hex radius
+                    onTectonClicked(t);
+                    break;
+                }
+            }
+            break;
     }
+}
 
     private void onTectonClicked(Tecton_Class tecton) {
         // Determine current player and role
@@ -267,29 +322,36 @@ public class GameCanvasFrame extends FrameStyle {
     private void endTurn() {
         gameModel.turn();
 
-
         Player nextPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
-        String[] roles = { "Gombász", "Rovarász" };
-        int choice = JOptionPane.showOptionDialog(
-            this,
-            nextPlayer.getName() + ", válassz szerepet a következő körre:",
-            "Szerepválasztás",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            roles,
-            roles[0]
-        );
-        if (choice == 0) {
-            nextPlayer.setRoleMushroom();
-        } else if (choice == 1) {
-            nextPlayer.setRoleInsect();
-        }
+        showRoleSelectionDialog(nextPlayer);
 
         currentPlayerLabel.setText("Current player: " + getCurrentPlayerName() + " (" + getCurrentPlayerRole() + ")");
         updateInventoryVisibility();
         GameCanvas.getInstance().repaint();
     }
+
+    /**
+ * Shows the role selection dialog for the specified player
+ * @param player The player who will select their role
+ */
+private void showRoleSelectionDialog(Player player) {
+    String[] roles = { "Gombász", "Rovarász" };
+    int choice = JOptionPane.showOptionDialog(
+        this,
+        player.getName() + ", válassz szerepet a következő körre:",
+        "Szerepválasztás",
+        JOptionPane.DEFAULT_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        null,
+        roles,
+        roles[0]
+    );
+    if (choice == 0) {
+        player.setRoleMushroom();
+    } else if (choice == 1) {
+        player.setRoleInsect();
+    }
+}
 
     private String getCurrentPlayerRole() {
         var player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
@@ -308,6 +370,9 @@ public class GameCanvasFrame extends FrameStyle {
     private void updateInventoryVisibility() {
         // Update entity selection panel at the bottom with current player's options
         updateInfoPanels();
+
+        Player player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+        moveInsectButton.setVisible(player.getRole() == RoleType.INSECT);
     }
 
     private String getTopInfoText() {
@@ -380,4 +445,141 @@ public class GameCanvasFrame extends FrameStyle {
         }
         entityPanel.repaint();
     }
+
+    private void startInsectMovement() {
+    Player player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+    
+    // Check if current player has insect role
+    if (player.getRole() != RoleType.INSECT) {
+        JOptionPane.showMessageDialog(this, "You must have the Insect role to move insects.", 
+                                      "Invalid Role", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Check if player has remaining actions
+    if (player.getAction() <= 0) {
+        JOptionPane.showMessageDialog(this, "No action points left!", 
+                                      "No Actions", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Change to insect selection state
+    currentState = InteractionState.SELECTING_INSECT;
+    JOptionPane.showMessageDialog(this, "Click on an insect to move", 
+                                 "Select Insect", JOptionPane.INFORMATION_MESSAGE);
+}
+
+/**
+ * Handles insect selection when in SELECTING_INSECT state
+ * @param x Click X coordinate
+ * @param y Click Y coordinate
+ * @return true if an insect was selected
+ */
+private boolean handleInsectSelection(int x, int y) {
+    Player player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+    
+    // Check all tectons for insects
+    for (var tecton : gameModel.getPlane().TectonCollection) {
+        // Calculate distance from click to tecton center
+        int tx = tecton.getPosition().x, ty = tecton.getPosition().y;
+        double dist = Math.hypot(x - tx, y - ty);
+        
+        // If clicked near this tecton, check its insects
+        if (dist < 60) { // Approximate hex radius
+            // Check if the tecton has insects
+            if (tecton.get_InsectsOnTecton() == null || tecton.get_InsectsOnTecton().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No insects on this tecton.", 
+                                             "No Insects", JOptionPane.WARNING_MESSAGE);
+                currentState = InteractionState.NORMAL; // Reset state
+                return false;
+            }
+            
+            // For now, just select the first insect owned by current player
+            for (Insect_Class insect : tecton.get_InsectsOnTecton()) {
+                if (insect.get_Owner() != null && insect.get_Owner().getId() == player.getId()) {
+                    // Check if insect is paralyzed
+                    if (insect.get_isParalysed()) {
+                        JOptionPane.showMessageDialog(this, "This insect is paralyzed and cannot move.", 
+                                                    "Insect Paralyzed", JOptionPane.WARNING_MESSAGE);
+                        currentState = InteractionState.NORMAL; // Reset state
+                        return false;
+                    }
+                    
+                    // Check if insect has steps left
+                    if (insect.get_availableSteps() <= 0) {
+                        JOptionPane.showMessageDialog(this, "This insect has no more steps available.", 
+                                                    "No Steps", JOptionPane.WARNING_MESSAGE);
+                        currentState = InteractionState.NORMAL; // Reset state
+                        return false;
+                    }
+                    
+                    // Select this insect
+                    selectedInsect = insect;
+                    currentState = InteractionState.SELECTING_DESTINATION;
+                    JOptionPane.showMessageDialog(this, "Now click on a destination tecton.", 
+                                                "Select Destination", JOptionPane.INFORMATION_MESSAGE);
+                    return true;
+                }
+            }
+            
+            JOptionPane.showMessageDialog(this, "No insects owned by you on this tecton.", 
+                                         "No Valid Insects", JOptionPane.WARNING_MESSAGE);
+            currentState = InteractionState.NORMAL; // Reset state
+            return false;
+        }
+    }
+    
+    JOptionPane.showMessageDialog(this, "No tecton selected. Click closer to a tecton with insects.", 
+                                 "No Selection", JOptionPane.WARNING_MESSAGE);
+    currentState = InteractionState.NORMAL; // Reset state
+    return false;
+}
+
+/**
+ * Handles destination selection when in SELECTING_DESTINATION state
+ * @param destinationTecton The target tecton
+ * @return true if the move was successful
+ */
+private boolean handleDestinationSelection(Tecton_Class destinationTecton) {
+    Player player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+    
+    // Make sure we have a selected insect
+    if (selectedInsect == null) {
+        JOptionPane.showMessageDialog(this, "No insect selected. Please try again.", 
+                                     "Error", JOptionPane.ERROR_MESSAGE);
+        currentState = InteractionState.NORMAL; // Reset state
+        return false;
+    }
+    
+    // Attempt to move the insect
+    try {
+        // Save the original tecton to check if the move was successful
+        Tecton_Class originalTecton = selectedInsect.get_Tecton();
+        
+        // Call the move_Insect method from Plane
+        gameModel.getPlane().move_Insect(player, selectedInsect, destinationTecton);
+        
+        // Check if the insect actually moved (its tecton reference changed)
+        if (selectedInsect.get_Tecton() != originalTecton) {
+            // Success!
+            JOptionPane.showMessageDialog(this, "Insect moved successfully!", 
+                                         "Success", JOptionPane.INFORMATION_MESSAGE);
+            player.setAction(player.getAction() - 1); // Decrease action points
+            updateInfoPanels(); // Update UI
+            GameCanvas.getInstance().repaint(); // Redraw
+            return true;
+        } else {
+            // Move didn't happen - the plane.move_Insect method should have shown an error already
+            return false;
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error moving insect: " + e.getMessage(), 
+                                     "Error", JOptionPane.ERROR_MESSAGE);
+        return false;
+    } finally {
+        // Reset state
+        selectedInsect = null;
+        currentState = InteractionState.NORMAL;
+    }
+}
 }
