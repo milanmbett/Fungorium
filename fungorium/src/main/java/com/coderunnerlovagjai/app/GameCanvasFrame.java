@@ -254,6 +254,26 @@ public class GameCanvasFrame extends FrameStyle {
 
     private void endTurn() {
         gameModel.turn();
+
+
+        Player nextPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+        String[] roles = { "Gombász", "Rovarász" };
+        int choice = JOptionPane.showOptionDialog(
+            this,
+            nextPlayer.getName() + ", válassz szerepet a következő körre:",
+            "Szerepválasztás",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            roles,
+            roles[0]
+        );
+        if (choice == 0) {
+            nextPlayer.setRoleMushroom();
+        } else if (choice == 1) {
+            nextPlayer.setRoleInsect();
+        }
+
         currentPlayerLabel.setText("Current player: " + getCurrentPlayerName() + " (" + getCurrentPlayerRole() + ")");
         updateInventoryVisibility();
         GameCanvas.getInstance().repaint();
