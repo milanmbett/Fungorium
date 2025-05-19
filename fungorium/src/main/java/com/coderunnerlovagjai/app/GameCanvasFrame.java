@@ -27,8 +27,8 @@ public class GameCanvasFrame extends FrameStyle {
     private JPanel topInfoPanel;
     private JLabel pointsLabel;
     private JLabel scoreValueLabel;
-    private JLabel currencyLabel;
-    private JLabel currencyValueLabel;
+    private JLabel incomeLabel;
+    private JLabel incomeValueLabel;
     private JLabel actionsLabel;
     private JLabel actionsValueLabel;
     private JPanel bottomPanel;
@@ -108,14 +108,14 @@ public class GameCanvasFrame extends FrameStyle {
         currentPlayerLabel.setBounds(10, 5, 400, 30);
         currentPlayerLabel.setForeground(java.awt.Color.WHITE);
         topInfoPanel.add(currentPlayerLabel);
-        currencyLabel = new JLabel("CURRENCY:");
-        currencyLabel.setForeground(java.awt.Color.WHITE);
-        currencyLabel.setBounds(400, 5, 80, 30);
-        topInfoPanel.add(currencyLabel);
-        currencyValueLabel = new JLabel("80");
-        currencyValueLabel.setForeground(java.awt.Color.YELLOW);
-        topInfoPanel.add(currencyValueLabel);
-        currencyValueLabel.setBounds(480, 5, 50, 30);
+        incomeLabel = new JLabel("INCOME:");
+        incomeLabel.setForeground(java.awt.Color.WHITE);
+        incomeLabel.setBounds(400, 5, 80, 30);
+        topInfoPanel.add(incomeLabel);
+        incomeValueLabel = new JLabel("80");
+        incomeValueLabel.setForeground(java.awt.Color.YELLOW);
+        topInfoPanel.add(incomeValueLabel);
+        incomeValueLabel.setBounds(480, 5, 50, 30);
         pointsLabel = new JLabel("POINTS:");
         pointsLabel.setForeground(java.awt.Color.WHITE);
         pointsLabel.setBounds(500, 5, 70, 30);
@@ -293,34 +293,44 @@ case SELECTING_DESTINATION:
         }
         
         if (isMushroomRole) {
-            if (!canPlaceMushroomHere(tecton)) {
-                showStyledMessageDialog( "Cannot place mushroom here!", "Invalid", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
             String type = mushroomTypes[selectedEntityIndex];
             Mushroom_Class mush = null;
+
             switch (type) {
                 case "Shroomlet": mush = new Mushroom_Shroomlet(tecton, player); break;
                 case "Maximus": mush = new Mushroom_Maximus(tecton, player); break;
                 case "Slender": mush = new Mushroom_Slender(tecton, player); break;
-                //case "Grand": mush = new Mushroom_Grand(tecton, player); break;
-                // Fifth type can be another valid mushroom, e.g., Maximus again or a new one if available
                 default: break;
             }
+
             if (mush != null) {
+                int mushroomCost = mush.getCost(); // Retrieve the cost from the mushroom instance
+
+                if (player.getIncome() < mushroomCost) {
+                    showStyledMessageDialog(
+                        "Not enough income to place a " + type + "!",
+                        "Insufficient Income",
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                    return;
+                }
+
+                if (!canPlaceMushroomHere(tecton)) {
+                    showStyledMessageDialog("Cannot place mushroom here!", "Invalid", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
                 gameModel.getPlane().place_Mushroom(mush, tecton);
                 player.setAction(player.getAction() - 1); // Reduce action points
+                player.decreaseIncome(mushroomCost); // Deduct specific cost from income
                 GameCanvas.getInstance().repaint();
                 updateInfoPanels(); // Update action count display
+                updateCurrencyDisplay(); // Update income display
             }
         } else if (isInsectRole) {
-            if (!canPlaceInsectHere(tecton)) {
-                showStyledMessageDialog( "Cannot place insect here!", "Invalid", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
             String type = insectTypes[selectedEntityIndex];
             Insect_Class insect = null;
+
             switch (type) {
                 case "Buglet": insect = new Insect_Buglet(tecton, player); break;
                 case "Buggernaut": insect = new Insect_Buggernaut(tecton, player); break;
@@ -329,34 +339,44 @@ case SELECTING_DESTINATION:
                 case "ShroomReaper": insect = new Insect_ShroomReaper(tecton, player); break;
                 default: break;
             }
-if (insect != null) {
-    boolean placementSuccessful = gameModel.getPlane().placeInsect(insect, tecton);
-    if (placementSuccessful) {
-        GameCanvas.getInstance().repaint();
-        player.setAction(player.getAction() - 1); // Reduce action points only if successful
-        updateInfoPanels();
-    } else {
-        // Show specific error message from plane's validation
-        showStyledMessageDialog( 
-            "Cannot place insect here. The location may be invalid or you lack resources.", 
-            "Placement Failed", JOptionPane.WARNING_MESSAGE);
-    }
-}
+
+            if (insect != null) {
+                int insectCost = insect.getCost(); // Retrieve the cost from the insect instance
+
+                if (player.getIncome() < insectCost) {
+                    showStyledMessageDialog(
+                        "Not enough income to place a " + type + "!",
+                        "Insufficient Income",
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                    return;
+                }
+
+                if (!canPlaceInsectHere(tecton)) {
+                    showStyledMessageDialog("Cannot place insect here!", "Invalid", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                boolean placementSuccessful = gameModel.getPlane().placeInsect(insect, tecton);
+                if (placementSuccessful) {
+                    GameCanvas.getInstance().repaint();
+                    player.setAction(player.getAction() - 1); // Reduce action points
+                    player.decreaseIncome(insectCost); // Deduct specific cost from income
+                    updateInfoPanels();
+                    updateCurrencyDisplay(); // Update income display
+                } else {
+                    showStyledMessageDialog(
+                        "Cannot place insect here. The location may be invalid or you lack resources.",
+                        "Placement Failed",
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                }
+            }
         } else {
             showStyledMessageDialog( "Unknown player role!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    //Dunno mi ez
-   /*  private boolean canPlaceMushroomHere(Tecton_Class tecton) {
-        // Example rule: can't place next to insect base (implement real logic)
-        for (var neighbor : tecton.get_TectonNeighbours()) {
-            if (neighbor.get_Mushroom() != null && neighbor.get_Mushroom().getClass().getSimpleName().contains("Insect")) {
-                return false;
-            }
-        }
-        return tecton.get_Mushroom() == null;
-    }
-    */
+
     private boolean canPlaceMushroomHere(Tecton_Class tecton) {
         // Example: only allow if no mushroom present
         return (tecton.get_Mushroom()==null && tecton.get_Thread() != null);
@@ -536,6 +556,7 @@ private void showRoleSelectionDialog(Player player) {
         entityPanel.repaint();
         scoreValueLabel.setText(String.valueOf(player.getScore()));
         actionsValueLabel.setText(String.valueOf(player.getAction()));
+        updateCurrencyDisplay();
         // Update entityPanel: show 5 nice boxes with icons for current role
         entityPanel.removeAll();
         String[] types;
@@ -1063,5 +1084,9 @@ private boolean handleTectonCrack(Tecton_Class targetTecton) {
         updateMoveInsectButtonAppearance();
         return false;
     }
+}
+private void updateCurrencyDisplay() {
+    Player player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+    incomeValueLabel.setText(String.valueOf(player.getIncome()));
 }
 }
