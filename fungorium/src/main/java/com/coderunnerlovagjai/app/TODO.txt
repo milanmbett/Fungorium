@@ -83,3 +83,20 @@ x-re bezáról a rekord, és mainmenu.visible=true
 
 
 -Dokumentum
+
+
+
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-Tectonok egymás mellett
+-Slotok igazítása
+-Textúrák igazítása (Spóra ne legyen ennyire messze vagy fasz tudja)
+-Spórák generálása, evése, cuccmókok
+-Első kör role választás
+-Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go)
+-endgame?
+-currencicik való cuccmókok
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
