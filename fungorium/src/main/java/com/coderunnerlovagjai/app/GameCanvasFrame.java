@@ -33,7 +33,7 @@ public class GameCanvasFrame extends FrameStyle {
     private javax.swing.JLayeredPane layeredPane;
     private int selectedEntityIndex = -1;
     private String[] mushroomTypes = {"Shroomlet", "Maximus", "Slender"};
-    private String[] insectTypes = {"Buglet", "Buggernaut", "Stinger", "Tektonizator", "Shroomreaper"};
+    private String[] insectTypes = {"Buglet", "Buggernaut", "Stinger", "Tektonizator", "ShroomReaper"};
 
     /**
      * Constructs a new game window for two players.
@@ -244,8 +244,12 @@ public class GameCanvasFrame extends FrameStyle {
     }
 
     private boolean canPlaceInsectHere(Tecton_Class tecton) {
-        // Example: only allow if no insect present
-        return tecton.get_InsectsOnTecton().isEmpty();
+        // Example: If there are 5 or more insects on the tecton, don't allow placement
+        if(tecton.get_InsectsOnTecton().size() <5)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void endTurn() {

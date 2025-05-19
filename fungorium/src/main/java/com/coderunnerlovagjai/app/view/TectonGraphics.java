@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import java.awt.Rectangle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,6 +65,22 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
                     } catch (IOException|IllegalArgumentException e) {
                         LOGGER.error("Error loading spore image: images/{}.png", type, e);
                     }
+        }
+        String[] insectTypes = { "Insect_Buggernaut", "Insect_Buglet","Insect_ShroomReaper", "Insect_Stinger", "Insect_Tektonizator"};
+        for (String type : insectTypes) {
+            String path = "images/" + type + ".png";
+            try {
+                BufferedImage img = ImageIO.read(
+                    TectonGraphics.class.getClassLoader().getResourceAsStream(path)
+                );
+                if (img != null) {
+                    insectImages.put(type, img);
+                } else {
+                    LOGGER.warn("Failed to load insect image: {} (null stream)", path);
+                }
+            } catch (IOException|IllegalArgumentException e) {
+                LOGGER.error("Error loading insect image: {}", path, e);
+            }
         }
         
         try {
@@ -153,7 +170,7 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
         } else {
             renderRegularTecton(g);
             //DEBUG
-            drawDebugId(g);
+            //drawDebugId(g);
         }
 
         drawEntitiesOnTecton(g);
@@ -243,12 +260,41 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
             }
         }
 
-        // Draw insect count if present
-        if (model.get_InsectsOnTecton() != null && !model.get_InsectsOnTecton().isEmpty()) {
-            int insectCount = model.get_InsectsOnTecton().size();
-            g.setColor(Color.RED);
-            g.drawString(String.valueOf(insectCount), -5, 5);
+        // 4) Draw insect slots
+        int slotCount = 5;
+        int slotSize  = 20;
+        int gap       = 10;
+        int totalW    = slotCount * slotSize + (slotCount - 1) * gap;
+        int startX    = -totalW / 2;
+        int slotY     = 60; // just below the hex
+
+        g.setColor(Color.LIGHT_GRAY);
+        for (int i = 0; i < slotCount; i++) {
+            int x = startX + i * (slotSize + gap);
+            g.drawRect(x, slotY, slotSize, slotSize);
         }
+
+        // 5) Draw each insect into its slot
+        if (model.get_InsectsOnTecton() != null) {
+            int idx = 0;
+            for (var insect : model.get_InsectsOnTecton()) {
+                if (idx >= slotCount) break;
+                String type = insect.getClass().getSimpleName();
+                BufferedImage img = insectImages.get(type);
+                int x = startX + idx * (slotSize + gap);
+
+                if (img != null) {
+                    g.drawImage(img, x, slotY, slotSize, slotSize, null);
+                } else {
+                    // fallback if image missing
+                    g.setColor(Color.RED);
+                    g.fillRect(x, slotY, slotSize, slotSize);
+                }
+                idx++;
+            }
+        }
+
+        // …remove or comment out the old insect‐count drawString…
     }
         private void drawDebugId(Graphics2D g) {
         String id = String.valueOf(model.get_ID());

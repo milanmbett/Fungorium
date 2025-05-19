@@ -161,7 +161,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             for (Thread_Class t : threads) 
             {
                 t.expand_Thread();
-    }
+            }
         GAME_LOGGER.log(Level.forName("AUTO_TURN", 401), "Automated turn logic executed.");
              
     }
