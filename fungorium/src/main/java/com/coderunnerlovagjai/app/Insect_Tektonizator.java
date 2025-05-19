@@ -37,51 +37,88 @@ public Insect_Tektonizator(Tecton_Class targetTecton, Player p) {
         INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ADD", 403), "Insect_Tektonizator: " + ID + " added to InsectCollection! InsectCollection size: " + owner.getGame().getPlane().InsectCollection.size());
     }
 
+
     public void tectonCrack() {
-        if (!tecton.canBeCracked()) {
-            INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("WARN", 404), "Tecton:" + tecton.get_ID() + " cannot be cracked!");
+        if (tecton == null) {
+            INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("ERROR", 404), "Target tecton for cracking is null!");
             return;
         }
 
+        // First, check if the tecton is already dead.
+        if (tecton instanceof Tecton_Dead || tecton.isDead()) { // Added tecton.isDead() for robustness
+            INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("WARN", 404), "Tecton:" + tecton.get_ID() + " is already dead!");
+            return;
+        }
+
+        // Next, specifically handle Tecton_Base destruction.
+        // This is different from "cracking" a regular tecton into two.
+        if (tecton instanceof Tecton_Base) {
+            INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("CRACK", 401), "Insect_Tektonizator: " + ID + " is destroying Tecton_Base: " + tecton.get_ID());
+            ((Tecton_Base) tecton).setDeadTrue(); // This marks the base as dead and calls game.endGame()
+            // owner.getGame().setGameOver(true); // This is now redundant as Tecton_Base.setDeadTrue() handles it.
+            return;
+        }
+
+        // For other tecton types, check if they are designed to be cracked (split).
+        if (!tecton.canBeCracked()) {
+            INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("WARN", 404), "Tecton:" + tecton.get_ID() + " cannot be cracked (e.g., specific type that doesn't split).");
+            return;
+        }
+
+        // Proceed with the original logic for cracking a regular tecton into two Tecton_Dead instances.
         INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("CRACK", 401), "Insect_Tektonizator: " + ID + " is cracking tecton: " + tecton.get_ID());
 
-        // Create two new tectons
-        Tecton_Basic newTecton1 = new Tecton_Basic();
-        Tecton_Basic newTecton2 = new Tecton_Basic();
-
-        // Get the old tecton's neighbours
+        Plane plane = owner.getGame().getPlane();
         List<Tecton_Class> neighbours = new ArrayList<>(tecton.get_TectonNeighbours());
 
-        // Remove the original tecton from the collection
-        owner.getGame().getPlane().TectonCollection.remove(tecton);
+        // Create two new dead tectons
+        // Ensure they get unique IDs and are added to the plane's collection
+        Tecton_Dead newTecton1 = new Tecton_Dead();
+        newTecton1.setID(plane.TectonCollection.size()); // Simple way to get a new ID index
+        plane.TectonCollection.add(newTecton1);
+        newTecton1.setPosition(tecton.getPosition().x - 15, tecton.getPosition().y); // Adjust position slightly
 
+        Tecton_Dead newTecton2 = new Tecton_Dead();
+        newTecton2.setID(plane.TectonCollection.size()); // Simple way to get a new ID index
+        plane.TectonCollection.add(newTecton2);
+        newTecton2.setPosition(tecton.getPosition().x + 15, tecton.getPosition().y); // Adjust position slightly
+        
+        // Remove the original tecton from the plane's collection
+        plane.TectonCollection.remove(tecton);
+
+        // Clear entities from the original tecton model
         tecton.remove_InsectsOnTecton();
         tecton.remove_Mushroom();
         tecton.remove_Spore();
         tecton.remove_Thread();
-        tecton.remove_TectonNeighbours();
+        
+        // Update neighbour relationships
+        // 1. Remove the old tecton from its original neighbours' lists
+        for (Tecton_Class neighbour : neighbours) {
+            neighbour.del_TectonNeighbour(tecton);
+        }
 
-
-        // Set up the new tectons' neighbours
+        // 2. Make the two new dead tectons neighbours of each other
         newTecton1.add_TectonNeighbour(newTecton2);
         newTecton2.add_TectonNeighbour(newTecton1);
 
-        // Distribute the old tecton's neighbours to the new tectons
+        // 3. Distribute the original neighbours between the two new dead tectons
         for (int i = 0; i < neighbours.size(); i++) {
+            Tecton_Class originalNeighbour = neighbours.get(i);
             if (i % 2 == 0) {
-                newTecton1.add_TectonNeighbour(neighbours.get(i));
-                neighbours.get(i).add_TectonNeighbour(newTecton1);
+                newTecton1.add_TectonNeighbour(originalNeighbour);
+                originalNeighbour.add_TectonNeighbour(newTecton1);
             } else {
-                newTecton2.add_TectonNeighbour(neighbours.get(i));
-                neighbours.get(i).add_TectonNeighbour(newTecton2);
+                newTecton2.add_TectonNeighbour(originalNeighbour);
+                originalNeighbour.add_TectonNeighbour(newTecton2);
             }
-            neighbours.get(i).del_TectonNeighbour(tecton);
         }
+        // The original tecton's neighbour list is implicitly cleared by it being dereferenced
+        // or if tecton.remove_TectonNeighbours() was called (which it was in original code).
 
-
-
-        INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("CRACK", 401), "Tecton cracked successfully.  New tectons: " + newTecton1.get_ID() + " and " + newTecton2.get_ID());
+        INSECT_TEKTONIZATOR_LOGGER.log(Level.forName("CRACK", 401), "Tecton cracked successfully. New tectons: " + newTecton1.get_ID() + " and " + newTecton2.get_ID());
     }
+
 
     @Override
     public void duplicate_Insect() {

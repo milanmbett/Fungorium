@@ -101,5 +101,6 @@ x-re bezáról a rekord, és mainmenu.visible=true
 -currencicik való cuccmókok --Balu
 -----leaderboardba való beírások --Milán DONE
 -----gombok kijavítása--Milán DONE
--tekonizator
+---tekonizator (Tecton_Base elpusztítása jó már csak a Tecton_Basic --> Tecton_Dead kell (Igen ezt módosítottuk))
+-new game game resetelése
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

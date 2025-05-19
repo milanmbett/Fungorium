@@ -42,7 +42,7 @@ public class GameCanvasFrame extends FrameStyle {
         private enum InteractionState { NORMAL, SELECTING_INSECT, SELECTING_DESTINATION }
         private InteractionState currentState = InteractionState.NORMAL;
         private Insect_Class selectedInsect = null;
-
+    private JButton tectonCrackButton;
     /**
      * Constructs a new game window for two players.
      * @param player1 Name of player 1
@@ -173,7 +173,7 @@ public class GameCanvasFrame extends FrameStyle {
         try {
             Image img = ImageIO.read(getClass().getClassLoader().getResourceAsStream("images/moveInsectButton.png"));
             if (img != null) {
-                moveInsectButton.setIcon(new ImageIcon(img.getScaledInstance(80, 80, Image.SCALE_SMOOTH)));
+                moveInsectButton.setIcon(new ImageIcon(img.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
             } else {
                 // Fallback if image not found
                 moveInsectButton.setText("Move");
@@ -181,9 +181,33 @@ public class GameCanvasFrame extends FrameStyle {
         } catch (IOException | IllegalArgumentException e) {
             moveInsectButton.setText("Move");
         }
+        tectonCrackButton = new JButton();
+tectonCrackButton.setFocusable(false);
+tectonCrackButton.setBorderPainted(false);
+tectonCrackButton.setContentAreaFilled(false);
+tectonCrackButton.setFocusPainted(false);
+tectonCrackButton.setMargin(new java.awt.Insets(0,0,0,0));
+tectonCrackButton.setOpaque(false);
+tectonCrackButton.setToolTipText("Crack tecton with Tektonizator");
+try {
+    Image img = ImageIO.read(getClass().getClassLoader().getResourceAsStream("images/TectonCrackButton.png"));
+    if (img != null) {
+        tectonCrackButton.setIcon(new ImageIcon(img.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
+    } else {
+        // Fallback if image not found
+        tectonCrackButton.setText("Crack");
+    }
+} catch (IOException | IllegalArgumentException e) {
+    tectonCrackButton.setText("Crack");
+}
+tectonCrackButton.addActionListener(e -> startTectonCrack());
 moveInsectButton.addActionListener(e -> startInsectMovement());
-moveInsectButton.setBounds(10, 10, 80, 80); // New position to avoid overlap
+// Adjust the positions and sizes to prevent overlap
+moveInsectButton.setBounds(15, 5, 40, 40);  
+tectonCrackButton.setBounds(15, 55, 40, 40);
+
 bottomPanel.add(moveInsectButton);
+bottomPanel.add(tectonCrackButton);
         
         content.add(bottomPanel, BorderLayout.SOUTH);
         
@@ -240,19 +264,27 @@ case SELECTING_DESTINATION:
 }
 
     private void onTectonClicked(Tecton_Class tecton) {
-        // Determine current player and role
-        var player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
-        var role = player.getRole();
-        boolean isMushroomRole = role == RoleType.MUSHROOM;
-        boolean isInsectRole = role == RoleType.INSECT;
-                if (player.getAction() == 0) {
-            showStyledMessageDialog(
-                "No actions left. Please use the Skip Turn button!",
-                "No Actions Remaining",
-                JOptionPane.INFORMATION_MESSAGE
-            );
-            return;
+    // Determine current player and role
+    var player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+    var role = player.getRole();
+    boolean isMushroomRole = role == RoleType.MUSHROOM;
+    boolean isInsectRole = role == RoleType.INSECT;
+    
+    // Check if we're in a special interaction state
+    if (currentState == InteractionState.SELECTING_INSECT) {
+        int tx = tecton.getPosition().x, ty = tecton.getPosition().y;
+        handleInsectSelection(tx, ty);
+        return;
+    } else if (currentState == InteractionState.SELECTING_DESTINATION) {
+        if (tectonCrackButton.isSelected()) {
+            // Handle tecton cracking
+            handleTectonCrack(tecton);
+        } else {
+            // Handle normal insect movement
+            handleDestinationSelection(tecton);
         }
+        return;
+    }
         
         // Check if an entity is selected
         if (selectedEntityIndex < 0) {
@@ -358,40 +390,52 @@ private void endTurn() {
 /**
  * Handles game over state: saves scores to leaderboard and shows end game dialog
  */
+/**
+ * Handles game over state: saves scores to leaderboard and shows end game dialog
+ */
 private void handleGameOver() {
     Player player1 = gameModel.getPlayer1();
     Player player2 = gameModel.getPlayer2();
     
-    // Determine the winner
     String winnerMessage;
     Player winner = null;
-    boolean destroyedBase = false;
-    
-    // Check for base destruction (assume this is what determines complete victory)
-    if (gameModel.getPlane().getBase1().isDead() || gameModel.getPlane().getBase2().isDead()) {
-        destroyedBase = true;
-        if (gameModel.getPlane().getBase1().isDead()) {
-            winner = player2;
-            winnerMessage = player2.getName() + " wins by destroying " + player1.getName() + "'s base!";
-        } else {
-            winner = player1;
-            winnerMessage = player1.getName() + " wins by destroying " + player2.getName() + "'s base!";
-        }
-    } else if (player1.getScore() > player2.getScore()) {
+    boolean winnerDestroyedOpponentBase = false; // This flag will be true for the winner ONLY if they won by base destruction
+
+    // 1. Check for base destruction first (automatic victory)
+    if (gameModel.getPlane().getBase1().isDead()) { // Player 1's base is dead
+        winner = player2; // Player 2 wins
+        winnerMessage = player2.getName() + " wins by destroying " + player1.getName() + "'s base!";
+        winnerDestroyedOpponentBase = true; // Player 2 (the winner) won by destroying a base
+    } else if (gameModel.getPlane().getBase2().isDead()) { // Player 2's base is dead
+        winner = player1; // Player 1 wins
+        winnerMessage = player1.getName() + " wins by destroying " + player2.getName() + "'s base!";
+        winnerDestroyedOpponentBase = true; // Player 1 (the winner) won by destroying a base
+    } 
+    // 2. If no base was destroyed, determine winner by points
+    else if (player1.getScore() > player2.getScore()) {
         winner = player1;
         winnerMessage = player1.getName() + " wins with " + player1.getScore() + " points!";
+        // winnerDestroyedOpponentBase remains false because it's a score-based win
     } else if (player2.getScore() > player1.getScore()) {
         winner = player2;
         winnerMessage = player2.getName() + " wins with " + player2.getScore() + " points!";
-    } else {
+        // winnerDestroyedOpponentBase remains false because it's a score-based win
+    } 
+    // 3. If no base destroyed and scores are equal, it's a tie
+    else {
         winnerMessage = "It's a tie! Both players have " + player1.getScore() + " points.";
+        // winner is null, winnerDestroyedOpponentBase remains false
     }
     
-    // Save to leaderboard (only the winner or both players if it's a tie)
+    // Save to leaderboard
     if (winner != null) {
-        saveToLeaderboard(winner.getName(), winner.getScore(), destroyedBase);
+        // For the winner, save their score and whether they won by destroying a base
+        saveToLeaderboard(winner.getName(), winner.getScore(), winnerDestroyedOpponentBase);
+        // For the loser, they did not win by destroying a base, so the flag is false
+        Player loser = (winner == player1) ? player2 : player1;
+        saveToLeaderboard(loser.getName(), loser.getScore(), false);
     } else {
-        // It's a tie, save both
+        // It's a tie, so for both players, the flag for destroying a base is false
         saveToLeaderboard(player1.getName(), player1.getScore(), false);
         saveToLeaderboard(player2.getName(), player2.getScore(), false);
     }
@@ -422,6 +466,7 @@ private void handleGameOver() {
         System.exit(0);
     }
 }
+
 
 
     private void RoleChoose() {
@@ -469,8 +514,10 @@ private void showRoleSelectionDialog(Player player) {
         // Update entity selection panel at the bottom with current player's options
         updateInfoPanels();
 
-        Player player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
-        moveInsectButton.setVisible(player.getRole() == RoleType.INSECT);
+    Player player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+    boolean isInsectRole = player.getRole() == RoleType.INSECT;
+    moveInsectButton.setVisible(isInsectRole);
+    tectonCrackButton.setVisible(isInsectRole);
     }
 
     private String getTopInfoText() {
@@ -579,64 +626,109 @@ private boolean handleInsectSelection(int x, int y) {
     
     // Check all tectons for insects
     for (var tecton : gameModel.getPlane().TectonCollection) {
-        // Calculate distance from click to tecton center
         int tx = tecton.getPosition().x, ty = tecton.getPosition().y;
         double dist = Math.hypot(x - tx, y - ty);
         
-        // If clicked near this tecton, check its insects
         if (dist < 60) { // Approximate hex radius
             // Check if the tecton has insects
             if (tecton.get_InsectsOnTecton() == null || tecton.get_InsectsOnTecton().isEmpty()) {
-                showStyledMessageDialog( "No insects on this tecton.", 
-                                             "No Insects", JOptionPane.WARNING_MESSAGE);
-                currentState = InteractionState.NORMAL; // Reset state
-                updateMoveInsectButtonAppearance(); // Add this line
+                showStyledMessageDialog("No insects on this tecton.", 
+                                       "No Insects", JOptionPane.WARNING_MESSAGE);
+                currentState = InteractionState.NORMAL;
+                updateMoveInsectButtonAppearance();
                 return false;
             }
             
-            // For now, just select the first insect owned by current player
-            for (Insect_Class insect : tecton.get_InsectsOnTecton()) {
+            // Show insect selection dialog if there are multiple insects
+            if (tecton.get_InsectsOnTecton().size() > 1) {
+                String[] insectNames = new String[tecton.get_InsectsOnTecton().size()];
+                Insect_Class[] insects = new Insect_Class[tecton.get_InsectsOnTecton().size()];
+                int idx = 0;
+                
+                for (var insect : tecton.get_InsectsOnTecton()) {
+                    String typeName = insect.getClass().getSimpleName().replace("Insect_", "");
+                    insectNames[idx] = typeName;
+                    insects[idx] = insect;
+                    idx++;
+                }
+                
+                int choice = showStyledOptionDialog(
+                    "Select an insect to use",
+                    "Insect Selection",
+                    insectNames
+                );
+                
+                if (choice >= 0 && choice < insects.length) {
+                    Insect_Class insect = insects[choice];
+                    
+                    // Check if the insect belongs to the current player
+                    if (insect.get_Owner() != null && insect.get_Owner().getId() == player.getId()) {
+                        selectedInsect = insect;
+                        
+if (currentState == InteractionState.SELECTING_INSECT) {
+    // If we're selecting for movement
+    currentState = InteractionState.SELECTING_DESTINATION;
+    updateMoveInsectButtonAppearance();
+    showStyledMessageDialog("Now click on a destination tecton.", 
+                         "Select Destination", JOptionPane.INFORMATION_MESSAGE);
+} else {
+    // Just selecting without any operation
+    String typeName = insect.getClass().getSimpleName().replace("Insect_", "");
+    showStyledMessageDialog("Selected " + typeName + ".", 
+                         "Selected", JOptionPane.INFORMATION_MESSAGE);
+    currentState = InteractionState.NORMAL;
+}
+                        return true;
+                    } else {
+                        showStyledMessageDialog("You can only select your own insects.", 
+                                             "Invalid Selection", JOptionPane.WARNING_MESSAGE);
+                        return false;
+                    }
+                } else {
+                    // User canceled the selection
+                    return false;
+                }
+            } else {
+                // Single insect case
+                Insect_Class insect = tecton.get_InsectsOnTecton().get(0);
+                
+                // Check if the insect belongs to the current player
                 if (insect.get_Owner() != null && insect.get_Owner().getId() == player.getId()) {
-                    // Check if insect is paralyzed
-                    if (insect.get_isParalysed()) {
-                        showStyledMessageDialog( "This insect is paralyzed and cannot move.", 
-                                                    "Insect Paralyzed", JOptionPane.WARNING_MESSAGE);
-                        currentState = InteractionState.NORMAL; // Reset state
-                        updateMoveInsectButtonAppearance(); // Add this line
-                        return false;
-                    }
-                    
-                    // Check if insect has steps left
-                    if (insect.get_availableSteps() <= 0) {
-                        showStyledMessageDialog( "This insect has no more steps available.", 
-                                                    "No Steps", JOptionPane.WARNING_MESSAGE);
-                        currentState = InteractionState.NORMAL; // Reset state
-                        updateMoveInsectButtonAppearance(); // Add this line
-                        return false;
-                    }
-                    
-                    // Select this insect
                     selectedInsect = insect;
-                    currentState = InteractionState.SELECTING_DESTINATION;
-                    updateMoveInsectButtonAppearance(); // Add this line
-                    showStyledMessageDialog( "Now click on a destination tecton.", 
-                                                "Select Destination", JOptionPane.INFORMATION_MESSAGE);
+                    String typeName = insect.getClass().getSimpleName().replace("Insect_", "");
+                    
+                    // Special handling for Tektonizator when tectonCrack button is selected
+                    if (tectonCrackButton.isSelected() && insect instanceof Insect_Tektonizator) {
+                        // Immediately execute crack on the current tecton
+                        executeTectonCrack((Insect_Tektonizator)insect, insect.get_Tecton());
+                        currentState = InteractionState.NORMAL;
+                        tectonCrackButton.setSelected(false);
+                        updateMoveInsectButtonAppearance();
+                        return true;
+                    }
+                    
+                    if (currentState == InteractionState.SELECTING_INSECT) {
+                        // If we're selecting for movement
+                        currentState = InteractionState.SELECTING_DESTINATION;
+                        updateMoveInsectButtonAppearance();
+                        showStyledMessageDialog("Now click on a destination tecton.", 
+                                             "Select Destination", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        // Just selecting without any operation
+                        showStyledMessageDialog("Selected " + typeName + ".", 
+                                             "Selected", JOptionPane.INFORMATION_MESSAGE);
+                        currentState = InteractionState.NORMAL;
+                    }
                     return true;
+                } else {
+                    showStyledMessageDialog("You can only select your own insects.", 
+                                         "Invalid Selection", JOptionPane.WARNING_MESSAGE);
+                    return false;
                 }
             }
-            
-            showStyledMessageDialog( "No insects owned by you on this tecton.", 
-                                         "No Valid Insects", JOptionPane.WARNING_MESSAGE);
-            currentState = InteractionState.NORMAL; // Reset state
-            updateMoveInsectButtonAppearance(); // Add this line
-            return false;
         }
     }
     
-    showStyledMessageDialog( "No tecton selected. Click closer to a tecton with insects.", 
-                                 "No Selection", JOptionPane.WARNING_MESSAGE);
-    currentState = InteractionState.NORMAL; // Reset state
-    updateMoveInsectButtonAppearance(); // Add this line
     return false;
 }
 
@@ -761,6 +853,215 @@ private void saveToLeaderboard(String playerName, int score, boolean destroyedBa
             "Error",
             JOptionPane.ERROR_MESSAGE
         );
+    }
+}
+private void startTectonCrack() {
+    Player player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+    
+    // Check if current player has insect role
+    if (player.getRole() != RoleType.INSECT) {
+        showStyledMessageDialog("You must have the Insect role to crack tectons.", 
+                               "Invalid Role", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Check if player has remaining actions
+    if (player.getAction() <= 0) {
+        showStyledMessageDialog("No action points left!", 
+                               "No Actions", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    // Set button as selected for visual feedback
+    tectonCrackButton.setSelected(true);
+    
+    // Change to insect selection state to let user pick a Tektonizator
+    currentState = InteractionState.SELECTING_INSECT;
+    updateMoveInsectButtonAppearance();
+    showStyledMessageDialog("Click on a Tektonizator insect to crack its tecton.", 
+                           "Select Tektonizator", JOptionPane.INFORMATION_MESSAGE);
+}
+
+/**
+ * Executes the tecton cracking operation
+ * @param tektonizator The Tektonizator insect to use
+ * @param targetTecton The tecton to crack
+ */
+private void executeTectonCrack(Insect_Tektonizator tektonizator, Tecton_Class targetTecton) {
+    Player player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+    
+    try {
+        // Check if the target is a Base tecton
+        if (targetTecton instanceof Tecton_Base) {
+            // Crack the base and end the game
+            tektonizator.tectonCrack();
+            
+            // Set game over state
+            gameModel.setGameOver(true);
+            
+            // Handle game over
+            handleGameOver();
+            return;
+        } 
+        
+        // Check if the target can be cracked
+        if (!targetTecton.canBeCracked()) {
+            String reason = "";
+            if (targetTecton instanceof Tecton_Dead) {
+                reason = "Dead tectons cannot be cracked.";
+            } else {
+                reason = "This tecton cannot be cracked.";
+            }
+            
+            showStyledMessageDialog(reason, "Invalid Target", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Execute the crack operation
+        tektonizator.tectonCrack();
+        
+        // Reduce action points
+        player.setAction(player.getAction() - 1);
+        
+        // Clear selection
+        selectedInsect = null;
+        
+        // Update UI
+        GameCanvas.getInstance().repaint();
+        updateInfoPanels();
+        
+        // Show success message
+        showStyledMessageDialog("Tecton cracked successfully!", 
+                             "Success", JOptionPane.INFORMATION_MESSAGE);
+        
+    } catch (Exception e) {
+        showStyledMessageDialog("Failed to crack tecton: " + e.getMessage(),
+                             "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+/**
+ * Handles tecton cracking using a selected Tektonizator
+ * @param targetTecton The tecton to crack
+ * @return true if cracking was successful
+ */
+/**
+ * Handles tecton cracking using a selected Tektonizator
+ * @param targetTecton The tecton to crack
+ * @return true if cracking was successful
+ */
+private boolean handleTectonCrack(Tecton_Class targetTecton) {
+    Player player = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+    
+    // Make sure we have a selected insect
+    if (selectedInsect == null || !(selectedInsect instanceof Insect_Tektonizator)) {
+        showStyledMessageDialog("No Tektonizator selected. Please try again.", 
+                               "Error", JOptionPane.ERROR_MESSAGE);
+        currentState = InteractionState.NORMAL;
+        tectonCrackButton.setSelected(false);
+        updateMoveInsectButtonAppearance();
+        return false;
+    }
+    
+    // Check if the target tecton can be cracked
+    if (!targetTecton.canBeCracked()) {
+        if (targetTecton instanceof Tecton_Base) {
+            // Base tectons are a special case - they can be cracked to end the game
+            Insect_Tektonizator tektonizator = (Insect_Tektonizator) selectedInsect;
+            
+            // Move the tektonizator to the target tecton if it's not already there
+            if (tektonizator.get_Tecton() != targetTecton) {
+                if (!tektonizator.get_Tecton().get_TectonNeighbours().contains(targetTecton)) {
+                    showStyledMessageDialog("The tektonizator must be on or adjacent to the target base.",
+                                         "Invalid Target", JOptionPane.WARNING_MESSAGE);
+                    currentState = InteractionState.NORMAL;
+                    tectonCrackButton.setSelected(false);
+                    updateMoveInsectButtonAppearance();
+                    return false;
+                }
+                
+                // Move the tektonizator to the target tecton
+                gameModel.getPlane().move_Insect(player, tektonizator, targetTecton);
+            }
+            
+            // Confirm destruction of base
+            int choice = showStyledOptionDialog(
+                "Are you sure you want to destroy this base? This will end the game.",
+                "Confirm Base Destruction",
+                new String[] {"Yes, destroy base", "No, cancel"}
+            );
+            
+            if (choice != 0) {
+                // User canceled
+                currentState = InteractionState.NORMAL;
+                tectonCrackButton.setSelected(false);
+                updateMoveInsectButtonAppearance();
+                return false;
+            }
+            
+            // Perform the tecton crack on base
+            tektonizator.tectonCrack();
+            
+            // Game over is set in the tectonCrack method when cracking a base
+            // Handle the game over state
+            handleGameOver();
+            return true;
+        } else if (targetTecton instanceof Tecton_Dead) {
+            showStyledMessageDialog("Dead tectons cannot be cracked.",
+                                 "Invalid Target", JOptionPane.WARNING_MESSAGE);
+        } else {
+            showStyledMessageDialog("This tecton cannot be cracked.",
+                                 "Invalid Target", JOptionPane.WARNING_MESSAGE);
+        }
+        currentState = InteractionState.NORMAL;
+        tectonCrackButton.setSelected(false);
+        updateMoveInsectButtonAppearance();
+        return false;
+    }
+    
+    // Perform the crack operation
+    try {
+        Insect_Tektonizator tektonizator = (Insect_Tektonizator) selectedInsect;
+        
+        // Move the tektonizator to the target tecton if it's not already there
+        if (tektonizator.get_Tecton() != targetTecton) {
+            if (!tektonizator.get_Tecton().get_TectonNeighbours().contains(targetTecton)) {
+                showStyledMessageDialog("The tektonizator must be on or adjacent to the target tecton.",
+                                     "Invalid Target", JOptionPane.WARNING_MESSAGE);
+                currentState = InteractionState.NORMAL;
+                tectonCrackButton.setSelected(false);
+                updateMoveInsectButtonAppearance();
+                return false;
+            }
+            
+            // Move the tektonizator to the target tecton
+            gameModel.getPlane().move_Insect(player, tektonizator, targetTecton);
+        }
+        
+        // Perform the tecton crack
+        tektonizator.tectonCrack();
+        
+        // Reduce action points
+        player.setAction(player.getAction() - 1);
+        
+        // Repaint and update UI
+        GameCanvas.getInstance().repaint();
+        updateInfoPanels();
+        
+        // Show success message
+        showStyledMessageDialog("Tecton cracked successfully!", 
+                             "Success", JOptionPane.INFORMATION_MESSAGE);
+        
+        currentState = InteractionState.NORMAL;
+        tectonCrackButton.setSelected(false);
+        updateMoveInsectButtonAppearance();
+        return true;
+    } catch (Exception e) {
+        showStyledMessageDialog("Failed to crack tecton: " + e.getMessage(),
+                             "Error", JOptionPane.ERROR_MESSAGE);
+        currentState = InteractionState.NORMAL;
+        tectonCrackButton.setSelected(false);
+        updateMoveInsectButtonAppearance();
+        return false;
     }
 }
 }

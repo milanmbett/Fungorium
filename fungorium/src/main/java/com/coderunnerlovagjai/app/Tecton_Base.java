@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok kezdenek.
 {
     private Player owner;
-    private boolean isDead = false; //TODO: Valójában ez nem feltétlen kellhet, mert a setDeadTrue enélkül is hívható
+    private boolean isDead = false; 
     private Game game;
 
     private static final Logger TECTON_BASE_LOGGER = LogManager.getLogger(Tecton_Base.class);
@@ -51,7 +51,7 @@ public class Tecton_Base extends Tecton_Class //A főbázis ahol a játékosok k
 
     @Override
     public boolean isDead() {
-        return false; 
+        return this.isDead; 
     }
 
     public void setDeadTrue()
