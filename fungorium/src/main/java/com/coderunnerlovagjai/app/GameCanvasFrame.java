@@ -26,6 +26,8 @@ public class GameCanvasFrame extends FrameStyle {
     private JPanel topInfoPanel;
     private JLabel pointsLabel;
     private JLabel scoreValueLabel;
+    private JLabel currencyLabel;
+    private JLabel currencyValueLabel;
     private JLabel actionsLabel;
     private JLabel actionsValueLabel;
     private JPanel bottomPanel;
@@ -83,6 +85,14 @@ public class GameCanvasFrame extends FrameStyle {
         currentPlayerLabel.setBounds(10, 5, 400, 30);
         currentPlayerLabel.setForeground(java.awt.Color.WHITE);
         topInfoPanel.add(currentPlayerLabel);
+        currencyLabel = new JLabel("CURRENCY:");
+        currencyLabel.setForeground(java.awt.Color.WHITE);
+        currencyLabel.setBounds(400, 5, 80, 30);
+        topInfoPanel.add(currencyLabel);
+        currencyValueLabel = new JLabel("80");
+        currencyValueLabel.setForeground(java.awt.Color.YELLOW);
+        topInfoPanel.add(currencyValueLabel);
+        currencyValueLabel.setBounds(480, 5, 50, 30);
         pointsLabel = new JLabel("POINTS:");
         pointsLabel.setForeground(java.awt.Color.WHITE);
         pointsLabel.setBounds(500, 5, 70, 30);
@@ -256,6 +266,26 @@ public class GameCanvasFrame extends FrameStyle {
 
     private void endTurn() {
         gameModel.turn();
+
+
+        Player nextPlayer = gameModel.getPlayer(gameModel.currentTurnsPlayer());
+        String[] roles = { "Gombász", "Rovarász" };
+        int choice = JOptionPane.showOptionDialog(
+            this,
+            nextPlayer.getName() + ", válassz szerepet a következő körre:",
+            "Szerepválasztás",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            roles,
+            roles[0]
+        );
+        if (choice == 0) {
+            nextPlayer.setRoleMushroom();
+        } else if (choice == 1) {
+            nextPlayer.setRoleInsect();
+        }
+
         currentPlayerLabel.setText("Current player: " + getCurrentPlayerName() + " (" + getCurrentPlayerRole() + ")");
         updateInventoryVisibility();
         GameCanvas.getInstance().repaint();
