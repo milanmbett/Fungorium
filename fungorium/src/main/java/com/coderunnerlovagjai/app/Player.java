@@ -13,6 +13,7 @@ public class Player
     private int action;
     private final int id;
     private Game game;
+    private int currency;
     private String name;
 
     public Player() {
@@ -22,6 +23,7 @@ public class Player
         this.income = 200;
         this.score = 0;
         this.action = 3;
+        this.currency = 80;
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
 
@@ -32,6 +34,7 @@ public class Player
         this.income = 200;
         this.score = 0;
         this.action = 3;
+        this.currency = 80;
         this.name = name;
         PLAYER_LOGGER.log(Level.forName("INIT", 402), "Player created with default values. Income: " + income + ", Score: " + score);
     }
@@ -46,6 +49,12 @@ public class Player
 
     public int getId() {
         return id;
+    }
+    public int getCurrency() {
+        return currency;
+    }
+    public void setCurrency(int currency) {
+        this.currency = currency;
     }
 
     // Módosított szerep beállító metódusok

@@ -98,7 +98,7 @@ x-re bezáról a rekord, és mainmenu.visible=true
 -----Első kör role választás --Derék DONE
 -----Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán DONE
 ---endgame --Milán DONE (Max a enemy base kettétörése)
--currencicik való cuccmókok --Balu
+-increaseincome pontositasa --Balu
 -----leaderboardba való beírások --Milán DONE
 -----gombok kijavítása--Milán DONE
 -tekonizator
