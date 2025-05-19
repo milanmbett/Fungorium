@@ -1,17 +1,16 @@
 package com.coderunnerlovagjai.app.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.Stroke; // Import IOException
 import java.awt.image.BufferedImage;
-import java.io.IOException; // Import IOException
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import java.awt.Rectangle;
-import java.awt.Stroke;
-import java.awt.BasicStroke;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -286,39 +285,40 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
             }
         }
 
-        // 4) Draw insect slots
+        // 4) Draw insect slots in a circle around the center
         int slotCount = 5;
         int slotSize  = 20;
-        int gap       = 10;
-        int totalW    = slotCount * slotSize + (slotCount - 1) * gap;
-        int startX    = -totalW / 2;
-        int slotY     = 60; // just below the hex
+        int radius    = 30; // distance from center
+        double angleStep = 2 * Math.PI / slotCount;
 
-        g.setColor(Color.LIGHT_GRAY);
         for (int i = 0; i < slotCount; i++) {
-            int x = startX + i * (slotSize + gap);
-            g.drawRect(x, slotY, slotSize, slotSize);
+            double angle = Math.PI / 2 + i * angleStep; // start at top
+            int cx = (int) (radius * Math.cos(angle));
+            int cy = (int) (radius * Math.sin(angle));
+            g.setColor(Color.LIGHT_GRAY);
+            g.drawRect(cx - slotSize/2, cy - slotSize/2, slotSize, slotSize);
         }
 
-        // 5) Draw each insect into its slot
+        // 5) Draw each insect into its slot (same positions)
         if (model.get_InsectsOnTecton() != null) {
             int idx = 0;
             for (var insect : model.get_InsectsOnTecton()) {
                 if (idx >= slotCount) break;
+                double angle = Math.PI / 2 + idx * angleStep;
+                int cx = (int) (radius * Math.cos(angle));
+                int cy = (int) (radius * Math.sin(angle));
                 String type = insect.getClass().getSimpleName();
                 BufferedImage img = insectImages.get(type);
-                int x = startX + idx * (slotSize + gap);
 
                 if (img != null) {
-                    g.drawImage(img, x, slotY, slotSize, slotSize, null);
+                    g.drawImage(img, cx - slotSize/2, cy - slotSize/2, slotSize, slotSize, null);
                 } else {
-                    // fallback if image missing
                     g.setColor(Color.RED);
-                    g.fillRect(x, slotY, slotSize, slotSize);
+                    g.fillRect(cx - slotSize/2, cy - slotSize/2, slotSize, slotSize);
                 }
                 // outline by owner
-Player owner = insect.get_Owner();
-Color outline;
+                Player owner = insect.get_Owner();
+                Color outline;
                 if (owner != null) {
                     outline = owner.getId() == 1 ? Color.BLUE : Color.RED;
                 } else {
@@ -328,7 +328,7 @@ Color outline;
                 Stroke old = g.getStroke();
                 g.setColor(outline);
                 g.setStroke(new BasicStroke(2f));
-                g.drawRect(x, slotY, slotSize, slotSize);
+                g.drawRect(cx - slotSize/2, cy - slotSize/2, slotSize, slotSize);
                 g.setStroke(old);
                 // draw insect HP
                 {
@@ -338,8 +338,8 @@ Color outline;
                     g.setColor(Color.WHITE);
                     var fm = g.getFontMetrics();
                     int w = fm.stringWidth(txt);
-                    int x0 = x + (slotSize - w)/2;
-                    int y0 = slotY + slotSize - 2;  // just above bottom
+                    int x0 = cx - w/2;
+                    int y0 = cy + slotSize/2 - 2;
                     g.drawString(txt, x0, y0);
                     g.setColor(origColor);
                 }
@@ -349,7 +349,8 @@ Color outline;
 
         // …remove or comment out the old insect‐count drawString…
     }
-        private void drawDebugId(Graphics2D g) {
+
+    private void drawDebugId(Graphics2D g) {
         String id = String.valueOf(model.get_ID());
         // save original settings
         var origColor = g.getColor();
