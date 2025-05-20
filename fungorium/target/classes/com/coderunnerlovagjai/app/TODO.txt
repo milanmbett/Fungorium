@@ -98,7 +98,7 @@ x-re bezáról a rekord, és mainmenu.visible=true
 -----Első kör role választás --Derék DONE
 -----Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán DONE
 -----endgame --Milán DONE
--increaseincome pontositasa --Balu
+----increaseincome pontositasa --Balu,Milán DONE
 -----leaderboardba való beírások --Milán DONE
 -----gombok kijavítása--Milán DONE
 ---tekonizator (Tecton_Base elpusztítása jó már csak a Tecton_Basic --> Tecton_Dead kell (Igen ezt módosítottuk))
