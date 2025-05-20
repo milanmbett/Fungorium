@@ -273,6 +273,14 @@ public void populateEntityBoxes(JPanel panel) {
             view.showStyledMessageDialog("Cannot place insect here!","Invalid",JOptionPane.WARNING_MESSAGE);
             return;
         }
+        if(!tecton.get_ID().startsWith("Tecton_Base")){
+            view.showStyledMessageDialog("Cannot place insect here!","Invalid",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(tecton.get_Mushroom().get_Owner().getId()!=insect.get_Owner().getId()){
+            view.showStyledMessageDialog("Cannot place insect on the enemy base!","Invalid",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         if (model.getPlane().placeInsect(insect, tecton)) {
             player.setAction(player.getAction()-1);
             //player.decreaseIncome(cost);

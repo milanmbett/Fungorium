@@ -280,6 +280,19 @@ public class Plane
         PLANE_LOGGER.log(Level.forName("ERROR", 401), "Insect already exists on this tecton!");
         return false;
     }
+    if (target.get_Mushroom() == null) {
+        PLANE_LOGGER.log(Level.forName("NULL", 201), "You can only place insects on tectons with a mushroom.");
+        return false;
+    }
+    if(!target.get_ID().startsWith("Tecton_Base")){
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "You can only place insects on your own base!");
+        return false;
+    }
+    if(target.get_Mushroom().get_Owner().getId()!=insect.get_Owner().getId()){
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "You can only place insects on your own mushroom!");
+        return false;
+    }
+
     
     // Check if the player has enough resources to place the insect
     int cost = insect.getCost();

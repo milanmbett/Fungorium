@@ -102,7 +102,10 @@ x-re bezáról a rekord, és mainmenu.visible=true
     ----(Mushroom_Grand income nincs)
 -----leaderboardba való beírások --Milán DONE
 -----gombok kijavítása--Milán DONE
+----- Rovar lerakása csak saját base-tecton-ra DONE
+----- Mushroom lerakása csak saját tecton-ra
 ---tekonizator (Tecton_Base elpusztítása jó már csak a Tecton_Basic --> Tecton_Dead kell (Igen ezt módosítottuk))
 -new game game resetelése
 -tektonizator gomb bugos
+---alertek x unable
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
