@@ -96,9 +96,10 @@ x-re bezáról a rekord, és mainmenu.visible=true
 -Textúrák igazítása (Spóra ne legyen ennyire messze vagy fasz tudja)
 -Spórák generálása, evése, cuccmókok
 -----Első kör role választás --Derék DONE
------Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán DONE
+-----Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán DONE (n)
 -----endgame --Milán DONE
-----increaseincome pontositasa --Balu,Milán DONE?
+----increaseincome pontositasa  --Balu,Milán DONE?
+    ----(Mushroom_Grand income nincs)
 -----leaderboardba való beírások --Milán DONE
 -----gombok kijavítása--Milán DONE
 ---tekonizator (Tecton_Base elpusztítása jó már csak a Tecton_Basic --> Tecton_Dead kell (Igen ezt módosítottuk))
