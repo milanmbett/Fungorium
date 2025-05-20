@@ -171,8 +171,19 @@ public class Plane
             targetTecton.set_Thread(t);
         }
     }
-    public void place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton)
-{
+
+    public boolean mushroomPlaceable(Mushroom_Class m, Tecton_Class targetTecton) {
+        for(Tecton_Class tecton : targetTecton.get_TectonNeighbours()){
+            for(Tecton_Class neighbour : tecton.get_TectonNeighbours()){
+                if(neighbour.get_Mushroom() != targetTecton.get_Mushroom()&& neighbour.get_Mushroom().get_Owner()==m.get_Owner()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton){
     if(m.get_Owner().getRole() != RoleType.MUSHROOM) {
         PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Mushroom role!");
         return;
@@ -191,7 +202,10 @@ public class Plane
         PLANE_LOGGER.log(Level.forName("NULL", 201), "Thread is null!");
         return;
     }
-    //if(targetTecton.get)
+    if(!mushroomPlaceable(m, targetTecton)) {
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "Mushroom is not placeable on this tecton!");
+        return;
+    }
     
     // Check currency
     int cost = m.getCost();

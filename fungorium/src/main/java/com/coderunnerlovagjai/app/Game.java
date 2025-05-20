@@ -17,7 +17,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     private int turnNumber;
     private final Plane plane; // A játékhoz tartozó pálya 
     private boolean gameOver; // Játék vége állapot
-    private final int maxTurns = 5; //TODO Maximum körök száma DEBUG miatt 3
+    private final int maxTurns = 50; //TODO Maximum körök száma DEBUG miatt 3
     private boolean baseDestroyed = false;
 
     public Game(String player1Name, String player2Name) {
