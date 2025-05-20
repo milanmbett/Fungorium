@@ -366,8 +366,8 @@ private void handleEntitySelection(int x, int y) {
                         p.setAction(p.getAction() - 1);
                     } catch (Exception e) {
                         view.showStyledMessageDialog(
-                            "Error moving: " + e.getMessage(),
-                            "Error", JOptionPane.ERROR_MESSAGE
+                            e.getMessage(),
+                            "Invalid Move", JOptionPane.WARNING_MESSAGE
                         );
                     }
                 }

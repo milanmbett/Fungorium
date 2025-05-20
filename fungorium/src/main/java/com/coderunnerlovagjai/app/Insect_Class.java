@@ -11,6 +11,7 @@ public abstract class Insect_Class extends Entity
     protected int hp;
     protected int attackDamage;
     protected int availableSteps;
+    protected int maxSteps;
     protected Tecton_Class tecton;
     protected boolean isParalysed = false;
     protected Player owner;
@@ -84,10 +85,10 @@ public abstract class Insect_Class extends Entity
         }
         if(this.tecton.equals(m.tecton))
         {
-            INSECT_CLASS_LOGGER.log(Level.forName("ATTACK", 401),"Insect: " + ID + " is attacking mushroom: " + m.get_ID() + "HP: "+m.get_hp() +" on tecton: " + m.tecton.get_ID());
             if(m.get_Owner() != owner)
             {
                 m.reduceHP(attackDamage);
+                INSECT_CLASS_LOGGER.log(Level.forName("ATTACK", 401),"Insect: " + ID + " is attacking mushroom: " + m.get_ID() + "HP: "+m.get_hp() +" on tecton: " + m.tecton.get_ID());
             }
             else
             {
@@ -153,6 +154,10 @@ public abstract class Insect_Class extends Entity
     {
         attackDamage = damage;
         INSECT_CLASS_LOGGER.log(Level.forName("SET", 401), "Insect: " + ID + " attack damage set to: " + attackDamage);
+    }
+    public int get_maxSteps()
+    {
+        return maxSteps;
     }
     public int get_availableSteps()
     {

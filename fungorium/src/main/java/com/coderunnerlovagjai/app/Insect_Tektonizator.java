@@ -13,7 +13,8 @@ public class Insect_Tektonizator extends Insect_Class {
 public Insect_Tektonizator(Tecton_Class targetTecton, Player p) {
     hp = 50;
     attackDamage = 10;
-    availableSteps = 1;
+    maxSteps = 1;
+    availableSteps = maxSteps;
     tecton = targetTecton;
     // Set owner FIRST, before using it
     owner = p;

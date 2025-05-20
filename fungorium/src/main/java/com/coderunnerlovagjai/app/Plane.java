@@ -227,7 +227,7 @@ public class Plane
         }
         if(ins.get_availableSteps() <= 0) {
             PLANE_LOGGER.log(Level.forName("ERROR", 401), "Insect: " + ins.get_ID() + " has no available steps!");
-            return;
+            throw new IllegalArgumentException("Insect: " + ins.get_ID() + " has no available steps!");
         }
         if (!ins.get_Tecton().get_TectonNeighbours().contains(targetTecton)) {
             PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is not a neighbour of the insect's current tecton!");

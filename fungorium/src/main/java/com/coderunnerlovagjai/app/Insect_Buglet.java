@@ -11,7 +11,8 @@ public class Insect_Buglet extends Insect_Class
     {
         hp = 100;
         attackDamage = 100;
-        availableSteps = 2;
+        maxSteps = 1;
+        availableSteps = maxSteps;
         tecton = targetTecton;
         //tecton.get_InsectsOnTecton().add(this);
         owner = p;

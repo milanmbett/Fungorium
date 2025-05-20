@@ -11,7 +11,8 @@ public class Insect_Buggernaut extends Insect_Class
     {
         hp = 150;
         attackDamage = 50;
-        availableSteps = 1;
+        maxSteps = 1;
+        availableSteps = maxSteps;
         tecton = targetTecton;
         //tecton.get_InsectsOnTecton().add(this);
         owner = p;

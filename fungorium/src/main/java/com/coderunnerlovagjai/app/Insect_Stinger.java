@@ -10,8 +10,9 @@ public class Insect_Stinger extends Insect_Class
     public Insect_Stinger(Tecton_Class targetTecton, Player p)
     {
         hp = 50; 
-        attackDamage = 150; 
-        availableSteps = 1;
+        attackDamage = 150;
+        maxSteps = 2;
+        availableSteps = maxSteps;
         tecton = targetTecton;
         //tecton.get_InsectsOnTecton().add(this);
         owner = p;

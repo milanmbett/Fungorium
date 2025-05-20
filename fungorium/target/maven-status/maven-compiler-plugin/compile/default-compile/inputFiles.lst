@@ -1,48 +1,48 @@
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Basic_Spore.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\controller\InteractionManager.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Entity.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Game.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GameCanvas.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GraphicsObject.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Buggernaut.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Buglet.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Class.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_ShroomReaper.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Stinger.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Tektonizator.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Main.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\ModelEvent.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\ModelListener.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Class.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Grand.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Maximus.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Shroomlet.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Slender.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Plane.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Player.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Proto.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Role.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Role_Insect.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Role_Mushroom.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\RoleType.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Duplicator.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Paralysing.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Slowing.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Speed.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Tecton_Base.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Tecton_Basic.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Tecton_Class.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Tecton_Dead.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Thread_Class.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\User.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\UserData.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\util\LeaderboardManager.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\util\SoundManager.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\BottomActionPanel.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\FrameStyle.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\GameCanvasFrame.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\GraphicsObject.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\LeaderBoardFrame.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\MainMenu.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\TectonGraphics.java
-C:\EGYETEM\6.felev\szoftproj\szkeleton\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\TopInfoPanel.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Basic_Spore.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\controller\InteractionManager.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Entity.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Game.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GameCanvas.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GraphicsObject.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Buggernaut.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Buglet.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Class.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_ShroomReaper.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Stinger.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Tektonizator.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Main.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\ModelEvent.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\ModelListener.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Class.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Grand.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Maximus.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Shroomlet.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Slender.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Plane.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Player.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Proto.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Role.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Role_Insect.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Role_Mushroom.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\RoleType.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Duplicator.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Paralysing.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Slowing.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Speed.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Tecton_Base.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Tecton_Basic.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Tecton_Class.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Tecton_Dead.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Thread_Class.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\User.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\UserData.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\util\LeaderboardManager.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\util\SoundManager.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\BottomActionPanel.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\FrameStyle.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\GameCanvasFrame.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\GraphicsObject.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\LeaderBoardFrame.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\MainMenu.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\TectonGraphics.java
+C:\Users\zalka\OneDrive\Dokumentumok\Egyetemi cuccok\SzoftProj\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\TopInfoPanel.java

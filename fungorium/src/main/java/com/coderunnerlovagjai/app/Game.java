@@ -127,7 +127,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     
         
         // Insect attacks on mushrooms
-        for(Insect_Class ins : new java.util.ArrayList<>(player1.getGame().getPlane().InsectCollection)) {
+        for(Insect_Class ins : plane.InsectCollection) {
             ins.attack_Mushroom(ins.get_Tecton().get_Mushroom());
         }
         
@@ -137,6 +137,12 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
                 mush.generate_Income();
                 mush.attack_Insects();
                 mush.spawn_Spores(new Basic_Spore(mush.get_Tecton(), currentPlayer)); // Spawn spores on the mushroom's tecton
+            }
+        }
+        // Reset available steps for insects
+        for(Insect_Class ins: plane.InsectCollection) {
+            if(ins.get_availableSteps() <= 0) {
+                ins.set_availableSteps(ins.get_maxSteps());
             }
         }
         

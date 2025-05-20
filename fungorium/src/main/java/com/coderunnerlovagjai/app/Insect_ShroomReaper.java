@@ -11,7 +11,8 @@ public class Insect_ShroomReaper extends Insect_Class
 public Insect_ShroomReaper(Tecton_Class targetTecton, Player p) {
     hp = 50;
     attackDamage = 15;
-    availableSteps = 1;
+    maxSteps = 1;
+    availableSteps = maxSteps;
     tecton = targetTecton;
     // REMOVE: tecton.get_InsectsOnTecton().add(this);
     owner = p;
