@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.imageio.ImageIO;
 
 import com.coderunnerlovagjai.app.*;
@@ -17,6 +19,7 @@ import com.coderunnerlovagjai.app.view.MainMenu;
 public class InteractionManager {
     private final Game model;
     private final GameCanvasFrame view;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(2); // Or newSingleThreadExecutor()
 
     // Interaction modes
     private enum InteractionState { NORMAL, SELECTING_ENTITY, SELECTING_DESTINATION, SELECTING_CRACK }
@@ -72,17 +75,52 @@ public class InteractionManager {
 
     /** Ends current turn and triggers next role pick or game over. */
     public void onEndTurn() {
-        model.turn();
-        if (model.isGameOver()) {
-            view.showGameOverDialog(
-                buildGameOverMessage(),
-                new String[]{"Back to Main Menu", "Exit Game"},
-                this::returnToMenu,
-                () -> System.exit(0)
-            );
-        } else {
-            onStartTurn();
-        }
+        // Optionally, disable parts of the UI here if needed
+        // view.setInteractionEnabled(false);
+
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            private boolean gameOverResult;
+            private String gameOverMessageResult;
+
+            @Override
+            protected Void doInBackground() throws Exception {
+                model.turn(); // This is the potentially long-running task
+                gameOverResult = model.isGameOver();
+                if (gameOverResult) {
+                    gameOverMessageResult = buildGameOverMessage();
+                }
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    get(); // Call get() to rethrow exceptions from doInBackground, if any
+                    if (gameOverResult) {
+                        view.showGameOverDialog(
+                            gameOverMessageResult,
+                            new String[]{"Back to Main Menu", "Exit Game"},
+                            InteractionManager.this::returnToMenu,
+                            () -> System.exit(0)
+                        );
+                    } else {
+                        onStartTurn(); // This shows a dialog and refreshes info
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error during turn processing: " + e.getMessage());
+                    e.printStackTrace();
+                    view.showStyledMessageDialog(
+                        "An error occurred: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE
+                    );
+                } finally {
+                    // Optionally, re-enable UI parts here
+                    // view.setInteractionEnabled(true);
+                    // view.refreshInfo(); // onStartTurn usually calls this, but if not, ensure it's called.
+                }
+            }
+        };
+        executorService.submit(worker);
     }
 
     /** Initiates insect movement flow. */
@@ -131,64 +169,140 @@ public class InteractionManager {
         );
     }
 
-    /** Fills the bottom panel with mushroom or insect options. */
-public void populateEntityBoxes(JPanel panel) {
-    panel.removeAll();
-    Player p = model.getPlayer(model.currentTurnsPlayer());
-    boolean isMush = p.getRole() == RoleType.MUSHROOM;
-    String[] types = isMush
-        ? new String[]{"Shroomlet","Maximus","Slender"}
-        : new String[]{"Buglet","Buggernaut","Stinger","Tektonizator","ShroomReaper"};
-    String prefix = isMush ? "Mushroom_" : "Insect_";
+    // Helper class for populateEntityBoxes data transfer
+    private static class EntityBoxUIData {
+        Image image;
+        int cost;
+        String typeName;
+        int originalIndex;
+        boolean isSelected;
+        String imagePath; // Store path for potential retry or logging
+    }
 
-    for (int i = 0; i < types.length; i++) {
-        final int idx = i;
+    /** Fills the bottom panel with mushroom or insect options using a background thread for image loading. */
+    public void populateEntityBoxes(JPanel panel) {
+        panel.removeAll(); // Clear panel on EDT first
+        // It's often good to call revalidate and repaint after removeAll
+        // if the panel might not be updated immediately by adding new components.
+        // However, process() will also call them.
+
+        Player p = model.getPlayer(model.currentTurnsPlayer());
+        boolean isMush = p.getRole() == RoleType.MUSHROOM;
+        String[] types = isMush
+            ? new String[]{"Shroomlet","Maximus","Slender"}
+            : new String[]{"Buglet","Buggernaut","Stinger","Tektonizator","ShroomReaper"};
+        String prefix = isMush ? "Mushroom_" : "Insect_";
+        final int currentSelectedEntityIndex = this.selectedEntityIndex;
+
+        SwingWorker<Void, EntityBoxUIData> worker = new SwingWorker<Void, EntityBoxUIData>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                for (int i = 0; i < types.length; i++) {
+                    EntityBoxUIData data = new EntityBoxUIData();
+                    data.originalIndex = i;
+                    data.typeName = types[i];
+                    data.cost = getEntityCost(types[i], isMush);
+                    data.isSelected = (i == currentSelectedEntityIndex);
+                    data.imagePath = "images/" + prefix + types[i] + ".png";
+
+                    try {
+                        // Attempt to load image using ImageIO directly for background loading.
+                        // If you have an ImageCache that can load asynchronously or is very fast,
+                        // you might use it here, but ensure it doesn't block this worker unnecessarily.
+                        data.image = ImageIO.read(
+                            InteractionManager.class.getClassLoader().getResourceAsStream(data.imagePath)
+                        );
+                    } catch (IOException | IllegalArgumentException e) {
+                        System.err.println("Failed to load image " + data.imagePath + ": " + e.getMessage());
+                        data.image = null; // Handle missing image in createAndAddBoxToPanel_EDT
+                    }
+                    publish(data); // Publish data for one box
+                }
+                return null;
+            }
+
+            @Override
+            protected void process(List<EntityBoxUIData> chunks) {
+                // This runs on the EDT
+                for (EntityBoxUIData data : chunks) {
+                    createAndAddBoxToPanel_EDT(panel, data);
+                }
+                // Revalidate and repaint after adding a batch of components
+                panel.revalidate();
+                panel.repaint();
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    get(); // Check for exceptions from doInBackground itself
+                } catch (Exception e) {
+                    System.err.println("Error in populateEntityBoxes worker: " + e.getMessage());
+                    e.printStackTrace();
+                    // Potentially show a generic error to the user
+                }
+                // Final revalidate and repaint can be useful, though process should handle most updates.
+                panel.revalidate();
+                panel.repaint();
+            }
+        };
+        executorService.submit(worker);
+    }
+    
+    // Helper method to create and add a single entity box to the panel. MUST be called on EDT.
+    private void createAndAddBoxToPanel_EDT(JPanel parentPanel, EntityBoxUIData data) {
+        final int idx = data.originalIndex;
+
         JPanel box = new JPanel() {
+            @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.setColor(idx == selectedEntityIndex
+                // Use data.isSelected for highlighting
+                g.setColor(data.isSelected
                     ? new Color(60,180,255,120)
                     : new Color(200,200,200,100)
                 );
                 g.fillRoundRect(0,0,getWidth(),getHeight(),16,16);
             }
         };
-        box.setBounds(i*110,0,100,100);
-        box.setLayout(null);
-        
-        // Add cost label at the top
-        int cost = getEntityCost(types[i], isMush);
-        JLabel costLabel = new JLabel("Cost: " + cost);
-        costLabel.setForeground(Color.WHITE);
+        box.setBounds(idx * 110, 0, 100, 100); // Standard layout
+        box.setLayout(null); // Using null layout as in original
+        box.setOpaque(false); // Important if paintComponent does custom painting
+
+        // Add cost label
+        JLabel costLabel = new JLabel("Cost: " + data.cost);
+        costLabel.setForeground(Color.WHITE); // Assuming white text is desired
         costLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        costLabel.setBounds(0, 0, 100, 20);
+        costLabel.setBounds(0, 0, 100, 20); // Position at top
         costLabel.setHorizontalAlignment(SwingConstants.CENTER);
         box.add(costLabel);
-        
-        try {
-            Image img = ImageIO.read(
-                getClass().getClassLoader().getResourceAsStream("images/"+prefix+types[i]+".png")
-            );
-            if (img != null) {
-                JLabel icon = new JLabel(new ImageIcon(
-                    img.getScaledInstance(64,64,Image.SCALE_SMOOTH)
-                ));
-                icon.setBounds(18,20,64,64); // Move down a bit to make room for cost label
-                box.add(icon);
-            }
-        } catch (IOException ignored) {}
+
+        // Add image icon
+        if (data.image != null) {
+            JLabel iconLabel = new JLabel(new ImageIcon(
+                data.image.getScaledInstance(64, 64, Image.SCALE_SMOOTH)
+            ));
+            iconLabel.setBounds(18, 20, 64, 64); // Position below cost
+            box.add(iconLabel);
+        } else {
+            // Handle missing image, e.g., show placeholder text or a default error icon
+            JLabel errorLabel = new JLabel("N/A");
+            errorLabel.setForeground(Color.RED);
+            errorLabel.setBounds(18, 20, 64, 64);
+            errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            box.add(errorLabel);
+            System.err.println("Placeholder shown for missing image: " + data.imagePath);
+        }
+
         box.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-                selectedEntityIndex = idx;
-                view.refreshInfo();
+                selectedEntityIndex = idx; // Update selection
+                view.refreshInfo();       // Refresh the view to reflect selection change
             }
         });
-        panel.add(box);
+        parentPanel.add(box);
     }
-    
-    panel.revalidate();
-    panel.repaint();
-}
 
     // ───── Internal Helpers ─────────────────────────────────────────────────
 
@@ -461,6 +575,21 @@ private void handleCrackSelection(int x, int y) {
         new MainMenu();
     }
 
+    /** Shuts down the executor service. Call this when InteractionManager is no longer needed. */
+    public void shutdown() {
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
+            // Optionally, await termination:
+            // try {
+            //     if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+            //         executorService.shutdownNow();
+            //     }
+            // } catch (InterruptedException e) {
+            //     executorService.shutdownNow();
+            //     Thread.currentThread().interrupt();
+            // }
+        }
+    }
 
     /**
  * Gets the cost for an entity based on its type

@@ -8,34 +8,38 @@ import org.apache.logging.log4j.Logger;
 public class Tecton_Dead extends Tecton_Class
 {
     private static final Logger TECTON_DEAD_LOGGER = LogManager.getLogger(Tecton_Dead.class);
+    private int deadVariant; // 1 for first half, 2 for second half
+
+    // Default constructor - might be used by deserialization or specific cases
     public Tecton_Dead()
     {
-        mushroom = null;
-        insectsOnTecton = new ArrayList<>();
-        spore = null;
-        thread = null;
-        ID = "Tecton_Dead";
-        TECTON_DEAD_LOGGER.log(Level.forName("CREATE",401),"Tecton_Dead Created! ID: " + ID);
+        this(1); // Default to variant 1 if not specified
+    }
+
+    // Constructor to specify the variant
+    public Tecton_Dead(int variant) {
+        this.mushroom = null;
+        this.insectsOnTecton = new ArrayList<>();
+        this.spore = null;
+        this.thread = null;
+        this.ID = String.format("Tecton_Dead_Variant_%d", variant); // Make ID more specific
+        this.deadVariant = variant;
+        TECTON_DEAD_LOGGER.log(Level.forName("CREATE",401),"Tecton_Dead (Variant: {}) Created! ID: {}", variant, ID);
     }
     
+    // Getter for the dead variant
+    public int getDeadVariant() {
+        return deadVariant;
+    }
+
     @Override
     public boolean isDead() {
         return true; // A Tecton_Dead mindig halott
     }
 
-    public Tecton_Dead(Tecton_Class liveTecton) {
-        // Copy neighbours from the living tecton.
-        this.set_TectonNeighbours(new ArrayList<>(liveTecton.get_TectonNeighbours()));
-        // Set fields appropriate for a dead tecton.
-        this.mushroom = null;
-        this.insectsOnTecton = new ArrayList<>();
-        this.spore = null;
-        this.thread = null;
-        this.ID = "Tecton_Dead"; //Integer.toString(Plane.TectonCollection.size()
-        // Add the dead tecton to the collection.
-        TECTON_DEAD_LOGGER.log(Level.forName("TRANSFORM", 404), "Tecton transformed to Dead! New ID: " + this.ID);
-    }
-    
+    // The constructor public Tecton_Dead(Tecton_Class liveTecton) has been removed as per previous step.
+    // If it's needed, it should be updated to handle the deadVariant.
+
     @Override
     public void set_Thread(Thread_Class t)
     {

@@ -1,12 +1,17 @@
 package com.coderunnerlovagjai.app.view;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
-import java.awt.Image;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JLayeredPane;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import com.coderunnerlovagjai.app.Game;
 import com.coderunnerlovagjai.app.GameCanvas;
+import com.coderunnerlovagjai.app.Tecton_Class;
 import com.coderunnerlovagjai.app.controller.InteractionManager;
 import com.coderunnerlovagjai.app.util.SoundManager;
 
@@ -19,6 +24,7 @@ public class GameCanvasFrame extends FrameStyle{
     private BottomActionPanel bottomActionPanel;
     private InteractionManager interactionManager;
     private JLayeredPane layeredPane;
+    private final List<TectonGraphics> tectonGraphicsList = new ArrayList<>();
 
     public GameCanvasFrame(String player1, String player2) {
         super("Fungorium - " + player1 + " vs " + player2, "/images/fungoriumIcon3.png");
@@ -50,8 +56,12 @@ public class GameCanvasFrame extends FrameStyle{
         layeredPane.setPreferredSize(new Dimension(800, 600));
         canvas.setBounds(0, 0, 800, 600);
         layeredPane.add(canvas, JLayeredPane.DEFAULT_LAYER);
-        for (var t : gameModel.getPlane().TectonCollection)
-            canvas.addGraphics(new TectonGraphics(t));
+        
+        tectonGraphicsList.clear();
+        for (var t : gameModel.getPlane().TectonCollection) {
+            TectonGraphics tg = new TectonGraphics(t);
+            tectonGraphicsList.add(tg);
+        }
         content.add(layeredPane, BorderLayout.CENTER);
 
         // Top and bottom panels
@@ -62,6 +72,7 @@ public class GameCanvasFrame extends FrameStyle{
 
         // Mouse to controller
         canvas.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 interactionManager.handleCanvasClick(e.getX(), e.getY());
             }
@@ -76,6 +87,27 @@ public class GameCanvasFrame extends FrameStyle{
     public void refreshInfo() {
         topInfoPanel.updateInfo();
         bottomActionPanel.updateEntities();
+
+        List<Tecton_Class> currentTectonModels = gameModel.getPlane().TectonCollection;
+        List<TectonGraphics> viewsToRemove = new ArrayList<>();
+        List<Tecton_Class> modelsCurrentlyWithViews = new ArrayList<>();
+
+        for (TectonGraphics tgView : tectonGraphicsList) {
+            if (currentTectonModels.contains(tgView.getModel())) {
+                modelsCurrentlyWithViews.add(tgView.getModel());
+            } else {
+                viewsToRemove.add(tgView);
+            }
+        }
+        tectonGraphicsList.removeAll(viewsToRemove);
+
+        for (Tecton_Class modelInPlane : currentTectonModels) {
+            if (!modelsCurrentlyWithViews.contains(modelInPlane)) {
+                TectonGraphics newTgView = new TectonGraphics(modelInPlane);
+                tectonGraphicsList.add(newTgView);
+            }
+        }
+        
         GameCanvas.getInstance().repaint();
     }
 
@@ -87,6 +119,8 @@ public class GameCanvasFrame extends FrameStyle{
 
     // Delegate game-over handling
     public void showGameOverDialog(String message, String[] options, Runnable onBack, Runnable onExit) {
+        try { SoundManager.stopMusic(); }
+        catch(Exception ignored) {}
         int choice = showStyledOptionDialog(message, "Game Over", options);
         if (choice == 0) onBack.run(); else onExit.run();
     }

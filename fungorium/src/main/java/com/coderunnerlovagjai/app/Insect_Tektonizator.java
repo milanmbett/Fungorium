@@ -74,12 +74,12 @@ public Insect_Tektonizator(Tecton_Class targetTecton, Player p) {
 
         // Create two new dead tectons
         // Ensure they get unique IDs and are added to the plane's collection
-        Tecton_Dead newTecton1 = new Tecton_Dead();
+        Tecton_Dead newTecton1 = new Tecton_Dead(1); // Pass variant 1
         newTecton1.setID(plane.TectonCollection.size()); // Simple way to get a new ID index
         plane.TectonCollection.add(newTecton1);
         newTecton1.setPosition(tecton.getPosition().x - 15, tecton.getPosition().y); // Adjust position slightly
 
-        Tecton_Dead newTecton2 = new Tecton_Dead();
+        Tecton_Dead newTecton2 = new Tecton_Dead(2); // Pass variant 2
         newTecton2.setID(plane.TectonCollection.size()); // Simple way to get a new ID index
         plane.TectonCollection.add(newTecton2);
         newTecton2.setPosition(tecton.getPosition().x + 15, tecton.getPosition().y); // Adjust position slightly

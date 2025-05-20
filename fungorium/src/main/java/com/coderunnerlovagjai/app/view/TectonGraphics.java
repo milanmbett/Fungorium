@@ -4,7 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.awt.Stroke; // Import IOException
+import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
@@ -20,6 +20,7 @@ import com.coderunnerlovagjai.app.Mushroom_Class;
 import com.coderunnerlovagjai.app.Player;
 import com.coderunnerlovagjai.app.Tecton_Base;
 import com.coderunnerlovagjai.app.Tecton_Class;
+import com.coderunnerlovagjai.app.Tecton_Dead;
 
 public class TectonGraphics extends GraphicsObject<Tecton_Class> {
 
@@ -33,6 +34,8 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
     private static BufferedImage tectonBaseImage; // Base image
     private static BufferedImage leftBaseImage;   // Rotated left base
     private static BufferedImage rightBaseImage;  // Rotated right base
+    private static BufferedImage tectonDeadImage1; // Image for Tecton_Dead variant 1
+    private static BufferedImage tectonDeadImage2; // Image for Tecton_Dead variant 2
 
     static {
         String[] types = { "Mushroom_Grand", "Mushroom_Maximus", "Mushroom_Shroomlet", "Mushroom_Slender" };
@@ -91,6 +94,8 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
             tectonBaseWithSpaceImage = loadImageResource("images/Tecton_BaseWithSpace.png");
             tectonBaseImage = loadImageResource("images/Tecton_Base.png");
             threadImage = loadImageResource("images/Thread_Class.png");
+            tectonDeadImage1 = loadImageResource("images/Tecton_Dead_1.png"); // Load Tecton_Dead variant 1 image
+            tectonDeadImage2 = loadImageResource("images/Tecton_Dead_2.png"); // Load Tecton_Dead variant 2 image
             
             if (tectonBaseImage != null) {
                 // Left base should appear rotated to its right on the screen
@@ -172,8 +177,6 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
             renderBaseTecton(g, baseTectonModel);
         } else {
             renderRegularTecton(g);
-            //DEBUG
-            //drawDebugId(g);
         }
 
         drawEntitiesOnTecton(g);
@@ -205,16 +208,72 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
     }
 
     private void renderRegularTecton(Graphics2D g) {
-        int imgSize = 120;
-        // always draw the same base image
-        BufferedImage imageToDraw = tectonBasicImage;
-        if (imageToDraw != null) {
-            g.drawImage(imageToDraw, -imgSize/2, -imgSize/2, imgSize, imgSize, null);
-        } else {
-            g.setColor(Color.DARK_GRAY);
-            g.fillOval(-imgSize/2, -imgSize/2, imgSize, imgSize);
+        BufferedImage imageToDraw;
+        int drawX; // Represents the top-left X for drawing, relative to the model's translated origin (center)
+        int drawY; // Represents the top-left Y for drawing, relative to the model's translated origin (center)
+
+        if (model.isDead()) {
+            int targetVisualWidth = 60;    // Dead tecton halves are visually 60px wide
+            int targetVisualHeight = 120;  // Dead tecton halves use original image height (120px)
+            
+            drawY = -targetVisualHeight / 2; // e.g., -60 for a 120px tall image (top-left Y relative to model center)
+
+            if (model instanceof Tecton_Dead deadModel) {
+                int variant = deadModel.getDeadVariant();
+                imageToDraw = null; 
+
+                switch (variant) {
+                    case 1:
+                        imageToDraw = tectonDeadImage1;
+                        drawX = -47; // (Original.X - 60) - (Original.X - 15)
+                        break;
+                    case 2:
+                        imageToDraw = tectonDeadImage2;
+                        drawX = -12; // (Original.X + 0) - (Original.X + 15)
+                        break;
+                    default:
+                        LOGGER.warn("Unknown Tecton_Dead variant: {} for Tecton ID: {}. Defaulting to image 1, 60x120, centered on its model.", variant, model.get_ID());
+                        imageToDraw = tectonDeadImage1; 
+                        drawX = -targetVisualWidth / 2;    
+                        break;
+                }
+
+                if (imageToDraw == null) {
+                    LOGGER.warn("Tecton_Dead image is null (variant {}, Tecton ID: {}). Falling back to gray 60x120 oval.", 
+                                (variant >= 1 && variant <= 2 ? String.valueOf(variant) : "unknown/defaulted"), model.get_ID());
+                    g.setColor(Color.GRAY);
+                    g.fillOval(drawX, drawY, targetVisualWidth, targetVisualHeight);
+                } else {
+                    // Draw the selected image, scaled to targetVisualWidth x targetVisualHeight
+                    
+                    g.drawImage(imageToDraw,
+                                drawX, drawY,                               // Destination top-left X, Y
+                                drawX + targetVisualWidth, drawY + targetVisualHeight, // Destination bottom-right X, Y
+                                0, 0,                                     // Source top-left X, Y (of the original image)
+                                imageToDraw.getWidth(), imageToDraw.getHeight(), // Source bottom-right X, Y (full original image dimensions)
+                                null);
+                }
+            } else { // Model isDead but not an instance of Tecton_Dead
+                LOGGER.warn("Model isDead but not Tecton_Dead instance for Tecton ID: {}. Defaulting to gray 60x120 oval centered on its model.", model.get_ID());
+                g.setColor(Color.GRAY);
+                drawX = -targetVisualWidth / 2; 
+                g.fillOval(drawX, drawY, targetVisualWidth, targetVisualHeight); 
+            }
+        } else { // For regular, non-dead (live) tectons
+            int liveTectonVisualSize = 120; 
+            imageToDraw = tectonBasicImage; 
+            drawX = -liveTectonVisualSize / 2; 
+            drawY = -liveTectonVisualSize / 2; 
+
+            if (imageToDraw == null) {
+                LOGGER.warn("Tecton_Basic.png not loaded for Tecton ID: {}. Falling back to dark gray 120x120 oval.", model.get_ID());
+                g.setColor(Color.DARK_GRAY); 
+                g.fillOval(drawX, drawY, liveTectonVisualSize, liveTectonVisualSize); 
+            } else {
+                 g.drawImage(imageToDraw, drawX, drawY, liveTectonVisualSize, liveTectonVisualSize, null);
+            }
         }
-    }
+    } // THIS IS THE CORRECTED END OF renderRegularTecton
 
     private void drawEntitiesOnTecton(Graphics2D g) {
         // 1) Draw Thread (bigger than mushroom)
@@ -347,30 +406,5 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
                 idx++;
             }
         }
-
-        // …remove or comment out the old insect‐count drawString…
-    }
-
-    private void drawDebugId(Graphics2D g) {
-        String id = String.valueOf(model.get_ID());
-        // save original settings
-        var origColor = g.getColor();
-        var origFont  = g.getFont();
-
-        // configure debug font & color
-        g.setFont(origFont.deriveFont(java.awt.Font.BOLD, 14f));
-        g.setColor(Color.YELLOW);
-
-        // center text above hex (radius ≈55)
-        var fm = g.getFontMetrics();
-        int textWidth = fm.stringWidth(id);
-        int xPos = -textWidth / 2;
-        int yPos = -60;  
-
-        g.drawString(id, xPos, yPos);
-
-        // restore
-        g.setFont(origFont);
-        g.setColor(origColor);
     }
 }
