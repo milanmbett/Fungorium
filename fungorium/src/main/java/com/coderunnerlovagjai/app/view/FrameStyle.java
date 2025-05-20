@@ -288,6 +288,7 @@ public int showStyledOptionDialog(String msg, String title, String[] options) {
     dlg.pack();
     dlg.setResizable(false);
     dlg.setLocationRelativeTo(this);
+    dlg.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
     dlg.setModal(true);
     dlg.setVisible(true);
 
