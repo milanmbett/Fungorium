@@ -1,4 +1,4 @@
-package com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app.view;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -60,7 +60,7 @@ public abstract class FrameStyle extends JFrame {
     /**
      * Shows a message dialog on top of the animated background, with styled buttons.
      */
-    protected void showStyledMessageDialog(String msg, String title, int type) {
+    public void showStyledMessageDialog(String msg, String title, int type) {
         JOptionPane pane = new JOptionPane(msg, type, JOptionPane.DEFAULT_OPTION);
         makeTransparent(pane);
         JDialog dlg = pane.createDialog(this, title);
@@ -264,7 +264,7 @@ public abstract class FrameStyle extends JFrame {
  * @param options an array of button labels
  * @return the index of the button clicked, or CLOSED_OPTION
  */
-protected int showStyledOptionDialog(String msg, String title, String[] options) {
+public int showStyledOptionDialog(String msg, String title, String[] options) {
     // Create a JOptionPane with your custom labels
     JOptionPane pane = new JOptionPane(
         msg,

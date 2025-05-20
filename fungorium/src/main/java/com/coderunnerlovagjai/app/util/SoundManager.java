@@ -1,4 +1,4 @@
-package com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app.util;
 
 import java.net.URL;
 import java.util.concurrent.ExecutorService;

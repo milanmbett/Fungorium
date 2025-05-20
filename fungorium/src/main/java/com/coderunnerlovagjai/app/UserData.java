@@ -6,7 +6,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class UserData extends AbstractTableModel
 {
-    List<User> uR = new ArrayList<User>();
+    public List<User> uR = new ArrayList<User>();
 
     @Override
     public int getRowCount()

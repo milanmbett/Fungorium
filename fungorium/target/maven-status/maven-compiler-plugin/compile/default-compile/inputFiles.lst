@@ -1,9 +1,8 @@
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Basic_Spore.java
+D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\controller\InteractionManager.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Entity.java
-D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\FrameStyle.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Game.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GameCanvas.java
-D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GameCanvasFrame.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\GraphicsObject.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Buggernaut.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Buglet.java
@@ -11,9 +10,7 @@ D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\ap
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_ShroomReaper.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Stinger.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Insect_Tektonizator.java
-D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\LeaderBoardFrame.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Main.java
-D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\MainMenu.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\ModelEvent.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\ModelListener.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Mushroom_Class.java
@@ -28,7 +25,6 @@ D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\ap
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Role_Insect.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Role_Mushroom.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\RoleType.java
-D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\SoundManager.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Duplicator.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Paralysing.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Spore_Slowing.java
@@ -40,5 +36,13 @@ D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\ap
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\Thread_Class.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\User.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\UserData.java
+D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\util\LeaderboardManager.java
+D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\util\SoundManager.java
+D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\BottomActionPanel.java
+D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\FrameStyle.java
+D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\GameCanvasFrame.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\GraphicsObject.java
+D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\LeaderBoardFrame.java
+D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\MainMenu.java
 D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\TectonGraphics.java
+D:\Uni\S6\SzoftProj2\Fungorium\fungorium\src\main\java\com\coderunnerlovagjai\app\view\TopInfoPanel.java

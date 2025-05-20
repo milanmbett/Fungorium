@@ -1,4 +1,4 @@
-package com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app.view;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -31,6 +31,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import javazoom.jl.player.Player;
+
+import com.coderunnerlovagjai.app.Game;
 
 public class MainMenu extends FrameStyle {
     private LeaderBoardFrame lbFrame;

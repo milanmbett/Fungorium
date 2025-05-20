@@ -97,7 +97,7 @@ x-re bezáról a rekord, és mainmenu.visible=true
 -Spórák generálása, evése, cuccmókok
 -----Első kör role választás --Derék DONE
 -----Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán DONE
----endgame --Milán DONE (Max a enemy base kettétörése)
+-----endgame --Milán DONE
 -increaseincome pontositasa --Balu
 -----leaderboardba való beírások --Milán DONE
 -----gombok kijavítása--Milán DONE

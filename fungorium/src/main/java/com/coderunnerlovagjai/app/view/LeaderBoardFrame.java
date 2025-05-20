@@ -1,4 +1,4 @@
-package com.coderunnerlovagjai.app;
+package com.coderunnerlovagjai.app.view;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,6 +7,10 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.*;
+
+import com.coderunnerlovagjai.app.UserData;
+import com.coderunnerlovagjai.app.User;
+
 
 public class LeaderBoardFrame extends FrameStyle {
     private MainMenu parent;
