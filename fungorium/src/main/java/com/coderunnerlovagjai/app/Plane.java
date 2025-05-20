@@ -183,35 +183,35 @@ public class Plane
         return false;
     }
 
-    public void place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton){
+    public boolean place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton){
     if(m.get_Owner().getRole() != RoleType.MUSHROOM) {
         PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Mushroom role!");
-        return;
+        return false;
     }
     if (targetTecton == null) {
         PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
-        return;
+        return false;
     }
     
     // Do validation BEFORE modifying anything
     if (targetTecton.get_Mushroom() != null || targetTecton.isDead()) {
         PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is already occupied or dead!");
-        return;
+        return false;
     }
     if(targetTecton.thread == null) {
         PLANE_LOGGER.log(Level.forName("NULL", 201), "Thread is null!");
-        return;
+        return false;
     }
     if(!mushroomPlaceable(m, targetTecton)) {
         PLANE_LOGGER.log(Level.forName("ERROR", 401), "Mushroom is not placeable on this tecton!");
-        return;
+        return false;
     }
     
     // Check currency
     int cost = m.getCost();
     if (m.get_Owner().getIncome() < cost) {
         PLANE_LOGGER.log(Level.forName("ERROR", 401), "Not enough currency to place mushroom!");
-        return;
+        return false;
     }
     
     // Only after all validation passes, we modify state
@@ -223,6 +223,7 @@ public class Plane
     PLANE_LOGGER.log(Level.forName("PLACE", 401), "Mushroom: " + m.get_ID() + 
         " placed on Tecton: " + targetTecton.get_ID() + ". Cost: " + cost + 
         ", remaining resources: " + m.get_Owner().getIncome());
+        return true;
 }
     public void move_Insect(Player player,Insect_Class ins, Tecton_Class targetTecton)
     {

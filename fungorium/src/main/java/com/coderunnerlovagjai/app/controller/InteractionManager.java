@@ -248,8 +248,10 @@ public void populateEntityBoxes(JPanel panel) {
             view.showStyledMessageDialog("Cannot place mushroom here!","Invalid",JOptionPane.WARNING_MESSAGE);
             return;
         }
-        model.getPlane().place_Mushroom(mush, tecton);
-        player.setAction(player.getAction()-1);
+        if(model.getPlane().place_Mushroom(mush, tecton)){
+            player.setAction(player.getAction()-1);
+
+        }
         //player.decreaseIncome(cost);
         view.refreshInfo();
     }
@@ -283,6 +285,7 @@ public void populateEntityBoxes(JPanel panel) {
             return;
         }
         if (model.getPlane().placeInsect(insect, tecton)) {
+            
             player.setAction(player.getAction()-1);
             //player.decreaseIncome(cost);
             view.refreshInfo();
