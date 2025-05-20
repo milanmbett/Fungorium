@@ -184,33 +184,39 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     }
 
 public void endGame() {
+    // Prevent duplicate calls
+    if (gameOver) {
+        return;  // Game is already over, don't process again
+    }
+    
     GAME_LOGGER.log(Level.forName("END_GAME", 402), "Game ended.");
     setGameOver(true);
     
-    // Determine if a base was destroyed
-    boolean baseDestroyed1 = player1.getGame().getPlane().getBase1().isDead();
-    boolean baseDestroyed2 = player2.getGame().getPlane().getBase2().isDead();
-    // Set this based on your game logic - e.g., check if any player's base health is zero
+    // Check if enemy bases were destroyed (not own bases)
+    boolean player1DestroyedEnemyBase = player2.getGame().getPlane().getBase2().isDead();
+    boolean player2DestroyedEnemyBase = player1.getGame().getPlane().getBase1().isDead();
     
     // Save winner's score to leaderboard
     if (player1.getScore() > player2.getScore()) {
         GAME_LOGGER.log(Level.forName("WINNER", 401), "Player 1 wins!");
-        com.coderunnerlovagjai.app.util.LeaderboardManager.save(
+        LeaderboardManager.save(
             player1.getName(), 
             player1.getScore(), 
-            baseDestroyed1
+            player1DestroyedEnemyBase  // Fixed: Check if player1 destroyed player2's base
         );
     } else if (player2.getScore() > player1.getScore()) {
         GAME_LOGGER.log(Level.forName("WINNER", 401), "Player 2 wins!");
-        com.coderunnerlovagjai.app.util.LeaderboardManager.save(
+        LeaderboardManager.save(
             player2.getName(), 
             player2.getScore(), 
-            baseDestroyed2
+            player2DestroyedEnemyBase  // Fixed: Check if player2 destroyed player1's base
         );
     } else {
         GAME_LOGGER.log(Level.forName("WINNER", 401), "It's a draw!");
-        LeaderboardManager.save(player1.getName(), player1.getScore(), false);
-        LeaderboardManager.save(player2.getName(), player2.getScore(), false);
+        // In case of a draw, save both players' scores
+        // Neither player destroyed the enemy base in a draw
+        LeaderboardManager.save(player1.getName(), player1.getScore(), player1DestroyedEnemyBase);
+        LeaderboardManager.save(player2.getName(), player2.getScore(), player2DestroyedEnemyBase);
     }
 }
     
