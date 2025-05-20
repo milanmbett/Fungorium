@@ -22,6 +22,12 @@ public class GameCanvas extends JPanel {
         getInstance().repaint();
     }
 
+
+    public void clearAll() {
+        elements.clear();
+        repaint();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

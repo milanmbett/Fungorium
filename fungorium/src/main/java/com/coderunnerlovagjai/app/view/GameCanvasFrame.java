@@ -1,9 +1,11 @@
 package com.coderunnerlovagjai.app.view;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
-import java.awt.Image;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JLayeredPane;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import com.coderunnerlovagjai.app.Game;
 import com.coderunnerlovagjai.app.GameCanvas;
@@ -27,6 +29,10 @@ public class GameCanvasFrame extends FrameStyle{
     }
 
     private void initGame() {
+
+        // canvas tisztítás
+        GameCanvas.getInstance().clearAll();
+        
         gameModel.getPlane().clearAllCollections();
         gameModel.initGame();
         gameModel.startGame();
@@ -44,6 +50,12 @@ public class GameCanvasFrame extends FrameStyle{
     protected void buildUI() {
         // central canvas + tectons
         GameCanvas canvas = GameCanvas.getInstance();
+        
+        // Regi esemenykezelotorles
+        for (java.awt.event.MouseListener listener : canvas.getMouseListeners()) {
+            canvas.removeMouseListener(listener);
+        }
+        
         canvas.setPreferredSize(new Dimension(800, 600));
         content.setLayout(new BorderLayout());
 

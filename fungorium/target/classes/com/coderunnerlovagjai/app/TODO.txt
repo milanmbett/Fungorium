@@ -91,7 +91,7 @@ x-re bezáról a rekord, és mainmenu.visible=true
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
--Tectonok egymás mellett --Zoli ON_IT
+-Tectonok egymás mellett --Zoli DONE (ha igy jó)
 -----Slotok igazítása --Zoli DONE
 -Textúrák igazítása (Spóra ne legyen ennyire messze vagy fasz tudja)
 -Spórák generálása, evése, cuccmókok
