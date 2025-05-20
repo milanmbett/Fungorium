@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Insect_Tektonizator extends Insect_Class {
     private static final Logger INSECT_TEKTONIZATOR_LOGGER = LogManager.getLogger(Insect_Tektonizator.class);
-    public static final int VIEWCOST = 25;
+    public static final int VIEWCOST = 500;
 public Insect_Tektonizator(Tecton_Class targetTecton, Player p) {
     hp = 50;
     attackDamage = 10;
