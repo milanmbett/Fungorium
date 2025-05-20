@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.coderunnerlovagjai.app.util.LeaderboardManager;
+
 public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékelés , játék kezdete, Spóra kiosztás, játék vége ---
     private static final Logger GAME_LOGGER = LogManager.getLogger(Game.class);
 
@@ -181,19 +183,35 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
              
     }
 
-    public void endGame() { //függvény meghívódik a Tecton_Base isDeadTrue() meghívódik
-        GAME_LOGGER.log(Level.forName("END_GAME", 402), "Game ended.");
-        setGameOver(true);
-        // Calculate scores, determine winner, etc.
-        
-        if(player1.getScore() > player2.getScore()) {
-            GAME_LOGGER.log(Level.forName("WINNER", 401), "Player 1 wins!");
-            
-        } else if(player2.getScore() > player1.getScore()) {
-            GAME_LOGGER.log(Level.forName("WINNER", 401), "Player 2 wins!");
-        } else {
-            GAME_LOGGER.log(Level.forName("WINNER", 401), "It's a draw!");
-        }
+public void endGame() {
+    GAME_LOGGER.log(Level.forName("END_GAME", 402), "Game ended.");
+    setGameOver(true);
+    
+    // Determine if a base was destroyed
+    boolean baseDestroyed1 = player1.getGame().getPlane().getBase1().isDead();
+    boolean baseDestroyed2 = player2.getGame().getPlane().getBase2().isDead();
+    // Set this based on your game logic - e.g., check if any player's base health is zero
+    
+    // Save winner's score to leaderboard
+    if (player1.getScore() > player2.getScore()) {
+        GAME_LOGGER.log(Level.forName("WINNER", 401), "Player 1 wins!");
+        com.coderunnerlovagjai.app.util.LeaderboardManager.save(
+            player1.getName(), 
+            player1.getScore(), 
+            baseDestroyed1
+        );
+    } else if (player2.getScore() > player1.getScore()) {
+        GAME_LOGGER.log(Level.forName("WINNER", 401), "Player 2 wins!");
+        com.coderunnerlovagjai.app.util.LeaderboardManager.save(
+            player2.getName(), 
+            player2.getScore(), 
+            baseDestroyed2
+        );
+    } else {
+        GAME_LOGGER.log(Level.forName("WINNER", 401), "It's a draw!");
+        LeaderboardManager.save(player1.getName(), player1.getScore(), false);
+        LeaderboardManager.save(player2.getName(), player2.getScore(), false);
     }
+}
     
 }

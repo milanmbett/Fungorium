@@ -391,27 +391,36 @@ private void handleCrackSelection(int x, int y) {
                     // now crack
                     if (t instanceof Tecton_Base) {
                         int confirm = view.showStyledOptionDialog(
-                            "Destroy base and end game?", "Confirm Destruction",
-                            new String[]{"Yes","No"});
-                        if (confirm == 0) {
-                            tek.tectonCrack();
-                            view.showGameOverDialog(buildGameOverMessage(),
-                                new String[]{"Back to Main Menu","Exit Game"},
-                                this::returnToMenu, ()->System.exit(0));
-                        }
-                    } else if (!t.canBeCracked()) {
-                        view.showStyledMessageDialog("Cannot crack this tecton.",
-                                                     "Invalid Target", JOptionPane.WARNING_MESSAGE);
-                    } else {
+                        "Destroy base and end game?", "Confirm Destruction",
+                        new String[]{"Yes","No"});
+                    if (confirm == 0) {
                         tek.tectonCrack();
-                        p.setAction(p.getAction() - 1);
-                        view.showStyledMessageDialog("Tecton cracked!",
-                                                     "Success", JOptionPane.INFORMATION_MESSAGE);
-                        view.refreshInfo();
+                        model.endGame();    // <— invoke saving logic
+                        view.showGameOverDialog(
+                        buildGameOverMessage(),
+                        new String[]{"Back to Main Menu","Exit Game"},
+                        this::returnToMenu,
+                        () -> System.exit(0)
+                        );
+                    } else {
+                        view.showStyledMessageDialog(
+                            "Crack cancelled.",
+                            "Cancelled", JOptionPane.INFORMATION_MESSAGE
+                        );
                     }
-                    currentState = InteractionState.NORMAL;
-                    return;
+                } else {
+                    tek.tectonCrack();
+                    view.showStyledMessageDialog(
+                        "Cracked tecton successfully.",
+                        "Success", JOptionPane.INFORMATION_MESSAGE
+                    );
                 }
+                // reset state
+                selectedInsect = null;
+    currentState = InteractionState.NORMAL;
+    return;
+}
+
             }
             // clicked on the hex but outside any crack‐slot
             view.showStyledMessageDialog("Click directly on a Tektonizator slot to use it.",

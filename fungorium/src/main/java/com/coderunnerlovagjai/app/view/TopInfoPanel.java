@@ -28,11 +28,9 @@ public class TopInfoPanel extends JPanel {
     }
 
 public void updateInfo() {
-    var p = gameModel.getPlayer(gameModel.currentTurnsPlayer());
-    int playerIndex = gameModel.currentTurnsPlayer();
+    var p = gameModel.getPlayer(gameModel.currentTurnsPlayer());    
     
-    // Determine color based on player index (1 for player1, 0 for player2)
-    String nameColor = (playerIndex == 0) ? "red" : "blue";
+    String nameColor = (p.getId() == 1) ? "blue" : "red"; // Set color based on player ID
     
     // Use HTML formatting to color just the name
     playerLabel.setText("<html>Current player: <font color='" + nameColor + "'>" 
