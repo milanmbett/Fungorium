@@ -1,2 +1,17 @@
+<<<<<<< HEAD
 com\coderunnerlovagjai\app\Basic_Spore.class
+=======
+com\coderunnerlovagjai\app\User.class
+com\coderunnerlovagjai\app\UserData.class
+com\coderunnerlovagjai\app\view\GameCanvasFrame$1.class
+com\coderunnerlovagjai\app\GraphicsObject.class
+com\coderunnerlovagjai\app\Main.class
+com\coderunnerlovagjai\app\ModelEvent$Type.class
+com\coderunnerlovagjai\app\GraphicsObject$1.class
+com\coderunnerlovagjai\app\ModelListener.class
+com\coderunnerlovagjai\app\GameCanvas.class
+com\coderunnerlovagjai\app\view\GraphicsObject.class
+com\coderunnerlovagjai\app\Basic_Spore.class
+com\coderunnerlovagjai\app\ModelEvent.class
+>>>>>>> 7d3a7fc8a47a1027e1b4291bcb7489ed31d0b57e
 com\coderunnerlovagjai\app\Entity.class

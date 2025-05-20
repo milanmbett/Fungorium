@@ -143,18 +143,23 @@ public class Plane
     }
     // Clear all relevant collections
     public void clearAllCollections() {
-        if (MushroomCollection != null) {
-            MushroomCollection.clear();
+        SporeCollection.clear();
+        TectonCollection.clear();
+        InsectCollection.clear();
+        ThreadCollection.clear();
+        MushroomCollection.clear();
+        
+        // Töröljük a bázisok szomszédsági kapcsolatait is
+        if (base1 != null) {
+            base1.get_TectonNeighbours().clear();
         }
-        if (InsectCollection != null) {
-            InsectCollection.clear();
+        if (base2 != null) {
+            base2.get_TectonNeighbours().clear();
         }
-        if (ThreadCollection != null) {
-            ThreadCollection.clear();
-        }
-        if (SporeCollection != null) {
-            SporeCollection.clear();
-        }
+        
+        // Nullázzuk a bázisokat is
+        base1 = null;
+        base2 = null;
     }
 
     public void place_Spore(Basic_Spore spore, Tecton_Class targetTecton)

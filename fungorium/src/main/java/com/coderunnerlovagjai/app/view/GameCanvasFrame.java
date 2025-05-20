@@ -15,59 +15,88 @@ import com.coderunnerlovagjai.app.Tecton_Class;
 import com.coderunnerlovagjai.app.controller.InteractionManager;
 import com.coderunnerlovagjai.app.util.SoundManager;
 
+
 /**
- * Main game window, now slimmed down to orchestration only.
+ * GameCanvasFrame: A fő játékképernyő ablak, amely tartalmazza a pályát, a felső információs sávot,
+ * az alsó akciósávot, és kezeli a játék fő eseményeit, új játék indítását, UI frissítést.
+ * Felelős a játékosok közötti váltásért, a pálya újrarajzolásáért, és a vezérlő (InteractionManager) példányáért.
  */
-public class GameCanvasFrame extends FrameStyle{
+public class GameCanvasFrame extends FrameStyle {
+    // A játék logikai modellje
     private final Game gameModel;
+    // Felső információs panel (játékosok, pontok, stb.)
     private TopInfoPanel topInfoPanel;
+    // Alsó akciósáv panel (entitásválasztó, akciógombok)
     private BottomActionPanel bottomActionPanel;
+    // Interakciókezelő (vezérlő), amely a felhasználói eseményeket kezeli
     private InteractionManager interactionManager;
+    // Rétegezett panel, amelyen a pálya és egyéb rétegek helyezkednek el
     private JLayeredPane layeredPane;
+    // A pályán lévő TectonGraphics nézetek listája (grafikus hatszögek)
     private final List<TectonGraphics> tectonGraphicsList = new ArrayList<>();
 
+    /**
+     * Konstruktor: új játékot indít a megadott játékos nevekkel.
+     * @param player1 Az első játékos neve
+     * @param player2 A második játékos neve
+     */
     public GameCanvasFrame(String player1, String player2) {
         super("Fungorium - " + player1 + " vs " + player2, "/images/fungoriumIcon3.png");
         this.gameModel = new Game(player1, player2);
         initGame();
     }
 
-    private void initGame() {
 
-        // canvas tisztítás
+    /**
+     * Inicializálja az új játékot: törli a régi pályát, újraépíti a UI-t, elindítja a játékot.
+     * Ezt hívja a konstruktor és új játék indításakor is.
+     */
+    private void initGame() {
+        // Canvas (pálya) grafikai elemeinek törlése
         GameCanvas.getInstance().clearAll();
-        
+        // Játék logikai modelljének teljes törlése
         gameModel.getPlane().clearAllCollections();
+        // Játék logikai inicializálása (pálya, bázisok, stb.)
         gameModel.initGame();
         gameModel.startGame();
+        // Új InteractionManager példány
         interactionManager = new InteractionManager(gameModel, this);
 
         buildUI();
-        pack(); setResizable(false);
-        setLocationRelativeTo(null); setVisible(true);
+        pack();
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setVisible(true);
+        // Folyamatos újrarajzolás (animáció)
         new Timer(40, e -> GameCanvas.getInstance().repaint()).start();
 
+        // Az első kör szerepválasztásának elindítása
         SwingUtilities.invokeLater(() -> interactionManager.onStartTurn());
     }
 
+
+    /**
+     * Felépíti a teljes UI-t: pálya, felső és alsó panel, eseménykezelők, zene.
+     * Minden új játék indításakor újra lefut.
+     */
     @Override
     protected void buildUI() {
-        // central canvas + tectons
+        // Központi canvas (pálya hatszögekkel)
         GameCanvas canvas = GameCanvas.getInstance();
-        
-        // Regi esemenykezelotorles
+        // Régi egér-eseménykezelők törlése
         for (java.awt.event.MouseListener listener : canvas.getMouseListeners()) {
             canvas.removeMouseListener(listener);
         }
-        
         canvas.setPreferredSize(new Dimension(800, 600));
         content.setLayout(new BorderLayout());
 
+        // Rétegezett panel (canvas + egyéb rétegek)
         layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(800, 600));
         canvas.setBounds(0, 0, 800, 600);
         layeredPane.add(canvas, JLayeredPane.DEFAULT_LAYER);
-        
+
+        // TectonGraphics nézetek újragenerálása
         tectonGraphicsList.clear();
         for (var t : gameModel.getPlane().TectonCollection) {
             TectonGraphics tg = new TectonGraphics(t);
@@ -75,13 +104,13 @@ public class GameCanvasFrame extends FrameStyle{
         }
         content.add(layeredPane, BorderLayout.CENTER);
 
-        // Top and bottom panels
+        // Felső és alsó panelek hozzáadása
         topInfoPanel = new TopInfoPanel(gameModel);
         bottomActionPanel = new BottomActionPanel(gameModel, interactionManager);
         content.add(topInfoPanel, BorderLayout.NORTH);
         content.add(bottomActionPanel, BorderLayout.SOUTH);
 
-        // Mouse to controller
+        // Egérkattintás átirányítása a vezérlőhöz
         canvas.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -89,16 +118,23 @@ public class GameCanvasFrame extends FrameStyle{
             }
         });
 
-        // Music swap
-        try { SoundManager.stopMusic(); SoundManager.playMusic("sounds/gameMusic.mp3", true); }
-        catch(Exception ignored) {}
+        // Zene leállítása és újraindítása
+        try {
+            SoundManager.stopMusic();
+            SoundManager.playMusic("sounds/gameMusic.mp3", true);
+        } catch(Exception ignored) {}
     }
 
-    // Called by InteractionManager when UI needs update
+
+    /**
+     * Frissíti a teljes UI-t (felső/alsó panel, pálya), ha a modell változik.
+     * Ezt hívja az InteractionManager, ha változás történik.
+     */
     public void refreshInfo() {
         topInfoPanel.updateInfo();
         bottomActionPanel.updateEntities();
 
+        // TectonGraphics nézetek szinkronizálása a modellhez
         List<Tecton_Class> currentTectonModels = gameModel.getPlane().TectonCollection;
         List<TectonGraphics> viewsToRemove = new ArrayList<>();
         List<Tecton_Class> modelsCurrentlyWithViews = new ArrayList<>();
@@ -118,17 +154,25 @@ public class GameCanvasFrame extends FrameStyle{
                 tectonGraphicsList.add(newTgView);
             }
         }
-        
         GameCanvas.getInstance().repaint();
     }
 
-    // Delegates end-of-turn
+
+    /**
+     * Egy kör végét kezeli: továbbadja a logikának és a vezérlőnek.
+     */
     public void endTurn() {
         gameModel.turn();
         interactionManager.onEndTurn();
     }
 
-    // Delegate game-over handling
+    /**
+     * Játék vége dialógus: leállítja a zenét, felugró ablakot mutat, visszalép vagy kilép.
+     * @param message  A megjelenítendő üzenet
+     * @param options  A választható opciók
+     * @param onBack   Visszalépés callback
+     * @param onExit   Kilépés callback
+     */
     public void showGameOverDialog(String message, String[] options, Runnable onBack, Runnable onExit) {
         try { SoundManager.stopMusic(); }
         catch(Exception ignored) {}

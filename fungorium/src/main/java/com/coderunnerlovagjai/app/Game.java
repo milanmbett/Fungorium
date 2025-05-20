@@ -113,7 +113,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
             endGame();
             return;
         }
-        if(plane.getBase1().mushroom.isDead() || plane.getBase2().mushroom.isDead()) 
+        if(plane.getBase1().mushroom == null || plane.getBase2().mushroom == null) 
         {
             GAME_LOGGER.log(Level.forName("BASE_DEAD", 401), "One of the bases is dead. Ending game.");
             endGame();
