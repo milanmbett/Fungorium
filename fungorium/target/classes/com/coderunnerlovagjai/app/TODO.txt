@@ -91,7 +91,7 @@ x-re bezáról a rekord, és mainmenu.visible=true
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
--Tectonok egymás mellett --Zoli ON_IT
+-Tectonok egymás mellett --Zoli DONE (ha igy jó)
 -----Slotok igazítása --Zoli DONE
 -Textúrák igazítása (Spóra ne legyen ennyire messze vagy fasz tudja)
 -Spórák generálása, evése, cuccmókok
@@ -110,4 +110,5 @@ x-re bezáról a rekord, és mainmenu.visible=true
 ---alertek x unable
 ---MAP valasztas (konnyen valtoztathato hány elemű oszlop legyen)  --Zoli ON_IT (maybexd)
 ---Random Dead tecton inic
+--- UJ JATEK SAME UI BUG
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
