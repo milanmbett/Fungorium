@@ -17,7 +17,7 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     private int turnNumber;
     private final Plane plane; // A játékhoz tartozó pálya 
     private boolean gameOver; // Játék vége állapot
-    private final int maxTurns = 5; //TODO Maximum körök száma DEBUG miatt 3
+    private final int maxTurns = 50; //TODO Maximum körök száma DEBUG miatt 3
     private boolean baseDestroyed = false;
 
     public Game(String player1Name, String player2Name) {
@@ -90,6 +90,15 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
     public int getTurnNumber() {
         return turnNumber;
     }
+
+    public int getCurrentTurn() {
+        return turnNumber;
+    }
+
+    public int getMaxTurns() {
+        return maxTurns;
+    }
+    
     /* 
     public void setTurnNumber(int turnNumber) {
         this.turnNumber = turnNumber;
@@ -101,6 +110,12 @@ public class Game { // --- Pálya létrehozás , pontok kiosztása, kiértékel�
         if(turnNumber >= maxTurns) 
         {
             GAME_LOGGER.log(Level.forName("MAX_TURNS", 401), "Maximum turns reached. Ending game.");
+            endGame();
+            return;
+        }
+        if(plane.getBase1().mushroom.isDead() || plane.getBase2().mushroom.isDead()) 
+        {
+            GAME_LOGGER.log(Level.forName("BASE_DEAD", 401), "One of the bases is dead. Ending game.");
             endGame();
             return;
         }

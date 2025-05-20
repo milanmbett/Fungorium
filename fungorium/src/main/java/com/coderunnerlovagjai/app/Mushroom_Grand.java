@@ -12,6 +12,7 @@ public class Mushroom_Grand extends Mushroom_Class
     
     private Game game;
     
+    
     public Mushroom_Grand(Tecton_Class targetTecton,Player p)
     {
         if (!(targetTecton instanceof Tecton_Base)) 
@@ -25,12 +26,14 @@ public class Mushroom_Grand extends Mushroom_Class
         tecton = targetTecton;
         //tecton.set_Mushroom(this);
         owner = p;
+        isDead = false;
         ID = "Mushroom_Grand" + p.getGame().getPlane().MushroomCollection.size();
         MUSHROOM_GRAND_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Grand Created! ID: " + ID + " on Tecton: " + targetTecton.get_ID());
         addScore(5);
 
        
     }
+    
 
     @Override
     public int getIncomeMultiplier() {
