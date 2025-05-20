@@ -48,6 +48,7 @@ public class InteractionManager {
         if (choice == 0) p.setRoleMushroom(); else p.setRoleInsect();
         selectedEntityIndex = -1;
         currentState = InteractionState.NORMAL;
+        selectedInsect = null;
         view.refreshInfo();
     }
 
@@ -367,7 +368,7 @@ private void handleEntitySelection(int x, int y) {
                     } catch (Exception e) {
                         view.showStyledMessageDialog(
                             e.getMessage(),
-                            "Invalid Move", JOptionPane.WARNING_MESSAGE
+                            "Invalid Move", JOptionPane.ERROR_MESSAGE
                         );
                     }
                 }

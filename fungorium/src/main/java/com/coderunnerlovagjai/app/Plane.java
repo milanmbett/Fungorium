@@ -51,6 +51,7 @@ public class Plane
         return base2;
     }
 
+
     public void init_Plane(Game game) {
         TectonCollection.clear();
         initBases(game.getPlayer1(), game.getPlayer2(), game);
@@ -115,6 +116,8 @@ public class Plane
             }
         }
 
+        
+
         // Bázisok pozícionálása (bal és jobb oldal)
         // Bal bázis a bal szélső oszlop közepéhez
         int leftCol = 0;
@@ -136,6 +139,21 @@ public class Plane
         for (Tecton_Basic t : grid.get(grid.size() - 1)) {
             base2.add_TectonNeighbour(t);
             t.add_TectonNeighbour(base2);
+        }
+    }
+    // Clear all relevant collections
+    public void clearAllCollections() {
+        if (MushroomCollection != null) {
+            MushroomCollection.clear();
+        }
+        if (InsectCollection != null) {
+            InsectCollection.clear();
+        }
+        if (ThreadCollection != null) {
+            ThreadCollection.clear();
+        }
+        if (SporeCollection != null) {
+            SporeCollection.clear();
         }
     }
 
@@ -173,6 +191,7 @@ public class Plane
         PLANE_LOGGER.log(Level.forName("NULL", 201), "Thread is null!");
         return;
     }
+    //if(targetTecton.get)
     
     // Check currency
     int cost = m.getCost();

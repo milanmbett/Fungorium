@@ -290,11 +290,12 @@ public class MainMenu extends FrameStyle {
             "Game Start",
             JOptionPane.INFORMATION_MESSAGE
         );
-        new Game(p1, p2);
+        //new Game(p1, p2);
         dispose();
         // Stop music before starting game
         stopMusic();
         new GameCanvasFrame(p1, p2);
+        
     }
     
     /**

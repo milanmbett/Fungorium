@@ -27,6 +27,7 @@ public class GameCanvasFrame extends FrameStyle{
     }
 
     private void initGame() {
+        gameModel.getPlane().clearAllCollections();
         gameModel.initGame();
         gameModel.startGame();
         interactionManager = new InteractionManager(gameModel, this);
