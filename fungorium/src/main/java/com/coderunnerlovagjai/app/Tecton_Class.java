@@ -72,7 +72,7 @@ public abstract class Tecton_Class extends Entity
         
 
         // Create a new dead tecton from this live instance.
-        Tecton_Dead dead = new Tecton_Dead(this);
+        Tecton_Dead dead = new Tecton_Dead();
 
         // Replace this tecton in all neighbours.
         List<Tecton_Class> neighbours = new ArrayList<>(get_TectonNeighbours());
