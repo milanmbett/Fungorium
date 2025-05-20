@@ -295,7 +295,8 @@ public class TectonGraphics extends GraphicsObject<Tecton_Class> {
             double angle = Math.PI / 2 + i * angleStep; // start at top
             int cx = (int) (radius * Math.cos(angle));
             int cy = (int) (radius * Math.sin(angle));
-            g.setColor(Color.LIGHT_GRAY);
+            //g.setColor(Color.LIGHT_GRAY);
+            g.setColor(new Color(0,0,0,0));
             g.drawRect(cx - slotSize/2, cy - slotSize/2, slotSize, slotSize);
         }
 

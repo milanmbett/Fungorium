@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 public class Insect_Buggernaut extends Insect_Class
 {
     private static final Logger INSECT_BUGGERNAUT_LOGGER = LogManager.getLogger(Insect_Buggernaut.class);
-
+    public static final int VIEWCOST = 15;
     public Insect_Buggernaut(Tecton_Class targetTecton, Player p)
     {
         hp = 150;
@@ -16,7 +16,7 @@ public class Insect_Buggernaut extends Insect_Class
         //tecton.get_InsectsOnTecton().add(this);
         owner = p;
         ID = "Insect_Buggernaut" + Integer.toString(owner.getGame().getPlane().InsectCollection.size());
-        cost = 15;
+        cost = VIEWCOST;
         INSECT_BUGGERNAUT_LOGGER.log(Level.forName("CREATE",401),
         "Insect_Buggernaut Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
         //owner.getGame().getPlane().InsectCollection.add(this);

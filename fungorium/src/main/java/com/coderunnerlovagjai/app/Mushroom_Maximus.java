@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 public class Mushroom_Maximus extends Mushroom_Class 
 {
     private static final Logger MUSHROOM_MAXIMUS_LOGGER = LogManager.getLogger(Mushroom_Maximus.class);
+    public static final int VIEWCOST = 40;
     public Mushroom_Maximus(Tecton_Class targetTecton,Player p)
     {
         if((targetTecton.get_Thread()== null))
@@ -20,7 +21,7 @@ public class Mushroom_Maximus extends Mushroom_Class
         //tecton.set_Mushroom(this);
         owner = p;
         ID = "Mushroom_Maximus" + p.getGame().getPlane().MushroomCollection.size();
-        cost=40;
+        cost=VIEWCOST;
         addScore(5);
         MUSHROOM_MAXIMUS_LOGGER.log(Level.forName("CREATE",401),"Mushroom_Maximus Created! ID: " + ID + " on Tecton: " + targetTecton.get_ID());
 

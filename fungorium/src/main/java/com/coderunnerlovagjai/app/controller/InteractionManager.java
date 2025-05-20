@@ -132,52 +132,63 @@ public class InteractionManager {
     }
 
     /** Fills the bottom panel with mushroom or insect options. */
-    public void populateEntityBoxes(JPanel panel) {
-        panel.removeAll();
-        Player p = model.getPlayer(model.currentTurnsPlayer());
-        boolean isMush = p.getRole() == RoleType.MUSHROOM;
-        String[] types = isMush
-            ? new String[]{"Shroomlet","Maximus","Slender"}
-            : new String[]{"Buglet","Buggernaut","Stinger","Tektonizator","ShroomReaper"};
-        String prefix = isMush ? "Mushroom_" : "Insect_";
+public void populateEntityBoxes(JPanel panel) {
+    panel.removeAll();
+    Player p = model.getPlayer(model.currentTurnsPlayer());
+    boolean isMush = p.getRole() == RoleType.MUSHROOM;
+    String[] types = isMush
+        ? new String[]{"Shroomlet","Maximus","Slender"}
+        : new String[]{"Buglet","Buggernaut","Stinger","Tektonizator","ShroomReaper"};
+    String prefix = isMush ? "Mushroom_" : "Insect_";
 
-        for (int i = 0; i < types.length; i++) {
-            final int idx = i;
-            JPanel box = new JPanel() {
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.setColor(idx == selectedEntityIndex
-                        ? new Color(60,180,255,120)
-                        : new Color(200,200,200,100)
-                    );
-                    g.fillRoundRect(0,0,getWidth(),getHeight(),16,16);
-                }
-            };
-            box.setBounds(i*110,0,100,100);
-            box.setLayout(null);
-            try {
-                Image img = ImageIO.read(
-                    getClass().getClassLoader().getResourceAsStream("images/"+prefix+types[i]+".png")
+    for (int i = 0; i < types.length; i++) {
+        final int idx = i;
+        JPanel box = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(idx == selectedEntityIndex
+                    ? new Color(60,180,255,120)
+                    : new Color(200,200,200,100)
                 );
-                if (img != null) {
-                    JLabel icon = new JLabel(new ImageIcon(
-                        img.getScaledInstance(64,64,Image.SCALE_SMOOTH)
-                    ));
-                    icon.setBounds(18,10,64,64);
-                    box.add(icon);
-                }
-            } catch (IOException ignored) {}
-            box.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseClicked(java.awt.event.MouseEvent e) {
-                    selectedEntityIndex = idx;
-                    view.refreshInfo();
-                }
-            });
-            panel.add(box);
-        }
-        panel.revalidate();
-        panel.repaint();
+                g.fillRoundRect(0,0,getWidth(),getHeight(),16,16);
+            }
+        };
+        box.setBounds(i*110,0,100,100);
+        box.setLayout(null);
+        
+        // Add cost label at the top
+        int cost = getEntityCost(types[i], isMush);
+        JLabel costLabel = new JLabel("Cost: " + cost);
+        costLabel.setForeground(Color.WHITE);
+        costLabel.setFont(new Font("Arial", Font.BOLD, 12));
+        costLabel.setBounds(0, 0, 100, 20);
+        costLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        box.add(costLabel);
+        
+        try {
+            Image img = ImageIO.read(
+                getClass().getClassLoader().getResourceAsStream("images/"+prefix+types[i]+".png")
+            );
+            if (img != null) {
+                JLabel icon = new JLabel(new ImageIcon(
+                    img.getScaledInstance(64,64,Image.SCALE_SMOOTH)
+                ));
+                icon.setBounds(18,20,64,64); // Move down a bit to make room for cost label
+                box.add(icon);
+            }
+        } catch (IOException ignored) {}
+        box.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                selectedEntityIndex = idx;
+                view.refreshInfo();
+            }
+        });
+        panel.add(box);
     }
+    
+    panel.revalidate();
+    panel.repaint();
+}
 
     // ───── Internal Helpers ─────────────────────────────────────────────────
 
@@ -238,7 +249,7 @@ public class InteractionManager {
         }
         model.getPlane().place_Mushroom(mush, tecton);
         player.setAction(player.getAction()-1);
-        player.decreaseIncome(cost);
+        //player.decreaseIncome(cost);
         view.refreshInfo();
     }
 
@@ -264,7 +275,7 @@ public class InteractionManager {
         }
         if (model.getPlane().placeInsect(insect, tecton)) {
             player.setAction(player.getAction()-1);
-            player.decreaseIncome(cost);
+            //player.decreaseIncome(cost);
             view.refreshInfo();
         } else {
             view.showStyledMessageDialog("Placement failed!","Error",JOptionPane.WARNING_MESSAGE);
@@ -441,4 +452,32 @@ private void handleCrackSelection(int x, int y) {
         view.dispose();
         new MainMenu();
     }
+
+
+    /**
+ * Gets the cost for an entity based on its type
+ * @param type The entity type string
+ * @param isMushroom Whether the entity is a mushroom (true) or insect (false)
+ * @return The cost of the entity
+ */
+private int getEntityCost(String type, boolean isMushroom) {
+    // Return appropriate costs for each entity type
+    if (isMushroom) {
+        switch (type) {
+            case "Shroomlet": return Mushroom_Shroomlet.VIEWCOST;
+            case "Maximus": return Mushroom_Maximus.VIEWCOST;
+            case "Slender": return Mushroom_Slender.VIEWCOST;
+            default: return 0;
+        }
+    } else {
+        switch (type) {
+            case "Buglet": return Insect_Buglet.VIEWCOST;
+            case "Buggernaut": return Insect_Buggernaut.VIEWCOST;
+            case "Stinger": return Insect_Stinger.VIEWCOST;
+            case "Tektonizator": return Insect_Tektonizator.VIEWCOST;
+            case "ShroomReaper": return Insect_ShroomReaper.VIEWCOST;
+            default: return 0;
+        }
+    }
+}
 }

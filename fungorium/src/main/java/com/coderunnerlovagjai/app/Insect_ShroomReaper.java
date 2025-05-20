@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 public class Insect_ShroomReaper extends Insect_Class
 {
     private static final Logger INSECT_SHROOM_REAPER_LOGGER = LogManager.getLogger(Insect_ShroomReaper.class);
+    public static final int VIEWCOST = 30;
 public Insect_ShroomReaper(Tecton_Class targetTecton, Player p) {
     hp = 50;
     attackDamage = 15;
@@ -15,7 +16,7 @@ public Insect_ShroomReaper(Tecton_Class targetTecton, Player p) {
     // REMOVE: tecton.get_InsectsOnTecton().add(this);
     owner = p;
     ID = "Insect_ShroomReaper" + Integer.toString(owner.getGame().getPlane().InsectCollection.size());
-    cost = 30;
+    cost = VIEWCOST;
     INSECT_SHROOM_REAPER_LOGGER.log(Level.forName("CREATE",401),
         "Insect_ShroomReaper Created! ID: " + ID + " on Tecton: " + tecton.get_ID());
     // REMOVE: owner.getGame().getPlane().InsectCollection.add(this);
