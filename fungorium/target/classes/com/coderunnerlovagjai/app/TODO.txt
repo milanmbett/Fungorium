@@ -108,4 +108,6 @@ x-re bezáról a rekord, és mainmenu.visible=true
 -new game game resetelése
 -tektonizator gomb bugos
 ---alertek x unable
+---MAP valasztas (konnyen valtoztathato hány elemű oszlop legyen)  --Zoli ON_IT (maybexd)
+---Random Dead tecton inic
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -52,87 +52,90 @@ public class Plane
     }
 
     public void init_Plane(Game game) {
-        // Clear previous tectons if any
         TectonCollection.clear();
-        // Place bases first
         initBases(game.getPlayer1(), game.getPlayer2(), game);
-        // Hex grid: 4 rows, 5 columns (excluding bases)
-        int rows = 4, cols = 5;
-        int hexRadius = 60; // Increased radius for larger, touching hexes
-        int x0 = 200, y0 = 170; // Adjusted starting offset to center the smaller grid
-        Tecton_Basic[][] grid = new Tecton_Basic[rows][cols];
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
+
+        // Oszlopok: 2-3-4-4-3-2 -> lehet opcionálisan változtatni -> Map választás
+        int[] colHeights = {2, 3, 4, 4, 3, 2};
+        int hexRadius = 60;
+        int x0 = 165, y0 = 120; // Center offsets
+        int xStep = (int)(hexRadius * Math.sqrt(3))-18;
+        int yStep = (int)(hexRadius * 1.5)+8;
+
+        // Grid: oszlopokban tároljuk
+        List<List<Tecton_Basic>> grid = new ArrayList<>();
+        int id = 2; // IDs start after bases
+
+        // Először létrehozzuk az oszlopokat
+        for (int col = 0; col < colHeights.length; col++) {
+            List<Tecton_Basic> colList = new ArrayList<>();
+            int rows = colHeights[col];
+            // Függőleges középre igazítás
+            int colHeight = (rows - 1) * yStep;
+            int yStart = y0 + ((4 * yStep - colHeight) / 2);
+
+            int x = x0 + col * xStep;
+            for (int row = 0; row < rows; row++) {
                 Tecton_Basic t = new Tecton_Basic();
-                t.setID(2 + row * cols + col);
-                //EZ NAGYON ROSSZ :---) my bad nem akartam ezzel baszkodni
-                if(t.get_ID().equals("Tecton_Basic_7") || t.get_ID().equals("Tecton_Basic_12") || t.get_ID().equals("Tecton_Basic_17") 
-                || t.get_ID().equals("Tecton_Basic_11") || t.get_ID().equals("Tecton_Basic_16") || t.get_ID().equals("Tecton_Basic_21"))
-                {
+                t.setID(id++);
+                // Példa: szálak kiosztása, ha kell
+                if (t.get_ID().equals("Tecton_Basic_3") || t.get_ID().equals("Tecton_Basic_2") ||
+                    t.get_ID().equals("Tecton_Basic_18") || t.get_ID().equals("Tecton_Basic_19") ||
+                    t.get_ID().equals("Tecton_Base_1") || t.get_ID().equals("Tecton_Base_2")) {
                     t.set_Thread(new Thread_Class(t, game));
                 }
-                // Calculate hex position to create perfect honeycomb pattern
-                // For flat-topped hexagons that touch at sides:
-                // - Horizontal distance between centers = 2 × radius × cos(30°) = radius × √3
-                // - Vertical distance between centers = radius × 1.5 for row spacing
-                int x = x0 + col * (int)(hexRadius * Math.sqrt(3)); // Exact horizontal spacing for touching
-                
-                // Offset odd columns to create the honeycomb pattern
-                int y = y0 + row * (int)(hexRadius * 1.5);
-                if (col % 2 == 1) {
-                    y += (int)(hexRadius * 0.75); // Offset for odd columns (half of 1.5)
-                }
-                
+                int y = yStart + row * (yStep);
                 t.setPosition(x, y);
-                grid[row][col] = t;
+                colList.add(t);
                 TectonCollection.add(t);
             }
+            grid.add(colList);
         }
-        // Connect neighbors (hex grid)
-        // For even-q offset coordinates (flat-topped hexes), different directions based on column parity
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                Tecton_Basic t = grid[row][col];
-                // Different neighbors for even and odd columns
-                int[][] directions;
-                if (col % 2 == 0) { // Even column
-                    directions = new int[][] {
-                        {-1, 0}, {-1, 1},  // Northwest, Northeast
-                        {0, -1}, {0, 1},    // West, East
-                        {1, 0}, {1, 1}      // Southwest, Southeast
-                    };
-                } else { // Odd column
-                    directions = new int[][] {
-                        {-1, -1}, {-1, 0},  // Northwest, Northeast
-                        {0, -1}, {0, 1},    // West, East
-                        {1, -1}, {1, 0}     // Southwest, Southeast
-                    };
-                }
-                
+
+        // Szomszédok összekötése (hatszög logika, oszlop-alapú)
+        for (int col = 0; col < grid.size(); col++) {
+            for (int row = 0; row < grid.get(col).size(); row++) {
+                Tecton_Basic t = grid.get(col).get(row);
+                // Lehetséges szomszéd irányok (col, row) eltolások
+                int[][] directions = {
+                    {-1,  0}, // balra
+                    {-1,  1}, // balra-le
+                    { 0, -1}, // fel
+                    { 0,  1}, // le
+                    { 1,  0}, // jobbra
+                    { 1, -1}  // jobbra-fel
+                };
                 for (int[] d : directions) {
-                    int nr = row + d[0];
-                    int nc = col + d[1];
-                    if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
-                        t.add_TectonNeighbour(grid[nr][nc]);
+                    int nc = col + d[0];
+                    int nr = row + d[1];
+                    if (nc >= 0 && nc < grid.size() && nr >= 0 && nr < grid.get(nc).size()) {
+                        t.add_TectonNeighbour(grid.get(nc).get(nr));
                     }
                 }
             }
         }
-        
-        // Connect base1 to leftmost column (first column)
-        // Adjust base1 position to fit the smaller honeycomb grid
-        base1.setPosition(100, 300); // Moved to match the smaller grid
-        for (int row = 1; row < rows-1; row++) { // Connect to middle rows of the smaller grid
-            base1.add_TectonNeighbour(grid[row][0]);
-            grid[row][0].add_TectonNeighbour(base1);
+
+        // Bázisok pozícionálása (bal és jobb oldal)
+        // Bal bázis a bal szélső oszlop közepéhez
+        int leftCol = 0;
+        int leftBaseY = y0-8 + ((4 * yStep - ((colHeights[leftCol] - 1) * yStep)) / 2) + ((colHeights[leftCol] - 1) * yStep) / 2;
+        base1.setPosition(x0 - 100, leftBaseY);
+
+        // Jobb bázis a jobb szélső oszlop közepéhez
+        int rightCol = colHeights.length - 1;
+        int rightBaseX = x0 + rightCol * xStep + 100;
+        int rightBaseY = y0-8 + ((4 * yStep - ((colHeights[rightCol] - 1) * yStep)) / 2) + ((colHeights[rightCol] - 1) * yStep) / 2;
+        base2.setPosition(rightBaseX, rightBaseY);
+
+        // Bázis1 kapcsolása bal szélső oszlop minden eleméhez
+        for (Tecton_Basic t : grid.get(0)) {
+            base1.add_TectonNeighbour(t);
+            t.add_TectonNeighbour(base1);
         }
-        
-        // Connect base2 to rightmost column (last column)
-        // Adjust base2 position to fit the smaller honeycomb grid
-        base2.setPosition(675, 300); // Moved to match the smaller grid
-        for (int row = 1; row < rows-1; row++) { // Connect to middle rows of the smaller grid
-            base2.add_TectonNeighbour(grid[row][cols-1]);
-            grid[row][cols-1].add_TectonNeighbour(base2);
+        // Bázis2 kapcsolása jobb szélső oszlop minden eleméhez
+        for (Tecton_Basic t : grid.get(grid.size() - 1)) {
+            base2.add_TectonNeighbour(t);
+            t.add_TectonNeighbour(base2);
         }
     }
 
@@ -292,7 +295,6 @@ public class Plane
         PLANE_LOGGER.log(Level.forName("ERROR", 401), "You can only place insects on your own mushroom!");
         return false;
     }
-
     
     // Check if the player has enough resources to place the insect
     int cost = insect.getCost();
