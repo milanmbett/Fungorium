@@ -51,6 +51,7 @@ public class Plane
         return base2;
     }
 
+
     public void init_Plane(Game game) {
         TectonCollection.clear();
         initBases(game.getPlayer1(), game.getPlayer2(), game);
@@ -115,6 +116,8 @@ public class Plane
             }
         }
 
+        
+
         // Bázisok pozícionálása (bal és jobb oldal)
         // Bal bázis a bal szélső oszlop közepéhez
         int leftCol = 0;
@@ -138,6 +141,21 @@ public class Plane
             t.add_TectonNeighbour(base2);
         }
     }
+    // Clear all relevant collections
+    public void clearAllCollections() {
+        if (MushroomCollection != null) {
+            MushroomCollection.clear();
+        }
+        if (InsectCollection != null) {
+            InsectCollection.clear();
+        }
+        if (ThreadCollection != null) {
+            ThreadCollection.clear();
+        }
+        if (SporeCollection != null) {
+            SporeCollection.clear();
+        }
+    }
 
     public void place_Spore(Basic_Spore spore, Tecton_Class targetTecton)
     {
@@ -153,32 +171,47 @@ public class Plane
             targetTecton.set_Thread(t);
         }
     }
-    public void place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton)
-{
+
+    public boolean mushroomPlaceable(Mushroom_Class m, Tecton_Class targetTecton) {
+        for(Tecton_Class tecton : targetTecton.get_TectonNeighbours()){
+            for(Tecton_Class neighbour : tecton.get_TectonNeighbours()){
+                if(neighbour.get_Mushroom() != targetTecton.get_Mushroom()&& neighbour.get_Mushroom().get_Owner()==m.get_Owner()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean place_Mushroom(Mushroom_Class m, Tecton_Class targetTecton){
     if(m.get_Owner().getRole() != RoleType.MUSHROOM) {
         PLANE_LOGGER.log(Level.forName("ERROR", 401), "Player does not have Mushroom role!");
-        return;
+        return false;
     }
     if (targetTecton == null) {
         PLANE_LOGGER.log(Level.forName("NULL", 201), "Target tecton is null!");
-        return;
+        return false;
     }
     
     // Do validation BEFORE modifying anything
     if (targetTecton.get_Mushroom() != null || targetTecton.isDead()) {
         PLANE_LOGGER.log(Level.forName("ERROR", 401), "Target tecton is already occupied or dead!");
-        return;
+        return false;
     }
     if(targetTecton.thread == null) {
         PLANE_LOGGER.log(Level.forName("NULL", 201), "Thread is null!");
-        return;
+        return false;
+    }
+    if(!mushroomPlaceable(m, targetTecton)) {
+        PLANE_LOGGER.log(Level.forName("ERROR", 401), "Mushroom is not placeable on this tecton!");
+        return false;
     }
     
     // Check currency
     int cost = m.getCost();
     if (m.get_Owner().getIncome() < cost) {
         PLANE_LOGGER.log(Level.forName("ERROR", 401), "Not enough currency to place mushroom!");
-        return;
+        return false;
     }
     
     // Only after all validation passes, we modify state
@@ -190,6 +223,7 @@ public class Plane
     PLANE_LOGGER.log(Level.forName("PLACE", 401), "Mushroom: " + m.get_ID() + 
         " placed on Tecton: " + targetTecton.get_ID() + ". Cost: " + cost + 
         ", remaining resources: " + m.get_Owner().getIncome());
+        return true;
 }
     public void move_Insect(Player player,Insect_Class ins, Tecton_Class targetTecton)
     {

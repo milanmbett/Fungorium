@@ -33,6 +33,11 @@ public class GameCanvasFrame extends FrameStyle{
     }
 
     private void initGame() {
+
+        // canvas tisztítás
+        GameCanvas.getInstance().clearAll();
+        
+        gameModel.getPlane().clearAllCollections();
         gameModel.initGame();
         gameModel.startGame();
         interactionManager = new InteractionManager(gameModel, this);
@@ -49,6 +54,12 @@ public class GameCanvasFrame extends FrameStyle{
     protected void buildUI() {
         // central canvas + tectons
         GameCanvas canvas = GameCanvas.getInstance();
+        
+        // Regi esemenykezelotorles
+        for (java.awt.event.MouseListener listener : canvas.getMouseListeners()) {
+            canvas.removeMouseListener(listener);
+        }
+        
         canvas.setPreferredSize(new Dimension(800, 600));
         content.setLayout(new BorderLayout());
 

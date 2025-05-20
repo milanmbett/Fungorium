@@ -19,6 +19,13 @@ public class GameCanvas extends JPanel {
     }
     public void removeGraphics(GraphicsObject<?> gfx) {
         elements.remove(gfx);
+        getInstance().repaint();
+    }
+
+
+    public void clearAll() {
+        elements.clear();
+        repaint();
     }
 
     @Override

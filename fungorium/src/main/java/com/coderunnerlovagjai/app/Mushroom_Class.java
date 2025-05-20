@@ -19,6 +19,7 @@ public abstract class Mushroom_Class extends Entity
     protected String ID;
     protected int cost=0; //Grafikahoz lehet nem kell
     protected int level=1;
+    protected boolean isDead;
 
     public abstract int getIncomeMultiplier(); //ezt nem lenne attributummal célszerűbb megoldani?
     //Esetleg a szorzókat egy enum-ba tenni, és abból visszaadni a megfelelő szorzót?
@@ -36,6 +37,12 @@ public abstract class Mushroom_Class extends Entity
     {
         tecton.set_Mushroom(null);
         owner.getGame().getPlane().MushroomCollection.remove(this);
+    }
+    public boolean isDead() {
+        return isDead;
+    }
+    public void setDead(boolean dead) {
+        isDead = dead;
     }
 
     public void spawn_Spores(Basic_Spore spore)
