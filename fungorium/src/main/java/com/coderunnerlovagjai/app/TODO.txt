@@ -96,7 +96,7 @@ x-re bezáról a rekord, és mainmenu.visible=true
 -Textúrák igazítása (Spóra ne legyen ennyire messze vagy fasz tudja)
 -Spórák generálása, evése, cuccmókok
 -----Első kör role választás --Derék DONE
------Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán DONE (n)
+-----Rovar mozgatás(Rovaros slotra katt --> üres slot HA van fonál && szomszéd akkor go) --Milán DONE (n) nem figyeli az avaible steps-t és levonja az actiont de nem lép mert backendben szűrünk rá
 -----endgame --Milán DONE
 ----increaseincome pontositasa  --Balu,Milán DONE?
     ----(Mushroom_Grand income nincs)
@@ -110,5 +110,4 @@ x-re bezáról a rekord, és mainmenu.visible=true
 ---alertek x unable
 ---MAP valasztas (konnyen valtoztathato hány elemű oszlop legyen)  --Zoli ON_IT (maybexd)
 ---Random Dead tecton inic
---- UJ JATEK SAME UI BUG
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
