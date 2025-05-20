@@ -110,5 +110,4 @@ x-re bezáról a rekord, és mainmenu.visible=true
 ---alertek x unable
 ---MAP valasztas (konnyen valtoztathato hány elemű oszlop legyen)  --Zoli ON_IT (maybexd)
 ---Random Dead tecton inic
---- UJ JATEK SAME UI BUG
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
